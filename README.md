@@ -1,5 +1,7 @@
-# Family-Protection-Order
-Family Protection Order Form
+# Violation Dispute Form
+Violation Dispute Form
+
+This project is a work in progress based on [Family Protection Order](https://github.com/bcgov/Family-Protection-Order)
 
 ## Structure
 
@@ -19,12 +21,10 @@ An html to PDF microservice used to generate reports.
 ###	Database (fpo-db)
 A PostgreSQL database for storage, complete with a SchemaSpy instance for documentation.
 
-## Development Instances
+## Prototype Instances
 
-Development instances of the application can be found here;
-* Client Application - https://jag-csb-jes-family-protection-order-dev.pathfinder.gov.bc.ca/
-* REST API - https://django-jag-csb-jes-family-protection-order-dev.pathfinder.gov.bc.ca/api/v1/
-* SchemaSpy Database Documentation - http://schema-spy-schema-spy-jag-csb-jes-family-protection-order-dev.pathfinder.gov.bc.ca/
+A prototype instance of the application can be found here;
+* Prototype - https://family-protection-order-dev.pathfinder.gov.bc.ca/protection-order/sandbox
 
 ## Running on OpenShift
 
@@ -33,7 +33,6 @@ To deploy using a local instance of OpenShift, refer to [Running on OpenShift](.
 ## Running on Docker
 
 The project can also be run locally using Docker and Docker Compose.  Refer to [Running with Docker Compose](./docker/README.md) for instructions.
-
 
 ## Code of Conduct
 
