@@ -21,7 +21,7 @@ objects:
         Allow the builds to access the internet.
         This only needs to be specified once per environment.
       source:
-        - - $namespace=jag-csb-jes-family-protection-order-${ENV_NAME}
+        - - $namespace=tamjni-${ENV_NAME}
       destination:
         - - ext:network=any
 
@@ -80,7 +80,7 @@ parameters:
       The URL to your GIT repo, don't use the this default unless your just
       experimenting.
     required: true
-    value: https://github.com/bcgov/Family-Protection-Order
+    value: https://github.com/bcgov/violation-dispute-form.git
   - name: GIT_REF
     displayName: Git Reference
     description: The git reference or branch.
@@ -90,7 +90,7 @@ parameters:
     displayName: Source Context Directory
     description: The source context directory.
     required: true
-    value: fpo-api
+    value: virtual-hearing-form-api
   - name: KIND_OF_IMAGE
     displayName: Kind of the Source Image
     required: true

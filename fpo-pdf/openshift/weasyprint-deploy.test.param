@@ -4,10 +4,10 @@
 # Template File: templates/weasyprint-deploy.yaml
 #=========================================================
 # NAME=weasyprint
-# APP_NAME=fpo
+# APP_NAME=virtual-hearing-form
 # ROLE=pdf
 # SOURCE_IMAGE_NAME=weasyprint
-# IMAGE_NAMESPACE=jag-csb-jes-family-protection-order-tools
+# IMAGE_NAMESPACE=tamjni-tools
 TAG_NAME=test
 # CPU_REQUEST=10m
 # CPU_LIMIT=1000m
