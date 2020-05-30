@@ -42,4 +42,4 @@ Sample html:
 
 * Project: [Weasyprint](http://weasyprint.org/)
 * Image: [bcgovimages/weasyprint](https://hub.docker.com/r/bcgovimages/weasyprint/)
-* Source: [aquavitae/docker-weasyprint](https://github.com/aquavitae/docker-weasyprint)
+* Source: [BCDevOps/docker-weasyprint](https://github.com/BCDevOps/docker-weasyprint)
