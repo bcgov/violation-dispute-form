@@ -57,7 +57,7 @@ boolean triggerBuild(String contextDirectory) {
 
 node {
   if( triggerBuild(CONTEXT_DIRECTORY) ) {   
-    stage('build ' + BUILD_CONFIG) {
+    stage('Build ' + BUILD_CONFIG) {
 
       // Build the application artifacts
       echo "Building: " + BUILD_CONFIG
@@ -77,7 +77,7 @@ node {
       echo ">> IMAGE_HASH: ${IMAGE_HASH}"
     }
     
-    stage('deploy-' + TAG_NAMES[0]) {
+    stage('Deploy-' + TAG_NAMES[0]) {
       openshiftTag destStream: IMAGESTREAM_NAME, verbose: 'true', destTag: TAG_NAMES[0], srcStream: IMAGESTREAM_NAME, srcTag: "${IMAGE_HASH}"
     }
   }
