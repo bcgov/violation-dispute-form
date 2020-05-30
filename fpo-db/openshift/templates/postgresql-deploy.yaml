@@ -48,8 +48,6 @@ objects:
             role: ${ROLE}
             env: ${TAG_NAME}
         spec:
-          nodeSelector:
-            aporeto-enforcerd: 'true'
           volumes:
             - name: "${NAME}-data"
               persistentVolumeClaim:
@@ -188,7 +186,7 @@ parameters:
     displayName: App Name
     description: App Name
     required: true
-    value: fpo
+    value: virtual-hearing-form
   - name: ROLE
     displayName: Role
     description: Role
@@ -199,7 +197,7 @@ parameters:
     displayName: Image Namespace
     required: true
     description: The namespace of the OpenShift project containing the imagestream for the application.
-    value: jag-csb-jes-family-protection-order-tools
+    value: tamjni-tools
   - name: SOURCE_IMAGE_NAME
     displayName: Source Image Name
     description: The name of the image to use for this resource.
@@ -219,7 +217,7 @@ parameters:
     displayName: Persistent Volume Class name
     description: The class of the volume; gluster-file, gluster-block, gluster-file-db.
     required: false
-    value: gluster-file-db
+    value: netapp-file-standard
   - name: POSTGRESQL_DATABASE_NAME
     displayName: PostgreSQL Database Name
     description: The name of the PostgreSQL database.

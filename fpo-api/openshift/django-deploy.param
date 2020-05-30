@@ -4,12 +4,12 @@
 # Template File: templates/django/django-deploy.yaml
 #=========================================================
 NAME=django
-APP_NAME=fpo
+APP_NAME=virtual-hearing-form
 ROLE=api
-IMAGE_NAMESPACE=jag-csb-jes-family-protection-order-tools
+IMAGE_NAMESPACE=tamjni-tools
 DATABASE_SERVICE_NAME=postgresql
 DATABASE_ENGINE=postgresql
-DATABASE_NAME=FPO_Database
+DATABASE_NAME=App_Database
 APP_CONFIG=
 # DJANGO_SECRET_KEY=[\w]{50}
 DJANGO_DEBUG=False
