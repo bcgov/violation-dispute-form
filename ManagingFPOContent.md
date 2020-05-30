@@ -28,7 +28,7 @@ This document details on how a Content Developer manages that content. The infor
 #### Setup Editing Environment
 
 * Create github account
-* Fork the BC Gov's [Family-Protection-Order](https://github.com/bcgov/Family-Protection-Order) repository into your github account.
+* Fork the BC Gov's [bcgov/violation-dispute-form](https://github.com/bcgov/violation-dispute-form) repository into your github account.
 * Find the survey's
    * Within your github repo navigate to: fpo-web -> src -> assets
 

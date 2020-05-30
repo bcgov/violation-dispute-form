@@ -80,7 +80,7 @@ parameters:
       The URL to your GIT repo, don't use the this default unless your just
       experimenting.
     required: true
-    value: https://github.com/bcgov/Family-Protection-Order
+    value: https://github.com/bcgov/violation-dispute-form.git
   - name: GIT_REF
     displayName: Git Reference
     description: The git reference or branch.

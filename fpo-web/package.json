@@ -5,10 +5,10 @@
   "scripts": {
     "ng": "ng",
     "start": "node --trace-warnings ./node_modules/\\@angular/cli/bin/ng serve --host 0.0.0.0 --port 8080",
-    "build": "ng build --prod --base-href=/protection-order/",
+    "build": "ng build --prod --base-href=/virtual-hearing-form/",
     "test": "ng test",
     "lint": "ng lint",
-    "postinstall": "ng build --prod --base-href=/protection-order/"
+    "postinstall": "ng build --prod --base-href=/virtual-hearing-form/"
   },
   "private": true,
   "dependencies": {
