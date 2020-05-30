@@ -12,8 +12,7 @@ The API is developed in Django/Python, using a Visual Studio 2017 project.
 
 To deploy Family Protection Order on an instance of OpenShift, see [the instructions](../RunningLocal.md) in the file RunningLocal.md.
 
-- [Schema Spy](http://schema-spy-tamjni.pathfinder.gov.bc.ca/)
-- [Open API (Swagger) API Explorer](http://django-tamjni.pathfinder.gov.bc.ca/api/v1/)
+- [Schema Spy](https://virtual-hearing-form-schema-dev.pathfinder.gov.bc.ca/)
 
 ## Database Migrations
 

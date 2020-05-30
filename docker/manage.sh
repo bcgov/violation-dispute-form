@@ -171,7 +171,7 @@ configureEnvironment () {
   done
   
   # fpo-db
-  export POSTGRESQL_DATABASE="FAMILY_PROTECTION_ORDER"
+  export POSTGRESQL_DATABASE="APP_DATABASE"
   export POSTGRESQL_USER="DB_USER"
   export POSTGRESQL_PASSWORD="DB_PASSWORD"
 
