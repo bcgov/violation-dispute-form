@@ -63,6 +63,12 @@ inotifywait -r -m -e modify templates |
 This has been placed in the `watch.sh` file.
 
 
+Another option, if using vim, is to set an autocommand within the editor
+```ed
+:autocmd BufWritePost * execute '!bash test.sh'
+```
+
+
 
 ## References
 
