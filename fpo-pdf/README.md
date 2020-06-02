@@ -67,6 +67,7 @@ Another option, if using vim, is to set an autocommand within the editor
 ```ed
 :autocmd BufWritePost * execute '!bash test.sh'
 ```
+You have to open the template within the `templates` folder for this to work.
 
 
 
