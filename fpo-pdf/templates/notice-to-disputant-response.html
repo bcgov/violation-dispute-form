@@ -9,11 +9,11 @@
         margin: .7in 0.7in 0.9in 0.7in;
         font-size: 9pt;
         font-family: Helvetica, Arial, sans-serif;
-        @bottom-left {
+        /*@bottom-left {
           content: "PFA 712  03/2020 \a         Form C";
           white-space: pre;
           font-size: 6pt;
-        }
+        }*/
         @bottom-right {
             counter-increment: page;
             content:counter(page);
@@ -457,11 +457,17 @@
       <div style="margin-top: 0.8rem">
         <div class="form-line">NAME:</div>
         <div class="form-line">
-          <div class="form-line-child underline" style="min-width:18rem"></div>
+          <div class="form-line-child underline" style="min-width:12rem"></div>
           <div class="form-line-child hint">First Name</div>
         </div>
+        &nbsp;
         <div class="form-line">
-          <div class="form-line-child underline" style="min-width:20rem"></div>
+          <div class="form-line-child underline" style="min-width:12rem"></div>
+          <div class="form-line-child hint">Middle Name</div>
+        </div>
+        &nbsp;
+        <div class="form-line">
+          <div class="form-line-child underline" style="min-width:12rem"></div>
           <div class="form-line-child hint">Last Name</div>
         </div>
       </div>
@@ -479,10 +485,12 @@
           <div class="form-line-child underline" style="min-width:12rem"></div>
           <div class="form-line-child hint">Postal Code</div>
         </div>
+        &nbsp;
         <div class="form-line">
           <div class="form-line-child underline" style="min-width:12rem"></div>
           <div class="form-line-child hint">City</div>
         </div>
+        &nbsp;
         <div class="form-line">
           <div class="form-line-child underline" style="min-width:12rem"></div>
           <div class="form-line-child hint">Province</div>
@@ -499,9 +507,109 @@
         <div class="form-line">
           <div class="form-line-child underline" style="min-width:12rem"></div>
         </div>
+        <div class="form-line" style="margin-left:2rem">
+          <div class="form-line-child check"></div>
+        </div>
+        <div class="form-line">Cell</div>
+        <div class="form-line" style="margin-left:1rem">
+          <div class="form-line-child check"></div>
+        </div>
+        <div class="form-line">Home</div>
+        <div class="form-line" style="margin-left:1rem">
+          <div class="form-line-child check"></div>
+        </div>
+        <div class="form-line">Work</div>
       </div>
     </div>
 
+    <div class="bordered" style="padding:0.5em; margin-top:1em;">
+      <h4 style="margin:3px 0">ATTENDANCE CHOICE:</h4>
+      <div style="margin-bottom:0.5em; margin-top:0.5em;">This is to advise the Provincial Court that I am choosing to attend my traffic court hearing for the above noted Violation Ticket.</div>
+      <i style="margin-left:1em">Choose <u>one</u> of the following options</i>
+
+      <div style="margin:0.5em">
+        <div class="form-line" style="margin-left:1rem">
+          <div class="form-line-child check"></div>
+        </div>
+        <div class="form-line">Remotely</div>
+        <div class="form-line" style="margin-left:1rem">
+          <div class="form-line-child check"></div>
+        </div>
+        <div class="form-line">In-Person</div>
+      </div>
+
+      <div style="margin-bottom:0.5em; margin-top:1.5em;">If choosing to appear remotely, please indicate if you can have the ability to appear by.</div>
+      <i style="margin-left:1em">Select which option(s) apply</i>
+
+      <div style="margin:0.5em">
+        <div class="form-line" style="margin-left:1rem">
+          <div class="form-line-child check"></div>
+        </div>
+        <div class="form-line">Telephone</div>
+        <div class="form-line" style="margin-left:1rem">
+          <div class="form-line-child check"></div>
+        </div>
+        <div class="form-line">Videoconference</div>
+      </div>
+    </div>
+
+
+    <div class="bordered" style="padding:0.5em; margin-top:1em;">
+      <h4 style="margin:3px 0">SCHEDULING INFORMATION:</h4>
+      <div style="margin-bottom:0.5em; margin-top:0.5em;">To assist with scheduling the matter for hearing and to determine if matter can be heard remotely.</div>
+      <div style="margin:0.5em">
+        <div class="form-line">I AM disputing the</div>
+        <div class="form-line" style="margin-left:0.5rem">
+          <div class="form-line-child check"></div>
+        </div>
+        <div class="form-line">Allegation</div>
+        <div class="form-line" style="margin: 0 2rem 0 2rem">OR</div>
+
+        <div class="form-line">I AM disputing the</div>
+        <div class="form-line" style="margin-left:0.5rem">
+          <div class="form-line-child check"></div>
+        </div>
+        <div class="form-line">Fine amount*</div>
+      </div>
+
+      <div style="margin-top:1em">
+        <div class="form-line" style="margin-left:0.1rem">
+          <div class="form-line-child check"></div>
+        </div>
+        <div class="form-line">I need an Interpreter who speaks</div>
+        <div class="form-line">
+          <div class="form-line-child underline" style="min-width:28rem"></div>
+          <div class="form-line-child hint">Language(s)</div>
+        </div>
+      </div>
+
+      <div style="margin-top:1em">
+        <div class="form-line" style="margin-left:0.1rem">
+          <div class="form-line-child check"></div>
+        </div>
+        <div class="form-line">I am disputing the allegation and will be calling witnesses (people other then myself)</div>
+        <div class="form-line">
+          <div class="form-line-child underline" style="min-width:8rem"></div>
+          <div class="form-line-child hint">Number of witnesses</div>
+        </div>
+      </div>
+
+
+      <div style="margin-top:1em">
+        <div class="form-line" style="margin-left:0.1rem">
+          <div class="form-line-child check"></div>
+        </div>
+        <div class="form-line">I am asking that my hearing be conducted in French.</div>
+        &nbsp; &nbsp;
+        <div class="form-line" style="margin-left:0.1rem">
+          <div class="form-line-child check"></div>
+        </div>
+        <div class="form-line">I will be entering exhibits.</div>
+      </div>
+
+      <div style="margin-top:1rem"><b>*Note: If you wish, instead, to request a reduction in the ticketed amount and/or time to pay without appearing remotely or in-person</b> you may complete the Violation Ticket Statement and Written Reasons form (PTR022) and send it to the Violation Ticket Centre at the address noted above. Link to form: <a href="https://www2.gov.bc.ca/assets/gov/law-crime-and-justice/courthouse-services/court-files-records/court-forms/traffic/ptr022.pdf">https://www2.gov.bc.ca/assets/gov/law-crime-and-justice/courthouse-services/court-files-records/court-forms/traffic/ptr022.pdf</a>. If you do not want to proceed with your dispute and agree that you committed the offence, you may also complete and send this form to the Violation Ticket Centre instead of appearing in court.</div>
+
+    </div>
 
   </div>
 </div>
