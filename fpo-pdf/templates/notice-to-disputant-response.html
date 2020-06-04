@@ -141,10 +141,15 @@
         top: 0;
         right: 10rem;
         width: 70%;
-        height: 5.3em;
+        height: 10.0em;
         border: 0.5px solid #000;
         display: inline-block;
         z-index: 10;
+    }
+
+    /* Make bigger */
+    .box-header label {
+      font-size:0.8em;
     }
 
 
@@ -407,9 +412,9 @@
 
     <!-- correct positioning of repeated block -->
     <div class="container-head">
-      <div style="position: absolute; top: 0; left: 0; height: 11em; margin-left: -50px;">
+      <div style="position: absolute; top: 0; left: 0; margin-left: -70px;">
         <div class="box-header">
-          <table width="100%;" style="margin-right: -40px">
+          <table style="margin-right: -140px">
             <tbody>
             <tr class="brdr-btm">
               <td>
@@ -417,13 +422,13 @@
                 <div class="content">&nbsp;</div>
               </td>
             </tr>
-            <tr>
+            <tr class="brdr-btm">
               <td>
                 <label>DATE OF ALLEGATION</label>
                 <div class="content">&nbsp;</div>
               </td>
             </tr>
-            <tr class="bordered" style="border-top: 0">
+            <tr>
               <td>
                 <label>HEARING LOCATION</label>
                 <div class="content">&nbsp;</div>
@@ -452,7 +457,7 @@
 
     <div class="bordered" style="padding:0.5em">
       <h4 style="margin:3px 0">CONTACT INFORMATION:</h4>
-      <i style="margin-left:1em">Please complete all fields</i>
+      <!-- <i style="margin-left:1em">Please complete all fields</i> -->
 
       <div style="margin-top: 0.8rem">
         <div class="form-line">NAME:</div>
@@ -463,7 +468,7 @@
         &nbsp;
         <div class="form-line">
           <div class="form-line-child underline" style="min-width:12rem"></div>
-          <div class="form-line-child hint">Middle Name</div>
+          <div class="form-line-child hint">Middle Name(s)</div>
         </div>
         &nbsp;
         <div class="form-line">
@@ -476,24 +481,14 @@
         <div class="form-line">MAILING ADDRESS:</div>
         <div class="form-line">
           <div class="form-line-child underline" style="min-width:34rem"></div>
-          <div class="form-line-child hint">Mailing Address, Apt No, Box Number</div>
+          <!-- <div class="form-line-child hint">Mailing Address, Apt No, Box Number</div> -->
         </div>
       </div>
 
       <div style="margin-top: 1rem; margin-left: 1rem;">
         <div class="form-line">
-          <div class="form-line-child underline" style="min-width:12rem"></div>
-          <div class="form-line-child hint">Postal Code</div>
-        </div>
-        &nbsp;
-        <div class="form-line">
-          <div class="form-line-child underline" style="min-width:12rem"></div>
-          <div class="form-line-child hint">City</div>
-        </div>
-        &nbsp;
-        <div class="form-line">
-          <div class="form-line-child underline" style="min-width:12rem"></div>
-          <div class="form-line-child hint">Province</div>
+          <div class="form-line-child underline" style="min-width:39rem"></div>
+          <!-- <div class="form-line-child hint">Postal Code</div> -->
         </div>
       </div>
 
@@ -520,12 +515,23 @@
         </div>
         <div class="form-line">Work</div>
       </div>
+
+      <div style="margin-top:1rem;">
+        <div class="form-line">EMAIL ADDRESS:</div>
+        <div class="form-line">
+          <div class="form-line-child underline" style="min-width:30rem"></div>
+        </div>
+      </div>
+
+
     </div>
+
 
     <div class="bordered" style="padding:0.5em; margin-top:1em;">
       <h4 style="margin:3px 0">ATTENDANCE CHOICE:</h4>
-      <div style="margin-bottom:0.5em; margin-top:0.5em;">This is to advise the Provincial Court that I am choosing to attend my traffic court hearing for the above noted Violation Ticket.</div>
-      <i style="margin-left:1em">Choose <u>one</u> of the following options</i>
+      <div style="margin-bottom:0.5em; margin-top:0.5em;">This is to advise the Provincial Court that I prefer to attend my traffic court hearing for the
+above noted Violation Ticket:</div>
+      <!-- <i style="margin-left:1em">Choose <u>one</u> of the following options</i> -->
 
       <div style="margin:0.5em">
         <div class="form-line" style="margin-left:1rem">
@@ -538,8 +544,8 @@
         <div class="form-line">In-Person</div>
       </div>
 
-      <div style="margin-bottom:0.5em; margin-top:1.5em;">If choosing to appear remotely, please indicate if you can have the ability to appear by.</div>
-      <i style="margin-left:1em">Select which option(s) apply</i>
+      <div style="margin-bottom:0.5em; margin-top:1.5em;">If your preference is to appear remotely, please indicate if you have the ability to appear by:</div>
+      <!-- <i style="margin-left:1em">Select which option(s) apply</i> -->
 
       <div style="margin:0.5em">
         <div class="form-line" style="margin-left:1rem">
@@ -609,6 +615,48 @@
 
       <div style="margin-top:1rem"><b>*Note: If you wish, instead, to request a reduction in the ticketed amount and/or time to pay without appearing remotely or in-person</b> you may complete the Violation Ticket Statement and Written Reasons form (PTR022) and send it to the Violation Ticket Centre at the address noted above. Link to form: <a href="https://www2.gov.bc.ca/assets/gov/law-crime-and-justice/courthouse-services/court-files-records/court-forms/traffic/ptr022.pdf">https://www2.gov.bc.ca/assets/gov/law-crime-and-justice/courthouse-services/court-files-records/court-forms/traffic/ptr022.pdf</a>. If you do not want to proceed with your dispute and agree that you committed the offence, you may also complete and send this form to the Violation Ticket Centre instead of appearing in court.</div>
 
+    </div>
+
+    <div class="bordered" style="padding:0.5em; margin-top:1em;">
+      <div>
+        <b>For a remote hearing, complete this section:</b>
+        <div>
+          By submitting this form, I am preferring to attend my traffic ticket hearing remotely. I understand that the Court may not be able to schedule my hearing remotely, and that I will be informed if the hearing must proceed in- person. I understand that if the hearing will be held by telephone or video, the trial will be scheduled on a weekday during regular business hours.
+        </div>
+
+        <div style="margin: 1.0rem 0 0.2rem 0;">
+          <div class="form-line">Dated:</div>
+          <div class="form-line">
+            <div class="form-line-child underline" style="min-width:10rem"></div>
+          </div>
+          <div class="form-line" style="margin-left:2rem">Signed/acknowledged:</div>
+          <div class="form-line">
+            <div class="form-line-child underline" style="min-width:16rem"></div>
+            <div class="form-line-child hint">Disputant</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bordered" style="padding:0.5em; margin-top:1em;">
+      <div>
+        <b>For an in-person hearing, complete this section</b>
+        <div>
+          By submitting this form, I am choosing to attend my traffic ticket hearing in-person. I understand that the Court will schedule my hearing in-person and that the trial may be scheduled in the evening or on a Saturday.
+        </div>
+
+        <div style="margin: 1.0rem 0 0.2rem 0;">
+          <div class="form-line">Dated:</div>
+          <div class="form-line">
+            <div class="form-line-child underline" style="min-width:10rem"></div>
+          </div>
+          <div class="form-line" style="margin-left:2rem">Signed/acknowledged:</div>
+          <div class="form-line">
+            <div class="form-line-child underline" style="min-width:16rem"></div>
+            <div class="form-line-child hint">Disputant</div>
+          </div>
+        </div>
+      </div>
     </div>
 
   </div>
