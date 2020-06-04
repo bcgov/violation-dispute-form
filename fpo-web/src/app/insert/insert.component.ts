@@ -11,17 +11,11 @@ import {
 import { InsertService } from "./insert.service";
 // each component which will be dynamically inserted must be imported here
 import { StaticComponent } from "../static/static.component";
-import { SurveySidebarComponent } from "../survey/sidebar.component";
-
-export const INSERT_TYPES = {
-  html: StaticComponent,
-  "survey-sidebar": SurveySidebarComponent
-};
 
 // based on http://blog.rangle.io/dynamically-creating-components-with-angular-2/
 @Component({
   selector: "app-insert",
-  entryComponents: [StaticComponent, SurveySidebarComponent],
+  entryComponents: [StaticComponent],
   template: `
     <div #container></div>
   `
@@ -51,7 +45,7 @@ export class InsertComponent implements OnInit {
     inputs?: any;
     options?: any;
   }) {
-    let compCls = spec && INSERT_TYPES[spec.type];
+    let compCls = spec;
     if (!compCls) {
       this.hidden = true;
       return;
@@ -70,20 +64,20 @@ export class InsertComponent implements OnInit {
     );
 
     // We create a factory out of the component we want to create
-    let factory = this.resolver.resolveComponentFactory(compCls);
+   // let factory = this.resolver.resolveComponentFactory(compCls);
 
     // We create the component using the factory and the injector
-    let component = factory.create(injector);
+    //let component = factory.create(injector);
 
     // We insert the component into the dom container
-    this.container.insert(component.hostView);
+    //this.container.insert(component.hostView);
 
     // Destroy the previously created component
     if (this.currentInsert) {
       this.currentInsert.destroy();
     }
 
-    this.currentInsert = component;
+    //this.currentInsert = component;
     this.hidden = false;
   }
 }

@@ -12,7 +12,6 @@ declare var window: any;
 })
 export class SurveyPrimaryComponent implements OnInit {
   public cacheName: string;
-  public showSidebar = true;
   public printUrl: string;
   public resultJson: any;
   public surveyPath: string;
@@ -34,7 +33,6 @@ export class SurveyPrimaryComponent implements OnInit {
     this.surveyPath = routeData.survey_path;
     this.surveyJson = routeData.survey;
     this.cacheName = routeData.cache_name;
-    if ("show_sidebar" in routeData) this.showSidebar = routeData.show_sidebar;
     this.complete = data => this.onComplete(data);
     const hash = this.route.snapshot.fragment;
     if (hash === "print") this.initialMode = "print";

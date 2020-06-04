@@ -20,7 +20,6 @@ export class SurveyComponent implements OnInit, OnDestroy {
   private _lastSavedData: any;
   @Input() cacheName: string;
   @Input() onComplete: Function;
-  @Input() showSidebar = true;
   @Input() surveyPath: string;
   @Input() initialMode: string;
   public cacheLoadTime: any;
@@ -61,12 +60,6 @@ export class SurveyComponent implements OnInit, OnDestroy {
       });
       this.loadSurvey(true);
     });
-    if (this.showSidebar) {
-      this.insertService.updateInsert("sidebar-left", {
-        type: "survey-sidebar",
-        inputs: { survey: this }
-      });
-    }
     this._active = true;
     this.autoSave(true);
   }
@@ -236,11 +229,6 @@ export class SurveyComponent implements OnInit, OnDestroy {
 
   nextPage() {
     this.surveyModel.nextPage();
-  }
-
-  get canComplete() {
-    if (this.showSidebar) return true; // quick workaround for primary survey
-    return !this.missingRequired;
   }
 
   complete() {

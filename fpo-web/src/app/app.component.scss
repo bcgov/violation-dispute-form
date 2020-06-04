@@ -20,18 +20,6 @@
   padding: 0 15px 80px;
 }
 
-.sidebar-left,
-.sidebar-right {
-  display: block;
-  flex: none;
-  overflow: hidden;
-  position: relative;
-  transition: width 0.2s ease-in;
-  width: $sidebar-width-md;
-  &.insert-hidden {
-    width: 0;
-  }
-}
 @include media-breakpoint-up(lg) {
   .sidebar-left,
   .sidebar-right {
