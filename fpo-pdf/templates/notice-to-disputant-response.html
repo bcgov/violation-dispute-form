@@ -21,6 +21,39 @@
         }*/
 
     }
+    /*
+       BC Sans Custom fonts
+       https://cdn.jsdelivr.net/npm/@bcgov/bc-sans@1.0.1/fonts/BCSans-Bold.woff
+       https://cdn.jsdelivr.net/npm/@bcgov/bc-sans@1.0.1/fonts/BCSans-BoldItalic.woff
+       https://cdn.jsdelivr.net/npm/@bcgov/bc-sans@1.0.1/fonts/BCSans-Italic.woff
+       https://cdn.jsdelivr.net/npm/@bcgov/bc-sans@1.0.1/fonts/BCSans-Regular.woff
+     */
+
+    /* 
+    TBD: These have to be defined within the weasyprint API, not in the template
+    @font-face {
+      font-family: 'BCSans';
+      font-style: normal;
+      src: url('https://cdn.jsdelivr.net/npm/@bcgov/bc-sans@1.0.1/fonts/BCSans-Regular.woff') format('woff');
+    }
+    @font-face {
+      font-family: 'BCSans';
+      font-style: italic;
+      src: url('https://cdn.jsdelivr.net/npm/@bcgov/bc-sans@1.0.1/fonts/BCSans-Italic.woff') format('woff');
+    }
+    @font-face {
+      font-family: 'BCSans';
+      font-weight: 700;
+      src: url('https://cdn.jsdelivr.net/npm/@bcgov/bc-sans@1.0.1/fonts/BCSans-Bold.woff') format('woff');
+    }
+    @font-face {
+      font-family: 'BCSans';
+      font-style: italic;
+      font-weight: 700;
+      src: url('https://cdn.jsdelivr.net/npm/@bcgov/bc-sans@1.0.1/fonts/BCSans-BoldItalic.woff') format('woff');
+    }
+    /*
+
     @page label{font-size: 9pt;}
     body{
       margin: 0;
@@ -43,13 +76,14 @@
 
 
     td{padding: .1em .25em .125em; width: 25%;}
+
     /* wrappers / containers */
     .container{
         background-color: #FFFFFF;
         color: #000000;
         font-size: .85em;
         margin:0;
-        font-family: Helvetica, Arial, sans-serif;
+        font-family: BCSans, Helvetica, Arial, sans-serif;
         line-height: 1.05;
     }
     /* base visuals */
