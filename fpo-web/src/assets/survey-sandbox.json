@@ -77,7 +77,6 @@
        "type": "text",
        "name": "ticketDate",
        "title": "Date of Ticket",
-       "description": "You can find this number at the top of your ticket",
        "isRequired": true,
        "inputType": "date"
       },
@@ -85,7 +84,6 @@
        "type": "dropdown",
        "name": "hearingLocation",
        "title": "Hearing Location",
-       "description": "You can find this number at the top of your ticket",
        "isRequired": true,
        "choices": [
         {
@@ -112,6 +110,7 @@
        "type": "radiogroup",
        "name": "disputeType",
        "title": "Are you disputing the allegation or disputing the fine amount?",
+       "description": "Disputing the allegation requires a Court Hearing.\n<br><br>\nDisputing the fine amount does not require a Court hearing.",
        "isRequired": true,
        "choices": [
         {
@@ -212,7 +211,7 @@
        "visible": false,
        "visibleIf": "{disputeType} = \"allegation\" or ({disputeType} = \"fineAmount\" and {disputeInWriting} = \"n\")",
        "title": "I am choosing to attend my Traffic Court hearing for Violation Ticket #{ticketNumber}:",
-       "description": "Remotely means by phone or by videoconference",
+       "description": "Remote Court hearings means by phone or by videoconference\n<br><br>\nTo request a remote hearing, you must notify the Court before [date] using one of the notification methods listed at the bottom of this notice.  She thinks we should just say “must notify the Court within 14 days using one of the…\n<br><br>\nIn-person Court hearings may be held on evenings or Saturdays as decided by the Court",
        "isRequired": true,
        "choices": [
         {
@@ -298,15 +297,15 @@
       {
        "type": "yesno",
        "name": "charter",
-       "title": "Will you be making an application under the Charter of Rights and Freedom for this Violation Ticket #{ticketNumber}?",
-       "isRequired": true
+       "visible": false,
+       "title": "Will you be making an application under the Charter of Rights and Freedom for this Violation Ticket #{ticketNumber}?"
       },
       {
        "type": "infotext",
        "name": "charterYesExplanation",
        "visible": false,
        "visibleIf": "{charter} = \"y\"",
-       "title": "You will be filing the required notice in addition to using this service.<br><br>\n[URL for form here]. ",
+       "title": "You will need to file the documents required by law in addition to using this service.\n<br><br>\n[If successful?] Your Court hearing will be scheduled before a Provincial Court Judge. [instead of a JJ? - why is this important?]\n<br><br>\nhttps://www.courthouselibrary.ca/how-we-can-help/our-legal-knowledge-base/where-can-i-find-notice-constitutional-question\n<br><br>\nLaw here: http://www.bclaws.ca/civix/document/id/complete/statreg/96068_01\n",
        "description": "Note to Jack - This is just an extra form; still generate the form from this service. The charter form takes them out of the stream to see a judge so the VTC will need to schedule that.",
        "titleLocation": "hidden"
       },

@@ -60,8 +60,6 @@ objects:
             role: ${ROLE}
             env: ${TAG_NAME}
         spec:
-          nodeSelector:
-            aporeto-enforcerd: 'true'
           containers:
             - name: ${NAME}
               image: " "
@@ -102,7 +100,7 @@ parameters:
     displayName: App Name
     description: App Name
     required: true
-    value: fpo
+    value: virtual-hearing-form
   - name: ROLE
     displayName: Role
     description: Role
@@ -120,7 +118,7 @@ parameters:
     description:
       The namespace of the OpenShift project containing the imagestream for
       the application.
-    value: jag-csb-jes-family-protection-order-tools
+    value: tamjni-tools
   - name: TAG_NAME
     displayName: Environment TAG name
     description: The TAG name for this environment, e.g., dev, test, prod

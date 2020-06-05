@@ -135,7 +135,7 @@
       "description": "The resources Memory limit (in Mi, Gi, etc) for this build.",
       "required": true,
       "value": "4Gi"
-    },
+    },   
     {
       "name": "CPU_REQUEST",
       "displayName": "Resources CPU Request",

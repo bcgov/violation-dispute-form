@@ -20,17 +20,16 @@ objects:
       description: |
         Allow the schema-spy service to talk to the db pod.
       source:
-      source:
         - - role=${ROLE}
           - app=${APP_NAME}
           - env=${TAG_NAME}
-          - $namespace=jag-csb-jes-family-protection-order-${TAG_NAME}
+          - $namespace=tamjni-${TAG_NAME}
           
       destination:
         - - role=db
           - app=${APP_NAME}
           - env=${TAG_NAME}
-          - $namespace=jag-csb-jes-family-protection-order-${TAG_NAME}
+          - $namespace=tamjni-${TAG_NAME}
 
   - kind: Service
     apiVersion: v1
@@ -113,8 +112,6 @@ objects:
             role: ${ROLE}
             env: ${TAG_NAME}
         spec:
-          nodeSelector:
-            aporeto-enforcerd: 'true'
           containers:
           - name: ${NAME}
             image: " "
@@ -168,7 +165,7 @@ parameters:
     displayName: App Name
     description: App Name
     required: true
-    value: fpo
+    value: virtual-hearing-form
   - name: ROLE
     displayName: Role
     description: Role
@@ -180,7 +177,7 @@ parameters:
     required: true
     description: The namespace of the OpenShift project containing the imagestream for
       the application.
-    value: jag-csb-jes-family-protection-order-tools
+    value: tamjni-tools
   - name: MEMORY_LIMIT
     displayName: Memory Limit
     required: true
@@ -190,7 +187,7 @@ parameters:
     displayName: Application Hostname
     description: The exposed hostname that will route to the Django service, if left
       blank a value will be defaulted.
-    value: 'protection-order-schema-dev.pathfinder.gov.bc.ca'
+    value: 'virtual-hearing-form-schema-dev.pathfinder.gov.bc.ca'
   - name: DATABASE_SERVICE_NAME
     displayName: Database Service Name
     required: true
@@ -200,7 +197,7 @@ parameters:
     required: true
     description: Name of the deployed database (see environment variables in deployed
       database).
-    value: FPO_Database
+    value: App_Database
   - name: TAG_NAME
     displayName: Environment TAG name
     description: The TAG name for this environment, e.g., dev, test, prod
