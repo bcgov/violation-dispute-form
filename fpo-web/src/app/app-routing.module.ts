@@ -8,7 +8,7 @@ import { SurveyEditorComponent } from "app/survey/editor.component";
 const routes: Routes = [
  
   {
-    path: "dispute-form",
+    path: "",
     component: SurveyPrimaryComponent,
     resolve: {
       // survey: SurveyResolver,
