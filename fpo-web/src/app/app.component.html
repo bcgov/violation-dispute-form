@@ -1,15 +1,5 @@
 <div class="app-outer fill-body">
   <header class="app-header">
-    <div id="app-exit" class="app-exit">
-      <a
-        target="_blank"
-        href="https://www.google.ca"
-        rel="external"
-        class="btn btn-primary"
-        (click)="quickExit()"
-        ><span class="fa fa-sign-out"></span> Quick Exit</a
-      >
-    </div>
     <nav class="navbar navbar-expand-lg navbar-dark">
       <div class="navbar-brand logo">
         <a routerLink="/" tabindex="-1" class="navbar-link">
@@ -33,18 +23,17 @@
         Choose how to attend your Traffic Hearing
         <span class="navbar-tag">BETA</span>
       </div>
-      <div class="navbar-extra">
+      <!-- <div class="navbar-extra">
         <div id="app-profile">
           <a routerLink="/prv/status" class="btn btn-primary" *ngIf="isPrv"
             ><span class="fa fa-user"></span> Profile</a
           >
         </div>
-      </div>
+      </div> -->
     </nav>
   </header>
 
   <main role="main" class="app-content">
-    <app-insert id="sidebar-left" class="sidebar-left"></app-insert>
 
     <div class="app-main">
       <!--<breadcrumb></breadcrumb>-->
@@ -52,7 +41,6 @@
       <router-outlet></router-outlet>
     </div>
 
-    <app-insert id="sidebar-right" class="sidebar-right"></app-insert>
   </main>
 
   <footer class="footer">

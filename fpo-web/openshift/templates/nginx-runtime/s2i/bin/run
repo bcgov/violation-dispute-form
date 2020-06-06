@@ -24,7 +24,7 @@ read -r -d '' _FORWARDED_HEADERS << EOF
 EOF
 
 read -r -d '' _CONFIG_SECTION << EOF
-# proxy requests to the API
+        # proxy requests to the API
         location /api/v1/ {
             ${_FORWARDED_HEADERS}
             proxy_pass ${proxyUrl};

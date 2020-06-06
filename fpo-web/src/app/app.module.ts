@@ -21,35 +21,21 @@ import { GlossaryEditorComponent } from "./glossary/editor.component";
 import { InsertComponent } from "./insert/insert.component";
 import { InsertService } from "./insert/insert.service";
 import { StaticComponent } from "./static/static.component";
-import { HomeComponent } from "./home/home.component";
-import { TermsContentComponent } from "./home/terms-content.component";
-import { TermsViewComponent } from "./home/terms.component";
-import { UserStatusComponent } from "./home/status.component";
-import { UserStatusResolver } from "./home/status-resolver.service";
-
 import { SurveyComponent } from "./survey/survey.component";
 import { SurveyPrimaryComponent } from "./survey/primary.component";
 import { SurveyEditorComponent } from "./survey/editor.component";
-import { SurveySidebarComponent } from "./survey/sidebar.component";
-import { ResultComponent } from "./result/result.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     SearchBoxDirective,
-    HomeComponent,
-    ResultComponent,
     BreadcrumbComponent,
     GlossaryEditorComponent,
     InsertComponent,
     SurveyComponent,
     SurveyPrimaryComponent,
     SurveyEditorComponent,
-    SurveySidebarComponent,
-    StaticComponent,
-    TermsContentComponent,
-    TermsViewComponent,
-    UserStatusComponent
+    StaticComponent
   ],
   imports: [
     BrowserModule,
@@ -67,7 +53,6 @@ import { ResultComponent } from "./result/result.component";
     GeneralDataService,
     GlossaryService,
     InsertService,
-    UserStatusResolver,
     { provide: HTTP_INTERCEPTORS, useClass: HttpCsrfInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

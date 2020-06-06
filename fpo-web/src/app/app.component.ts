@@ -78,11 +78,8 @@ export class AppComponent implements AfterViewInit {
     });
   }
 
-  get isPrv() {
-    return this._isPrv;
-  }
+  // get isPrv() {
+  //   return this._isPrv;
+  // }
 
-  quickExit(): void {
-    this.dataService.quickExit();
-  }
 }
