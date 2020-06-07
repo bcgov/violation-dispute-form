@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Family Law Matter Claim</title>
+  <style type="text/css">
+    @page {
+        size: Letter;
+        margin: .7in 0.7in 0.9in 0.7in;
+        font-size: 9pt;
+        font-family: Helvetica, Arial, sans-serif;
+        /*@bottom-left {
+          content: "PFA 712  03/2020 \a         Form C";
+          white-space: pre;
+          font-size: 6pt;
+        }*/
+        /*@bottom-right {
+            counter-increment: page;
+            content:counter(page);
+            font-size: 8pt;
+        }*/
+
+    }
+
+    @page label{font-size: 9pt;}
+    body{
+      margin: 2rem 2rem 0 2rem;
+      padding: 0;
+      max-width: 100%;
+      counter-reset: question-counter;
+    }
+
+    table{
+        border-collapse: collapse;
+        table-layout: fixed;
+        width: 100%;
+        margin-bottom: 3px;
+        line-height: 1.25;
+    }
+
+    table.padded td,th{
+      padding: 0.5rem;
+    }
+
+
+    td{padding: .1em .25em .125em; width: 25%;}
+
+    /* wrappers / containers */
+    .container{
+        background-color: #FFFFFF;
+        color: #000000;
+        font-size: .85em;
+        margin:0;
+        font-family: BCSans, Helvetica, Arial, sans-serif;
+        line-height: 1.05;
+    }
+    /* base visuals */
+
+    .bordered{
+      border: 0.5px solid #000;
+    }
+    .border-rows tr {
+      border-bottom: 0.5px solid #000;
+    }
+    .brdr-btm{
+      border-bottom: 0.5px solid #000;
+      margin-bottom: .5em;
+    }
+
+    .section{
+        padding-top: .75em;
+    }
+
+    span.check{
+      position: absolute;
+      border: 1px solid #000!important;
+      width: 1em;
+      margin: 0.1em;
+      height: 1em;
+      font-size: 1.2em;
+    }
+
+    span.check span.content {
+      display: inline-block;
+      position: absolute;
+      font-size: 1.1rem;
+      left: 0;
+      bottom: -1.2px;
+    }
+
+    span.text-after-check {
+      margin-left: 1.5rem;
+    }
+
+    /* typography */
+    label,
+    span{display: block;}
+
+    label{
+        font-size: .5em;
+        text-transform: uppercase;
+        margin: .5em 0 0;
+        padding: 0;
+    }
+    h1   {
+        font-size: 1.6em;
+        font-weight: bold;
+        margin: 0.27em 0;
+        text-transform: uppercase;
+        float: left;
+        width: 75%;
+    }
+    span.sub-heading{
+        display: block;
+        font-size: .65em;
+        text-transform: none;
+        font-weight: normal;
+        margin-top: .3em;
+    }
+    ul li {padding: .25em; line-height: 1.25;}
+    ul li ul{list-style-type: disc;}
+    .separation{border-top: 2px solid #000;}
+
+    @media print{
+        body{
+            font-size: 9pt!important;
+        }
+        table.bordered{
+            margin: 6px;
+        }
+    }
+    /* NEW SET-UP FOR REPEATED HEADER */
+    .no-repeat-header{
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 85%;
+        display: inline-block;
+    }
+    .box-header{
+        position: relative;
+        top: 0;
+        right: 10rem;
+        width: 70%;
+        height: 12.4em;
+        border: 0.5px solid #000;
+        display: inline-block;
+        z-index: 10;
+    }
+
+    /* Make bigger */
+    .box-header label {
+      font-size:0.8em;
+    }
+
+
+    @media print{
+      .new-page{
+        page-break-before: always;
+        position: relative; top: 8em;
+      }
+      .container-head{
+        position: relative;
+        top: 0;
+        right: 0;
+        height: 12em;
+        margin-bottom: 1em;
+        float: right;
+      }
+      .container-head label {
+        margin-bottom: 1.4em;
+      }
+      .container-head .content {
+        margin-bottom: 0.1em
+      }
+      .container-head:after{clear: both;}
+
+      .numbered-form {
+        margin-top: 2rem;
+        line-height: 1rem;
+      }
+      .numbered-form span {
+        display: inline;
+      }
+      section.question {
+        margin-bottom: 0.5rem;
+      }
+
+      section.question:before {
+        font-weight: bolder;
+        counter-increment: question-counter;
+        content:counter(question-counter) ".";
+      }
+      section.question div.sub-selections-desc {
+        font-style: italic;
+      }
+      section.question div.sub-selections {
+        margin: 0.2rem 1rem;
+      }
+      section.question div.sub-selection {
+        margin: 0.2rem;
+      }
+      section.question span.sub-selection-desc {
+        margin-left: 1.6rem;
+      }
+      .reg-use {
+        margin: 2rem 0 2rem 0;
+      }
+      .reg-box {
+        border: 0.5px solid #000;
+        padding: 0.5rem 0.5rem 1.0rem 1.0rem ;
+      }
+      .reg-box tr.first td.first{
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 10rem !important;
+      }
+      .reg-box tr.first td.third{
+        width: 10px;
+      }
+      .reg-box tr.first td.second{
+        padding-top: 0.5rem;
+        line-height: 1;
+      }
+      .reg-box tr.first td.second .underline{
+        line-height: 0 !important;
+      }
+      .reg-box tr.first td.second .desc{
+        line-height: 0 !important;
+        font-size: 7px;
+      }
+      .reg-box .date-time {
+        position: absolute;
+        line-height: 0 !important;
+        font-size: 7px;
+        margin-top: 0.2rem;
+      }
+      .reg-box .date {
+        margin-left: 70px;
+      }
+      .reg-box .time {
+        margin-left: 210px;
+      }
+
+      .schedule-header h4 {
+        text-align: center;
+        margin: 0;
+      }
+      .sub-header {
+        margin: 1rem 0 0.7rem 0;
+      }
+
+      /********************************************************/
+      /* Styling for lines with in-line blanks for text entry */
+      .form-line {
+        display: inline-block;
+      }
+      .form-line-child.underline {
+        border-bottom: 0.7px solid #000;
+        min-height: 6px;
+      }
+      .form-line.underline {
+        border-bottom: 0.7px solid #000;
+        min-height: 6px;
+      }
+      .form-line-child.hint {
+        position: absolute;
+        font-size: 7px;
+        margin-top: 0.1rem;
+        margin-left: 0.2rem;
+      }
+      .form-line.text-after-check {
+        margin-left: 0.3rem;
+      }
+      .form-line-child.check {
+        width: 12px;
+        height: 12px;
+        border: 1px solid #000;
+        margin: 0 2px -3px 0;
+      }
+      #sched1-name2 {
+        min-width: 12rem;
+      }
+      #sched1-other-name1 {
+        min-width: 12rem;
+      }
+      #sched1-occupation {
+        min-width: 10rem;
+      }
+      #sched1-address {
+        min-width: 14rem;
+      }
+      /********************************************************/
+
+
+      /********************************************************/
+      /******************* Added Feb 2020 *********************/
+      .important {
+        font-size: 12px;
+        margin: 15px 0 8px 5px;
+      }
+      section.restart {
+        counter-reset: question-counter;
+      }
+
+
+      table.border-all {
+        border: 0.5px solid #000;
+      }
+
+      /* If specifying table.border-all.. It bleeds into all tables */
+      .border-all td {
+        border-right: 0.5px solid #000;
+        border-bottom: 0.5px solid #000;
+      }
+
+      table.border-all th {
+        border-right: 0.5px solid #000;
+        border-bottom: 0.5px solid #000;
+      }
+      table.border-all th {
+        text-align: center;
+      }
+      table.border-all td {
+        min-height: 1rem;
+      }
+
+      div.option div {
+        display: inline-block;
+      }
+      div.option .check {
+        width: 12px;
+        height: 12px;
+        border: 1px solid #000;
+        margin: 0 2px -3px 0;
+      }
+
+      .italic {
+        font-style: italic;
+      }
+
+      .v-spacer-1 {
+        min-height: 1rem;
+        padding: 0.2rem 1rem;
+      }
+      .v-spacer-2 {
+        min-height: 2rem;
+        padding: 0.2rem 1rem;
+      }
+      .v-spacer-3 {
+        min-height: 3rem;
+        padding: 0.2rem 1rem;
+      }
+      .v-spacer-4 {
+        min-height: 4rem;
+        padding: 0.2rem 1rem;
+      }
+      .v-spacer-5 {
+        min-height: 5rem;
+        padding: 0.2rem 1rem;
+      }
+      .v-spacer-6 {
+        min-height: 6rem;
+        padding: 0.2rem 1rem;
+      }
+      .v-spacer-7 {
+        min-height: 7rem;
+        padding: 0.2rem 1rem;
+      }
+      .v-spacer-8 {
+        min-height: 8rem;
+        padding: 0.2rem 1rem;
+      }
+      .v-spacer-9 {
+        min-height: 9rem;
+        padding: 0.2rem 1rem;
+      }
+      .v-spacer-10 {
+        min-height: 10rem;
+        padding: 0.2rem 1rem;
+      }
+
+      .indent {
+        margin-left: 1rem;
+      }
+    }
+    @page :first {
+    }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+  <div class="container">
+
+    <!-- PAGE ONE -->
+
+    <!-- form heading -->
+    <div class="no-repeat-header">
+
+      <table width="100%;">
+        <tbody>
+        <tr>
+          <td>
+            <h1>NOTICE TO DISPUTANT - RESPONSE</h1>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div><!-- /form heading -->
+
+    <!-- correct positioning of repeated block -->
+    <div class="container-head">
+      <div style="position: absolute; top: 0; left: 0; margin-left: -70px; margin-top: -30px;">
+        <div class="box-header">
+          <table style="margin-right: -140px">
+            <tbody>
+            <tr class="brdr-btm">
+              <td>
+                <label>VIOLATION TICKET NUMBER</label>
+                <div class="content">&nbsp;</div>
+              </td>
+            </tr>
+            <tr class="brdr-btm">
+              <td>
+                <label>VIOLATE DATE</label>
+                <div class="content">&nbsp;</div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label>HEARING LOCATION</label>
+                <div class="content">&nbsp;</div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!--
+    <div>
+      <h4 style="margin-bottom:5px">TO:</h3>
+      <div class="indent">
+        <div>VIOLATION TICKET CENTRE</div>
+        <div>P.O. Box 2164 Stn Main</div>
+        <div>Vancouver, BC, V6B 3V3</div>
+        <div style="margin-top:1rem;">
+          <span style="display:inline-block">FAX: 604-660-4868</span>
+          <span style="display:inline-block; margin-left: 1rem">EMAIL: </span>
+        </div>
+      </div>
+    </div>
+    -->
+
+    <div class="v-spacer-4"></div>
+
+    <div class="bordered" style="padding:1em">
+      <h4 style="margin:3px 0">CONTACT INFORMATION:</h4>
+      <!-- <i style="margin-left:1em">Please complete all fields</i> -->
+
+      <div style="margin-top: 0.8rem">
+        <div class="form-line">NAME: </div>
+        <div class="form-line">
+          <div class="form-line-child underline" style="min-width:10rem"></div>
+          <div class="form-line-child hint">First Name</div>
+        </div>
+        &nbsp;
+        <div class="form-line">
+          <div class="form-line-child underline" style="min-width:10rem"></div>
+          <div class="form-line-child hint">Middle Name(s)</div>
+        </div>
+        &nbsp;
+        <div class="form-line">
+          <div class="form-line-child underline" style="min-width:10rem"></div>
+          <div class="form-line-child hint">Last Name</div>
+        </div>
+      </div>
+
+      <div style="margin-top: 1rem">
+        <div class="form-line">MAILING ADDRESS:</div>
+        <div class="form-line">
+          <div class="form-line-child underline" style="width:30rem"></div>
+          <!-- <div class="form-line-child hint">Mailing Address, Apt No, Box Number</div> -->
+        </div>
+      </div>
+
+      <div style="margin-top: 1rem; margin-left: 1rem;">
+        <div class="form-line">
+          <div class="form-line-child underline" style="width:35rem"></div>
+          <!-- <div class="form-line-child hint">Postal Code</div> -->
+        </div>
+      </div>
+
+      <div style="margin-top: 1rem;">
+        <div class="form-line">CONTACT NUMBER:</div>
+        <div class="form-line">
+          <div class="form-line-child underline" style="min-width:14rem"></div>
+        </div>
+        <div class="form-line" style="margin-left:2rem">
+          <div class="form-line-child check"></div>
+        </div>
+        <div class="form-line">Cell</div>
+        <div class="form-line" style="margin-left:1rem">
+          <div class="form-line-child check"></div>
+        </div>
+        <div class="form-line">Home</div>
+        <div class="form-line" style="margin-left:1rem">
+          <div class="form-line-child check"></div>
+        </div>
+        <div class="form-line">Work</div>
+      </div>
+
+      <div style="margin-top:1rem;">
+        <div class="form-line">EMAIL ADDRESS:</div>
+        <div class="form-line">
+          <div class="form-line-child underline" style="min-width:30rem"></div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+    <div class="bordered" style="padding:1em; margin-top:1em;">
+      <h4 style="margin:3px 0">ATTENDANCE CHOICE:</h4>
+      <div style="margin-bottom:0.5em; margin-top:0.8em;">This is to advise the Provincial Court that I prefer to attend my traffic court hearing for the
+above noted Violation Ticket:</div>
+      <!-- <i style="margin-left:1em">Choose <u>one</u> of the following options</i> -->
+
+      <div style="margin:0.5em 0 2em 2em; font-size:12px;">
+        <div class="form-line" style="margin-left:1rem">
+          <div class="form-line-child check"></div>
+        </div>
+        <div class="form-line">Remotely</div>
+        <div class="form-line" style="margin-left:4rem">
+          <div class="form-line-child check"></div>
+        </div>
+        <div class="form-line">In-Person</div>
+      </div>
+
+      <div style="margin-bottom:0.5em; margin-top:1.5em;">If your preference is to appear remotely, please indicate if you have the ability to appear by:</div>
+      <!-- <i style="margin-left:1em">Select which option(s) apply</i> -->
+
+      <div style="margin:1em 0 0 2em; font-size:12px;">
+        <div class="form-line" style="margin-left:1rem">
+          <div class="form-line-child check"></div>
+        </div>
+        <div class="form-line">Telephone</div>
+        <div class="form-line" style="margin-left:4rem">
+          <div class="form-line-child check"></div>
+        </div>
+        <div class="form-line">Videoconference</div>
+      </div>
+    </div>
+
+
+    <div class="bordered" style="padding:1em; margin-top:1em;">
+      <h4 style="margin:3px 0">SCHEDULING INFORMATION:</h4>
+      <div style="margin-bottom:0.5em; margin-top:0.8em;">To assist with scheduling the matter for hearing and to determine if matter can be heard remotely.</div>
+      <div style="margin:1.5em">
+        <div class="form-line">I AM disputing the</div>
+        <div class="form-line" style="margin-left:0.5rem">
+          <div class="form-line-child check"></div>
+        </div>
+        <div class="form-line">Allegation</div>
+        <div class="form-line" style="margin: 0 3rem 0 3rem">OR</div>
+
+        <div class="form-line">I AM disputing the</div>
+        <div class="form-line" style="margin-left:0.5rem">
+          <div class="form-line-child check"></div>
+        </div>
+        <div class="form-line">Fine amount*</div>
+      </div>
+
+      <div style="margin-top:1em">
+        <div class="form-line" style="margin-left:0.1rem">
+          <div class="form-line-child check"></div>
+        </div>
+        <div class="form-line">I need an Interpreter who speaks</div>
+        <div class="form-line">
+          <div class="form-line-child underline" style="width:24rem"></div>
+          <div class="form-line-child hint">Language(s)</div>
+        </div>
+      </div>
+
+      <div style="margin-top:1em">
+        <div class="form-line" style="margin-left:0.1rem">
+          <div class="form-line-child check"></div>
+        </div>
+        <div class="form-line">I am disputing the allegation and will be calling witnesses (people other then myself)</div>
+        <div class="form-line">
+          <div class="form-line-child underline" style="width:8rem"></div>
+          <div class="form-line-child hint">Number of witnesses</div>
+        </div>
+      </div>
+
+
+      <div style="margin-top:1em">
+        <div class="form-line" style="margin-left:0.1rem">
+          <div class="form-line-child check"></div>
+        </div>
+        <div class="form-line">I am asking that my hearing be conducted in French.</div>
+        &nbsp; &nbsp;
+      </div>
+      <div style="margin-top:1em">
+        <div class="form-line" style="margin-left:0.1rem">
+          <div class="form-line-child check"></div>
+        </div>
+        <div class="form-line">I will be entering exhibits.</div>
+      </div>
+
+    </div>
+
+    <div class="bordered" style="padding:1em; margin-top:1em;">
+      <div>
+        <b>For a remote hearing, complete this section:</b>
+        <div style="margin-top:0.8em;">
+          By submitting this form, I am preferring to attend my traffic ticket hearing remotely. I understand that the Court may not be able to schedule my hearing remotely, and that I will be informed if the hearing must proceed in- person. I understand that if the hearing will be held by telephone or video, the trial will be scheduled on a weekday during regular business hours.
+        </div>
+
+        <div style="margin: 1.0rem 0 0.2rem 0;">
+          <div class="form-line">Dated:</div>
+          <div class="form-line">
+            <div class="form-line-child underline" style="width:8rem"></div>
+          </div>
+          <div class="form-line" style="margin-left:2rem">Signed/acknowledged:</div>
+          <div class="form-line">
+            <div class="form-line-child underline" style="width:14rem"></div>
+            <div class="form-line-child hint">Disputant</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bordered" style="padding:1em; margin-top:1em;">
+      <div>
+        <b>For an in-person hearing, complete this section:</b>
+        <div style="margin-top:0.8em;">
+          By submitting this form, I am choosing to attend my traffic ticket hearing in-person. I understand that the Court will schedule my hearing in-person and that the trial may be scheduled in the evening or on a Saturday.
+        </div>
+
+        <div style="margin: 1.0rem 0 0.2rem 0;">
+          <div class="form-line">Dated:</div>
+          <div class="form-line">
+            <div class="form-line-child underline" style="min-width:8rem"></div>
+          </div>
+          <div class="form-line" style="margin-left:2rem">Signed/acknowledged:</div>
+          <div class="form-line">
+            <div class="form-line-child underline" style="min-width:14rem"></div>
+            <div class="form-line-child hint">Disputant</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="float:right; margin-top:0.5rem;">
+      <!-- <b>Generated from "Choose how to attend you Traffic Hearing" on {{datetime.now().strftime("%d%d-%m%m%m-%y%y%y%y")}}</b> -->
+      <b>Generated from "Choose how to attend you Traffic Hearing" on DD-MMM-YYYY</b>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
