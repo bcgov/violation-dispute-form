@@ -14,11 +14,11 @@
           white-space: pre;
           font-size: 6pt;
         }*/
-        /*@bottom-right {
+        @bottom-right {
             counter-increment: page;
-            content:counter(page);
+            content:'Generated from "Choose how to attend you Traffic Hearing" on DD-MMM-YYYY';
             font-size: 8pt;
-        }*/
+        }
 
     }
 
@@ -49,7 +49,7 @@
     .container{
         background-color: #FFFFFF;
         color: #000000;
-        font-size: .85em;
+        font-size: .9em;
         margin:0;
         font-family: BCSans, Helvetica, Arial, sans-serif;
         line-height: 1.05;
@@ -265,7 +265,7 @@
       }
       .form-line-child.hint {
         position: absolute;
-        font-size: 7px;
+        font-size: 8px;
         margin-top: 0.1rem;
         margin-left: 0.2rem;
       }
@@ -422,7 +422,7 @@
             </tr>
             <tr class="brdr-btm">
               <td>
-                <label>VIOLATE DATE</label>
+                <label>VIOLATION DATE</label>
                 <div class="content">&nbsp;</div>
               </td>
             </tr>
@@ -455,7 +455,7 @@
 
     <div class="v-spacer-4"></div>
 
-    <div class="bordered" style="padding:1em">
+    <div class="bordered" style="padding:1em 1em 1.5em 1em; margin-top:1rem;">
       <h4 style="margin:3px 0">CONTACT INFORMATION:</h4>
       <!-- <i style="margin-left:1em">Please complete all fields</i> -->
 
@@ -522,10 +522,9 @@
     </div>
 
 
-    <div class="bordered" style="padding:1em; margin-top:1em;">
+    <div class="bordered" style="padding:1em 1em 1.5em 1em; margin-top:1em;">
       <h4 style="margin:3px 0">ATTENDANCE CHOICE:</h4>
-      <div style="margin-bottom:0.5em; margin-top:0.8em;">This is to advise the Provincial Court that I prefer to attend my traffic court hearing for the
-above noted Violation Ticket:</div>
+      <div style="margin-bottom:0.5em; margin-top:0.8em; line-height:1.5em;">This is to advise the Provincial Court that I prefer to attend my traffic court hearing for the above noted Violation Ticket:</div>
       <!-- <i style="margin-left:1em">Choose <u>one</u> of the following options</i> -->
 
       <div style="margin:0.5em 0 2em 2em; font-size:12px;">
@@ -555,7 +554,7 @@ above noted Violation Ticket:</div>
     </div>
 
 
-    <div class="bordered" style="padding:1em; margin-top:1em;">
+    <div class="bordered" style="padding:1em 1em 1.5em 1em; margin-top:1em;">
       <h4 style="margin:3px 0">SCHEDULING INFORMATION:</h4>
       <div style="margin-bottom:0.5em; margin-top:0.8em;">To assist with scheduling the matter for hearing and to determine if matter can be heard remotely.</div>
       <div style="margin:1.5em">
@@ -590,7 +589,7 @@ above noted Violation Ticket:</div>
         </div>
         <div class="form-line">I am disputing the allegation and will be calling witnesses (people other then myself)</div>
         <div class="form-line">
-          <div class="form-line-child underline" style="width:8rem"></div>
+          <div class="form-line-child underline" style="width:6rem"></div>
           <div class="form-line-child hint">Number of witnesses</div>
         </div>
       </div>
@@ -612,10 +611,10 @@ above noted Violation Ticket:</div>
 
     </div>
 
-    <div class="bordered" style="padding:1em; margin-top:1em;">
+    <div class="bordered" style="padding:1em 1em 1.5em 1em; margin-top:1em;">
       <div>
         <b>For a remote hearing, complete this section:</b>
-        <div style="margin-top:0.8em;">
+        <div style="margin-top:0.8em; line-height:1.5em;">
           By submitting this form, I am preferring to attend my traffic ticket hearing remotely. I understand that the Court may not be able to schedule my hearing remotely, and that I will be informed if the hearing must proceed in- person. I understand that if the hearing will be held by telephone or video, the trial will be scheduled on a weekday during regular business hours.
         </div>
 
@@ -633,10 +632,10 @@ above noted Violation Ticket:</div>
       </div>
     </div>
 
-    <div class="bordered" style="padding:1em; margin-top:1em;">
+    <div class="bordered" style="padding:1em 1em 1.5em 1em; margin-top:1em;">
       <div>
         <b>For an in-person hearing, complete this section:</b>
-        <div style="margin-top:0.8em;">
+        <div style="margin-top:0.8em; line-height:1.5em;">
           By submitting this form, I am choosing to attend my traffic ticket hearing in-person. I understand that the Court will schedule my hearing in-person and that the trial may be scheduled in the evening or on a Saturday.
         </div>
 
@@ -652,11 +651,6 @@ above noted Violation Ticket:</div>
           </div>
         </div>
       </div>
-    </div>
-
-    <div style="float:right; margin-top:0.5rem;">
-      <!-- <b>Generated from "Choose how to attend you Traffic Hearing" on {{datetime.now().strftime("%d%d-%m%m%m-%y%y%y%y")}}</b> -->
-      <b>Generated from "Choose how to attend you Traffic Hearing" on DD-MMM-YYYY</b>
     </div>
 
   </div>
