@@ -28,9 +28,7 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": [
-              "src/assets/js/zendesk.js"
-            ]
+            "scripts": [ ]
           },
           "configurations": {
             "production": {
@@ -77,9 +75,7 @@
             "karmaConfig": "./karma.conf.js",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
-            "scripts": [
-              "src/assets/js/zendesk.js"
-            ],
+            "scripts": [],
             "styles": [
               "src/styles.scss"
             ],
