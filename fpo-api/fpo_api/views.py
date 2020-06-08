@@ -8,9 +8,9 @@ from api.models.User import User
 
 from api.pdf import render as render_pdf
 
-# # For importing our custom font 'BCSans'.
-# from weasyprint import HTML, CSS
-# from weasyprint.fonts import FontConfiguration
+# For importing our custom font 'BCSans'.
+from weasyprint import HTML, CSS
+from weasyprint.fonts import FontConfiguration
 
 # For testing and development
 from django.views.decorators.csrf import csrf_exempt
