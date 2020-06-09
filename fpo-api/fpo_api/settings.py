@@ -75,7 +75,7 @@ ROOT_URLCONF = "fpo_api.urls"
 CORS_URLS_REGEX = r"^/api/v1/.*$"
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_HEADERS = default_headers + ("x-demo-login",)
+CORS_ALLOW_HEADERS = default_headers + ("x-demo-login", "x-captcha-response")
 
 TEMPLATES = [
     {
@@ -237,3 +237,6 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.SessionAuthentication",
     )
 }
+
+RECAPTCHA_SITE_KEY = os.getenv("RECAPTCHA_SITE_KEY", "")
+RECAPTCHA_SECRET_KEY = os.getenv("RECAPTCHA_SECRET_KEY", "")

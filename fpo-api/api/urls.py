@@ -32,7 +32,7 @@ from . import views
 
 # custom views
 
-from . import survey
+# from . import survey
 
 
 class SwaggerSchemaView(APIView):
@@ -50,11 +50,9 @@ class SwaggerSchemaView(APIView):
 urlpatterns = [
     # Swagger documentation
     # url(r'^$', SwaggerSchemaView.as_view()),
-    path("accept-terms/", views.AcceptTermsView.as_view()),
-    path("survey-result/<collection>/<type>", survey.SurveyResultView.as_view()),
-    path("survey-result/<collection>/<type>/<id>", survey.SurveyResultView.as_view()),
-    path("survey-print/<collection>/<type>", views.SurveyPdfView.as_view()),
-    path("user-info/", views.UserStatusView.as_view()),
+    # path("accept-terms/", views.AcceptTermsView.as_view()),
+    # path("user-info/", views.UserStatusView.as_view()),
+    path("submit-form/", views.SubmitFormView.as_view())
 ]
 
 if settings.OIDC_ENABLED:
