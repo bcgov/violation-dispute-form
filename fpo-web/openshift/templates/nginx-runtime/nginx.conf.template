@@ -77,12 +77,12 @@ http {
 
         # Forward URL if not using path prefix
 
-        if ($request_uri !~ "^/virtual-hearing-form/|^/nginx_status|^/api/") {
-            return 301 $proxy_scheme://$host/virtual-hearing-form$request_uri;
+        if ($request_uri !~ "^/choose-how-to-attend-your-traffic-hearing/|^/nginx_status|^/api/") {
+            return 301 $proxy_scheme://$host/choose-how-to-attend-your-traffic-hearing$request_uri;
         }
 
         # Remove path prefix when handling files
-        rewrite ^/virtual-hearing-form/(.*)$ /$1 last;
+        rewrite ^/choose-how-to-attend-your-traffic-hearing/(.*)$ /$1 last;
 
         %API_CONFIG_SECTION%
 
