@@ -20,7 +20,7 @@
 from datetime import datetime
 import json
 
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 from django.middleware.csrf import get_token
 from django.template.loader import get_template
 
@@ -29,7 +29,12 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework import generics, permissions
 
-from api.auth import get_login_uri, get_logout_uri
+from api.auth import (
+    get_login_uri,
+    get_logout_uri,
+    grecaptcha_verify,
+    grecaptcha_site_key,
+)
 from api.models import User
 from api.pdf import render as render_pdf
 
@@ -99,3 +104,16 @@ class SurveyPdfView(generics.GenericAPIView):
         response.write(pdf_content)
 
         return response
+
+
+class SubmitFormView(APIView):
+    def get(self, request: Request, name=None):
+        key = grecaptcha_site_key()
+        return Response({"key": key})
+
+    def post(self, request: Request, name=None):
+        check_captcha = grecaptcha_verify(request)
+        if not check_captcha["status"]:
+            return HttpResponseForbidden(text=check_captcha["message"])
+        # FIXME save form results here
+        return Response({"ok": True})

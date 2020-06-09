@@ -15,8 +15,19 @@
 <div class="survey-container contentcontainer codecontainer">
   <div id="surveyElement"></div>
 </div>
-<re-captcha (resolved)="resolved($event)" siteKey="6LcHNwEVAAAAAJLoR4-yLY56cLxbCZ2FTbh2sKKL"></re-captcha> 
-<button class="btn btn-success btn-lg" id="completeBtn" (click)="complete()" disabled>
-      <span class="fa fa-check-circle btn-icon-left"></span> Complete
+
+<div *ngIf="!loading">
+  <re-captcha
+    *ngIf="recaptchaKey"
+    (resolved)="resolvedCaptcha($event)"
+    [siteKey]="recaptchaKey"
+  ></re-captcha>
+  <button
+    class="btn btn-success btn-lg mt-4"
+    id="completeBtn"
+    (click)="complete()"
+    [disabled]="!canComplete"
+  >
+    <span class="fa fa-check-circle btn-icon-left"></span> Complete
   </button>
- 
+</div>
