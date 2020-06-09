@@ -62,6 +62,8 @@ services:
       - DJANGO_LOG_LEVEL=${DJANGO_LOG_LEVEL}
       - FPO_DB_SERVICE_HOST=${DATABASE_SERVICE_NAME}
       - FPO_DB_SERVICE_PORT=5432
+      - RECAPTCHA_SITE_KEY=${RECAPTCHA_SITE_KEY}
+      - RECAPTCHA_SECRET_KEY=${RECAPTCHA_SECRET_KEY}
     volumes:
       - ../fpo-api/api:/opt/app-root/src/api
     networks:
