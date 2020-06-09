@@ -27,6 +27,10 @@ export class GeneralDataService {
   }
 
   getApiUrl(action: string): string {
+    if (location.host === "localhost:8080") {
+      // for local debugging
+      return "http://localhost:8081/api/v1/" + action;
+    }
     return this.getBaseHref() + "api/v1/" + action;
   }
 
@@ -42,7 +46,7 @@ export class GeneralDataService {
         accepted_terms_at: null, // "2018-09-14T05:46:24.165233Z",
         demo_user: true,
         surveys: [],
-        user_id: userKey
+        user_id: userKey,
       };
       sessionStorage.setItem(userKey, JSON.stringify(user));
     }
@@ -92,7 +96,7 @@ export class GeneralDataService {
 
   loadUserInfo(demo_login?: string): Promise<UserInfo | null> {
     if (this.browserOnly) {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         try {
           const user = this.getBrowserUser();
           this.returnUserInfo(user);
@@ -110,11 +114,11 @@ export class GeneralDataService {
       }
       const url = this.getApiUrl("user-info/");
       return this.loadJson(url, { t: new Date().getTime() }, headers)
-        .then(result => {
+        .then((result) => {
           this.returnUserInfo(result);
           return result;
         })
-        .catch(error => {
+        .catch((error) => {
           console.log("Error loading user information:", error);
           this.returnUserInfo(null);
           return Promise.reject(error);
@@ -174,7 +178,7 @@ export class GeneralDataService {
       return this.http
         .post(url, null, { withCredentials: true })
         .toPromise()
-        .then(result => this.loadUserInfo());
+        .then((result) => this.loadUserInfo());
     }
   }
 
@@ -187,10 +191,10 @@ export class GeneralDataService {
     if (!name) return Promise.reject("Survey type not defined");
     const localKey = "survey-" + collection + "-" + name;
     if (this.browserOnly) {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         if (key) sessionStorage.removeItem(localKey + "-key");
         let index = this.getLocalSurveyCache(collection, name, "index", true);
-        index = index ? index.result.filter(x => x.key !== key) : [];
+        index = index ? index.result.filter((x) => x.key !== key) : [];
         sessionStorage.setItem(localKey + "-index", JSON.stringify(index));
         resolve(null);
       });
@@ -233,7 +237,7 @@ export class GeneralDataService {
         encodeURIComponent(name)
     );
     return this.loadJson(url, { t: new Date().getTime() })
-      .then(result =>
+      .then((result) =>
         this.returnSurveyResult(
           collection,
           name,
@@ -243,7 +247,7 @@ export class GeneralDataService {
           useLocal
         )
       )
-      .catch(err =>
+      .catch((err) =>
         this.returnSurveyResult(collection, name, "index", null, err, useLocal)
       );
   }
@@ -256,7 +260,7 @@ export class GeneralDataService {
   ) {
     if (!name) return Promise.reject("Survey type not defined");
     if (this.browserOnly) {
-      return this.loadUserInfo().then(info => {
+      return this.loadUserInfo().then((info) => {
         if (!info.accepted_terms_at && key !== "index") {
           return { accept_terms: true };
         }
@@ -275,10 +279,10 @@ export class GeneralDataService {
         encodeURIComponent(key)
     );
     return this.loadJson(url, { t: new Date().getTime() })
-      .then(result =>
+      .then((result) =>
         this.returnSurveyResult(collection, name, key, result, null, useLocal)
       )
-      .catch(err =>
+      .catch((err) =>
         this.returnSurveyResult(collection, name, key, null, err, useLocal)
       );
   }
@@ -320,7 +324,7 @@ export class GeneralDataService {
       if (!key) key = "" + Math.round(Math.random() * 10000000);
       sessionStorage.setItem(localKey + "-" + key, JSON.stringify(data));
       let index = this.getLocalSurveyCache(collection, name, "index", true);
-      index = index ? index.result.filter(x => x.key !== key) : [];
+      index = index ? index.result.filter((x) => x.key !== key) : [];
       const idxCopy = Object.assign({}, data);
       delete idxCopy["data"];
       idxCopy["key"] = key;
@@ -362,7 +366,7 @@ export class GeneralDataService {
         local: true,
         key: key,
         status: "ok",
-        result: data
+        result: data,
       });
     }
     let url = this.getApiUrl(
@@ -395,7 +399,7 @@ export class GeneralDataService {
             local: true,
             key: null,
             status: "ok",
-            result: data
+            result: data,
           });
         }
         return Promise.reject(error.message || error);
