@@ -15,12 +15,8 @@
 <div class="survey-container contentcontainer codecontainer">
   <div id="surveyElement"></div>
 </div>
-<div class="survey-nav" >
-    <button
-      class="btn btn-success btn-lg"
-      (click)="complete()"
-    >
+<re-captcha (resolved)="resolved($event)" siteKey="6LcHNwEVAAAAAJLoR4-yLY56cLxbCZ2FTbh2sKKL"></re-captcha> 
+<button class="btn btn-success btn-lg" id="completeBtn" (click)="complete()" disabled>
       <span class="fa fa-check-circle btn-icon-left"></span> Complete
-    </button>
-  </div>
-
+  </button>
+ 

@@ -7,6 +7,8 @@ import { GeneralDataService } from "../general-data.service";
 import { GlossaryService } from "../glossary/glossary.service";
 import { InsertService } from "../insert/insert.service";
 import { addQuestionTypes } from "./question-types";
+import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
+import { RecaptchaService } from './recaptcha.service';
 
 @Component({
   selector: "app-survey-view",
@@ -24,6 +26,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
   @Input() initialMode: string;
   public cacheLoadTime: any;
   public cacheKey: string;
+  public recaptchaResponse: string;
   public surveyCompleted = false;
   public surveyMode = "edit";
   public surveyModel: Survey.SurveyModel;
@@ -43,6 +46,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
 
   constructor(
     private dataService: GeneralDataService,
+    private recaptchaService: RecaptchaService,
     private insertService: InsertService,
     private glossaryService: GlossaryService,
     private _router: Router,
@@ -231,10 +235,31 @@ export class SurveyComponent implements OnInit, OnDestroy {
     this.surveyModel.nextPage();
   }
 
+  //getting captchaResponse and enabling Complete button when captchaResponse is not blank
+ async resolved(captchaResponse: string) {
+    this.recaptchaResponse = captchaResponse;
+    console.log(this.recaptchaResponse );
+      if (this.recaptchaResponse != ''){
+        var completeBtn = document.querySelector('#completeBtn');
+        completeBtn.removeAttribute('disabled');
+     }
+    await this.sendTokenToBackend(this.recaptchaResponse);
+  }
+
   complete() {
     this.surveyModel.completeLastPage();
   }
 
+  sendTokenToBackend(tok){
+    //calling the Recaptcha service and passing the token to the service
+    this.recaptchaService.sendToken(tok)
+    // .subscribe(
+    //   data => { console.log(data) },
+    //   err => {console.log(err) },
+    //   () => {}
+    // );
+  }
+  
   resetCache() {
     if (this.surveyModel) {
       this.prevPageIndex = 0;

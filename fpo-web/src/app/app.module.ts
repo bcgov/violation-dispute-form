@@ -24,6 +24,8 @@ import { StaticComponent } from "./static/static.component";
 import { SurveyComponent } from "./survey/survey.component";
 import { SurveyPrimaryComponent } from "./survey/primary.component";
 import { SurveyEditorComponent } from "./survey/editor.component";
+import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
+import { RecaptchaService } from './survey/recaptcha.service';
 
 @NgModule({
   declarations: [
@@ -39,6 +41,8 @@ import { SurveyEditorComponent } from "./survey/editor.component";
   ],
   imports: [
     BrowserModule,
+    RecaptchaModule,
+    RecaptchaFormsModule,
     FormsModule,
     HttpClientModule,
     HttpClientXsrfModule.withOptions({
@@ -52,6 +56,7 @@ import { SurveyEditorComponent } from "./survey/editor.component";
   providers: [
     GeneralDataService,
     GlossaryService,
+    RecaptchaService,
     InsertService,
     { provide: HTTP_INTERCEPTORS, useClass: HttpCsrfInterceptor, multi: true }
   ],
