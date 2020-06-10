@@ -201,7 +201,7 @@ configureEnvironment () {
   export API_URL=${API_URL-http://fpo-api:8080/api/v1/}
   export IpFilterRules='#allow all; deny all;'
   export RealIpFrom='127.0.0.0/16'
-  export WEB_BASE_HREF=${WEB_BASE_HREF:-/choose-how-to-attend-your-traffic-hearing}
+  export WEB_BASE_HREF=${WEB_BASE_HREF:-/choose-how-to-attend-your-traffic-hearing/}
 }
 
 getStartupParams() {
