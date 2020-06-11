@@ -1,4 +1,5 @@
 # coding: utf-8
+# flake8: noqa
 
 """
     REST API Documentation for Family Protection Order
@@ -19,5 +20,6 @@
     limitations under the License.
 """
 
+from .PreparedPdf import PreparedPdf
+from .TicketResponse import TicketResponse
 from .User import User
-from .SurveyResult import SurveyResult
