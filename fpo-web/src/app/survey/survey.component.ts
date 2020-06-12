@@ -7,11 +7,14 @@ import { GeneralDataService } from "../general-data.service";
 import { GlossaryService } from "../glossary/glossary.service";
 import { InsertService } from "../insert/insert.service";
 import { addQuestionTypes } from "./question-types";
+import { RecaptchaModule, RecaptchaFormsModule } from "ng-recaptcha";
+import { RecaptchaService } from "./recaptcha.service";
+import { HttpClient } from "@angular/common/http";
 
 @Component({
   selector: "app-survey-view",
   templateUrl: "./survey.component.html",
-  styleUrls: ["./survey.component.scss"]
+  styleUrls: ["./survey.component.scss"],
 })
 export class SurveyComponent implements OnInit, OnDestroy {
   private _active = false;
@@ -24,6 +27,8 @@ export class SurveyComponent implements OnInit, OnDestroy {
   @Input() initialMode: string;
   public cacheLoadTime: any;
   public cacheKey: string;
+  public recaptchaKey: string;
+  public recaptchaResponse: string;
   public surveyCompleted = false;
   public surveyMode = "edit";
   public surveyModel: Survey.SurveyModel;
@@ -43,6 +48,8 @@ export class SurveyComponent implements OnInit, OnDestroy {
 
   constructor(
     private dataService: GeneralDataService,
+    private http: HttpClient,
+    private recaptchaService: RecaptchaService,
     private insertService: InsertService,
     private glossaryService: GlossaryService,
     private _router: Router,
@@ -55,13 +62,14 @@ export class SurveyComponent implements OnInit, OnDestroy {
     }
     this.initSurvey();
     this.glossaryService.onLoaded(() => {
-      this._route.params.subscribe(params => {
+      this._route.params.subscribe((params) => {
         this.cacheKey = params.id || null;
       });
       this.loadSurvey(true);
     });
     this._active = true;
-    this.autoSave(true);
+    // FIXME - disabled: this.autoSave(true);
+    this.fetchRecaptchaKey();
   }
 
   initSurvey() {
@@ -117,7 +125,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
         this.renderSurvey();
       }
     } else if (this.surveyPath) {
-      this.dataService.loadJson(this.surveyPath).then(data => {
+      this.dataService.loadJson(this.surveyPath).then((data) => {
         this.surveyJson = data;
       }); // .catch( (err) => ...)
     }
@@ -133,7 +141,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
     // Create showdown markdown converter
     if (this.useMarkdown) {
       this.markdownConverter = new showdown.Converter({
-        noHeaderId: true
+        noHeaderId: true,
       });
       surveyModel.onTextMarkdown.add((survey, options) => {
         let str = this.markdownConverter.makeHtml(options.text);
@@ -165,10 +173,12 @@ export class SurveyComponent implements OnInit, OnDestroy {
 
     surveyModel.onComplete.add((sender, options) => {
       this.surveyCompleted = true;
-      this.surveyMode = "print";
+      /*this.surveyMode = "print";
       if (!this.disableCache) this.saveCache();
       if (this.onComplete) this.onComplete(sender.data);
-      this.onPageUpdate.next(sender);
+      this.onPageUpdate.next(sender);*/
+
+      this.submitForm(sender.data);
     });
     surveyModel.onCurrentPageChanged.add((sender, options) => {
       this.onPageUpdate.next(sender);
@@ -229,6 +239,48 @@ export class SurveyComponent implements OnInit, OnDestroy {
 
   nextPage() {
     this.surveyModel.nextPage();
+  }
+
+  get recaptchaRequired(): boolean {
+    return !!this.recaptchaKey;
+  }
+
+  get canComplete(): boolean {
+    // FIXME include status of survey completion
+    return !this.recaptchaRequired || !!this.recaptchaResponse;
+  }
+
+  fetchRecaptchaKey() {
+    const url = this.dataService.getApiUrl("submit-form/");
+    this.dataService.loadJson(url).then((rs) => {
+      console.log(rs);
+      if (rs && "key" in rs) {
+        this.recaptchaKey = (rs as any).key;
+      }
+    });
+  }
+
+  // getting captchaResponse and enabling Complete button when captchaResponse is not blank
+  resolvedCaptcha(captchaResponse: string) {
+    this.recaptchaResponse = captchaResponse;
+  }
+
+  submitForm(data: any) {
+    const url = this.dataService.getApiUrl("submit-form/");
+    const opts = this.recaptchaResponse
+      ? { headers: { "X-CAPTCHA-RESPONSE": this.recaptchaResponse } }
+      : undefined;
+    this.http
+      .post(url, data, { responseType: "json", ...opts })
+      .toPromise()
+      .then(
+        (rs) => {
+          console.log("submitted form successfully", rs);
+        },
+        (err) => {
+          console.log("form submission failed", err);
+        }
+      );
   }
 
   complete() {
@@ -293,7 +345,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
       time: new Date().getTime(),
       data: this.surveyModel.data,
       page: this.surveyModel.currentPageNo,
-      completed: this.surveyCompleted
+      completed: this.surveyCompleted,
     };
     const cmpCache = JSON.stringify(cache.data);
     if (auto && cmpCache === this._lastSavedData) {
@@ -309,7 +361,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
         this.useLocalCache
       )
       .then(this.doneSaveCache.bind(this))
-      .catch(err => this.doneSaveCache(null, err));
+      .catch((err) => this.doneSaveCache(null, err));
   }
 
   doneSaveCache(response, err?) {

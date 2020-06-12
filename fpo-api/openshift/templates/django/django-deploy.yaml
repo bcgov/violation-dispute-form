@@ -75,6 +75,20 @@ objects:
       selector:
         name: ${NAME}
 
+  - kind: Secret
+    apiVersion: v1
+    metadata:
+      name: ${NAME}
+      labels:
+        name: ${NAME}
+        app: ${APP_NAME}
+        role: ${ROLE}
+        env: ${TAG_NAME}
+    stringData:
+      recaptcha-site-key: ${RECAPTCHA_SITE_KEY}
+      recaptcha-secret-key: ${RECAPTCHA_SECRET_KEY}
+    type: Opaque
+
   - kind: DeploymentConfig
     apiVersion: v1
     metadata:
@@ -155,6 +169,18 @@ objects:
                   value: "${DJANGO_DEBUG}"
                 - name: PDF_SERVICE_URL
                   value: ${PDF_SERVICE_URL}
+
+                - name: RECAPTCHA_SITE_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${NAME}
+                      key: recaptcha-site-key
+                - name: RECAPTCHA_SECRET_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${NAME}
+                      key: recaptcha-secret-key
+
               resources:
                 requests:
                   cpu: "${CPU_REQUEST}"
@@ -229,6 +255,17 @@ parameters:
     description: The name associated to the database deployment resources.  In particular, this is used to wrie up the credentials associated to the database.
     required: true
     value: postgresql
+
+  - name: RECAPTCHA_SITE_KEY
+    displayName: reCAPTCHA Site Key
+    description: reCAPTCHA Site Key.
+    required: false
+    value:
+  - name: RECAPTCHA_SECRET_KEY
+    displayName: reCAPTCHA Secret Key
+    description: reCAPTCHA Secret Key.
+    required: false
+    value:
 
   - name: CPU_REQUEST
     displayName: Resources CPU Request

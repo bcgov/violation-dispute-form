@@ -16,3 +16,15 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 """
+
+from rest_framework import serializers
+
+from api.models import TicketResponse
+
+
+class TicketResponseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TicketResponse
+        # if the size of the response is becoming a problem
+        # exclude = ["result"]
+        fields = "__all__"

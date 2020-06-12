@@ -5,10 +5,10 @@
   "scripts": {
     "ng": "ng",
     "start": "node --trace-warnings ./node_modules/\\@angular/cli/bin/ng serve --host 0.0.0.0 --port 8080",
-    "build": "ng build --prod --base-href=/virtual-hearing-form/",
+    "build": "ng build --prod --base-href=/choose-how-to-attend-your-traffic-hearing/",
     "test": "ng test",
     "lint": "ng lint",
-    "postinstall": "ng build --prod --base-href=/virtual-hearing-form/"
+    "postinstall": "ng build --prod --base-href=/choose-how-to-attend-your-traffic-hearing/"
   },
   "private": true,
   "dependencies": {
@@ -26,6 +26,7 @@
     "ace-builds": "~1.2.2",
     "bootstrap": "~4.3.1",
     "core-js": "^3.6.4",
+    "ng-recaptcha": "^5.0.0",
     "node-sass": "^4.13.1",
     "rxjs": "^6.5.4",
     "showdown": "^1.9.1",

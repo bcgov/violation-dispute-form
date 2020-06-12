@@ -20,18 +20,26 @@
 from datetime import datetime
 import json
 
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.middleware.csrf import get_token
 from django.template.loader import get_template
 
 from rest_framework.views import APIView
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework import generics, permissions
+from rest_framework import filters, generics, permissions
 
-from api.auth import get_login_uri, get_logout_uri
-from api.models import User
+from django_filters.rest_framework import DjangoFilterBackend
+
+from api.auth import (
+    get_login_uri,
+    get_logout_uri,
+    grecaptcha_verify,
+    grecaptcha_site_key,
+)
+from api.models import TicketResponse, User
 from api.pdf import render as render_pdf
+from api.serializers import TicketResponseSerializer
 
 
 class AcceptTermsView(APIView):
@@ -99,3 +107,107 @@ class SurveyPdfView(generics.GenericAPIView):
         response.write(pdf_content)
 
         return response
+
+
+class SubmitTicketResponseView(APIView):
+    def get(self, request: Request, name=None):
+        key = grecaptcha_site_key()
+        return Response({"key": key})
+
+    def post(self, request: Request, name=None):
+        check_captcha = grecaptcha_verify(request)
+        if not check_captcha["status"]:
+            return HttpResponseForbidden(text=check_captcha["message"])
+
+        result = request.data
+        disputant = result.get("disputantName", {})
+        # address = result.get("disputantAddress", {})
+
+        response = TicketResponse(
+            first_name=disputant.get("first"),
+            middle_name=disputant.get("middle"),
+            last_name=disputant.get("last"),
+            email=result.get("disputantEmail"),
+            ticket_number=result.get("ticketNumber"),
+            ticket_date=result.get("ticketDate"),
+            hearing_location=result.get("hearingLocation"),
+            hearing_attendance=result.get("hearingAttendance"),
+            dispute_type=result.get("disputeType"),
+        )
+
+        check_required = [
+            "first_name",
+            "last_name",
+            "email",
+            "ticket_number",
+            "ticket_date",
+            "hearing_location",
+            "hearing_attendance",
+            "dispute_type",
+        ]
+        for fname in check_required:
+            if not getattr(response, fname):
+                return HttpResponseBadRequest()
+        # check terms acceptance
+        if not result.get("disputantAcknowledgement"):
+            return HttpResponseBadRequest()
+
+        response.save()
+
+        # {
+        #     "disputantName": {"first": "first", "middle": "middle", "last": "last"},
+        #     "disputantAddress": {
+        #         "street": "addr",
+        #         "city": "",
+        #         "state": "BC",
+        #         "country": "CAN",
+        #         "postcode": "",
+        #     },
+        #     "disputantPhoneNumber": "phone",
+        #     "disputantPhoneType": ["item2"],
+        #     "disputantEmail": "email",
+        #     "ticketNumber": "ticket",
+        #     "ticketDate": "2018-04-04",
+        #     "hearingLocation": "item2",
+        #     "disputeType": "allegation",
+        #     "hearingAttendance": "remotely",
+        #     "hearingAttendancePhone": "n",
+        #     "hearingAttendanceVideo": "y",
+        #     "french": "n",
+        #     "interpreter": "n",
+        #     "witnesses": "n",
+        #     "disputantAcknowledgement": ["item1"],
+        # }
+
+        return Response({"id": response.pk})
+
+
+class TicketResponseListView(generics.ListAPIView):
+    queryset = TicketResponse.objects.all()
+    serializer_class = TicketResponseSerializer
+    filter_backends = [
+        DjangoFilterBackend,
+        filters.SearchFilter,
+        filters.OrderingFilter,
+    ]
+    filterset_fields = [
+        "hearing_location",
+        "hearing_attendance",
+        "dispute_type",
+        "printed_by",
+        "ticket_number",
+    ]
+    search_fields = ["first_name", "middle_name", "last_name", "ticket_number"]
+    ordering_fields = [
+        "created_date",
+        "archived_date",
+        "printed_date",
+        "ticket_date",
+        "deadline_date",
+        "hearing_location",
+        "ticket_number",
+        "dispute_type",
+        "last_name",
+        "first_name",
+    ]
+    ordering = ["hearing_location", "created_date", "last_name"]

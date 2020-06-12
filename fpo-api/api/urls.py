@@ -19,42 +19,35 @@
 
 from django.urls import include, path
 from django.conf import settings
-from rest_framework.permissions import AllowAny
-from rest_framework.response import Response
-from rest_framework.schemas import SchemaGenerator
-from rest_framework.views import APIView
+
+# from rest_framework.permissions import AllowAny
+# from rest_framework.response import Response
+# from rest_framework.schemas import SchemaGenerator
+# from rest_framework.views import APIView
+# from rest_framework_swagger import renderers
 
 # from rest_framework.urlpatterns import format_suffix_patterns
-from rest_framework_swagger import renderers
 
-# generated views
-from . import views
-
-# custom views
-
-from . import survey
+from .views import SubmitTicketResponseView, TicketResponseListView
 
 
-class SwaggerSchemaView(APIView):
-    permission_classes = [AllowAny]
-    renderer_classes = [renderers.OpenAPIRenderer, renderers.SwaggerUIRenderer]
-    _ignore_model_permissions = True
-    exclude_from_schema = True
+# class SwaggerSchemaView(APIView):
+#     permission_classes = [AllowAny]
+#     renderer_classes = [renderers.OpenAPIRenderer, renderers.SwaggerUIRenderer]
+#     _ignore_model_permissions = True
+#     exclude_from_schema = True
 
-    def get(self, request):
-        generator = SchemaGenerator()
-        schema = generator.get_schema(request=request)
-        return Response(schema)
+#     def get(self, request):
+#         generator = SchemaGenerator()
+#         schema = generator.get_schema(request=request)
+#         return Response(schema)
 
 
 urlpatterns = [
     # Swagger documentation
     # url(r'^$', SwaggerSchemaView.as_view()),
-    path("accept-terms/", views.AcceptTermsView.as_view()),
-    path("survey-result/<collection>/<type>", survey.SurveyResultView.as_view()),
-    path("survey-result/<collection>/<type>/<id>", survey.SurveyResultView.as_view()),
-    path("survey-print/<collection>/<type>", views.SurveyPdfView.as_view()),
-    path("user-info/", views.UserStatusView.as_view()),
+    path("submit-form/", SubmitTicketResponseView.as_view()),
+    path("responses/", TicketResponseListView.as_view()),
 ]
 
 if settings.OIDC_ENABLED:

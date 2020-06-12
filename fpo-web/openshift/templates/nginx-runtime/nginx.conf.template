@@ -24,7 +24,8 @@ http {
     # Use a w3c standard log format
     log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
                       '$status $body_bytes_sent "$http_referer" '
-                      '"$http_user_agent" "$http_x_forwarded_for"';
+                      '"$http_user_agent" "$http_x_forwarded_for" '
+                      'rt=$request_time urt=$upstream_response_time $pipe';
 
     access_log  /var/log/nginx/access.log  main if=$loggable;
 
@@ -75,14 +76,7 @@ http {
         add_header X-XSS-Protection 1;
         add_header X-Frame-Options DENY;
 
-        # Forward URL if not using path prefix
-
-        if ($request_uri !~ "^/virtual-hearing-form/|^/nginx_status|^/api/") {
-            return 301 $proxy_scheme://$host/virtual-hearing-form$request_uri;
-        }
-
-        # Remove path prefix when handling files
-        rewrite ^/virtual-hearing-form/(.*)$ /$1 last;
+        %REMOVE_BASE_HREF%
 
         %API_CONFIG_SECTION%
 
