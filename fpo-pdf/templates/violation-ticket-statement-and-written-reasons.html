@@ -18,7 +18,7 @@
             counter-increment: page;
             content:'Generated from "Choose how to attend your Traffic Hearing" on DD-MMM-YYYY';
             font-size: 8pt;
-        }
+        };
 
     }
     @page label{font-size: 9pt;}
@@ -136,6 +136,12 @@
         height: 6em;
         display: inline-block;
     }
+    .repeat-header{
+      position: fixed;
+      display: inline-block;
+    }
+
+
     /*.box-header{
         position: relative;
         border: 0.5px solid #000;
@@ -457,7 +463,7 @@
         </div>
       </div>
 
-      <div style="margin-top:1rem;">
+      <div style="margin-top:1rem; font-size:12px;">
         <b>Note:</b> If you do not notify the Court of a change of address, you will <b>not</b> be notified of the order of the Justice.
       </div>
 
@@ -496,8 +502,8 @@
 
     <div class="reg-box">
       <div>
-        <b>Written Reasons for a Reduction in the Ticketed Amount(s) </b>(Must not contain a defence of the allegation):
-        <div class="v-spacer-4"></div>
+        <span style="display:inline-block;"><b>Written Reasons for a Reduction in the Ticketed Amount(s) </b></span><span style="display:inline-block; font-size:10px;">(Must not contain a defence of the allegation)</span>:
+        <div class="v-spacer-5"></div>
       </div>
     </div>
 
@@ -507,8 +513,8 @@
 
     <div class="reg-box">
       <div>
-        <b>Written Reasons for Time to Pay the Ticketed Amounts(s) </b>(Must not contain a defence of the allegation):
-        <div class="v-spacer-4"></div>
+        <span style="display:inline-block;"><b>Written Reasons for Time to Pay the Ticketed Amounts(s) </b></span><span style="display:inline-block; font-size:10px;">(Must not contain a defence of the allegation)</span>:
+        <div class="v-spacer-5"></div>
       </div>
     </div>
 
