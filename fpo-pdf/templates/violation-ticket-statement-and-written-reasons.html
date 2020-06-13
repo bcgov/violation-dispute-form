@@ -148,6 +148,10 @@
     }
     .repeat-header{
       position: fixed;
+      top: 0;
+      left: 0;
+      width: 85%;
+      height: 6em;
       display: inline-block;
     }
 
@@ -374,7 +378,6 @@
 
     <!-- form heading -->
     <div class="no-repeat-header">
-
       <table width="100%; margin:0;">
         <tbody>
         <tr>
@@ -393,13 +396,15 @@
       <div style="width: 24rem; line-height:0.85rem;">Section 15.4(1) of the Offence Act requires a form to be used if a Disputant wants to request a reduction in the Ticketed Amount and/or request time to pay the Ticket Amount, and the Disputant does NOT want to appear in person for hearing of the Dispute.</div>
     </div><!-- /form heading -->
 
-    <!-- correct positioning of repeated block -->
+    <!-- correct positioning of header block -->
     <div class="container-head">
       <div style="
         position: absolute;
-        top: 10px;
+        background-color: white;
+        top: -40px;
         right: 0;
         width: 13rem;
+        z-index:1000;
         ">
         <div class="box-header bordered">
           <table width="100%;">
@@ -416,7 +421,7 @@
                 <div class="content">&nbsp;</div>
               </td>
             </tr>
-            <trstyle="border-top: 0" style="height:2.2rem;">
+            <tr style="border-top: 0" style="height:2.2rem;">
               <td>
                 <label style="font-size:7px; margin:0.1rem 0 0.3rem 0;">Date</label>
                 <div class="content">&nbsp;</div>
@@ -427,6 +432,32 @@
         </div>
       </div>
     </div>
+
+    <!-- Repeat this block on instead --> 
+    <div class="container-head">
+      <div style="
+        position: fixed;
+        background-color: white;
+        top: -40px;
+        right: 0;
+        width: 13rem;
+        z-index:999
+        ">
+        <div class="box-header bordered">
+          <table width="100%;">
+            <tbody>
+            <tr style="height:2.0rem;">
+              <td>
+                <label style="font-size:7px; margin:-0.1rem 0 0.3rem 0;">VIOLATION TICKET NUMBER</label>
+                <div class="content">&nbsp;</div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
 
     <div class="v-spacer-1"></div>
 
@@ -481,7 +512,7 @@
 
     <div style="margin-top:0.5rem"></div>
 
-    <div class="reg-box">
+    <div class="reg-box" style="page-break-inside:avoid;">
       <div style="line-height:1.5;">
         <b>I agree that I committed this offence and I do NOT want to appear in person for a hearing. I want to request a reduction in the fine portion of the Ticketed Amount(s) and/or time to pay the Ticketed Amount(s).</b>
       </div>
@@ -510,18 +541,16 @@
 
     <div style="margin-top:0.5rem"></div>
 
-    <div class="reg-box">
+    <div class="reg-box" style="page-break-inside:avoid;">
       <div>
         <span style="display:inline-block;"><b>Written Reasons for a Reduction in the Ticketed Amount(s) </b></span><span style="display:inline-block; font-size:10px;">(Must not contain a defence of the allegation)</span>:
-        <div class="v-spacer-10"></div>
+        <div class="v-spacer-5" style="height:60rem;"></div>
       </div>
     </div>
 
-
-
     <div style="margin-top:0.5rem"></div>
 
-    <div class="reg-box">
+    <div class="reg-box" style="page-break-inside:avoid;">
       <div>
         <span style="display:inline-block;"><b>Written Reasons for Time to Pay the Ticketed Amounts(s) </b></span><span style="display:inline-block; font-size:10px;">(Must not contain a defence of the allegation)</span>:
         <div class="v-spacer-5"></div>
@@ -531,7 +560,7 @@
 
     <div style="margin-top:0.5rem"></div>
 
-    <div class="reg-box">
+    <div class="reg-box" style="page-break-inside:avoid;">
       <div>
         <b>Important Notice</b>&nbsp;&nbsp; Certain <i>Motor Vehicle Act</i> offences have a minimum fine and cannot be reduced.
       </div>
@@ -540,7 +569,7 @@
 
     <div style="margin-top:0.5rem"></div>
 
-    <div class="reg-box" style="height:2.7rem;">
+    <div class="reg-box" style="height:2.7rem; page-break-inside:avoid; ">
       <div style="width:24rem;">
         <b>
           VIOLATION TICKET CENTRE CONTACT INFORMATION
