@@ -4,6 +4,7 @@ import { GlossaryEditorComponent } from "app/glossary/editor.component";
 import { SurveyPrimaryComponent } from "app/survey/primary.component";
 import { SurveyResolver } from "app/survey/survey-resolver.service";
 import { SurveyEditorComponent } from "app/survey/editor.component";
+import { SuccessComponent } from './success/success.component';
 
 const routes: Routes = [
  
@@ -14,11 +15,19 @@ const routes: Routes = [
       // survey: SurveyResolver,
     },
     data: {
-      breadcrumb: "Dispute Form",
+      breadcrumb: "Traffic Hearing Form",
       survey_path: "assets/survey-primary.json",
   
     }
   },
+
+  {
+      path: "success",
+      component: SuccessComponent,
+      data: {
+        breadcrumb: "Confirmation Page"
+      }
+    },
   // {
   //   path: "prv",
   //   redirectTo: "prv/survey",

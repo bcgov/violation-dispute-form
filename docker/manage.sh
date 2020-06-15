@@ -195,6 +195,10 @@ configureEnvironment () {
   export DJANGO_LOG_LEVEL=${DJANGO_LOG_LEVEL-INFO}
   export RECAPTCHA_SITE_KEY=${RECAPTCHA_SITE_KEY}
   export RECAPTCHA_SECRET_KEY=${RECAPTCHA_SECRET_KEY}
+  export SMTP_SERVER_ADDRESS=${SMTP_SERVER_ADDRESS}
+  export SENDER_EMAIL=${SENDER_EMAIL-noreply@TrafficForm.gov.bc.ca}
+  export SENDER_NAME=${SENDER_NAME-Traffic-Hearing}
+ 
 
   # fpo-web
   export WEB_HTTP_PORT=${WEB_HTTP_PORT-8080}
