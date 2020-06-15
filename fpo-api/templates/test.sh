@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-  curl -X POST --output output.pdf \
+  curl -X POST --output notice-to-disputant-response.pdf \
     -H 'Accept: application/pdf' \
     -H 'Content-Type: application/json' \
-    -d '@test-data.json' \
-    "http://localhost:8000/form?name=notice-to-disputant-response"
+    -d '@./test-data.json' \
+    "http://localhost:8081/form/?name=notice-to-disputant-response.pdf"
     # "http://localhost:8081/form?name=violation-ticket-statement-and-written-reasons"

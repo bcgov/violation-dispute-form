@@ -1,7 +1,4 @@
-curl -X POST --output notice-to-disputant-response.pdf \
-  -H 'Accept: application/pdf' \
-  -H 'Content-Type: text/html' \
-  -d '@notice-to-disputant-response.html' \
-  http://localhost:8083/pdf?filename=notice-to-disputant-response.pdf
+/usr/bin/docker cp notice-to-disputant-response.html fpo_fpo-api_1:/opt/app-root/src/templates/
 
+# /usr/bin/docker cp violation-ticket-statement-and-written-reasons.html fpo_fpo-api_1:/opt/app-root/src/templates/
 
