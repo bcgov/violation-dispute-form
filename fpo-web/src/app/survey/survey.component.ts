@@ -29,6 +29,9 @@ export class SurveyComponent implements OnInit, OnDestroy {
   public cacheKey: string;
   public recaptchaKey: string;
   public recaptchaResponse: string;
+  public submitError: string;
+  public submitSuccess: string;
+  public email: string;
   public surveyCompleted = false;
   public surveyMode = "edit";
   public surveyModel: Survey.SurveyModel;
@@ -179,6 +182,9 @@ export class SurveyComponent implements OnInit, OnDestroy {
       this.onPageUpdate.next(sender);*/
 
       this.submitForm(sender.data);
+      if(this.submitSuccess!=''){
+        this._router.navigate(["success"]);
+      }
     });
     surveyModel.onCurrentPageChanged.add((sender, options) => {
       this.onPageUpdate.next(sender);
@@ -275,7 +281,8 @@ export class SurveyComponent implements OnInit, OnDestroy {
       .toPromise()
       .then(
         (rs) => {
-          console.log("submitted form successfully", rs);
+         console.log("submitted form successfully", rs);
+          this.submitSuccess = "submitted form successfully";
         },
         (err) => {
           console.log("form submission failed", err);

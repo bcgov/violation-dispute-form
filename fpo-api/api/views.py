@@ -39,6 +39,7 @@ from api.auth import (
 )
 from api.models import TicketResponse, User
 from api.pdf import render as render_pdf
+from api.send_email import send_email
 from api.serializers import TicketResponseSerializer
 
 
@@ -151,10 +152,18 @@ class SubmitTicketResponseView(APIView):
         # check terms acceptance
         if not result.get("disputantAcknowledgement"):
             return HttpResponseBadRequest()
-
+        
         response.save()
 
-        # {
+        # get user email from response and pass it to the send_email function
+        email = response.email
+        try:
+            send_email(email)
+        except Exception as ex:
+            print("Error",ex)
+            return Response({"id": response.pk,"Email-sent":False})
+    
+      # {
         #     "disputantName": {"first": "first", "middle": "middle", "last": "last"},
         #     "disputantAddress": {
         #         "street": "addr",
@@ -179,7 +188,7 @@ class SubmitTicketResponseView(APIView):
         #     "disputantAcknowledgement": ["item1"],
         # }
 
-        return Response({"id": response.pk})
+        return Response({"id": response.pk, "Email-sent":True})
 
 
 class TicketResponseListView(generics.ListAPIView):
