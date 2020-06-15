@@ -6,6 +6,19 @@
    "elements": [
     {
      "type": "panel",
+     "name": "disclaimerPanel",
+     "elements": [
+      {
+       "type": "infotext",
+       "name": "disclaimer",
+       "title": "DisclaimerTerms of Use Conditions here.\n<br><br>\nBy pressing \"Continue\" you agree to XYZ",
+       "isRequired": true,
+       "titleLocation": "hidden"
+      }
+     ]
+    },
+    {
+     "type": "panel",
      "name": "disputantPanel",
      "elements": [
       {
@@ -41,15 +54,15 @@
        "isRequired": true,
        "choices": [
         {
-         "value": "item1",
+         "value": "cell",
          "text": "Cell"
         },
         {
-         "value": "item2",
+         "value": "home",
          "text": "Home"
         },
         {
-         "value": "item3",
+         "value": "work",
          "text": "Work"
         }
        ]
@@ -58,27 +71,45 @@
        "type": "text",
        "name": "disputantEmail",
        "title": "Email Address",
-       "isRequired": true
+       "isRequired": true,
+       "inputType": "email"
       }
-     ]
+     ],
+     "visible": false,
+     "visibleIf": "{disclaimer} > 0"
     },
     {
      "type": "panel",
      "name": "ticketInfoPanel",
      "elements": [
       {
-       "type": "text",
+       "type": "multipletext",
        "name": "ticketNumber",
        "title": "Violation Ticket Number",
-       "description": "You can find this number at the top of your ticket",
-       "isRequired": true
+       "items": [
+        {
+         "name": "prefix",
+         "title": "First 2 Letters",
+         "maxLength": 2,
+         "requiredErrorText": "This must be the first 2 letters"
+        },
+        {
+         "name": "suffix",
+         "inputType": "number",
+         "title": "Last 8 Numbers",
+         "maxLength": 8,
+         "requiredErrorText": "This must be the last 6 numbers"
+        }
+       ],
+       "colCount": 2
       },
       {
        "type": "text",
        "name": "ticketDate",
-       "title": "Date of Ticket",
+       "title": "Date of the Ticket",
        "isRequired": true,
-       "inputType": "date"
+       "inputType": "date",
+       "dateYearsBehind": 1
       },
       {
        "type": "dropdown",
@@ -99,16 +130,49 @@
          "text": "Provincial Courthouse 3"
         }
        ]
+      },
+      {
+       "type": "text",
+       "name": "deadlineDate",
+       "title": "What is the deadline that the Court gave you to choose how to attend your Traffic Court hearing? (optional)",
+       "description": "This date can be found on the \"NOTICE TO DISPUTANT\" that was sent to you.",
+       "inputType": "date",
+       "dateYearsAhead": 1,
+       "dateYearsBehind": 0
       }
-     ]
+     ],
+     "visible": false,
+     "visibleIf": "{disclaimer} > 0"
     },
     {
      "type": "panel",
-     "name": "attendanceChoicePanel",
+     "name": "continueDisputePanel",
      "elements": [
+      {
+       "type": "yesno",
+       "name": "continueDispute",
+       "title": "Do you still want to continue with your dispute for Violation Ticket # {ticketNumber}? "
+      },
+      {
+       "type": "yesno",
+       "name": "moreTimeToPay1",
+       "visible": false,
+       "visibleIf": "{continueDispute} = \"n\"",
+       "title": "Do you need more time to pay for Violation Ticket # {ticketNumber}?"
+      },
+      {
+       "type": "infotext",
+       "name": "noDisputeNoMoreTimeExplanation",
+       "visible": false,
+       "visibleIf": "{continueDispute} = \"n\" and {moreTimeToPay1} = \"n\"",
+       "title": "No need to continue with this service. Pay your fine. \n\n",
+       "titleLocation": "hidden"
+      },
       {
        "type": "radiogroup",
        "name": "disputeType",
+       "visible": false,
+       "visibleIf": "{continueDispute} = \"y\"",
        "title": "Are you disputing the allegation or disputing the fine amount?",
        "description": "Disputing the allegation requires a Court Hearing.\n<br><br>\nDisputing the fine amount does not require a Court hearing.",
        "isRequired": true,
@@ -127,7 +191,7 @@
        "type": "infotext",
        "name": "disputeTypeFineAmountExplanation",
        "visible": false,
-       "visibleIf": "{disputeType} = \"fineAmount\"",
+       "visibleIf": "{continueDispute} = \"y\" and {disputeType} = \"fineAmount\"",
        "title": "<br>Did you know?</b> You can ask to reduce the fine amount in writing instead of going to a Court hearing. You can also ask for more time to pay.",
        "isRequired": true,
        "titleLocation": "hidden"
@@ -136,15 +200,21 @@
        "type": "yesno",
        "name": "disputeInWriting",
        "visible": false,
-       "visibleIf": "{disputeType} = \"fineAmount\" and {disputeTypeFineAmountExplanation} > 0",
+       "visibleIf": "{continueDispute} = \"y\" and {disputeType} = \"fineAmount\" and {disputeTypeFineAmountExplanation} > 0",
        "title": "Do you want to ask to reduce the fine in writing instead of going to a Court hearing?",
        "isRequired": true
-      },
+      }
+     ],
+     "visible": false,
+     "visibleIf": "{disclaimer} > 0"
+    },
+    {
+     "type": "panel",
+     "name": "writtenReasonsPanel",
+     "elements": [
       {
        "type": "text",
        "name": "disputantDOB",
-       "visible": false,
-       "visibleIf": "{disputeType} = \"fineAmount\" and {disputeInWriting} = \"y\"",
        "title": "Date of Birth",
        "isRequired": true,
        "inputType": "date"
@@ -152,16 +222,12 @@
       {
        "type": "text",
        "name": "disputantLicenseNumber",
-       "visible": false,
-       "visibleIf": "{disputeType} = \"fineAmount\" and {disputeInWriting} = \"y\"",
        "title": "Driver's License Number",
        "isRequired": true
       },
       {
        "type": "text",
        "name": "disputantLicenseIssuer",
-       "visible": false,
-       "visibleIf": "{disputeType} = \"fineAmount\" and {disputeInWriting} = \"y\"",
        "title": "Province or State that issued your Driver's License ",
        "isRequired": true
       },
@@ -169,16 +235,16 @@
        "type": "comment",
        "name": "reasonForFineReduction",
        "visible": false,
-       "visibleIf": "{disputeType} = \"fineAmount\" and {disputeInWriting} = \"y\"",
+       "visibleIf": "{continueDispute} = \"y\" and {disputeType} = \"fineAmount\" and {disputeInWriting} = \"y\"",
        "title": "Why do you think you the fine amount for your Violation Ticket #{ticketNumber} should be reduced?",
        "description": "This section must not contain an explanation about how you did not commit the offence.\n<br>\nMust not contain a defence of the allegation.",
        "isRequired": true
       },
       {
        "type": "yesno",
-       "name": "moreTimeToPay",
+       "name": "moreTimeToPay2",
        "visible": false,
-       "visibleIf": "{disputeType} = \"fineAmount\" and {disputeInWriting} = \"y\"",
+       "visibleIf": "{continueDispute} = \"y\" or ({continueDispute} = \"n\" and {moreTimeToPay1} <> \"y\")",
        "title": "Do you need more time to pay for Violation Ticket #{ticketNumber}?",
        "isRequired": true
       },
@@ -186,7 +252,7 @@
        "type": "comment",
        "name": "reasonForTimeToPay",
        "visible": false,
-       "visibleIf": "{disputeType} = \"fineAmount\" and {disputeInWriting} = \"y\" and {moreTimeToPay} = \"y\"",
+       "visibleIf": "({continueDispute} = \"n\" and {moreTimeToPay1} = \"y\") or {moreTimeToPay2} = \"y\"",
        "title": "Why do you need more time to pay the fine for Violation Ticket #{ticketNumber}?",
        "description": "This section must not contain an explanation about how you did not commit the offence.\n<br>\nMust not contain a defence of the allegation.",
        "isRequired": true
@@ -194,33 +260,37 @@
       {
        "type": "checkbox",
        "name": "disputantWritingAgreement",
-       "visible": false,
-       "visibleIf": "{disputeType} = \"fineAmount\" and {disputeInWriting} = \"y\"",
        "title": "I agree that I committed this offence and I do not want to appear in person for a Court hearing. I want to request a reduction in the fine portion of the ticketed amount(s) and/or time to pay the ticketed amount(s).",
        "isRequired": true,
        "choices": [
         {
-         "value": "item1",
+         "value": "agreeWrittenReason",
          "text": "I agree with the statement above"
         }
        ]
-      },
+      }
+     ],
+     "visible": false,
+     "visibleIf": "({continueDispute} = \"n\" and {moreTimeToPay1} = \"y\") or ({continueDispute} = \"y\" and {disputeType} = \"fineAmount\" and {disputeInWriting} = \"y\")"
+    },
+    {
+     "type": "panel",
+     "name": "attendanceChoicePanel",
+     "elements": [
       {
        "type": "radiogroup",
        "name": "hearingAttendance",
-       "visible": false,
-       "visibleIf": "{disputeType} = \"allegation\" or ({disputeType} = \"fineAmount\" and {disputeInWriting} = \"n\")",
-       "title": "I am choosing to attend my Traffic Court hearing for Violation Ticket #{ticketNumber}:",
+       "title": "How do you want to attend you Traffic Court hearing for Violation Ticket #{ticketNumber}:",
        "description": "Remote Court hearings means by phone or by videoconference\n<br><br>\nTo request a remote hearing, you must notify the Court before [date] using one of the notification methods listed at the bottom of this notice.  She thinks we should just say “must notify the Court within 14 days using one of the…\n<br><br>\nIn-person Court hearings may be held on evenings or Saturdays as decided by the Court",
        "isRequired": true,
        "choices": [
         {
-         "value": "remotely",
-         "text": "Remotely"
+         "value": "remote",
+         "text": "a Remote Court hearing"
         },
         {
          "value": "in-person",
-         "text": "In-Person"
+         "text": "an In-Person Court hearing"
         }
        ]
       },
@@ -228,7 +298,7 @@
        "type": "yesno",
        "name": "hearingAttendancePhone",
        "visible": false,
-       "visibleIf": "({disputeType} = \"allegation\" or ({disputeType} = \"fineAmount\" and {disputeInWriting} = \"n\")) and {hearingAttendance} = \"remotely\"",
+       "visibleIf": "{hearingAttendance} = \"remote\"",
        "title": "Do you have the ability to attend your remote Court hearing by phone?",
        "isRequired": true
       },
@@ -236,7 +306,7 @@
        "type": "yesno",
        "name": "hearingAttendanceVideo",
        "visible": false,
-       "visibleIf": "({disputeType} = \"allegation\" or ({disputeType} = \"fineAmount\" and {disputeInWriting} = \"n\")) and {hearingAttendance} = \"remotely\"",
+       "visibleIf": "{hearingAttendance} = \"remote\"",
        "title": "Do you have the ability to attend your remote Court hearing by videoconference?",
        "description": "examples of video conference are Microsoft Teams, Zoom, Skype, etc.",
        "isRequired": true
@@ -245,13 +315,15 @@
        "type": "infotext",
        "name": "hearingAttendanceRemotelyError",
        "visible": false,
-       "visibleIf": "({disputeType} = \"allegation\" or \n({disputeType} = \"fineAmount\" and {disputeInWriting} = \"n\")) and {hearingAttendance} = \"remotely\" and {hearingAttendancePhone} = \"n\" and {hearingAttendanceVideo} = \"n\"",
+       "visibleIf": "{hearingAttendance} = \"remote\" and {hearingAttendancePhone} = \"n\" and {hearingAttendanceVideo} = \"n\"",
        "title": "It appears that you are not able to attend your Court hearing remotely. You will have to attend your hearing in person. \n<br><br>",
        "isRequired": true,
        "titleLocation": "hidden",
        "messageStyle": "error"
       }
-     ]
+     ],
+     "visible": false,
+     "visibleIf": "{continueDispute} = \"y\" and ({disputeType} = \"allegation\" or ({disputeType} = \"fineAmount\" and {disputeInWriting} = \"n\"))"
     },
     {
      "type": "panel",
@@ -296,6 +368,13 @@
       },
       {
        "type": "yesno",
+       "name": "exhibits",
+       "title": "Will you be bringing Exhibits to your Court hearing?",
+       "description": "Exhibits are ...\nIf you want to show the court a doctor's note, police report, photograph, or other supporting document, you must refer to it in your affidavit as an \"Exhibit\". Each Exhibit gets a new letter. For example, Exhibit A, Exhibit B, etc., You will need to attach a copy of each document for the court.",
+       "isRequired": true
+      },
+      {
+       "type": "yesno",
        "name": "charter",
        "visible": false,
        "title": "Will you be making an application under the Charter of Rights and Freedom for this Violation Ticket #{ticketNumber}?"
@@ -311,19 +390,35 @@
       },
       {
        "type": "checkbox",
-       "name": "disputantAcknowledgement",
-       "title": "I acknowledge that I am the disputant and am submitting this information which will be used to schedule my Violation Ticket for a {hearingAttendance} Court hearing.",
+       "name": "disputantRemoteAcknowledgement",
+       "visible": false,
+       "visibleIf": "{hearingAttendance} = \"remote\" and ({hearingAttendancePhone} = \"y\" or {hearingAttendanceVideo} = \"y\")",
+       "title": "I acknowledge that I am the disputant and am submitting this information which will be used to schedule my Violation Ticket for a Remote Court hearing.",
        "isRequired": true,
        "choices": [
         {
-         "value": "item1",
+         "value": "acknowledgeDisputantResponse",
+         "text": "I acknowledge the statement above"
+        }
+       ]
+      },
+      {
+       "type": "checkbox",
+       "name": "disputantInPersonAcknowledgement",
+       "visible": false,
+       "visibleIf": "{hearingAttendance} = \"in-person\" or ({hearingAttendance} = \"remote\" and {hearingAttendancePhone} = \"n\" and {hearingAttendanceVideo} = \"n\")",
+       "title": "I acknowledge that I am the disputant and am submitting this information which will be used to schedule my Violation Ticket for an In-Person Court hearing.",
+       "isRequired": true,
+       "choices": [
+        {
+         "value": "acknowledgeDisputantResponse",
          "text": "I acknowledge the statement above"
         }
        ]
       }
      ],
      "visible": false,
-     "visibleIf": "({disputeType} = \"allegation\" or \n({disputeType} = \"fineAmount\" and {disputeInWriting} = \"n\")) and ({hearingAttendance} = \"in-person\" or\n{hearingAttendance} = \"remotely\" and (({hearingAttendancePhone} = \"y\" or {hearingAttendanceVideo} = \"y\") or ({hearingAttendancePhone} = \"n\" and {hearingAttendanceVideo} = \"n\" and {hearingAttendanceRemotelyError} > 0)))"
+     "visibleIf": "{continueDispute} = \"y\" and ({disputeType} = \"allegation\" or ({disputeType} = \"fineAmount\" and {disputeInWriting} = \"n\")) and ({hearingAttendance} = \"in-person\"\nor ({hearingAttendance} = \"remote\" and (({hearingAttendancePhone} = \"y\" or {hearingAttendanceVideo} = \"y\")\nor ({hearingAttendancePhone} = \"n\" and {hearingAttendanceVideo} = \"n\" and {hearingAttendanceRemotelyError} >0))))"
     }
    ],
    "title": "Response from Disputant"
