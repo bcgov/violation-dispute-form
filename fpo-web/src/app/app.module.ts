@@ -26,6 +26,7 @@ import { SurveyPrimaryComponent } from "./survey/primary.component";
 import { SurveyEditorComponent } from "./survey/editor.component";
 import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
 import { RecaptchaService } from './survey/recaptcha.service';
+import { SuccessComponent } from './success/success.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { RecaptchaService } from './survey/recaptcha.service';
     SurveyComponent,
     SurveyPrimaryComponent,
     SurveyEditorComponent,
-    StaticComponent
+    StaticComponent,
+    SuccessComponent
   ],
   imports: [
     BrowserModule,
