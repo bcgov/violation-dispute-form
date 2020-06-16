@@ -8,6 +8,8 @@ from api.models.User import User
 
 from api.pdf import render as render_pdf
 
+import json # For converting json to dict
+
 # For importing our custom font 'BCSans'.
 #  from weasyprint import HTML, CSS
 #  from weasyprint.fonts import FontConfiguration
@@ -66,7 +68,7 @@ def form(request):
     name = request.GET['name']
     template = '{}.html'.format(name)
 
-    template = get_template(template)
+    template = get_template(template) # XXX: Error here
     html_content = template.render(data)
 
     pdf_content = render_pdf(html_content)
