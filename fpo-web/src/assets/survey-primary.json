@@ -11,7 +11,7 @@
       {
        "type": "infotext",
        "name": "disclaimer",
-       "title": "\"Choose how to attend your Traffic Hearing\" is a service provided by the Government of British Columbia. \n<br><br>\nThe Government of British Columbia reserves the right to change the contents of this service at any time. \n<br>\nYou can learn more about <a href=\"https://www2.gov.bc.ca/gov/content/home/disclaimer\" target=\"_blank\">the disclaimer and liability here.</a> (This link opens in a new tab)\n<br>\nYou can learn more about <a href=\"https://www2.gov.bc.ca/gov/content/home/disclaimer\" target=\"_blank\">privacy and security  here.</a> (This link opens in a new tab)\n<br><br>\nBe pressing \"Continue\", you are agreeing to these terms. ",
+       "title": "\"Choose how to attend your Traffic Hearing\" is a service provided by the Government of British Columbia. The Government of British Columbia reserves the right to change the contents of this service at any time. \n<br><br>\nYou can learn more about <a href=\"https://www2.gov.bc.ca/gov/content/home/disclaimer\" target=\"_blank\">the disclaimer and liability here.</a> (This link opens in a new tab)\n<br>\nYou can learn more about <a href=\"https://www2.gov.bc.ca/gov/content/home/privacy\" target=\"_blank\">privacy and security  here.</a> (This link opens in a new tab)\n<br><br>\nBe pressing \"Continue\", you are agreeing to these terms. ",
        "isRequired": true,
        "titleLocation": "hidden"
       }
