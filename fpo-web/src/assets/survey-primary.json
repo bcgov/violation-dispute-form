@@ -355,16 +355,16 @@
        "type": "radiogroup",
        "name": "hearingAttendance",
        "title": "How do you want to attend your Traffic Hearing for Violation Ticket #{ticketNumber.prefix}{ticketNumber.suffix}?",
-       "description": "Remote Court hearings means by phone or by videoconference\n<br><br>\nTo request a remote hearing, you must notify the Court before [date] using one of the notification methods listed at the bottom of this notice.  She thinks we should just say “must notify the Court within 14 days using one of the…\n<br><br>\nIn-person Court hearings may be held on evenings or Saturdays as decided by the Court",
+       "description": "In-Person Traffic Hearings may be held on evenings or Saturdays as decided by the Court.",
        "isRequired": true,
        "choices": [
         {
          "value": "remote",
-         "text": "a Remote Court hearing"
+         "text": "I want to attend my Traffic Hearing Remotely by phone or videoconference"
         },
         {
          "value": "in-person",
-         "text": "an In-Person Court hearing"
+         "text": "I want to attend my Traffic Hearing In-Person"
         }
        ]
       },
@@ -373,7 +373,7 @@
        "name": "hearingAttendancePhone",
        "visible": false,
        "visibleIf": "{hearingAttendance} = \"remote\"",
-       "title": "Do you have the ability to attend your remote Court hearing by phone?",
+       "title": "Are you able to attend your Traffic Hearing by phone?",
        "isRequired": true
       },
       {
@@ -381,8 +381,8 @@
        "name": "hearingAttendanceVideo",
        "visible": false,
        "visibleIf": "{hearingAttendance} = \"remote\"",
-       "title": "Do you have the ability to attend your remote Court hearing by videoconference?",
-       "description": "examples of video conference are Microsoft Teams, Zoom, Skype, etc.",
+       "title": "Are you able to attend your Traffic Hearing by videoconference?",
+       "description": "The Court will use Microsoft Teams for videoconferencing. It is free to use. You do not need to download Microsoft Teams to use it. ",
        "isRequired": true
       },
       {
@@ -390,7 +390,7 @@
        "name": "hearingAttendanceRemotelyError",
        "visible": false,
        "visibleIf": "{hearingAttendance} = \"remote\" and {hearingAttendancePhone} = \"n\" and {hearingAttendanceVideo} = \"n\"",
-       "title": "It appears that you are not able to attend your Court hearing remotely. You will have to attend your hearing in person. \n<br><br>",
+       "title": "It appears that you are not able to attend your Traffic Hearing remotely. You will have to attend your Hearing In-Person. \n<br><br>",
        "isRequired": true,
        "titleLocation": "hidden",
        "messageStyle": "error"
@@ -406,14 +406,15 @@
       {
        "type": "yesno",
        "name": "french",
-       "title": "English is the usual language of Court hearings in British Columbia. Do you want this hearing to be in French?",
+       "title": "Do you want your Traffic Hearing to be in French?",
+       "description": "English and French are the official languages. English is the language that is spoken in Traffic Hearings unless you ask for your hearing to be in French in advance.",
        "isRequired": true
       },
       {
        "type": "yesno",
        "name": "interpreter",
-       "title": "English is the usual language of Court hearings in British Columbia. Do you need an interpreter at your hearing to help with English?",
-       "description": "What if someone can bring their own interpreter? Should we ask about this?",
+       "title": "Do you need someone to help you with English for you at your Traffic Hearing? The Court will pay for a professional interpreter.",
+       "description": "English and French are the official languages. English is the language that is spoken in Traffic Hearings.",
        "isRequired": true
       },
       {
@@ -421,14 +422,14 @@
        "name": "interpreterLanguage",
        "visible": false,
        "visibleIf": "{interpreter} = \"y\"",
-       "title": "What language interpreter would you need for your Court hearing?",
+       "title": "What language interpreter do you need for your Traffic Hearing?",
        "isRequired": true
       },
       {
        "type": "yesno",
        "name": "witnesses",
-       "title": "Will you be calling Witnesses at your Court hearing?",
-       "description": "Witnesses are people (other than yourself) who were there when you were given the Violation Ticket.",
+       "title": "Will you be asking Witnesses to attend your Traffic Hearing?",
+       "description": "Witnesses are people (other than yourself) who saw what happened when you were given your Violation Ticket.",
        "isRequired": true
       },
       {
@@ -436,15 +437,15 @@
        "name": "witnessesAmount",
        "visible": false,
        "visibleIf": "{witnesses} = \"y\"",
-       "title": "How many Witnesses do you plan on calling at your Court hearing?",
+       "title": "How many Witnesses do you plan on asking to attend your Traffic Hearing?",
        "isRequired": true,
        "inputType": "number"
       },
       {
        "type": "yesno",
        "name": "exhibits",
-       "title": "Will you be bringing Exhibits to your Court hearing?",
-       "description": "Exhibits are ...\nIf you want to show the court a doctor's note, police report, photograph, or other supporting document, you must refer to it in your affidavit as an \"Exhibit\". Each Exhibit gets a new letter. For example, Exhibit A, Exhibit B, etc., You will need to attach a copy of each document for the court.",
+       "title": "Will you be bringing Exhibits to your Traffic Hearing?",
+       "description": "Examples of Exhibits are a doctor's note, police report, photograph, video (dash cam), or other documents.",
        "isRequired": true
       },
       {
@@ -467,7 +468,7 @@
        "name": "disputantRemoteAcknowledgement",
        "visible": false,
        "visibleIf": "{hearingAttendance} = \"remote\" and ({hearingAttendancePhone} = \"y\" or {hearingAttendanceVideo} = \"y\")",
-       "title": "I acknowledge that I am the disputant and am submitting this information which will be used to schedule my Violation Ticket #{ticketNumber.prefix}{ticketNumber.suffix} for a Remote Court hearing.",
+       "title": "I am preferring to attend my Traffic Hearing remotely. I understand that the Court may not be able to schedule my hearing remotely, and that I will be informed if the hearing must proceed In-Person. I understand that if the hearing will be held by telephone or video, the hearing may be scheduled on a weekday during regular business hours.",
        "isRequired": true,
        "choices": [
         {
@@ -481,7 +482,7 @@
        "name": "disputantInPersonAcknowledgement",
        "visible": false,
        "visibleIf": "{hearingAttendance} = \"in-person\" or ({hearingAttendance} = \"remote\" and {hearingAttendancePhone} = \"n\" and {hearingAttendanceVideo} = \"n\")",
-       "title": "I acknowledge that I am the disputant and am submitting this information which will be used to schedule my Violation Ticket #{ticketNumber.prefix}{ticketNumber.suffix} for an In-Person Court hearing.",
+       "title": "I am choosing to attend my Traffic Hearing In-Person. I understand that the Court will schedule my hearing In-Person and that the hearing may be scheduled in the evening or on a Saturday.",
        "isRequired": true,
        "choices": [
         {
