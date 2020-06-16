@@ -11,7 +11,7 @@
       {
        "type": "infotext",
        "name": "disclaimer",
-       "title": "DisclaimerTerms of Use Conditions here.\n<br><br>\nBy pressing \"Continue\" you agree to XYZ",
+       "title": "\"Choose how to attend your Traffic Hearing\" is a service provided by the Government of British Columbia. \n<br><br>\nThe Government of British Columbia reserves the right to change the contents of this service at any time. \n<br>\nYou can learn more about <a href=\"https://www2.gov.bc.ca/gov/content/home/disclaimer\" target=\"_blank\">the disclaimer and liability here.</a> (This link opens in a new tab)\n<br>\nYou can learn more about <a href=\"https://www2.gov.bc.ca/gov/content/home/disclaimer\" target=\"_blank\">privacy and security  here.</a> (This link opens in a new tab)\n<br><br>\nBe pressing \"Continue\", you are agreeing to these terms. ",
        "isRequired": true,
        "titleLocation": "hidden"
       }
@@ -42,7 +42,7 @@
        "type": "text",
        "name": "disputantPhoneNumber",
        "title": "Phone Number",
-       "description": "This should be your primary contact number on weekdays between 10am-4pm.\n<br>\nInclude the area code.\n",
+       "description": "This should be your primary contact number on weekdays between 9:30am-4pm. Include the area code.",
        "isRequired": true,
        "inputType": "tel"
       },
@@ -98,7 +98,7 @@
          "inputType": "number",
          "title": "Last 8 Numbers",
          "maxLength": 8,
-         "requiredErrorText": "This must be the last 6 numbers"
+         "requiredErrorText": "This must be the last 8 numbers"
         }
        ],
        "colCount": 2
@@ -117,25 +117,98 @@
        "title": "Hearing Location",
        "isRequired": true,
        "choices": [
-        {
-         "value": "item1",
-         "text": "Provincial Courthouse 1"
-        },
-        {
-         "value": "item2",
-         "text": "Provincial Courthouse 2"
-        },
-        {
-         "value": "item3",
-         "text": "Provincial Courthouse 3"
-        }
+        "100 Mile House",
+        "Abbotsford",
+        "Alexis Creek",
+        "Anahim Lake",
+        "Ashcroft",
+        "Atlin",
+        "Bella Bella",
+        "Bella Coola",
+        "Burns Lake",
+        "Campbell River",
+        "Castlegar",
+        "Chase",
+        "Chetwynd",
+        "Chilliwack",
+        "Clearwater",
+        "Courtenay",
+        "Cranbrook",
+        "Creston",
+        "Dawson Creek",
+        "Dease Lake",
+        "Duncan",
+        "Fernie",
+        "Fort Nelson",
+        "Fort St. James",
+        "Fort St. John",
+        "Fraser Lake",
+        "Ganges",
+        "Gold River",
+        "Golden",
+        "Good Hope Lake",
+        "Grand Forks",
+        "Hazelton",
+        "Houston",
+        "Hudson's Hope",
+        "Invermere",
+        "Kamloops",
+        "Kelowna",
+        "Kitimat",
+        "Klemtu",
+        "Kwadacha (Fort Ware)",
+        "Lillooet",
+        "Lower Post",
+        "Mackenzie",
+        "Masset",
+        "McBride",
+        "Merritt",
+        "Nakusp",
+        "Nanaimo",
+        "Nelson",
+        "New Aiyansh",
+        "New Westminster",
+        "North Vancouver",
+        "Pemberton",
+        "Penticton",
+        "Port Alberni",
+        "Port Coquitlam",
+        "Port Hardy",
+        "Powell River",
+        "Prince George",
+        "Prince Rupert",
+        "Princeton",
+        "Queen Charlotte City",
+        "Quesnel",
+        "Revelstoke",
+        "Richmond",
+        "Rossland",
+        "Salmon Arm",
+        "Sechelt",
+        "Sidney",
+        "Smithers",
+        "Sparwood",
+        "Stewart",
+        "Surrey",
+        "Tahsis",
+        "Terrace",
+        "Tofino",
+        "Tsay Keh Dene",
+        "Tumbler Ridge",
+        "Ucluelet",
+        "Valemount",
+        "Vancouver",
+        "Vanderhoof",
+        "Vernon",
+        "Victoria",
+        "Western Communities",
+        "Williams Lake"
        ]
       },
       {
        "type": "text",
        "name": "deadlineDate",
-       "title": "What is the deadline that the Court gave you to choose how to attend your Traffic Court hearing? (optional)",
-       "description": "This date can be found on the \"NOTICE TO DISPUTANT\" that was sent to you.",
+       "title": "What is the date on the \"NOTICE TO DISPUTANT\" that the Court gave you to choose how to attend your Traffic Court hearing? (optional)",
        "inputType": "date",
        "dateYearsAhead": 1,
        "dateYearsBehind": 0
@@ -151,21 +224,21 @@
       {
        "type": "yesno",
        "name": "continueDispute",
-       "title": "Do you still want to continue with your dispute for Violation Ticket # {ticketNumber}? "
+       "title": "Do you still want to continue with your dispute for Violation Ticket #{ticketNumber.prefix}{ticketNumber.suffix}? "
       },
       {
        "type": "yesno",
        "name": "moreTimeToPay1",
        "visible": false,
        "visibleIf": "{continueDispute} = \"n\"",
-       "title": "Do you need more time to pay for Violation Ticket # {ticketNumber}?"
+       "title": "Do you need more time to pay for your Violation Ticket?"
       },
       {
        "type": "infotext",
        "name": "noDisputeNoMoreTimeExplanation",
        "visible": false,
        "visibleIf": "{continueDispute} = \"n\" and {moreTimeToPay1} = \"n\"",
-       "title": "No need to continue with this service. Pay your fine. \n\n",
+       "title": "You do not need to continue on with this service.\n<br><br>\nPlease check your Violation Ticket for instructions on how to pay your fine. \n<br><br>\nIf you do not pay your fine, the Court will schedule an In-Person Traffic hearing and send you a \"Notice of Hearing.\"\n\n",
        "titleLocation": "hidden"
       },
       {
@@ -173,13 +246,13 @@
        "name": "disputeType",
        "visible": false,
        "visibleIf": "{continueDispute} = \"y\"",
-       "title": "Are you disputing the allegation or disputing the fine amount?",
-       "description": "Disputing the allegation requires a Court Hearing.\n<br><br>\nDisputing the fine amount does not require a Court hearing.",
+       "title": "Are you `disputing the allegation` or `disputing the fine amount`",
+       "description": "Disputing the allegation means you are saying that you did NOT commit the offence described on your Violation Ticket. This will require a Traffic Hearing.\n<br>\nDisputing the fine amount means you are saying that you did commit the offence described on your Violation Ticket and you want to reduce the fine. This does not necessarily require a Traffic Hearing.",
        "isRequired": true,
        "choices": [
         {
          "value": "allegation",
-         "text": "I am disputing the ticket because I did not commit the offence"
+         "text": "I did NOT commit the offence and I am disputing the ticket (the allegation)"
         },
         {
          "value": "fineAmount",
@@ -192,7 +265,7 @@
        "name": "disputeTypeFineAmountExplanation",
        "visible": false,
        "visibleIf": "{continueDispute} = \"y\" and {disputeType} = \"fineAmount\"",
-       "title": "<br>Did you know?</b> You can ask to reduce the fine amount in writing instead of going to a Court hearing. You can also ask for more time to pay.",
+       "title": "<b>Did you know?</b>\n<br>\nYou can ask to reduce the fine in writing instead of attending a Traffic hearing. \n<br>\nYou can also ask for more time to pay the fine in writing instead of attending a Traffic hearing.",
        "isRequired": true,
        "titleLocation": "hidden"
       },
@@ -201,7 +274,7 @@
        "name": "disputeInWriting",
        "visible": false,
        "visibleIf": "{continueDispute} = \"y\" and {disputeType} = \"fineAmount\" and {disputeTypeFineAmountExplanation} > 0",
-       "title": "Do you want to ask to reduce the fine in writing instead of going to a Court hearing?",
+       "title": "Do you want to ask to reduce the fine in writing instead of attending a Traffic hearing?",
        "isRequired": true
       }
      ],
@@ -222,13 +295,13 @@
       {
        "type": "text",
        "name": "disputantLicenseNumber",
-       "title": "Driver's License Number",
+       "title": "Driver's Licence Number",
        "isRequired": true
       },
       {
        "type": "text",
        "name": "disputantLicenseIssuer",
-       "title": "Province or State that issued your Driver's License ",
+       "title": "Province or State that issued your Driver's Licence",
        "isRequired": true
       },
       {
@@ -236,16 +309,17 @@
        "name": "reasonForFineReduction",
        "visible": false,
        "visibleIf": "{continueDispute} = \"y\" and {disputeType} = \"fineAmount\" and {disputeInWriting} = \"y\"",
-       "title": "Why do you think you the fine amount for your Violation Ticket #{ticketNumber} should be reduced?",
-       "description": "This section must not contain an explanation about how you did not commit the offence.\n<br>\nMust not contain a defence of the allegation.",
-       "isRequired": true
+       "title": "Why do you think you the fine should be reduced for your Violation Ticket?",
+       "description": "This section must not contain an explanation about how you did NOT commit the offence.",
+       "isRequired": true,
+       "maxLength": 10
       },
       {
        "type": "yesno",
        "name": "moreTimeToPay2",
        "visible": false,
        "visibleIf": "{continueDispute} = \"y\" or ({continueDispute} = \"n\" and {moreTimeToPay1} <> \"y\")",
-       "title": "Do you need more time to pay for Violation Ticket #{ticketNumber}?",
+       "title": "Do you need more time to pay for your Violation Ticket?",
        "isRequired": true
       },
       {
@@ -253,8 +327,8 @@
        "name": "reasonForTimeToPay",
        "visible": false,
        "visibleIf": "({continueDispute} = \"n\" and {moreTimeToPay1} = \"y\") or {moreTimeToPay2} = \"y\"",
-       "title": "Why do you need more time to pay the fine for Violation Ticket #{ticketNumber}?",
-       "description": "This section must not contain an explanation about how you did not commit the offence.\n<br>\nMust not contain a defence of the allegation.",
+       "title": "Why do you need more time to pay the fine for your Violation Ticket?",
+       "description": "This section must not contain an explanation about how you did NOT commit the offence.",
        "isRequired": true
       },
       {
@@ -280,7 +354,7 @@
       {
        "type": "radiogroup",
        "name": "hearingAttendance",
-       "title": "How do you want to attend you Traffic Court hearing for Violation Ticket #{ticketNumber}:",
+       "title": "How do you want to attend your Traffic Hearing for Violation Ticket #{ticketNumber.prefix}{ticketNumber.suffix}?",
        "description": "Remote Court hearings means by phone or by videoconference\n<br><br>\nTo request a remote hearing, you must notify the Court before [date] using one of the notification methods listed at the bottom of this notice.  She thinks we should just say “must notify the Court within 14 days using one of the…\n<br><br>\nIn-person Court hearings may be held on evenings or Saturdays as decided by the Court",
        "isRequired": true,
        "choices": [
@@ -377,7 +451,7 @@
        "type": "yesno",
        "name": "charter",
        "visible": false,
-       "title": "Will you be making an application under the Charter of Rights and Freedom for this Violation Ticket #{ticketNumber}?"
+       "title": "Will you be making an application under the Charter of Rights and Freedom for this Violation Ticket #{ticketNumber.prefix}{ticketNumber.suffix}?"
       },
       {
        "type": "infotext",
@@ -393,7 +467,7 @@
        "name": "disputantRemoteAcknowledgement",
        "visible": false,
        "visibleIf": "{hearingAttendance} = \"remote\" and ({hearingAttendancePhone} = \"y\" or {hearingAttendanceVideo} = \"y\")",
-       "title": "I acknowledge that I am the disputant and am submitting this information which will be used to schedule my Violation Ticket for a Remote Court hearing.",
+       "title": "I acknowledge that I am the disputant and am submitting this information which will be used to schedule my Violation Ticket #{ticketNumber.prefix}{ticketNumber.suffix} for a Remote Court hearing.",
        "isRequired": true,
        "choices": [
         {
@@ -407,7 +481,7 @@
        "name": "disputantInPersonAcknowledgement",
        "visible": false,
        "visibleIf": "{hearingAttendance} = \"in-person\" or ({hearingAttendance} = \"remote\" and {hearingAttendancePhone} = \"n\" and {hearingAttendanceVideo} = \"n\")",
-       "title": "I acknowledge that I am the disputant and am submitting this information which will be used to schedule my Violation Ticket for an In-Person Court hearing.",
+       "title": "I acknowledge that I am the disputant and am submitting this information which will be used to schedule my Violation Ticket #{ticketNumber.prefix}{ticketNumber.suffix} for an In-Person Court hearing.",
        "isRequired": true,
        "choices": [
         {
@@ -419,9 +493,16 @@
      ],
      "visible": false,
      "visibleIf": "{continueDispute} = \"y\" and ({disputeType} = \"allegation\" or ({disputeType} = \"fineAmount\" and {disputeInWriting} = \"n\")) and ({hearingAttendance} = \"in-person\"\nor ({hearingAttendance} = \"remote\" and (({hearingAttendancePhone} = \"y\" or {hearingAttendanceVideo} = \"y\")\nor ({hearingAttendancePhone} = \"n\" and {hearingAttendanceVideo} = \"n\" and {hearingAttendanceRemotelyError} >0))))"
+    },
+    {
+     "type": "infotext",
+     "name": "reportProblems",
+     "title": "To report a problem with this service, send email here? Spam issues?\n[possible to make this below the complete button?]",
+     "titleLocation": "hidden",
+     "messageStyle": "inline"
     }
    ],
-   "title": "Response from Disputant"
+   "title": "Choose how to attend your Traffic Hearing"
   }
  ],
  "showQuestionNumbers": "off",
