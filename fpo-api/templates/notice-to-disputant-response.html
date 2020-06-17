@@ -725,6 +725,7 @@
 
     </div>
 
+    {% if hearingAttendance == "remote" %}
     <div class="bordered" style="padding:1em 1em 1.5em 1em; margin-top:1em;">
       <div>
         <b>For a remote hearing, complete this section:</b>
@@ -739,13 +740,17 @@
           </div>
           <div class="form-line" style="margin-left:2rem">Signed/acknowledged:</div>
           <div class="form-line">
-            <div class="form-line-child underline" style="width:14rem"></div>
+            <div class="form-line-child underline" style="width:14rem">
+              Digitally signed by {{disputantName.first}} {{disputantName.middle}} {{disputantName.last}}
+            </div>
             <div class="form-line-child hint">Disputant</div>
           </div>
         </div>
       </div>
     </div>
+    {% endif %}
 
+    {% if hearingAttendance != "remote" %}
     <div class="bordered" style="padding:1em 1em 1.5em 1em; margin-top:1em;">
       <div>
         <b>For an in-person hearing, complete this section:</b>
@@ -766,6 +771,7 @@
         </div>
       </div>
     </div>
+    {% endif %}
 
   </div>
 </div>
