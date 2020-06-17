@@ -34,41 +34,12 @@ def form(request):
     request.POST['data'] -> Here is the data
     """
 
-    #############################################
-    # XXX: Couldn't get this working properly
-    #  font_config = FontConfiguration()
-    # Use the BCSans font as the default.
-    #  css = CSS(string='''
-        #  @font-face {
-          #  font-family: 'BCSans';
-          #  font-style: normal;
-          #  src: url('https://cdn.jsdelivr.net/npm/@bcgov/bc-sans@1.0.1/fonts/BCSans-Regular.woff') format('woff');
-        #  }
-        #  @font-face {
-          #  font-family: 'BCSans';
-          #  font-style: italic;
-          #  src: url('https://cdn.jsdelivr.net/npm/@bcgov/bc-sans@1.0.1/fonts/BCSans-Italic.woff') format('woff');
-        #  }
-        #  @font-face {
-          #  font-family: 'BCSans';
-          #  font-weight: 700;
-          #  src: url('https://cdn.jsdelivr.net/npm/@bcgov/bc-sans@1.0.1/fonts/BCSans-Bold.woff') format('woff');
-        #  }
-        #  @font-face {
-          #  font-family: 'BCSans';
-          #  font-style: italic;
-          #  font-weight: 700;
-          #  src: url('https://cdn.jsdelivr.net/npm/@bcgov/bc-sans@1.0.1/fonts/BCSans-BoldItalic.woff') format('woff');
-        #  }''', font_config=font_config)
-    #############################################
-
-
 
     data = json.loads(request.body)
     name = request.GET['name']
     template = '{}.html'.format(name)
 
-    template = get_template(template) # XXX: Error here
+    template = get_template(template)
     html_content = template.render(data)
 
     pdf_content = render_pdf(html_content)
@@ -77,10 +48,5 @@ def form(request):
     response['Content-Disposition'] = 'attachment; filename="report.pdf"'
 
     response.write(pdf_content)
-
-    #############################################
-    # XXX: Couldn't get this working properly
-    #  response.write(pdf_content, stylesheet[css], font_config=font_config)
-    #############################################
 
     return response
