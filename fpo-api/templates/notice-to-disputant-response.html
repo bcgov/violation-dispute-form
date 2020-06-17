@@ -630,36 +630,68 @@
       <div style="margin:1.5em">
         <div class="form-line">I AM disputing the</div>
         <div class="form-line" style="margin-left:0.5rem">
-          <div class="form-line-child check"></div>
+          <div class="form-line-child check">
+            <span class="content">
+              {% if disputeType == "allegation" %}
+                &#10004;
+              {% endif %}
+            </span>
+          </div>
         </div>
         <div class="form-line">Allegation</div>
         <div class="form-line" style="margin: 0 3rem 0 3rem">OR</div>
 
         <div class="form-line">I AM disputing the</div>
         <div class="form-line" style="margin-left:0.5rem">
-          <div class="form-line-child check"></div>
+          <div class="form-line-child check">
+            <span class="content">
+              {% if disputeType == "fineAmount" %}
+                &#10004;
+              {% endif %}
+            </span>
+          </div>
         </div>
         <div class="form-line">Fine amount*</div>
       </div>
 
       <div style="margin-top:1em">
         <div class="form-line" style="margin-left:0.1rem">
-          <div class="form-line-child check"></div>
+          <div class="form-line-child check">
+            <span class="content">
+              {% if interpreter == "y" %}
+                &#10004;
+              {% endif %}
+            </span>
+          </div>
         </div>
         <div class="form-line">I need an Interpreter who speaks</div>
         <div class="form-line">
-          <div class="form-line-child underline" style="width:24rem"></div>
+          <div class="form-line-child underline" style="width:24rem">
+              {% if interpreter == "y" %}
+              &nbsp;{{interpreterLanguage}}
+              {% endif %}
+          </div>
           <div class="form-line-child hint">Language(s)</div>
         </div>
       </div>
 
       <div style="margin-top:1em">
         <div class="form-line" style="margin-left:0.1rem">
-          <div class="form-line-child check"></div>
+          <div class="form-line-child check">
+            <span class="content">
+              {% if witnesses == "y" %}
+                &#10004;
+              {% endif %}
+            </span>
+          </div>
         </div>
         <div class="form-line">I am disputing the allegation and will be calling witnesses (people other then myself)</div>
         <div class="form-line">
-          <div class="form-line-child underline" style="width:6rem"></div>
+          <div class="form-line-child underline" style="width:6rem">
+            {% if witnesses == "y" %}
+            &nbsp;{{witnessesAmount}}
+            {% endif %}
+          </div>
           <div class="form-line-child hint">Number of witnesses</div>
         </div>
       </div>
@@ -667,14 +699,26 @@
 
       <div style="margin-top:1em">
         <div class="form-line" style="margin-left:0.1rem">
-          <div class="form-line-child check"></div>
+          <div class="form-line-child check">
+            <span class="content">
+              {% if french == "y" %}
+                &#10004;
+              {% endif %}
+            </span>
+          </div>
         </div>
         <div class="form-line">I am asking that my hearing be conducted in French.</div>
         &nbsp; &nbsp;
       </div>
       <div style="margin-top:1em">
         <div class="form-line" style="margin-left:0.1rem">
-          <div class="form-line-child check"></div>
+          <div class="form-line-child check">
+            <span class="content">
+              {% if french == "y" %}
+                &#10004;
+              {% endif %}
+            </span>
+          </div>
         </div>
         <div class="form-line">I will be entering exhibits.</div>
       </div>
