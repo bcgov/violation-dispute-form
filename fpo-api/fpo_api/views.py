@@ -10,6 +10,8 @@ from api.pdf import render as render_pdf
 
 import json # For converting json to dict
 
+from datetime import date # For working with dates
+
 # For importing our custom font 'BCSans'.
 #  from weasyprint import HTML, CSS
 #  from weasyprint.fonts import FontConfiguration
@@ -38,6 +40,10 @@ def form(request):
     data = json.loads(request.body)
     name = request.GET['name']
     template = '{}.html'.format(name)
+
+    # Add date to the payload
+    today = date.today().strftime('%d-%b-%Y')
+    data['date'] = today
 
     template = get_template(template)
     html_content = template.render(data)
