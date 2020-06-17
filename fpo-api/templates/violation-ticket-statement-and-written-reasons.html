@@ -10,18 +10,28 @@
         font-size: 9pt;
         font-family: Helvetica, Arial, sans-serif;
         @bottom-left {
-          content: "PFA 712  03/2020 \a         Form C";
+          content: "";
           white-space: pre;
           font-size: 6pt;
         }
         @bottom-right {
             counter-increment: page;
-            content:counter(page);
+            content:'Generated from "Choose how to attend your Traffic Hearing" on DD-MMM-YYYY';
             font-size: 8pt;
-        }
+        };
+        /*@top-right{
+          content: "yo";
+          height: 1rem;
+          margin-top: -1rem;
+          padding: 0.2rem 0.5rem 0.2rem 0.5rem;
+          border: 0.5px solid #000;
+        }*/
 
     }
     @page label{font-size: 9pt;}
+
+    /*@media screen and (max-height: 1000px) { */
+
     body{
       margin: 0;
       padding: 0;
@@ -47,7 +57,7 @@
     .container{
         background-color: #FFFFFF;
         color: #000000;
-        font-size: .85em;
+        font-size: 1.05em;
         margin:0;
         font-family: Helvetica, Arial, sans-serif;
         line-height: 1.05;
@@ -136,16 +146,22 @@
         height: 6em;
         display: inline-block;
     }
-    .box-header{
+    .repeat-header{
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 85%;
+      height: 6em;
+      display: inline-block;
+    }
+
+
+    /*.box-header{
         position: relative;
-        top: 0;
-        right: 10rem;
-        width: 70%;
-        height: 5.3em;
         border: 0.5px solid #000;
         display: inline-block;
         z-index: 10;
-    }
+    }*/
 
 
     @media print{
@@ -153,21 +169,21 @@
         page-break-before: always;
         position: relative; top: 8em;
       }
-      .container-head{
+      /*.container-head{
         position: relative;
         top: 0;
         right: 0;
-        height: 12em;
         margin-bottom: 1em;
         float: right;
       }
       .container-head label {
-        margin-bottom: 0.4em;
+        margin-bottom: 1.4em;
+        font-size:7px;
       }
       .container-head .content {
         margin-bottom: 0.1em
       }
-      .container-head:after{clear: both;}
+      .container-head:after{clear: both;}*/
 
       .numbered-form {
         margin-top: 2rem;
@@ -205,38 +221,7 @@
       }
       .reg-box {
         border: 0.5px solid #000;
-        padding: 0.5rem 0.5rem 1.0rem 1.0rem ;
-      }
-      .reg-box tr.first td.first{
-        padding: 0 !important;
-        margin: 0 !important;
-        width: 10rem !important;
-      }
-      .reg-box tr.first td.third{
-        width: 10px;
-      }
-      .reg-box tr.first td.second{
-        padding-top: 0.5rem;
-        line-height: 1;
-      }
-      .reg-box tr.first td.second .underline{
-        line-height: 0 !important;
-      }
-      .reg-box tr.first td.second .desc{
-        line-height: 0 !important;
-        font-size: 7px;
-      }
-      .reg-box .date-time {
-        position: absolute;
-        line-height: 0 !important;
-        font-size: 7px;
-        margin-top: 0.2rem;
-      }
-      .reg-box .date {
-        margin-left: 70px;
-      }
-      .reg-box .time {
-        margin-left: 210px;
+        padding: 0.5rem
       }
 
       .schedule-header h4 {
@@ -262,8 +247,9 @@
       }
       .form-line-child.hint {
         position: absolute;
-        font-size: 7px;
-        margin-top: -3px;
+        font-size: 8px;
+        margin-top: 0;
+        margin-left: 0.2rem;
       }
       .form-line.text-after-check {
         margin-left: 0.3rem;
@@ -392,39 +378,52 @@
 
     <!-- form heading -->
     <div class="no-repeat-header">
-
-      <table width="100%;">
+      <table width="100%; margin:0;">
         <tbody>
         <tr>
           <td>
-            <h1>NOTICE TO DISPUTANT - RESPONSE</h1>
+            <h1 style="margin-bottom:0; line-height:1rem;">VIOLATION TICKET STATEMENT AND</h1>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <h1 style="margin-top:0; margin-bottom:0; line-height:1rem;">WRITTEN REASONS</h1>
           </td>
         </tr>
         </tbody>
       </table>
+      <div style="font-size:18px; line-height:0.7rem; margin-bottom: 0.4rem;">In the Province of British Columbia</div>
+      <div style="width: 24rem; line-height:0.85rem;">Section 15.4(1) of the Offence Act requires a form to be used if a Disputant wants to request a reduction in the Ticketed Amount and/or request time to pay the Ticket Amount, and the Disputant does NOT want to appear in person for hearing of the Dispute.</div>
     </div><!-- /form heading -->
 
-    <!-- correct positioning of repeated block -->
+    <!-- correct positioning of header block -->
     <div class="container-head">
-      <div style="position: absolute; top: 0; left: 0; height: 11em; margin-left: -50px;">
-        <div class="box-header">
-          <table width="100%;" style="margin-right: -40px">
+      <div style="
+        position: absolute;
+        background-color: white;
+        top: -40px;
+        right: 0;
+        width: 13rem;
+        z-index:1000;
+        ">
+        <div class="box-header bordered">
+          <table width="100%;">
             <tbody>
-            <tr class="brdr-btm">
+            <tr class="brdr-btm" style="height:2.2rem;">
               <td>
-                <label>VIOLATION TICKET NUMBER</label>
+                <label style="font-size:7px; margin:-0.1rem 0 0.3rem 0;">VIOLATION TICKET NUMBER</label>
                 <div class="content">&nbsp;</div>
               </td>
             </tr>
-            <tr>
+            <tr class="brdr-btm" style="height:2.2rem;">
               <td>
-                <label>DATE OF ALLEGATION</label>
+                <label style="font-size:7px; margin:-0.1rem 0 0.3rem 0;">Court Hearing Location</label>
                 <div class="content">&nbsp;</div>
               </td>
             </tr>
-            <tr class="bordered" style="border-top: 0">
+            <tr style="border-top: 0" style="height:2.2rem;">
               <td>
-                <label>HEARING LOCATION</label>
+                <label style="font-size:7px; margin:0.1rem 0 0.3rem 0;">Date</label>
                 <div class="content">&nbsp;</div>
               </td>
             </tr>
@@ -434,7 +433,172 @@
       </div>
     </div>
 
-  </div>
+    <!-- Repeat this block on instead --> 
+    <div class="container-head">
+      <div style="
+        position: fixed;
+        background-color: white;
+        top: -40px;
+        right: 0;
+        width: 13rem;
+        z-index:999
+        ">
+        <div class="box-header bordered">
+          <table width="100%;">
+            <tbody>
+            <tr style="height:2.0rem;">
+              <td>
+                <label style="font-size:7px; margin:-0.1rem 0 0.3rem 0;">VIOLATION TICKET NUMBER</label>
+                <div class="content">&nbsp;</div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="v-spacer-1"></div>
+
+    <div class="reg-box">
+      <div style="margin-top:0.5rem;">
+        <div class="form-line">
+          <div class="form-line-child underline" style="min-width:16rem;"></div>
+          <div class="form-line-child hint">Surname</div>
+        </div>
+        <div class="form-line">
+          <div class="form-line-child underline" style="min-width:25rem;"></div>
+          <div class="form-line-child hint">Given Names</div>
+        </div>
+      </div>
+
+      <div style="margin-top:1rem;">
+        <div class="form-line">
+          <div class="form-line-child underline" style="min-width:14rem;"></div>
+          <div class="form-line-child hint">Driver's license number</div>
+        </div>
+        <div class="form-line">
+          <div class="form-line-child underline" style="min-width:14rem;"></div>
+          <div class="form-line-child hint">Province or State of driver's license</div>
+        </div>
+      </div>
+
+      <div style="margin-top:1rem;">
+        <div class="form-line">
+          <div class="form-line-child underline" style="min-width:41rem;"></div>
+          <div class="form-line-child hint">Mailing Address</div>
+        </div>
+      </div>
+
+      <div style="margin-top:1rem;">
+        <div class="form-line">
+          <div class="form-line-child underline" style="min-width:41rem;"></div>
+        </div>
+      </div>
+
+      <div style="margin-top:1rem;">
+        <div class="form-line">
+          <div class="form-line-child underline" style="min-width:14rem;"></div>
+          <div class="form-line-child hint">Birthdate</div>
+        </div>
+      </div>
+
+      <div style="margin-top:1rem; font-size:12px;">
+        <b>Note:</b> If you do not notify the Court of a change of address, you will <b>not</b> be notified of the order of the Justice.
+      </div>
+
+    </div>
+
+    <div style="margin-top:0.5rem"></div>
+
+    <div class="reg-box" style="page-break-inside:avoid;">
+      <div style="line-height:1.5;">
+        <b>I agree that I committed this offence and I do NOT want to appear in person for a hearing. I want to request a reduction in the fine portion of the Ticketed Amount(s) and/or time to pay the Ticketed Amount(s).</b>
+      </div>
+      <div>
+        <div class="form-line" style="margin-top:0.8rem;">
+          <div class="form-line-child bordered" style="width:18rem; height:1.8rem;"></div>
+          <div class="form-line-child hint">Signature of Disputant</div>
+        </div>
+
+        <div class="form-line" style="position:relative; top:-10px; margin: 0 1rem 0 1rem;"><b>OR</b></div>
+
+        <div class="form-line" style="margin-top:0.8rem;">
+          <div class="form-line-child bordered" style="width:18rem; height:1.8rem;"></div>
+          <div class="form-line-child hint">Signature of Agent</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="form-line" style="margin:1.5rem 0 0.4rem 0;">
+          <div class="form-line-child underline" style="min-width:40rem;"></div>
+          <div class="form-line-child hint">Agent's Address</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="margin-top:0.5rem"></div>
+
+    <div class="reg-box" style="page-break-inside:avoid;">
+      <div>
+        <span style="display:inline-block;"><b>Written Reasons for a Reduction in the Ticketed Amount(s) </b></span><span style="display:inline-block; font-size:10px;">(Must not contain a defence of the allegation)</span>:
+        <div class="v-spacer-5"></div>
+      </div>
+    </div>
+
+    <div style="margin-top:0.5rem"></div>
+
+    <div class="reg-box" style="page-break-inside:avoid;">
+      <div>
+        <span style="display:inline-block;"><b>Written Reasons for Time to Pay the Ticketed Amounts(s) </b></span><span style="display:inline-block; font-size:10px;">(Must not contain a defence of the allegation)</span>:
+        <div class="v-spacer-5"></div>
+      </div>
+    </div>
+
+
+    <div style="margin-top:0.5rem"></div>
+
+    <div class="reg-box" style="page-break-inside:avoid;">
+      <div>
+        <b>Important Notice</b>&nbsp;&nbsp; Certain <i>Motor Vehicle Act</i> offences have a minimum fine and cannot be reduced.
+      </div>
+
+    </div>
+
+    <div style="margin-top:0.5rem"></div>
+
+    <div class="reg-box" style="height:2.7rem; page-break-inside:avoid; ">
+      <div style="width:24rem;">
+        <b>
+          VIOLATION TICKET CENTRE CONTACT INFORMATION
+        </b>
+      </div>
+
+      <div style="
+        width:14rem;
+        white-space:nowrap;
+        float: right;
+        margin: -1.2rem 3rem 0 0;
+        ">
+        <table>
+          <tr>
+            <td>Phone Toll Free:</td>
+            <td>1-877-661-8026</td>
+          </tr>
+          <tr>
+            <td>Mailing Address:</td>
+            <td>P.O. Box 2164 Stn Main</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Vancouver, BC, V6B 3V3</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
 </div>
 </body>
 </html>
