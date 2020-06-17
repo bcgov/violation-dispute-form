@@ -27,6 +27,7 @@ import { SurveyEditorComponent } from "./survey/editor.component";
 import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
 import { RecaptchaService } from './survey/recaptcha.service';
 import { SuccessComponent } from './success/success.component';
+import { AdminDataService } from "./admin/admin-data.service";
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { SuccessComponent } from './success/success.component';
     GlossaryService,
     RecaptchaService,
     InsertService,
+    AdminDataService,
     { provide: HTTP_INTERCEPTORS, useClass: HttpCsrfInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

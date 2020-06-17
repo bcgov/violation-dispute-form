@@ -143,6 +143,16 @@
         user-select: none;   
     }
 
+    #hearingLocationButton, #hearingLocation {
+        max-width:500px;
+        overflow-x: hidden;
+        text-overflow: ellipsis;
+        .dropdown-item {
+            overflow-x: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+
 
 } 
 
