@@ -13,19 +13,9 @@
       <div class="form-group mr-2">
         <div class="input-group">
           <div class="input-group-prepend">
-            <span class="input-group-text">Name: </span>
+            <span class="input-group-text">Name or Ticket #: </span>
           </div>
-          <input  type="text" class="form-control" id="nameSearch" (input)="filterByName($event.target.value)">
-        </div>
-      </div>
-      <div class="form-group mr-2">
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">Ticket #: </span>
-          </div>
-          <input type="text" class="form-control" id="ticketSearch" (input)="filterByTicketNumber($event.target.value)">
-          <div class="input-group-append">
-          </div>
+          <input autocomplete="off" type="text" class="form-control" id="search" (input)="filterByNameOrTicketNumber($event.target.value)">
         </div>
       </div>
       <div ngbDropdown class="d-inline-block mr-2" #responseDateDrop="ngbDropdown" >
@@ -71,7 +61,7 @@
     (sort)="sort($event)"
     (scroll)="onScroll($event.offsetY)"
   >
-    <ngx-datatable-column *ngFor="let column of columns; let i = index;" name="{{column.name}}" prop="{{column.prop}}" [resizeable]="false" [sortable]="true" [width]="column.width">
+    <ngx-datatable-column *ngFor="let column of columns; let i = index;" name="{{column.name}}" prop="{{column.prop}}" [resizeable]="false" [sortable]="true" >
       <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn">
         <span class="unselectable" *ngIf="column.name!=='Action'" (click)="sort()">
         {{column.name}}
@@ -94,9 +84,9 @@
         let-curPage="curPage"
         let-offset="offset"
       >
-        <div style="min-width:100%; font-size:14px;" class="mt-0 mr-2">
+        <div style="min-width:98vw; font-size:14px;" class="mt-0 mr-2">
           <hr class="mb-0 mt-0"/>
-          <span class="font-weight-bold" [class.text-success]="selected.length < 50" [class.text-warning]="selected.length >= 50">{{ selected.length }} selected (50 max)</span>  / {{ this.data.count }} total
+          <span class="font-weight-bold" [class.text-success]="selected.length < 50" [class.text-danger]="selected.length >= 50">{{ selected.length }} selected (50 max)</span>  / {{ this.data.count }} total
           <br/>
           Vancouver (Robson Square): 0
           <br/>

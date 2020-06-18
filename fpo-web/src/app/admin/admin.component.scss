@@ -10,6 +10,10 @@
 
 :host ::ng-deep {
 
+    .ngx-datatable.scroll-vertical{
+        width:98vw;
+      }
+
     .ngx-datatable.bootstrap .datatable-body .progress-linear {
         display: block;
         position: relative;

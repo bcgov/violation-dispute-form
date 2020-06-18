@@ -10,8 +10,7 @@ export interface SearchParameters {
 }
 
 export interface FilterParameters {
-  name: string;
-  ticketNumber: string;
+  search: string;
   createdDate: string;
   region: string;
   offset: number;
@@ -60,8 +59,7 @@ export class AdminComponent implements OnInit {
   selected = [];
   searchParameters: SearchParameters = {
     filterParameters: {
-      name: "",
-      ticketNumber: "",
+      search: "",
       createdDate: "",
       region: "",
       offset: 0,
@@ -119,7 +117,7 @@ export class AdminComponent implements OnInit {
     // 1) it prevents the same page from being loaded twice
     // 2) it enables display of the loading indicator
     this.loading = true;
-    this.data = await this.AdminService.getResponseSearch(this.searchParameters);
+    this.data = await this.AdminService.getSearchResponse(this.searchParameters);
     this.searchParameters.filterParameters.offset += this.data.results.length;
     const rows = [...this.rows, ...this.data.results];
     this.rows = rows;
@@ -128,8 +126,9 @@ export class AdminComponent implements OnInit {
 
 
   async executeSearch(searchParameters: SearchParameters) {
+    this.searchParameters.filterParameters.offset = 0;
     this.loading = true;
-    this.data = await this.AdminService.getResponseSearch(this.searchParameters);
+    this.data = await this.AdminService.getSearchResponse(this.searchParameters);
     this.loading = false;
     this.rows = this.data.results;
   }
@@ -147,18 +146,15 @@ export class AdminComponent implements OnInit {
     return ngbDateStruct;
   }
 
-  filterByName(name: string) {
-    this.searchParameters.filterParameters.name = name;
-    this.executeSearch(this.searchParameters);
-  }
+ 
 
   filterByRegion(region: string) {
     this.searchParameters.filterParameters.region = region;
     this.executeSearch(this.searchParameters);
   }
 
-  filterByTicketNumber(ticketNumber: string) {
-    this.searchParameters.filterParameters.ticketNumber = ticketNumber;
+  filterByNameOrTicketNumber(search: string) {
+    this.searchParameters.filterParameters.search = search;
     this.executeSearch(this.searchParameters);
   }
 

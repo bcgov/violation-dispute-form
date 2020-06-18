@@ -72,13 +72,17 @@ export class AdminDataService {
     return Object.keys(filterParameters)
       .filter((x) => filterParameters[x].toString().trim().length !== 0)
       .map((key) => {
+
         var snakeCaseKey = key.replace(
           /[A-Z]/g,
           (letter) => `_${letter.toLowerCase()}`
         );
+
         return `${encodeURIComponent(snakeCaseKey)}=${encodeURIComponent(
           filterParameters[key].toString().trim()
         )}`;
+
+
       })
       .join("&");
   }
@@ -93,12 +97,12 @@ export class AdminDataService {
 
   async getData(searchParameters: SearchParameters) {
     var action = this.buildQueryString(searchParameters);
-    const url = this.generalDataService.getApiUrl("responses/" + action);
+    const url = this.generalDataService.getApiUrl("responses" + action);
     console.log(url);
     return await this.generalDataService.loadJson(url) as SearchResponse;
   }
 
-  async getResponseSearch(searchParameters: SearchParameters) : Promise<SearchResponse> {
+  async getSearchResponse(searchParameters: SearchParameters) : Promise<SearchResponse> {
     var searchResponse = await this.getData(searchParameters);
 
     searchResponse.results = searchResponse.results.map((r) => ({
