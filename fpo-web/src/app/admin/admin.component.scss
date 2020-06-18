@@ -10,10 +10,10 @@
 
 :host ::ng-deep {
 
-    .ngx-datatable.scroll-vertical{
-        width:98vw;
-      }
-
+    .ngx-datatable.scroll-vertical {
+        height: 76vh;
+    }
+    
     .ngx-datatable.bootstrap .datatable-body .progress-linear {
         display: block;
         position: relative;
@@ -85,9 +85,7 @@
         background-color: rgba(0, 0, 0, 0.05)
     }
 
-    .ngx-datatable.scroll-vertical {
-        height: 77vh;
-    }
+
 
     .ngx-datatable.bootstrap.multi-click-selection .datatable-body-row.active {
         background-color: $gov-navy-blue;

@@ -42,7 +42,7 @@
     class="bootstrap"
     [rows]="rows"
     [scrollbarV]="true"
-    [scrollbarH]="true"
+    [scrollbarH]="false"
     [loadingIndicator]="loading"
     [sortType]="SortType.multiple"
     [columnMode]="ColumnMode.force"
@@ -84,7 +84,7 @@
         let-curPage="curPage"
         let-offset="offset"
       >
-        <div style="min-width:98vw; font-size:14px;" class="mt-0 mr-2">
+        <div style="min-width:100%; font-size:14px;" class="mt-0 mr-2">
           <hr class="mb-0 mt-0"/>
           <span class="font-weight-bold" [class.text-success]="selected.length < 50" [class.text-danger]="selected.length >= 50">{{ selected.length }} selected (50 max)</span>  / {{ this.data.count }} total
           <br/>
