@@ -16,10 +16,15 @@
         }*/
         @bottom-right {
             counter-increment: page;
-            content:'Generated from "Choose how to attend you Traffic Hearing" on DD-MMM-YYYY';
+            content: 'Generated from "Choose how to attend you Traffic Hearing" on ' string(doctitle);
             font-size: 8pt;
         }
 
+    }
+
+    /* Save this content for the footer */
+    #ticket-date {
+      string-set: doctitle content();
     }
 
     @page label{font-size: 9pt;}
@@ -430,7 +435,7 @@
             <tr class="brdr-btm">
               <td>
                 <label>VIOLATION DATE</label>
-                <div class="form-content">&nbsp;{{ticketDate}}</div>
+                <div id="ticket-date" class="form-content">&nbsp;{{ticketDate}}</div>
               </td>
             </tr>
             <tr>
@@ -444,21 +449,6 @@
         </div>
       </div>
     </div>
-
-    <!--
-    <div>
-      <h4 style="margin-bottom:5px">TO:</h3>
-      <div class="indent">
-        <div>VIOLATION TICKET CENTRE</div>
-        <div>P.O. Box 2164 Stn Main</div>
-        <div>Vancouver, BC, V6B 3V3</div>
-        <div style="margin-top:1rem;">
-          <span style="display:inline-block">FAX: 604-660-4868</span>
-          <span style="display:inline-block; margin-left: 1rem">EMAIL: </span>
-        </div>
-      </div>
-    </div>
-    -->
 
     <div class="v-spacer-4"></div>
 
