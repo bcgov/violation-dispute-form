@@ -57,18 +57,19 @@
     [sortType]="SortType.multiple"
     [columnMode]="ColumnMode.force"
     [columns]="columns"
-    [headerHeight]="50"
+    [headerHeight]="headerHeight"
     [summaryRow]="false"
     [selected]="selected"
     [selectionType]="SelectionType.multiClick"
     [footerHeight]="140"
     [limit]="10"
     [reorderable]="reorderable"
-    [rowHeight]="50"
+    [rowHeight]="rowHeight"
     [externalSorting]="false"
     [sorts]="this.searchParameters.sortParameters"
     (select)="select($event)"
     (sort)="sort($event)"
+    (scroll)="onScroll($event.offsetY)"
   >
     <ngx-datatable-column *ngFor="let column of columns; let i = index;" name="{{column.name}}" prop="{{column.prop}}" [resizeable]="false" [sortable]="true" [width]="column.width">
       <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn">
@@ -79,12 +80,12 @@
       <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
         {{value}}
         <span (click)="openPdf($event);" *ngIf="column.name==='Action'" class="unselectable mr-4">
-          <img [class.invert-color]="this.selected.indexOf(row) !== -1" width="24" height="24" src="assets/open-pdf.svg"/>
+          <!--<img [class.invert-color]="this.selected.indexOf(row) !== -1" width="24" height="24" src="assets/open-pdf.svg"/>-->
           View Response
         </span>
       </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-footer *ngIf="true">
+    <ngx-datatable-footer>
       <ng-template
         ngx-datatable-footer-template
         let-rowCount="rowCount"
@@ -95,7 +96,7 @@
       >
         <div style="min-width:100%; font-size:14px;" class="mt-0 mr-2">
           <hr class="mb-0 mt-0"/>
-          <span class="font-weight-bold" [class.text-danger]="selected.length >= 50">{{ selected.length }} selected (50 max)</span>  / {{ rowCount }} total
+          <span class="font-weight-bold" [class.text-success]="selected.length < 50" [class.text-warning]="selected.length >= 50">{{ selected.length }} selected (50 max)</span>  / {{ this.data.count }} total
           <br/>
           Vancouver (Robson Square): 0
           <br/>

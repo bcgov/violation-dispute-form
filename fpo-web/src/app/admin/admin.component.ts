@@ -1,7 +1,7 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ElementRef } from "@angular/core";
 import { ColumnMode, SelectionType, SortType } from "@swimlane/ngx-datatable";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
-import { AdminDataService } from './admin-data.service';
+import { AdminDataService, SearchResponse } from './admin-data.service';
 
 //#region Interfaces
 export interface SearchParameters {
@@ -31,10 +31,11 @@ interface SortParameter {
   styleUrls: ["./admin.component.scss"],
 })
 export class AdminComponent implements OnInit {
-
   //#region Variables & Constructor
   AdminService: AdminDataService;
 
+  readonly headerHeight = 50;
+  readonly rowHeight = 50;
   ColumnMode = ColumnMode;
   SelectionType = SelectionType;
   SortType = SortType;
@@ -49,7 +50,12 @@ export class AdminComponent implements OnInit {
     { prop: "deadline_date", name: "Deadline Date" },
     { prop: "action", name: "Action" }
   ];
-  data = [];
+  data: SearchResponse = {
+    count: 0,
+    next: null,
+    previous: null,
+    results: null
+  };
   rows = [];
   selected = [];
   searchParameters: SearchParameters = {
@@ -59,16 +65,18 @@ export class AdminComponent implements OnInit {
       createdDate: "",
       region: "",
       offset: 0,
-      limit: 0
+      limit: 100 //Hard coded to 100 on the API server for now. 
     },
     sortParameters: [],
   };
+  maxSelectedRecords = 50;
+
 
   ngOnInit() {
-    
+    this.onScroll(0);
   }
 
-  constructor( private adminService: AdminDataService) {
+  constructor( private adminService: AdminDataService, private el: ElementRef) {
     this.AdminService = adminService;
 
     //This will disable text highlighting while shift is held down.
@@ -80,16 +88,50 @@ export class AdminComponent implements OnInit {
       });
     });
 
-    this.searchParameters.sortParameters = [{ prop: 'hearing_location', dir: 'asc' }, { prop: 'name', dir: 'asc' }];
-    this.executeSearch(this.searchParameters);
+    this.searchParameters.sortParameters = [{ prop: 'hearing_location', dir: 'asc' }, {prop: 'created_date', dir: 'asc'}, { prop: 'name', dir: 'asc' }];
   }
   //#endregion Variables & Constructor
+
+  onScroll(offsetY: number) {
+    // total height of all rows in the viewport
+    const viewHeight = this.el.nativeElement.getBoundingClientRect().height - this.headerHeight;
+
+    // check if we scrolled to the end of the viewport
+    if (!this.loading && offsetY + viewHeight >= this.rows.length * this.rowHeight) {
+      // total number of results to load
+      let limit = this.searchParameters.filterParameters.limit;
+
+      // check if we haven't fetched any results yet
+      if (this.rows.length === 0) {
+        // calculate the number of rows that fit within viewport
+        const pageSize = Math.ceil(viewHeight / this.rowHeight);
+
+        // change the limit to pageSize such that we fill the first page entirely
+        // (otherwise, we won't be able to scroll past it)
+        limit = Math.max(pageSize, this.searchParameters.filterParameters.limit);
+      }
+      this.loadPage(limit);
+    }
+  }
+
+  private async loadPage(limit: number) {
+    // set the loading flag, which serves two purposes:
+    // 1) it prevents the same page from being loaded twice
+    // 2) it enables display of the loading indicator
+    this.loading = true;
+    this.data = await this.AdminService.getResponseSearch(this.searchParameters);
+    this.searchParameters.filterParameters.offset += this.data.results.length;
+    const rows = [...this.rows, ...this.data.results];
+    this.rows = rows;
+    this.loading = false;
+  }
+
 
   async executeSearch(searchParameters: SearchParameters) {
     this.loading = true;
     this.data = await this.AdminService.getResponseSearch(this.searchParameters);
     this.loading = false;
-    this.rows = this.data;
+    this.rows = this.data.results;
   }
 
   responseDateText() : string {
@@ -137,8 +179,8 @@ export class AdminComponent implements OnInit {
   }
 
   select({ selected }) {  
-    if (selected.length > 50) {
-      this.selected = selected.slice(0,50);
+    if (selected.length > this.maxSelectedRecords) {
+      this.selected = selected.slice(0,this.maxSelectedRecords);
       return;
     }
     this.selected.splice(0, this.selected.length);
@@ -157,9 +199,9 @@ export class AdminComponent implements OnInit {
   }
 
   printTop50(event) {
-    console.log(this.rows.slice(0,50));
+    console.log(this.rows.slice(0,this.maxSelectedRecords));
     event.stopPropagation();
-    this.adminService.postGeneratePdf(this.rows.slice(0,50));
+    this.adminService.postGeneratePdf(this.rows.slice(0,this.maxSelectedRecords));
     var oWindow = window.open("assets/doc.pdf", "print");
     oWindow.print();
     oWindow.close();

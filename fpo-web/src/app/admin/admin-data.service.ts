@@ -7,17 +7,18 @@ import {
   SortParameters,
 } from "./admin.component";
 
-interface SearchResult {
+
+export interface SearchResponse {
   count: number;
-  next: number;
-  previous: number;
+  next: string;
+  previous: string;
   results: Array<TicketResponseContent>;
 }
 
 interface TicketResponseContent {
-  created_date: string;
-  updated_date: string;
-  emailed_date: string;
+  created_date: Date | string;
+  updated_date: Date | string;
+  emailed_date: Date | string;
  
   first_name: string;
   middle_name: string;
@@ -30,7 +31,7 @@ interface TicketResponseContent {
 
   ticket_number: string;
   ticket_date: Date;
-  deadline_date: Date;
+  deadline_date: Date | string;
   dispute_type: string;
   pdf_filename: string;
   archived_by: string;
@@ -42,6 +43,11 @@ export class AdminDataService {
   constructor(private dataService: GeneralDataService) {
     this.generalDataService = dataService;
   }
+
+  
+  monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  ];
 
   buildSortString(sortParameters: SortParameters): string {
     if (sortParameters.length == 0) 
@@ -89,15 +95,20 @@ export class AdminDataService {
     var action = this.buildQueryString(searchParameters);
     const url = this.generalDataService.getApiUrl("responses/" + action);
     console.log(url);
-    return await this.generalDataService.loadJson(url) as SearchResult;
+    return await this.generalDataService.loadJson(url) as SearchResponse;
   }
 
-  async getResponseSearch(searchParameters: SearchParameters) {
-    var resultJson = await this.getData(searchParameters);
-    return resultJson.results.map((r) => ({
+  async getResponseSearch(searchParameters: SearchParameters) : Promise<SearchResponse> {
+    var searchResponse = await this.getData(searchParameters);
+
+    searchResponse.results = searchResponse.results.map((r) => ({
       ...r,
+      deadline_date: new Date(r.deadline_date).getDate() + "-" + this.monthNames[new Date(r.deadline_date).getMonth()] + "-" + new Date(r.deadline_date).getFullYear(),
+      created_date: new Date(r.created_date).getDate() + "-" + this.monthNames[new Date(r.created_date).getMonth()] + "-" + new Date(r.created_date).getFullYear(),
       name: `${r.last_name}, ${r.first_name} ${r.middle_name || ''}`,
     }));
+
+    return searchResponse;    
   }
 
   //Not sure yet if we're passing file names or ids.
