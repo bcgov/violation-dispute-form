@@ -150,7 +150,7 @@
         top: 0;
         right: 10rem;
         width: 70%;
-        height: 12.4em;
+        height: 14em;
         border: 0.5px solid #000;
         display: inline-block;
         z-index: 10;
@@ -399,7 +399,7 @@
     @page :first {
     }
     .form-content {
-      font-size: 12px;
+      font-size: 12pt;
     }
     </style>
 </head>
@@ -425,7 +425,7 @@
 
     <!-- correct positioning of repeated block -->
     <div class="container-head">
-      <div style="position: absolute; top: 0; left: 0; margin-left: -70px; margin-top: -30px;">
+      <div style="position: absolute; top: 0; left: 0; margin-left: -70px; margin-top: -60px;">
         <div class="box-header">
           <table style="margin-right: -140px">
             <tbody>
@@ -453,7 +453,7 @@
       </div>
     </div>
 
-    <div class="v-spacer-4"></div>
+    <div class="v-spacer-3"></div>
 
     <div class="bordered" style="padding:1em 1em 1.5em 1em; margin-top:1rem;">
       <h4 style="margin:3px 0">CONTACT INFORMATION:</h4>
@@ -732,13 +732,18 @@
         <div style="margin: 1.0rem 0 0.2rem 0;">
           <div class="form-line">Dated:</div>
           <div class="form-line">
-            <div id="ticket-date1" class="form-line-child underline form-content" style="width:5rem">
+            <div
+              id="ticket-date1"
+              class="form-line-child underline form-content"
+              style="width:5.7rem; font-size:14px;">
               &nbsp;{{date}}
             </div>
           </div>
-          <div class="form-line" style="margin-left:2rem">Signed/acknowledged:</div>
+          <div class="form-line" style="margin-left:1rem">Signed/acknowledged:</div>
           <div class="form-line">
-            <div class="form-line-child underline form-content" style="width:19rem">
+            <div
+              class="form-line-child underline form-content"
+              style="width:19rem; font-size:14px;">
               Digitally signed by {{disputantName.first}} {{disputantName.middle}} {{disputantName.last}}
             </div>
             <div class="form-line-child hint">Disputant</div>
@@ -759,13 +764,18 @@
         <div style="margin: 1.0rem 0 0.2rem 0;">
           <div class="form-line">Dated:</div>
           <div class="form-line">
-            <div id="ticket-date2" class="form-line-child underline form-content" style="min-width:5rem">
+            <div
+              id="ticket-date2"
+              class="form-line-child underline form-content"
+              style="width:5.7rem; font-size:14px;">
               &nbsp;{{date}}
             </div>
           </div>
-          <div class="form-line" style="margin-left:2rem">Signed/acknowledged:</div>
+          <div class="form-line" style="margin-left:1rem">Signed/acknowledged:</div>
           <div class="form-line">
-            <div class="form-line-child underline form-content" style="min-width:19rem">
+            <div
+              class="form-line-child underline form-content"
+              style="width:19rem; font-size:14px;">
               Digitally signed by {{disputantName.first}} {{disputantName.middle}} {{disputantName.last}}
             </div>
             <div class="form-line-child hint">Disputant</div>
