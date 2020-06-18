@@ -108,17 +108,17 @@ export class AdminComponent implements OnInit {
 
   filterByName(name: string) {
     this.searchParameters.filterParameters.name = name;
-    this.AdminService.getResponseSearch(this.searchParameters);
+    this.executeSearch(this.searchParameters);
   }
 
   filterByRegion(region: string) {
     this.searchParameters.filterParameters.region = region;
-    this.AdminService.getResponseSearch(this.searchParameters);
+    this.executeSearch(this.searchParameters);
   }
 
   filterByTicketNumber(ticketNumber: string) {
     this.searchParameters.filterParameters.ticketNumber = ticketNumber;
-    this.AdminService.getResponseSearch(this.searchParameters);
+    this.executeSearch(this.searchParameters);
   }
 
   filterByResponseDate(responseNgbDate: NgbDateStruct) {
@@ -127,19 +127,21 @@ export class AdminComponent implements OnInit {
       responseNgbDate.month - 1,
       responseNgbDate.day
     ).toISOString().slice(0,10);
-    this.AdminService.getResponseSearch(this.searchParameters);
+    this.executeSearch(this.searchParameters);
   }
 
   sort(event) {
     console.log("Sort Event Triggered", event);
     this.loading = true;
     this.searchParameters.sortParameters = event.sorts;
-    this.AdminService.getResponseSearch(this.searchParameters);
+    this.executeSearch(this.searchParameters);
   }
 
-  select({ selected }) {
-    //TODO limit 50 selections here. 
-    console.log("Event: select", event, this.selected);
+  select({ selected }) {  
+    if (selected.length > 50) {
+      this.selected = selected.slice(0,50);
+      return;
+    }
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selected);
   }

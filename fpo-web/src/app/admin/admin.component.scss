@@ -143,14 +143,10 @@
         user-select: none;   
     }
 
-    #hearingLocationButton, #hearingLocation {
+    #hearingLocationButton {
         max-width:500px;
         overflow-x: hidden;
         text-overflow: ellipsis;
-        .dropdown-item {
-            overflow-x: hidden;
-            text-overflow: ellipsis;
-        }
     }
 
 

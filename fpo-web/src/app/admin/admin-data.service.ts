@@ -29,8 +29,6 @@ interface TicketResponseContent {
   pdf_filename: string;
   archived_by: string;
 }
-//#endregion
-
 
 @Injectable()
 export class AdminDataService {
@@ -40,7 +38,8 @@ export class AdminDataService {
   }
 
   buildSortString(sortParameters: SortParameters): string {
-    if (sortParameters.length == 0) return "";
+    if (sortParameters.length == 0) 
+      return "";
 
     var orderingString = "&ordering=";
     sortParameters.forEach((order) => {
@@ -51,8 +50,8 @@ export class AdminDataService {
     });
 
     //Remove trailing comma.
-    if (sortParameters.length > 0) orderingString = orderingString.slice(0, -1);
-
+    if (sortParameters.length > 0) 
+      orderingString = orderingString.slice(0, -1);
     return orderingString;
   }
 
@@ -94,7 +93,7 @@ export class AdminDataService {
     var resultJson = await this.getData(searchParameters);
     return resultJson.results.map((r) => ({
       ...r,
-      name: `${r.last_name}, ${r.first_name} ${r.middle_name}`,
+      name: `${r.last_name}, ${r.first_name} ${r.middle_name || ''}`,
     }));
   }
 
