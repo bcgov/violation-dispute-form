@@ -1,5 +1,4 @@
-<div> <!--style="max-height:900px">-->
-  <br/>
+<div> 
   <h4 class="admin-title">
     New Responses
   </h4>
@@ -53,6 +52,7 @@
     class="bootstrap"
     [rows]="rows"
     [scrollbarV]="true"
+    [scrollbarH]="true"
     [loadingIndicator]="loading"
     [sortType]="SortType.multiple"
     [columnMode]="ColumnMode.force"
@@ -62,9 +62,7 @@
     [selected]="selected"
     [selectionType]="SelectionType.multiClick"
     [footerHeight]="140"
-
     [limit]="10"
-    rowHeight="auto"
     [reorderable]="reorderable"
     [rowHeight]="50"
     [externalSorting]="false"
@@ -95,7 +93,7 @@
         let-curPage="curPage"
         let-offset="offset"
       >
-        <div style="width:100%; font-size:14px" class="mt-2">
+        <div style="min-width:100%; font-size:14px;" class="mt-0 mr-2">
           <hr class="mb-0 mt-0"/>
           <span class="font-weight-bold" [class.text-danger]="selected.length >= 50">{{ selected.length }} selected (50 max)</span>  / {{ rowCount }} total
           <br/>
@@ -110,7 +108,7 @@
       </ng-template>
     </ngx-datatable-footer>
   </ngx-datatable>
-  <span style="font-size:12px">Tip: Hold shift to select multiple rows. Printing is limited to 50 records. </span>
+  <span class="text-muted" style="font-size:14px">Tip: Hold shift to select multiple rows. Printing is limited to 50 records. </span>
 <br/>
 </div>
 

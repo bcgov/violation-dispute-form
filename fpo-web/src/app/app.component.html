@@ -45,7 +45,7 @@
 
   <main role="main" class="app-content">
 
-    <div class="app-main">
+    <div [class.table-height]="router.url === '/admin'" class="app-main">
       <!--<breadcrumb></breadcrumb>-->
 
       <router-outlet></router-outlet>

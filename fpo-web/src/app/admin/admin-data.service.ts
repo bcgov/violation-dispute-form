@@ -1,13 +1,19 @@
 import { Injectable } from "@angular/core";
 import { GeneralDataService } from "app/general-data.service";
+import { HttpClient } from "@angular/common/http";
 import {
   SearchParameters,
   FilterParameters,
   SortParameters,
 } from "./admin.component";
 
+interface SearchResult {
+  count: number;
+  next: number;
+  previous: number;
+  results: Array<TicketResponseContent>;
+}
 
-//Straight from TicketResponse.py.
 interface TicketResponseContent {
   created_date: string;
   updated_date: string;
@@ -83,10 +89,7 @@ export class AdminDataService {
     var action = this.buildQueryString(searchParameters);
     const url = this.generalDataService.getApiUrl("responses/" + action);
     console.log(url);
-    const response = await fetch(url);
-    const json = await response.json();
-
-    return json;
+    return await this.generalDataService.loadJson(url) as SearchResult;
   }
 
   async getResponseSearch(searchParameters: SearchParameters) {

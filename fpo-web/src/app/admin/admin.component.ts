@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { ColumnMode, SelectionType, SortType } from "@swimlane/ngx-datatable";
-import { GeneralDataService } from "../general-data.service";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import { AdminDataService } from './admin-data.service';
 
@@ -13,7 +12,7 @@ export interface SearchParameters {
 export interface FilterParameters {
   name: string;
   ticketNumber: string;
-  responseDate: string;
+  createdDate: string;
   region: string;
   offset: number;
   limit: number;
@@ -57,7 +56,7 @@ export class AdminComponent implements OnInit {
     filterParameters: {
       name: "",
       ticketNumber: "",
-      responseDate: "",
+      createdDate: "",
       region: "",
       offset: 0,
       limit: 0
@@ -94,15 +93,15 @@ export class AdminComponent implements OnInit {
   }
 
   responseDateText() : string {
-    if (this.searchParameters.filterParameters.responseDate == null)
+    if (this.searchParameters.filterParameters.createdDate == null)
      return 'All Response Dates';
-    return `Response Date: ${this.searchParameters.filterParameters.responseDate}`
+    return `Response Date: ${this.searchParameters.filterParameters.createdDate}`
   }
 
   selectToday() {
     var date = new Date();
     var ngbDateStruct = { day: date.getDate(), month: date.getMonth() + 1, year: date.getFullYear()};
-    this.searchParameters.filterParameters.responseDate = new Date().toISOString().slice(0,10);
+    this.searchParameters.filterParameters.createdDate = new Date().toISOString().slice(0,10);
     return ngbDateStruct;
   }
 
@@ -122,7 +121,7 @@ export class AdminComponent implements OnInit {
   }
 
   filterByResponseDate(responseNgbDate: NgbDateStruct) {
-    this.searchParameters.filterParameters.responseDate = new Date(
+    this.searchParameters.filterParameters.createdDate = new Date(
       responseNgbDate.year,
       responseNgbDate.month - 1,
       responseNgbDate.day
