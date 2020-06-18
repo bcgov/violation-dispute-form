@@ -16,15 +16,18 @@
         }*/
         @bottom-right {
             counter-increment: page;
-            content: 'Generated from "Choose how to attend you Traffic Hearing" on ' string(doctitle);
+            content: 'Generated from "Choose how to attend you Traffic Hearing" on ' string(doctitle) string(doctitle2);
             font-size: 8pt;
         }
 
     }
 
     /* Save this content for the footer */
-    #ticket-date {
+    #ticket-date1 {
       string-set: doctitle content();
+    }
+    #ticket-date2 {
+      string-set: doctitle2 content();
     }
 
     @page label{font-size: 9pt;}
@@ -435,7 +438,7 @@
             <tr class="brdr-btm">
               <td>
                 <label>VIOLATION DATE</label>
-                <div id="ticket-date" class="form-content">&nbsp;{{ticketDate}}</div>
+                <div class="form-content">&nbsp;{{ticketDate}}</div>
               </td>
             </tr>
             <tr>
@@ -729,7 +732,7 @@
         <div style="margin: 1.0rem 0 0.2rem 0;">
           <div class="form-line">Dated:</div>
           <div class="form-line">
-            <div class="form-line-child underline form-content" style="width:5rem">
+            <div id="ticket-date1" class="form-line-child underline form-content" style="width:5rem">
               &nbsp;{{date}}
             </div>
           </div>
@@ -756,7 +759,7 @@
         <div style="margin: 1.0rem 0 0.2rem 0;">
           <div class="form-line">Dated:</div>
           <div class="form-line">
-            <div class="form-line-child underline form-content" style="min-width:5rem">
+            <div id="ticket-date2" class="form-line-child underline form-content" style="min-width:5rem">
               &nbsp;{{date}}
             </div>
           </div>
