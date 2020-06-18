@@ -27,7 +27,7 @@
     "disputeType": "allegation",
     "exhibits": "y",
     "french": "y",
-    "hearingAttendance": "in-person",
+    "hearingAttendance": "remote",
     "hearingAttendancePhone": "y",
     "hearingAttendanceVideo": "y",
     "hearingLocation": "item1",
