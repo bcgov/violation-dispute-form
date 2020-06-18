@@ -45,6 +45,13 @@ def form(request):
     today = date.today().strftime('%d-%b-%Y')
     data['date'] = today
 
+     # Make the Violation Ticket Number all upper case
+    try:
+        x = data['ticketNumber']['prefix']
+        data['ticketNumber']['prefix'] = x.upper()
+    except KeyError:
+        pass
+
     template = get_template(template)
     html_content = template.render(data)
 

@@ -13,7 +13,7 @@
     "disputantName": {
         "first": "Homer",
         "last": "Simpson",
-        "middle": "J"
+        "middle": "Jay"
     },
     "disputantPhoneNumber": "555 555 5555",
     "disputantPhoneType": [
@@ -27,7 +27,7 @@
     "disputeType": "allegation",
     "exhibits": "y",
     "french": "y",
-    "hearingAttendance": "remote",
+    "hearingAttendance": "in-person",
     "hearingAttendancePhone": "y",
     "hearingAttendanceVideo": "y",
     "hearingLocation": "item1",
