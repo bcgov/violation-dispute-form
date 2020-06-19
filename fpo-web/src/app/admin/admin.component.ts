@@ -48,10 +48,8 @@ export class AdminComponent implements OnInit {
   columns = [
     { prop: "hearing_location", name: "Court Location" },
     { prop: "name", name: "Name" },
-    { prop: "dispute_type", name: "Ticket Type" },
     { prop: "ticket_number", name: "Ticket #" },
     { prop: "created_date", name: "Response Date" },
-    { prop: "deadline_date", name: "Deadline Date" },
     { prop: "action", name: "Action" }
   ];
 
@@ -144,13 +142,6 @@ export class AdminComponent implements OnInit {
     if (this.searchParameters.filterParameters.createdDate == null)
      return 'All Response Dates';
     return `Response Date: ${this.searchParameters.filterParameters.createdDate}`
-  }
-
-  selectToday() {
-    var date = new Date();
-    var ngbDateStruct = { day: date.getDate(), month: date.getMonth() + 1, year: date.getFullYear()};
-    this.searchParameters.filterParameters.createdDate = new Date().toISOString().slice(0,10);
-    return ngbDateStruct;
   }
 
   filterByRegion(region: string) {
