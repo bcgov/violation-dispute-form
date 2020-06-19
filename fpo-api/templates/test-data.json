@@ -1,0 +1,43 @@
+{
+    "continueDispute": "y",
+    "deadlineDate": "2021-02-01",
+    "disclaimer": 1,
+    "disputantAddress": {
+        "city": "Smallville",
+        "country": "CAN",
+        "postcode": "V3F 23f",
+        "state": "BC",
+        "street": "432 funny way"
+    },
+    "disputantEmail": "fsdfsd@jfkdsl.fj",
+    "disputantName": {
+        "first": "Homer",
+        "last": "Simpson",
+        "middle": "Jay"
+    },
+    "disputantPhoneNumber": "555 555 5555",
+    "disputantPhoneType": [
+        "cell",
+        "home",
+        "work"
+    ],
+    "disputantRemoteAcknowledgement": [
+        "acknowledgeDisputantResponse"
+    ],
+    "disputeType": "allegation",
+    "exhibits": "y",
+    "french": "y",
+    "hearingAttendance": "remote",
+    "hearingAttendancePhone": "y",
+    "hearingAttendanceVideo": "y",
+    "hearingLocation": "item1",
+    "interpreter": "y",
+    "interpreterLanguage": "Swahili",
+    "ticketDate": "2020-01-01",
+    "ticketNumber": {
+        "prefix": "fd",
+        "suffix": 4324243
+    },
+    "witnesses": "y",
+    "witnessesAmount": 2
+}

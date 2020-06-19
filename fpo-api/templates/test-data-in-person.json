@@ -1,0 +1,36 @@
+{
+    "continueDispute": "y",
+    "disclaimer": 1,
+    "disputantAddress": {
+        "city": "Lantzville",
+        "country": "CAN",
+        "postcode": "V0R 2H0",
+        "state": "BC",
+        "street": "7044"
+    },
+    "disputantEmail": "fds@fjkd.ca",
+    "disputantInPersonAcknowledgement": [
+        "acknowledgeDisputantResponse"
+    ],
+    "disputantName": {
+        "first": "fds",
+        "last": "fds",
+        "middle": "fds"
+    },
+    "disputantPhoneNumber": "434 444 4444",
+    "disputantPhoneType": [
+        "cell"
+    ],
+    "disputeType": "allegation",
+    "exhibits": "n",
+    "french": "n",
+    "hearingAttendance": "in-person",
+    "hearingLocation": "item1",
+    "interpreter": "n",
+    "ticketDate": "2020-01-01",
+    "ticketNumber": {
+        "prefix": "fd",
+        "suffix": 43434343
+    },
+    "witnesses": "n"
+}
