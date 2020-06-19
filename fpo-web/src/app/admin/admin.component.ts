@@ -137,6 +137,7 @@ export class AdminComponent implements OnInit {
     this.data = await this.AdminService.getSearchResponse(this.searchParameters);
     this.loading = false;
     this.rows = this.data.results;
+    this.selected = [];
   }
 
   responseDateText() : string {

@@ -10,6 +10,9 @@
 
 :host ::ng-deep {
 
+    .form-control {
+        height:unset;
+    }
     .ngx-datatable.scroll-vertical {
         height: 72vh;
     }
