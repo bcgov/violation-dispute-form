@@ -8,7 +8,7 @@ import { GlossaryService } from "../glossary/glossary.service";
 import { InsertService } from "../insert/insert.service";
 import { addQuestionTypes } from "./question-types";
 import { RecaptchaModule, RecaptchaFormsModule } from "ng-recaptcha";
-import { RecaptchaService } from "./recaptcha.service";
+//import { RecaptchaService } from "./recaptcha.service";
 import { HttpClient } from "@angular/common/http";
 
 @Component({
@@ -31,7 +31,6 @@ export class SurveyComponent implements OnInit, OnDestroy {
   public recaptchaResponse: string;
   public submitError: string;
   public submitSuccess: string;
-  public email: string;
   public surveyCompleted = false;
   public surveyMode = "edit";
   public surveyModel: Survey.SurveyModel;
@@ -52,7 +51,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
   constructor(
     private dataService: GeneralDataService,
     private http: HttpClient,
-    private recaptchaService: RecaptchaService,
+    //private recaptchaService: RecaptchaService,
     private insertService: InsertService,
     private glossaryService: GlossaryService,
     private _router: Router,
@@ -176,15 +175,12 @@ export class SurveyComponent implements OnInit, OnDestroy {
 
     surveyModel.onComplete.add((sender, options) => {
       this.surveyCompleted = true;
-      /*this.surveyMode = "print";
-      if (!this.disableCache) this.saveCache();
+      this.surveyMode = "print";
+      //sif (!this.disableCache) this.saveCache();
       if (this.onComplete) this.onComplete(sender.data);
-      this.onPageUpdate.next(sender);*/
-
+      this.onPageUpdate.next(sender);
       this.submitForm(sender.data);
-      if(this.submitSuccess!=''){
-        this._router.navigate(["success"]);
-      }
+     
     });
     surveyModel.onCurrentPageChanged.add((sender, options) => {
       this.onPageUpdate.next(sender);
