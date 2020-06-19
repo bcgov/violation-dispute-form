@@ -11,7 +11,12 @@
 :host ::ng-deep {
 
     .ngx-datatable.scroll-vertical {
-        height: 76vh;
+        height: 72vh;
+    }
+
+    .ngx-datatable.scroll-vertical .datatable-body {
+        overflow-x: hidden;
+        max-width: 97.5vw;
     }
     
     .ngx-datatable.bootstrap .datatable-body .progress-linear {
@@ -62,11 +67,6 @@
         }
       }
 
-      
-    .admin-title  {
-        font-size:1.6em !important;
-    }
-
     .datatable-header-cell {
         padding: 0.75rem;
         vertical-align: top;
@@ -84,8 +84,6 @@
     .datatable-row-even {
         background-color: rgba(0, 0, 0, 0.05)
     }
-
-
 
     .ngx-datatable.bootstrap.multi-click-selection .datatable-body-row.active {
         background-color: $gov-navy-blue;
@@ -150,7 +148,6 @@
         overflow-x: hidden;
         text-overflow: ellipsis;
     }
-
 
 } 
 

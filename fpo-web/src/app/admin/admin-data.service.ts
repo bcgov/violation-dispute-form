@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { GeneralDataService } from "app/general-data.service";
-import { HttpClient } from "@angular/common/http";
 import {
   SearchParameters,
   FilterParameters,
@@ -44,7 +43,6 @@ export class AdminDataService {
     this.generalDataService = dataService;
   }
 
-  
   monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
   ];

@@ -1,7 +1,7 @@
 <div> 
-  <h4 class="admin-title">
-    New Responses
-  </h4>
+  <div class="shadow p-3 bg-white rounded">
+  <h1 class="admin-title mb-2">{{ this.mode }} </h1><a style="font-size:14px" href='go'> Switch to Response Archive </a> 
+
   <div class="container-fluid pr-8 mt-4">
     <div class="row">
       <div ngbDropdown class="d-inline-block mr-2">
@@ -18,21 +18,13 @@
           <input autocomplete="off" type="text" class="form-control" id="search" (input)="filterByNameOrTicketNumber($event.target.value)">
         </div>
       </div>
-      <div ngbDropdown class="d-inline-block mr-2" #responseDateDrop="ngbDropdown" >
-        <button class="btn btn-outline-primary" ngbDropdownToggle> {{ responseDateText() }}</button>
-        <div ngbDropdownMenu>
-          <ngb-datepicker autoClose="inside" #d (dateSelect)="responseDateDrop.close(); filterByResponseDate($event)"></ngb-datepicker>
-          <br/>
-          <button class="btn btn-sm btn-outline-primary mr-2 mt-1 ml-1" (click)="d.focusDate(selectToday()); d.focusSelect();">Today</button>
-        </div>
-      </div>
       <div class="ml-auto col-auto">
-        <a (click)="printTop50($event)" class="btn btn-secondary" style="color:white;">
-          <img src="assets\print-pdf.svg" class="invert-color printer unselectable" width="24" height="24"/>
+        <a (click)="printTop50($event)" class="btn btn-warning" style="color:black;">
+          <img src="assets\print-pdf.svg" class="printer unselectable" width="20" height="20"/>
           Print Top 50 Responses
         </a>
-        <a (click)="printSelected($event)" [class.disabled]="selected.length == 0" class="btn btn-secondary ml-2" style="color:white;">
-          <img src="assets\print-pdf.svg" class="invert-color printer unselectable" width="24" height="24"/>
+        <a (click)="printSelected($event)" [class.disabled]="selected.length == 0" class="btn btn-warning ml-2" style="color:black;">
+          <img src="assets\print-pdf.svg" class="printer unselectable" width="20" height="20"/>
           Print Selected Responses
         </a>
       </div>
@@ -46,7 +38,7 @@
     [loadingIndicator]="loading"
     [sortType]="SortType.multiple"
     [columnMode]="ColumnMode.force"
-    [columns]="columns"
+    [columns]="column"
     [headerHeight]="headerHeight"
     [summaryRow]="false"
     [selected]="selected"
@@ -70,7 +62,7 @@
       <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
         {{value}}
         <span (click)="openPdf($event);" *ngIf="column.name==='Action'" class="unselectable mr-4">
-          <!--<img [class.invert-color]="this.selected.indexOf(row) !== -1" width="24" height="24" src="assets/open-pdf.svg"/>-->
+          <img [class.invert-color]="this.selected.indexOf(row) !== -1" width="24" height="24" src="assets/open-pdf.svg"/>
           View Response
         </span>
       </ng-template>
@@ -100,6 +92,6 @@
     </ngx-datatable-footer>
   </ngx-datatable>
   <span class="text-muted" style="font-size:14px">Tip: Hold shift to select multiple rows. Printing is limited to 50 records. </span>
-<br/>
+  <br/>
 </div>
-
+</div>

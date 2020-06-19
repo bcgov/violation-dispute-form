@@ -2,6 +2,9 @@ import { Component, OnInit, ElementRef } from "@angular/core";
 import { ColumnMode, SelectionType, SortType } from "@swimlane/ngx-datatable";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import { AdminDataService, SearchResponse } from './admin-data.service';
+import { Router, NavigationEnd, RouterEvent } from '@angular/router';
+import { filter } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 //#region Interfaces
 export interface SearchParameters {
@@ -40,6 +43,8 @@ export class AdminComponent implements OnInit {
   SortType = SortType;
   reorderable = true;
   loading = false;
+  mode: string = 'New Responses';
+
   columns = [
     { prop: "hearing_location", name: "Court Location" },
     { prop: "name", name: "Name" },
@@ -49,6 +54,7 @@ export class AdminComponent implements OnInit {
     { prop: "deadline_date", name: "Deadline Date" },
     { prop: "action", name: "Action" }
   ];
+
   data: SearchResponse = {
     count: 0,
     next: null,
@@ -74,7 +80,7 @@ export class AdminComponent implements OnInit {
     this.onScroll(0);
   }
 
-  constructor( private adminService: AdminDataService, private el: ElementRef) {
+  constructor(private adminService: AdminDataService, private el: ElementRef, private router: Router) {
     this.AdminService = adminService;
 
     //This will disable text highlighting while shift is held down.
@@ -146,8 +152,6 @@ export class AdminComponent implements OnInit {
     return ngbDateStruct;
   }
 
- 
-
   filterByRegion(region: string) {
     this.searchParameters.filterParameters.region = region;
     this.executeSearch(this.searchParameters);
@@ -163,7 +167,7 @@ export class AdminComponent implements OnInit {
       responseNgbDate.year,
       responseNgbDate.month - 1,
       responseNgbDate.day
-    ).toISOString().slice(0,10);
+    ).toISOString();
     this.executeSearch(this.searchParameters);
   }
 
