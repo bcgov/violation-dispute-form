@@ -2,9 +2,6 @@ import { Component, OnInit, ElementRef } from "@angular/core";
 import { ColumnMode, SelectionType, SortType } from "@swimlane/ngx-datatable";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import { AdminDataService, SearchResponse } from './admin-data.service';
-import { Router, NavigationEnd, RouterEvent } from '@angular/router';
-import { filter } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 
 //#region Interfaces
 export interface SearchParameters {
@@ -78,7 +75,7 @@ export class AdminComponent implements OnInit {
     this.onScroll(0);
   }
 
-  constructor(private adminService: AdminDataService, private el: ElementRef, private router: Router) {
+  constructor(private adminService: AdminDataService, private el: ElementRef) {
     this.AdminService = adminService;
 
     //This will disable text highlighting while shift is held down.
