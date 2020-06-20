@@ -37,7 +37,7 @@ def form(request):
     """
 
 
-    data = json.loads(request.body)
+    data = json.loads(request.POST["data"])
     name = request.GET['name']
     template = '{}.html'.format(name)
 
