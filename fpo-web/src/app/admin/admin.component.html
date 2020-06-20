@@ -1,8 +1,12 @@
 <div> 
   <div class="shadow p-3 bg-white rounded">
     <h1>VTC Disputant Response Inbox</h1>
-    <button style="font-size:28px" class="btn btn-primary mr-2">  New Responses </button>
-    <button style="font-size:28px; opacity: 0.6;" class="btn btn-secondary"> Archive</button>
+    <button routerLink="/admin/new-responses" style="font-size:28px" class="btn btn-primary mr-2"> 
+      New Responses 
+    </button>
+    <button routerLink="/admin/archive" style="font-size:28px; opacity: 0.6;" class="btn btn-secondary"> 
+      Archive 
+    </button>
   <div class="container-fluid pr-8 mt-4">
     <div class="row mb-3">
       <div class="col-sm form-inline pl-0">
@@ -76,6 +80,19 @@
         <div style="min-width:100%; font-size:16px;" class="mt-0 mr-2">
           <hr class="mb-0 mt-0"/>
           All Regions: 150 New | Team A: 0 New | Team B: 1 New | Team C: 2 New | Team D: 50 New                    <span style="float:right">{{this.selected.length}} rows selected   </span>
+          <datatable-pager
+          [pagerLeftArrowIcon]="'datatable-icon-left'"
+          [pagerRightArrowIcon]="'datatable-icon-right'"
+          [pagerPreviousIcon]="'datatable-icon-prev'"
+          [pagerNextIcon]="'datatable-icon-skip'"
+          [page]="curPage"
+          [size]="pageSize"
+          [count]="rowCount"
+          [hidden]="!((rowCount / pageSize) > 1)"
+          (change)="table.onFooterPage($event)">
+          </datatable-pager>
+
+          X Pages Total
         </div>
       </ng-template>
     </ngx-datatable-footer>

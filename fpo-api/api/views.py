@@ -27,7 +27,9 @@ from django.template.loader import get_template
 from rest_framework.views import APIView
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework import filters, generics, permissions
+from rest_framework import filters as default_filters, generics, permissions
+
+from django_filters import rest_framework as filters
 
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -191,21 +193,30 @@ class SubmitTicketResponseView(APIView):
         return Response({"id": response.pk, "Email-sent":True})
 
 
+class TicketResponseListFilter(filters.FilterSet):
+    is_printed = filters.BooleanFilter(field_name='printed_by', lookup_expr='isnull')
+    
+    class Meta:
+     
+        model = TicketResponse
+        fields = [
+            'hearing_location',
+            'hearing_attendance',
+            'dispute_type',
+            'is_printed',
+            'ticket_number',
+        ]
+        
 class TicketResponseListView(generics.ListAPIView):
     queryset = TicketResponse.objects.all()
     serializer_class = TicketResponseSerializer
     filter_backends = [
         DjangoFilterBackend,
-        filters.SearchFilter,
-        filters.OrderingFilter,
+        default_filters.SearchFilter,
+        default_filters.OrderingFilter,
     ]
-    filterset_fields = [
-        "hearing_location",
-        "hearing_attendance",
-        "dispute_type",
-        "printed_by",
-        "ticket_number",
-    ]
+    filterset_class = TicketResponseListFilter
+    
     search_fields = ["first_name", "middle_name", "last_name", "ticket_number"]
     ordering_fields = [
         "created_date",

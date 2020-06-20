@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef } from "@angular/core";
 import { ColumnMode, SelectionType, SortType } from "@swimlane/ngx-datatable";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import { AdminDataService, SearchResponse } from './admin-data.service';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 
 //#region Interfaces
 export interface SearchParameters {
@@ -15,6 +16,7 @@ export interface FilterParameters {
   region: string;
   offset: number;
   limit: number;
+  isPrinted: boolean;
 }
 
 export interface SortParameters extends Array<SortParameter> {}
@@ -42,13 +44,7 @@ export class AdminComponent implements OnInit {
   loading = false;
   mode: string = 'New Responses';
 
-  columns = [
-    { prop: "hearing_location", name: "Court Location" },
-    { prop: "name", name: "Name" },
-    { prop: "ticket_number", name: "Ticket #" },
-    { prop: "created_date", name: "Response Date" },
-    { prop: "action", name: "Action" }
-  ];
+  columns = [];
 
   data: SearchResponse = {
     count: 0,
@@ -61,6 +57,7 @@ export class AdminComponent implements OnInit {
   searchParameters: SearchParameters = {
     filterParameters: {
       search: "",
+      isPrinted: false,
       createdDate: "",
       region: "",
       offset: 0,
@@ -75,8 +72,15 @@ export class AdminComponent implements OnInit {
     this.onScroll(0);
   }
 
-  constructor(private adminService: AdminDataService, private el: ElementRef) {
+  constructor(private adminService: AdminDataService, private el: ElementRef, private activatedRoute: ActivatedRoute) {
     this.AdminService = adminService;
+
+    activatedRoute.data.subscribe((data) => {
+      if ( data.title === 'New Responses')
+        this.switchToNewResponses();
+      else 
+        this.switchToArchive();
+    });
 
     //This will disable text highlighting while shift is held down.
     ["keyup", "keydown"].forEach((event) => {
@@ -125,6 +129,37 @@ export class AdminComponent implements OnInit {
     this.loading = false;
   }
 
+
+  switchToNewResponses() {
+    //Add in printed by == null filter
+    //Change the styling 
+    this.columns = [
+      { prop: "hearing_location", name: "Court Location" },
+      { prop: "name", name: "Name" },
+      { prop: "ticket_number", name: "Ticket #" },
+      { prop: "created_date", name: "Response Date" },
+      { prop: "action", name: "Action" }
+    ];
+
+    this.searchParameters.filterParameters.isPrinted = false;
+    this.mode = 'New Responses';
+  }
+
+  switchToArchive() {
+    //Add in printed by != null filter
+    //Change the styling 
+    this.columns = [
+      { prop: "hearing_location", name: "Court Location" },
+      { prop: "name", name: "Name" },
+      { prop: "ticket_number", name: "Ticket #" },
+      { prop: "created_date", name: "Response Date" },
+      { prop: "action", name: "Action"},
+      { prop: "extra", name: "extra column" }
+    ];
+
+    this.searchParameters.filterParameters.isPrinted = true;
+    this.mode = 'Archive'; 
+  }
 
   async executeSearch(searchParameters: SearchParameters) {
     this.searchParameters.filterParameters.offset = 0;
