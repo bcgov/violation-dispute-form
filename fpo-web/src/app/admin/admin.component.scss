@@ -1,0 +1,175 @@
+@import "../../variables";
+
+@import '~@swimlane/ngx-datatable/index.css';
+@import '~@swimlane/ngx-datatable/themes/material.scss';
+@import '~@swimlane/ngx-datatable/assets/icons.css';
+
+//Note I cannot seem to make CSS work witout changing ViewEncapsulation.
+//Instead I used ::ng-deep which is depreciated.
+//Alternatively this could be moved to the style.css at the root. 
+::ng-deep .app-main {
+    padding: 15px !important;
+}
+
+:host ::ng-deep {
+    
+    .input-group-text {
+        color: #38598a;
+        border-color: #38598a;
+        background-color: transparent;
+    }
+
+    .form-group {
+        margin-bottom: 0;
+    }
+
+    .form-control {
+        height:unset;
+        color: #38598a;
+        border-color: #38598a;
+        background-color: transparent;
+    }
+    .ngx-datatable.scroll-vertical {
+        height: 70vh;
+    }
+
+    .ngx-datatable.scroll-vertical .datatable-body {
+        overflow-x: hidden;
+        max-width: 97.5vw;
+    }
+    
+    .ngx-datatable.bootstrap .datatable-body .progress-linear {
+        display: block;
+        position: relative;
+        width: 100%;
+        height: 5px;
+        padding-right: 15px;
+        position: absolute;
+      }
+      .ngx-datatable.bootstrap .datatable-body .progress-linear .container {
+        display: block;
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        margin: 0;
+        max-width: unset;
+        height: 5px;
+        -webkit-transform: translate(0, 0) scale(1, 1);
+        transform: translate(0, 0) scale(1, 1);
+        background-color: #aad1f9;
+      }
+      .ngx-datatable.bootstrap .datatable-body .progress-linear .container .bar {
+        transition: all .2s linear;
+        -webkit-animation: query 0.8s infinite cubic-bezier(0.39, 0.575, 0.565, 1);
+        animation: query 0.8s infinite cubic-bezier(0.39, 0.575, 0.565, 1);
+        transition: -webkit-transform .2s linear;
+        transition: transform .2s linear;
+        background-color: #106cc8;
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        height: 5px;
+      }
+      /**
+       * Progress bar animations
+       */
+       @keyframes query {
+        0% {
+          opacity: 1;
+          transform: translateX(35%) scale(0.3, 1);
+        }
+        100% {
+          opacity: 0;
+          transform: translateX(-50%) scale(0, 1);
+        }
+      }
+
+    .datatable-header-cell {
+        //background-color:#38598a;
+        //border-color: #38598a;
+        //color:white;
+
+        padding: 0.75rem;
+        vertical-align: top;
+        font-weight: 700;
+        border-top: 1px solid #bdc5cc;
+    }
+
+    .datatable-body-cell {
+        cursor: pointer;
+        padding: 0.75rem;
+        vertical-align: top;
+        border-top:1px solid #bdc5cc;
+    }
+
+    .datatable-row-even {
+        background-color: rgba(0, 0, 0, 0.05)
+    }
+
+    .ngx-datatable.bootstrap.multi-click-selection .datatable-body-row.active {
+        background-color: $gov-navy-blue;
+        color:white;
+     
+    }
+
+    .invert-color {
+        filter: invert(100%);
+    }
+
+    .datatable-icon-down {
+        vertical-align: unset !important;
+    }
+
+    .datatable-icon-up {
+        vertical-align: unset !important;
+    }
+     
+    .datatable-icon-down:before {
+        content: '\66';
+        font-family: 'data-table' !important;
+        font-style: normal !important;
+        font-weight: normal !important;
+        font-variant: normal !important;
+        text-transform: none !important;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    .datatable-icon-up:before {
+        content: '\65';
+        font-family: 'data-table' !important;
+        font-style: normal !important;
+        font-weight: normal !important;
+        font-variant: normal !important;
+        text-transform: none !important;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        vertical-align: unset !important;
+    }
+
+    .ngx-datatable{
+        .sort-active .sort-asc {
+            content: '\66';
+        }
+        .sort-active .sort-desc {
+            content: '\65';
+        }
+    }
+
+    .unselectable {
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        -o-user-select: none;
+        user-select: none;   
+    }
+
+    #hearingLocationButton {
+        max-width:500px;
+        overflow-x: hidden;
+        text-overflow: ellipsis;
+    }
+} 
+

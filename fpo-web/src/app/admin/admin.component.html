@@ -1,9 +1,84 @@
-<div class="row">
-  <div class="com-md-12">
-    <p>
-      admin works!
-    </p>
-    <router-outlet></router-outlet>
+<div> 
+  <div class="shadow p-3 bg-white rounded">
+    <h1>VTC Disputant Response Inbox</h1>
+    <button style="font-size:28px" class="btn btn-primary mr-2">  New Responses </button>
+    <button style="font-size:28px; opacity: 0.6;" class="btn btn-secondary"> Archive</button>
+  <div class="container-fluid pr-8 mt-4">
+    <div class="row mb-3">
+      <div class="col-sm form-inline pl-0">
+        <div ngbDropdown class="mr-2 align-bottom">
+          <button id="hearingLocationButton" class="btn btn-outline-primary" ngbDropdownToggle title="{{searchParameters.filterParameters.region || 'All Regions'}}">{{searchParameters.filterParameters.region || 'All Regions'}}</button>
+          <div ngbDropdownMenu id="hearingLocation" aria-labelledby="hearingLocationButton">
+            <button ngbDropdownItem *ngFor="let region of regions" (click)="filterByRegion(region.name)" title="{{region.name}}">{{region.name}}</button>
+          </div>
+        </div>
+        <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Name or Ticket #: </span>
+              </div>
+              <input autocomplete="off" type="text" class="form-control" id="search" (input)="filterByNameOrTicketNumber($event.target.value)">
+        </div>
+      </div>
+      <div class="col-auto">
+        <button type="button" class="btn btn-secondary" (click)="printSelected($event)" [class.disabled]="selected.length == 0" class="btn btn-warning ml-2" style="color:black;" placement="top" ngbTooltip="Tip: Hold the shift key to select multiple rows.">
+          <img src="assets\print-pdf.svg" class="printer unselectable" width="20" height="20"/>
+          Print Selected Responses
+        </button>
+      </div>
+    </div>
   </div>
+  <ngx-datatable
+    class="bootstrap"
+    [rows]="rows"
+    [scrollbarV]="true"
+    [scrollbarH]="false"
+    [loadingIndicator]="loading"
+    [sortType]="SortType.multi"
+    [columnMode]="ColumnMode.force"
+    [columns]="columns"
+    [headerHeight]="headerHeight"
+    [summaryRow]="false"
+    [selected]="selected"
+    [selectionType]="SelectionType.multiClick"
+    [footerHeight]="30"
+    [limit]="10"
+    [reorderable]="reorderable"
+    [rowHeight]="rowHeight"
+    [externalSorting]="false"
+    [sorts]="this.searchParameters.sortParameters"
+    (select)="select($event)"
+    (sort)="sort($event)"
+    (scroll)="onScroll($event.offsetY)"
+  >
+    <ngx-datatable-column *ngFor="let column of columns; let i = index;" name="{{column.name}}" prop="{{column.prop}}" [resizeable]="false" [sortable]="true" >
+      <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn">
+        <span class="unselectable" *ngIf="column.name!=='Action'" (click)="sort()">
+        {{column.name}}
+        </span>
+      </ng-template>
+      <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+        {{value}}
+        <span (click)="openPdf($event);" *ngIf="column.name==='Action'" class="unselectable mr-4">
+          <img [class.invert-color]="this.selected.indexOf(row) !== -1" width="24" height="24" src="assets/open-pdf.svg"/>
+          View Response
+        </span>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-footer>
+      <ng-template
+        ngx-datatable-footer-template
+        let-rowCount="rowCount"
+        let-pageSize="pageSize"
+        let-selectedCount="selectedCount"
+        let-curPage="curPage"
+        let-offset="offset"
+      >
+        <div style="min-width:100%; font-size:16px;" class="mt-0 mr-2">
+          <hr class="mb-0 mt-0"/>
+          All Regions: 150 New | Team A: 0 New | Team B: 1 New | Team C: 2 New | Team D: 50 New                    <span style="float:right">{{this.selected.length}} rows selected   </span>
+        </div>
+      </ng-template>
+    </ngx-datatable-footer>
+  </ngx-datatable>
 </div>
-
+</div>
