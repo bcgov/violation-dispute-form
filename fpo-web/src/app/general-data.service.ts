@@ -34,6 +34,14 @@ export class GeneralDataService {
     return this.getBaseHref() + "api/v1/" + action;
   }
 
+  getPrintApiUrl(action: string): string {
+    if (location.host === "localhost:8080") {
+      // for local debugging
+      return "http://localhost:8081/" + action;
+    }
+    return this.getBaseHref()  + action;
+  }
+
   getBrowserUser() {
     const userKey = "temp-user";
     const sessionUser = sessionStorage.getItem(userKey);
@@ -62,22 +70,7 @@ export class GeneralDataService {
   clearSession() {
     sessionStorage.clear();
   }
-
-  quickExit() {
-    const div = document.createElement("div");
-    div.style.background = "#fff";
-    div.style.position = "absolute";
-    div.style.left = "0px";
-    div.style.top = "0px";
-    div.style.right = "0px";
-    div.style.bottom = "0px";
-    div.style.zIndex = "999999";
-    document.body.appendChild(div);
-    this.clearSession();
-    document.title = "";
-    location.replace("https://www.google.com");
-  }
-
+  
   loadJson(
     url: string,
     params?: any,
