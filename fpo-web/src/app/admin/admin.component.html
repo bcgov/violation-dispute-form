@@ -1,31 +1,29 @@
 <div> 
   <div class="shadow p-3 bg-white rounded">
-  <h1 class="admin-title mb-2">{{ this.mode }} </h1><a style="font-size:14px; padding-left: 2px" href='go'> Switch to Response Archive </a> 
+    <h1>VTC Disputant Response Inbox</h1>
+    <button style="font-size:28px" class="btn btn-primary mr-2">  New Responses </button>
+    <button style="font-size:28px; opacity: 0.6;" class="btn btn-secondary"> Archive</button>
   <div class="container-fluid pr-8 mt-4">
-    <div class="row">
-      <div ngbDropdown class="d-inline-block mr-2">
-        <button id="hearingLocationButton" class="btn btn-outline-primary" ngbDropdownToggle title="{{searchParameters.filterParameters.region || 'All Regions'}}">{{searchParameters.filterParameters.region || 'All Regions'}}</button>
-        <div ngbDropdownMenu id="hearingLocation" aria-labelledby="hearingLocationButton">
-          <button ngbDropdownItem *ngFor="let region of regions" (click)="filterByRegion(region.name)" title="{{region.name}}">{{region.name}}</button>
-        </div>
-      </div>
-      <div class="form-group mr-2">
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">Name or Ticket #: </span>
+    <div class="row mb-3">
+      <div class="col-sm form-inline pl-0">
+        <div ngbDropdown class="mr-2 align-bottom">
+          <button id="hearingLocationButton" class="btn btn-outline-primary" ngbDropdownToggle title="{{searchParameters.filterParameters.region || 'All Regions'}}">{{searchParameters.filterParameters.region || 'All Regions'}}</button>
+          <div ngbDropdownMenu id="hearingLocation" aria-labelledby="hearingLocationButton">
+            <button ngbDropdownItem *ngFor="let region of regions" (click)="filterByRegion(region.name)" title="{{region.name}}">{{region.name}}</button>
           </div>
-          <input autocomplete="off" type="text" class="form-control" id="search" (input)="filterByNameOrTicketNumber($event.target.value)">
+        </div>
+        <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Name or Ticket #: </span>
+              </div>
+              <input autocomplete="off" type="text" class="form-control" id="search" (input)="filterByNameOrTicketNumber($event.target.value)">
         </div>
       </div>
-      <div class="ml-auto col-auto">
-        <a (click)="printTop50($event)" class="btn btn-warning" style="color:black;">
-          <img src="assets\print-pdf.svg" class="printer unselectable" width="20" height="20"/>
-          Print Top 50 Responses
-        </a>
-        <a (click)="printSelected($event)" [class.disabled]="selected.length == 0" class="btn btn-warning ml-2" style="color:black;">
+      <div class="col-auto">
+        <button type="button" class="btn btn-secondary" (click)="printSelected($event)" [class.disabled]="selected.length == 0" class="btn btn-warning ml-2" style="color:black;" placement="top" ngbTooltip="Tip: Hold the shift key to select multiple rows.">
           <img src="assets\print-pdf.svg" class="printer unselectable" width="20" height="20"/>
           Print Selected Responses
-        </a>
+        </button>
       </div>
     </div>
   </div>
@@ -42,7 +40,7 @@
     [summaryRow]="false"
     [selected]="selected"
     [selectionType]="SelectionType.multiClick"
-    [footerHeight]="140"
+    [footerHeight]="25"
     [limit]="10"
     [reorderable]="reorderable"
     [rowHeight]="rowHeight"
@@ -77,20 +75,10 @@
       >
         <div style="min-width:100%; font-size:14px;" class="mt-0 mr-2">
           <hr class="mb-0 mt-0"/>
-          <span class="font-weight-bold" [class.text-success]="selected.length < 50" [class.text-danger]="selected.length >= 50">{{ selected.length }} selected (50 max)</span>  / {{ this.data.count }} total
-          <br/>
-          Vancouver (Robson Square): 0
-          <br/>
-          Richmond, Surrey, Abbotsford: 1 
-          <br/>
-          Chilliwack, New Westminster, Port Coquitlam, North Vancouver, Pemberton, Bella Bella, Bella Coola, Klemtu, Sechelt : 2 
-          <br/>
-          Rest of Province: 50
+          All Regions: 150 New | Team A: 0 New | Team B: 1 New | Team C: 2 New | Team D: 50 New                    <span style="float:right">{{this.selected.length}} rows selected   </span>
         </div>
       </ng-template>
     </ngx-datatable-footer>
   </ngx-datatable>
-  <span class="text-muted" style="font-size:14px">Tip: Hold shift to select multiple rows. Printing is limited to 50 records. </span>
-  <br/>
 </div>
 </div>

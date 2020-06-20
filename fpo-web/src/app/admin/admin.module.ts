@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { NgbDropdownModule, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbDatepickerModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './admin.component';
 import { AdminDataService } from './admin-data.service';
@@ -13,7 +13,8 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
     AdminRoutingModule,
     NgxDatatableModule,
     NgbDropdownModule,
-    NgbDatepickerModule
+    NgbDatepickerModule,
+    NgbTooltipModule
   ],
   declarations: [AdminComponent]
 })

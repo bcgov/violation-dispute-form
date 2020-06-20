@@ -187,15 +187,6 @@ export class AdminComponent implements OnInit {
     oWindow.close();
   }
 
-  printTop50(event) {
-    console.log(this.rows.slice(0,this.maxSelectedRecords));
-    event.stopPropagation();
-    this.adminService.postGeneratePdf(this.rows.slice(0,this.maxSelectedRecords));
-    var oWindow = window.open("assets/doc.pdf", "print");
-    oWindow.print();
-    oWindow.close();
-  }
-
   openPdf(event: MouseEvent) {
     event.preventDefault(); 
     event.stopPropagation();

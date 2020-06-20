@@ -7,14 +7,30 @@
 //Note I cannot seem to make CSS work witout changing ViewEncapsulation.
 //Instead I used ::ng-deep which is depreciated.
 //Alternatively this could be moved to the style.css at the root. 
+::ng-deep .app-main {
+    padding: 15px !important;
+}
 
 :host ::ng-deep {
+    
+    .input-group-text {
+        color: #38598a;
+        border-color: #38598a;
+        background-color: transparent;
+    }
+
+    .form-group {
+        margin-bottom: 0;
+    }
 
     .form-control {
         height:unset;
+        color: #38598a;
+        border-color: #38598a;
+        background-color: transparent;
     }
     .ngx-datatable.scroll-vertical {
-        height: 72vh;
+        height: 70vh;
     }
 
     .ngx-datatable.scroll-vertical .datatable-body {
@@ -71,6 +87,10 @@
       }
 
     .datatable-header-cell {
+        //background-color:#38598a;
+        //border-color: #38598a;
+        //color:white;
+
         padding: 0.75rem;
         vertical-align: top;
         font-weight: 700;
@@ -151,6 +171,5 @@
         overflow-x: hidden;
         text-overflow: ellipsis;
     }
-
 } 
 

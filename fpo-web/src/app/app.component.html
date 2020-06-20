@@ -26,7 +26,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="/admin">Admin</a>
+        <a class="nav-link" routerLink="/admin">Admin</a>
       </li>
     </ul>
   </div>
@@ -42,7 +42,7 @@
 
   <main role="main" class="app-content">
 
-    <div [class.table-height]="router.url.indexOf('/admin') > -1" class="app-main">
+    <div class="app-main">
       <!--<breadcrumb></breadcrumb>-->
 
       <router-outlet></router-outlet>
