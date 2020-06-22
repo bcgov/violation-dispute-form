@@ -16,7 +16,7 @@
         }
         @bottom-right {
             counter-increment: page;
-            content:'Generated from "Choose how to attend your Traffic Hearing" on DD-MMM-YYYY';
+            content:'Generated from "Choose how to attend your Traffic Hearing" on ' string(doctitle);
             font-size: 8pt;
         };
         /*@top-right{
@@ -29,6 +29,12 @@
 
     }
     @page label{font-size: 9pt;}
+
+    #ticket-date {
+      opacity: 0;
+      font-size: 1px;
+      string-set: doctitle content();
+    }
 
     /*@media screen and (max-height: 1000px) { */
 
@@ -421,13 +427,13 @@
             <tr class="brdr-btm" style="height:2.2rem;">
               <td>
                 <label style="font-size:7px; margin:-0.1rem 0 0.3rem 0;">Court Hearing Location</label>
-                <div class="form-content">&nbsp;{{ticketDate}}</div>
+                <div class="form-content">&nbsp;{{hearingLocation}}</div>
               </td>
             </tr>
             <tr style="border-top: 0" style="height:2.2rem;">
               <td>
                 <label style="font-size:7px; margin:0.1rem 0 0.3rem 0;">Date</label>
-                <div class="form-content">&nbsp;{{hearingLocation}}</div>
+                <div class="form-content">&nbsp;{{ticketDate}}</div>
               </td>
             </tr>
             </tbody>
@@ -499,7 +505,7 @@
       <div style="margin-top:1rem;">
         <div class="form-line">
           <div class="form-line-child underline form-content" style="min-width:41rem;">
-            &nbsp;{{disputantAddress.street}}, {{disputantAddress.city}}
+            &nbsp;{{disputantAddress.street}}
           </div>
           <div class="form-line-child hint">Mailing Address</div>
         </div>
@@ -509,6 +515,7 @@
         <div class="form-line">
           <div class="form-line-child underline form-content" style="min-width:41rem;">
             &nbsp;
+            {{disputantAddress.city}},
             {{disputantAddress.state}},
             {{disputantAddress.postcode}},
             {{disputantAddress.country}}
@@ -544,7 +551,7 @@
               {{disputantName}}
             {% endif %}
           </div>
-          <div class="form-line-child hint">Signature of Disputant</div>
+          <div class="form-line-child hint">Electronic Signature of Disputant</div>
         </div>
 
         <div class="form-line" style="position:relative; top:-10px; margin: 0 1rem 0 1rem;"><b>OR</b></div>
@@ -555,7 +562,7 @@
               {{agentName}}
             {% endif %}
           </div>
-          <div class="form-line-child hint">Signature of Agent</div>
+          <div class="form-line-child hint">Electronic Signature of Agent</div>
         </div>
       </div>
 
@@ -633,5 +640,7 @@
     </div>
 
 </div>
+
+<div id="ticket-date">{{date}}</div>
 </body>
 </html>
