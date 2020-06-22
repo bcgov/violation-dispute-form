@@ -149,9 +149,10 @@ class SubmitTicketResponseView(APIView):
         for fname in check_required:
             if not getattr(response, fname):
                 return HttpResponseBadRequest()
+        # FIXME add required fields here
         # check terms acceptance
-        if not result.get("disputantAcknowledgement"):
-            return HttpResponseBadRequest()
+        # if not result.get("disputantAcknowledgement"):
+        #     return HttpResponseBadRequest()
         
         response.save()
 

@@ -11,7 +11,7 @@
       {
        "type": "infotext",
        "name": "disclaimer",
-       "title": "\"Choose how to attend your Traffic Hearing\" is a service provided by the Government of British Columbia. The Government of British Columbia reserves the right to change the contents of this service at any time. \n<br><br>\nYou can learn more about <a href=\"https://www2.gov.bc.ca/gov/content/home/disclaimer\" target=\"_blank\">the disclaimer and liability here.</a> (This link opens in a new tab)\n<br>\nYou can learn more about <a href=\"https://www2.gov.bc.ca/gov/content/home/privacy\" target=\"_blank\">privacy and security  here.</a> (This link opens in a new tab)\n<br><br>\nBe pressing \"Continue\", you are agreeing to these terms. ",
+       "title": "\"Choose how to attend your Traffic Hearing\" is a service provided by the Government of British Columbia. \n<br><br>\nThe Government of British Columbia has the right to change this service at any time. \n<ul>\n<li>\nLearn more about <a href=\"https://www2.gov.bc.ca/gov/content/home/disclaimer\" target=\"_blank\">the disclaimer and liability here.</a> (This link opens in a new tab)\n</li>\n<li>\nLearn more about <a href=\"https://www2.gov.bc.ca/gov/content/home/privacy\" target=\"_blank\">privacy and security  here.</a> (This link opens in a new tab)\n</li>\n</ul>\nBe pressing \"Continue,\" you are agreeing to these terms. ",
        "isRequired": true,
        "titleLocation": "hidden"
       }
@@ -35,8 +35,7 @@
        "type": "address",
        "name": "disputantAddress",
        "title": "Mailing address",
-       "isRequired": true,
-       "referLabel": "Applicant's Address"
+       "isRequired": true
       },
       {
        "type": "text",
@@ -208,6 +207,7 @@
       {
        "type": "text",
        "name": "deadlineDate",
+       "visible": false,
        "title": "What is the date on the \"NOTICE TO DISPUTANT\" that the Court gave you to choose how to attend your Traffic Court hearing? (optional)",
        "inputType": "date",
        "dateYearsAhead": 1,
@@ -332,9 +332,46 @@
        "isRequired": true
       },
       {
+       "type": "radiogroup",
+       "name": "agent",
+       "title": "Are you {disputantName} or are you someone else who is helping {disputantName}?",
+       "isRequired": true,
+       "choices": [
+        {
+         "value": "no",
+         "text": "I am {disputantName}"
+        },
+        {
+         "value": "yes",
+         "text": "I am someone else"
+        }
+       ]
+      },
+      {
+       "type": "personname",
+       "name": "agentName",
+       "visible": false,
+       "visibleIf": "{agent} = \"yes\"",
+       "title": "What is your name? (the person who is helping {disputantName})",
+       "isRequired": true,
+       "defaultSubstitution": "(Applicant Name)",
+       "descFirstName": "First Name is also known as Given Name",
+       "descMiddleName": "If you have more than one Middle Name, write them all in this box with spaces separating your Middle Names",
+       "descLastName": "Last Name is also known as Family Name or Surname"
+      },
+      {
+       "type": "address",
+       "name": "agentAddress",
+       "visible": false,
+       "visibleIf": "{agent} = \"yes\"",
+       "title": "What is your mailing address? (the person who is helping {disputantName})",
+       "isRequired": true,
+       "referLabel": "Applicant's Address"
+      },
+      {
        "type": "checkbox",
        "name": "disputantWritingAgreement",
-       "title": "I agree that I committed this offence and I do not want to appear in person for a Court hearing. I want to request a reduction in the fine portion of the ticketed amount(s) and/or time to pay the ticketed amount(s).",
+       "title": "I, {disputantName}, agree that I committed this offence and I do not want to appear in person for a Traffic hearing. I want to request a reduction in the fine portion of the ticketed amount(s) and/or time to pay the ticketed amount(s).",
        "isRequired": true,
        "choices": [
         {
@@ -472,7 +509,7 @@
        "isRequired": true,
        "choices": [
         {
-         "value": "acknowledgeDisputantResponse",
+         "value": "acknowledgeDisputantResponseRemote",
          "text": "I acknowledge the statement above"
         }
        ]
@@ -486,7 +523,7 @@
        "isRequired": true,
        "choices": [
         {
-         "value": "acknowledgeDisputantResponse",
+         "value": "acknowledgeDisputantResponseInPerson",
          "text": "I acknowledge the statement above"
         }
        ]
@@ -496,11 +533,17 @@
      "visibleIf": "{continueDispute} = \"y\" and ({disputeType} = \"allegation\" or ({disputeType} = \"fineAmount\" and {disputeInWriting} = \"n\")) and ({hearingAttendance} = \"in-person\"\nor ({hearingAttendance} = \"remote\" and (({hearingAttendancePhone} = \"y\" or {hearingAttendanceVideo} = \"y\")\nor ({hearingAttendancePhone} = \"n\" and {hearingAttendanceVideo} = \"n\" and {hearingAttendanceRemotelyError} >0))))"
     },
     {
-     "type": "infotext",
-     "name": "reportProblems",
-     "title": "To report a problem with this service, send email here? Spam issues?\n[possible to make this below the complete button?]",
-     "titleLocation": "hidden",
-     "messageStyle": "inline"
+     "type": "panel",
+     "name": "reportProblemsPanel",
+     "elements": [
+      {
+       "type": "infotext",
+       "name": "reportProblems",
+       "title": "To report a problem with this service, send email here? Spam issues?\n[possible to make this below the complete button?]",
+       "titleLocation": "hidden",
+       "messageStyle": "inline"
+      }
+     ]
     }
    ],
    "title": "Choose how to attend your Traffic Hearing"
