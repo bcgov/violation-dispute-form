@@ -46,22 +46,22 @@ def send_email(receiver_email):
 
     msg.attach(MIMEText(body, "html"))
     #REMOVE this when we have real pdf
-    data_folder = Path("api/")
-    filename = data_folder/"Responded to attend your Traffic Hearing.pdf"
+    # data_folder = Path("api/")
+    # filename = data_folder/"Responded to attend your Traffic Hearing.pdf"
 
-    with open(filename, "rb") as attachment:
+    #with open(filename, "rb") as attachment:
 
     # Add file as application/octet-stream
     # Email client can usually download this automatically as attachment
-        base=MIMEBase("application", "octet-stream")
-        base.set_payload(attachment.read()) 
-        encoders.encode_base64(base)
+        # base=MIMEBase("application", "octet-stream")
+        # base.set_payload(attachment.read()) 
+        # encoders.encode_base64(base)
 
     # Add header as key/value pair to attachment part
-    base.add_header("Content-Disposition",f"attachment ;filename= {filename}")
+    #base.add_header("Content-Disposition",f"attachment ;filename= {filename}")
 
     # Add attachment to message and convert message to string
-    msg.attach(base)
+    #msg.attach(base)
     text = msg.as_string()
 
     with SMTP(server_addr) as smtp:
@@ -70,9 +70,7 @@ def send_email(receiver_email):
             LOGGER.debug("Email sent successfully!")
         except SMTPException:
             LOGGER.exception("Email failed!")
-   
-    
-    
+
 
     
 
