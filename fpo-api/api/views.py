@@ -17,6 +17,7 @@
     limitations under the License.
 """
 
+from django.utils import timezone
 from datetime import datetime
 import json
 
@@ -164,6 +165,9 @@ class SubmitTicketResponseView(APIView):
             data = pdf_content
         )
         pdf_response.save()
+        response.prepared_pdf_id = pdf_response.pk; 
+        response.printed_date = timezone.now()
+        response.save()
 
         #Generate and Send the email with pdf attached
         email = result.get("disputantEmail")
@@ -171,6 +175,8 @@ class SubmitTicketResponseView(APIView):
         
         try:
             send_email(email, pdf)
+            response.emailed_date = timezone.now()
+            response.save()
         except Exception as ex:
             print("Error",ex)
             return Response({"id": response.pk,"PdfId":pdf_response.pk,"Email-sent":False})
