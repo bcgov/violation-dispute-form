@@ -15,7 +15,7 @@ from email.header import Header
 
 LOGGER = logging.getLogger(__name__)
 
-def send_email(receiver_email):
+def send_email(receiver_email, pdf):
     server_addr = os.environ.get("SMTP_SERVER_ADDRESS")
     sender_email= os.environ.get("SENDER_EMAIL")
     sender_name = os.environ.get("SENDER_NAME")
@@ -36,6 +36,9 @@ def send_email(receiver_email):
     """ 
 
     LOGGER.info("User's email Id is  %s <%s>", receiver_email)
+
+    if not pdf:
+        LOGGER.debug("PDF is null", pdf)
     
     sender_info = formataddr((str(Header(sender_name, "utf-8")), sender_email))
 
@@ -43,35 +46,36 @@ def send_email(receiver_email):
     msg["From"] = sender_email
     msg["To"] = receiver_email
     msg["Subject"] = subject
-
+    
     msg.attach(MIMEText(body, "html"))
+
+
+    #LOGGER.info("blob file is = ", text_file)
     #REMOVE this when we have real pdf
     # data_folder = Path("api/")
     # filename = data_folder/"Responded to attend your Traffic Hearing.pdf"
+    # file = new Blob([pdf], {type: 'application/pdf'});
+    #with open(text_file, "rb") as attachment:
 
-    #with open(filename, "rb") as attachment:
+    # # Add file as application/octet-stream
+    # # Email client can usually download this automatically as attachment
+    base=MIMEBase("application", "octet-stream")
+    base.set_payload(pdf) 
+    encoders.encode_base64(base)
 
-    # Add file as application/octet-stream
-    # Email client can usually download this automatically as attachment
-        # base=MIMEBase("application", "octet-stream")
-        # base.set_payload(attachment.read()) 
-        # encoders.encode_base64(base)
-
-    # Add header as key/value pair to attachment part
-    #base.add_header("Content-Disposition",f"attachment ;filename= {filename}")
-
-    # Add attachment to message and convert message to string
-    #msg.attach(base)
+    # # Add header as key/value pair to attachment part
+    base.add_header('Content-Disposition','attachment; filename="report.pdf"')
+    #base.add_header("Content-Disposition",f"attachment ;filename= {pdf}")
+    print("message base is =", base)
+    # # Add attachment to message and convert message to string
+    msg.attach(base)
     text = msg.as_string()
 
     with SMTP(server_addr) as smtp:
         try:
             smtp.sendmail(sender_info, (receiver_email,), text)
             LOGGER.debug("Email sent successfully!")
-        except SMTPException:
-            LOGGER.exception("Email failed!")
+        except SMTPException as err:
+            LOGGER.exception("Email failed!", err)
 
 
-    
-
-   
