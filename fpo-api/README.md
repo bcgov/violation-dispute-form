@@ -51,3 +51,15 @@ If you are using an editor like Vim, you can run the following command that exec
 ```ed
 autocmd BufWritePost * execute '!./update-template.sh && ./test.sh'
 ```
+
+To hot load the python code you need to start the default server in the container:
+```bash
+docker exec -it fpo_fpo-api_1 /bin/bash
+python manage.py runserver 0:8000
+```
+This opens a new server on port 8000
+
+Then in the editor have the appropriate file load into the container
+```ed
+autocmd BufWritePost * execute '!./update-views.sh'
+```
