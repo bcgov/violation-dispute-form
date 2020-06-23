@@ -165,26 +165,16 @@ class SubmitTicketResponseView(APIView):
         )
         pdf_response.save()
 
-        response = TicketResponse(
-            prepared_pdf_id = pdf_response.pk
-            #printed_date = datetime.datetime.now().date()
-    
-        )
-
         #Generate and Send the email with pdf attached
         email = result.get("disputantEmail")
         pdf = pdf_response.data
         
         try:
             send_email(email, pdf)
-            # response = TicketResponse(
-            # emailed_date=datetime.datetime.now().date()
-            # )
         except Exception as ex:
             print("Error",ex)
             return Response({"id": response.pk,"PdfId":pdf_response.pk,"Email-sent":False})
         
-        #response.save()
     
       # {
         #     "disputantName": {"first": "first", "middle": "middle", "last": "last"},
