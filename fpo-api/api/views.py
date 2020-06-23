@@ -39,10 +39,10 @@ from api.auth import (
     grecaptcha_verify,
     grecaptcha_site_key,
 )
-from api.models import TicketResponse, User
+from api.models import TicketResponse, User, Location, Region
 from api.pdf import render as render_pdf
 from api.send_email import send_email
-from api.serializers import TicketResponseSerializer
+from api.serializers import TicketResponseSerializer, LocationSerializer, RegionSerializer
 
 
 class AcceptTermsView(APIView):
@@ -125,7 +125,7 @@ class SubmitTicketResponseView(APIView):
         result = request.data
         disputant = result.get("disputantName", {})
         # address = result.get("disputantAddress", {})
-
+        
         response = TicketResponse(
             first_name=disputant.get("first"),
             middle_name=disputant.get("middle"),
@@ -133,7 +133,7 @@ class SubmitTicketResponseView(APIView):
             email=result.get("disputantEmail"),
             ticket_number=result.get("ticketNumber"),
             ticket_date=result.get("ticketDate"),
-            hearing_location=result.get("hearingLocation"),
+            hearing_location_id=result.get("hearingLocationId"),
             hearing_attendance=result.get("hearingAttendance"),
             dispute_type=result.get("disputeType"),
         )
@@ -196,16 +196,16 @@ class SubmitTicketResponseView(APIView):
 
 class TicketResponseListFilter(filters.FilterSet):
     is_printed = filters.BooleanFilter(field_name='printed_by', lookup_expr='isnull')
-    
+
     class Meta:
      
-        model = TicketResponse
         fields = [
-            'hearing_location',
+          # 'in_region',
             'hearing_attendance',
             'dispute_type',
             'is_printed',
             'ticket_number',
+            'hearing_location',
         ]
         
 class TicketResponseListView(generics.ListAPIView):
@@ -230,5 +230,20 @@ class TicketResponseListView(generics.ListAPIView):
         "dispute_type",
         "last_name",
         "first_name",
+        "hearing_location"
     ]
     ordering = ["hearing_location", "created_date", "last_name"]
+
+class LocationListView(generics.ListAPIView):
+    queryset = ''
+    def get(self, request: Request, name=None):
+        queryset = Location.objects.all()
+        serializer = LocationSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+class RegionListView(generics.ListAPIView):
+    queryset = ''
+    def get(self, request: Request, name=None):
+        queryset = Region.objects.all()
+        serializer = RegionSerializer(queryset, many=True)
+        return Response(serializer.data)

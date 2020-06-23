@@ -134,7 +134,7 @@ export class AdminComponent implements OnInit {
     //Add in printed by == null filter
     //Change the styling 
     this.columns = [
-      { prop: "hearing_location", name: "Court Location" },
+      { prop: "court_location", name: "Court Location" },
       { prop: "name", name: "Name" },
       { prop: "ticket_number", name: "Ticket #" },
       { prop: "created_date", name: "Response Date" },
@@ -149,7 +149,7 @@ export class AdminComponent implements OnInit {
     //Add in printed by != null filter
     //Change the styling 
     this.columns = [
-      { prop: "hearing_location", name: "Court Location" },
+      { prop: "court_location", name: "Court Location" },
       { prop: "name", name: "Name" },
       { prop: "ticket_number", name: "Ticket #" },
       { prop: "created_date", name: "Response Date" },

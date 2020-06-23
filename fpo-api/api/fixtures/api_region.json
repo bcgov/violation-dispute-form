@@ -1,0 +1,1 @@
+[{"model": "api.region", "pk": 1, "fields": {"name": "Team A"}}, {"model": "api.region", "pk": 2, "fields": {"name": "Team B"}}, {"model": "api.region", "pk": 3, "fields": {"name": "Team C"}}, {"model": "api.region", "pk": 4, "fields": {"name": "Team D"}}]

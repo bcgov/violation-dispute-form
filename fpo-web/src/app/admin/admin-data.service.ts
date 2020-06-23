@@ -26,7 +26,7 @@ interface TicketResponseContent {
   email: string;
 
   hearing_attendance: string;
-  hearing_location: string;
+  hearing_location: Location;
 
   ticket_number: string;
   ticket_date: Date;
@@ -34,6 +34,17 @@ interface TicketResponseContent {
   dispute_type: string;
   pdf_filename: string;
   archived_by: string;
+}
+
+interface Location {
+  id: number;
+  name: string;
+  region: Region;
+}
+
+interface Region {
+  id: number;
+  name: string;
 }
 
 @Injectable()
@@ -108,6 +119,7 @@ export class AdminDataService {
       deadline_date: new Date(r.deadline_date).getDate() + "-" + this.monthNames[new Date(r.deadline_date).getMonth()] + "-" + new Date(r.deadline_date).getFullYear(),
       created_date: new Date(r.created_date).getDate() + "-" + this.monthNames[new Date(r.created_date).getMonth()] + "-" + new Date(r.created_date).getFullYear(),
       name: `${r.last_name}, ${r.first_name} ${r.middle_name || ''}`,
+      court_location: r.hearing_location.name
     }));
 
     return searchResponse;    

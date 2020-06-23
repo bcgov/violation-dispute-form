@@ -23,3 +23,5 @@
 from .PreparedPdf import PreparedPdf
 from .TicketResponse import TicketResponse
 from .User import User
+from .Location import Location
+from .Region import Region

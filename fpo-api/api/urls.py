@@ -28,7 +28,7 @@ from django.conf import settings
 
 # from rest_framework.urlpatterns import format_suffix_patterns
 
-from .views import SubmitTicketResponseView, TicketResponseListView
+from .views import SubmitTicketResponseView, TicketResponseListView, LocationListView, RegionListView
 
 
 # class SwaggerSchemaView(APIView):
@@ -48,6 +48,8 @@ urlpatterns = [
     # url(r'^$', SwaggerSchemaView.as_view()),
     path("submit-form/", SubmitTicketResponseView.as_view()),
     path("responses/", TicketResponseListView.as_view()),
+    path("locations/", LocationListView.as_view()),
+    path("regions/", RegionListView.as_view())
 ]
 
 if settings.OIDC_ENABLED:
