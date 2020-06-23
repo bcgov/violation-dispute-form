@@ -546,21 +546,31 @@
       </div>
       <div>
         <div class="form-line" style="margin-top:0.8rem;">
-          <div class="form-line-child bordered form-content" style="width:18rem; height:1.8rem;">
-            {% if agent == "n"%}
-              {{disputantName}}
+          <div
+            class="form-line-child bordered form-content"
+            style="padding:0.4rem 0 0 0.4rem; width:18rem; height:1.4rem;">
+            &nbsp;
+            {% if agent != "yes"%}
+              {{disputantName.first}} 
+              {{disputantName.middle}} 
+              {{disputantName.last}} 
             {% endif %}
           </div>
           <div class="form-line-child hint">Electronic Signature of Disputant</div>
         </div>
 
-        <div class="form-line" style="position:relative; top:-10px; margin: 0 1rem 0 1rem;"><b>OR</b></div>
+        <div class="form-line" style="position:relative; top:5px; margin: 0 1rem 0 1rem;"><b>OR</b></div>
 
         <div class="form-line" style="margin-top:0.8rem;">
-          <div class="form-line-child bordered form-content" style="width:18rem; height:1.8rem;">
-            {% if agent == "n"%}
-              {{agentName}}
-            {% endif %}
+          <div
+            class="form-line-child bordered form-content"
+            style="padding:0.4rem 0 0 0.4rem; width:18rem; height:1.4rem;">
+              &nbsp;
+              {% if agent == "yes"%}
+                {{agentName.first}}
+                {{agentName.middle}}
+                {{agentName.last}}
+              {% endif %}
           </div>
           <div class="form-line-child hint">Electronic Signature of Agent</div>
         </div>
@@ -569,8 +579,13 @@
       <div>
         <div class="form-line" style="margin:1.5rem 0 0.4rem 0;">
           <div class="form-line-child underline form-content" style="min-width:40rem;">
-            {% if agent == "n"%}
-              {{agentAddress}}
+            {% if agent == "yes"%}
+              &nbsp;
+              {{agentAddress.street}},
+              {{agentAddress.city}},
+              {{agentAddress.state}},
+              {{agentAddress.postcode}},
+              {{agentAddress.country}}
             {% endif %}
           </div>
           <div class="form-line-child hint">Agent's Address</div>

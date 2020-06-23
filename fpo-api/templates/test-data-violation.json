@@ -1,4 +1,17 @@
 {
+    "agent": "yes",
+    "agentAddress": {
+      "street": "7044",
+      "city": "Lantzville",
+      "state": "BC",
+      "country": "CAN",
+      "postcode": "V0R 2H0"
+    },
+    "agentName": {
+      "first": "agent",
+      "middle": "X",
+      "last": "007"
+    },
     "continueDispute": "y",
     "deadlineDate": "2021-01-01",
     "disclaimer": 1,
