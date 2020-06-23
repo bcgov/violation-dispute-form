@@ -37,9 +37,10 @@ from api.auth import (
     grecaptcha_verify,
     grecaptcha_site_key,
 )
-from api.models import TicketResponse, User
+from api.models import TicketResponse, User, PreparedPdf
 from api.pdf import render as render_pdf
 from api.send_email import send_email
+from api.utils import generate_pdf
 from api.serializers import TicketResponseSerializer
 
 
@@ -153,16 +154,37 @@ class SubmitTicketResponseView(APIView):
         # check terms acceptance
         # if not result.get("disputantAcknowledgement"):
         #     return HttpResponseBadRequest()
-        
+
+        #Save the result to DB
         response.save()
 
-        # get user email from response and pass it to the send_email function
-        email = response.email
+        #Generate and Save the pdf to DB
+        pdf_content = generate_pdf(result)
+        pdf_response = PreparedPdf(
+            data = pdf_content
+        )
+        pdf_response.save()
+
+        response = TicketResponse(
+            prepared_pdf_id = pdf_response.pk
+            #printed_date = datetime.datetime.now().date()
+    
+        )
+
+        #Generate and Send the email with pdf attached
+        email = result.get("disputantEmail")
+        pdf = pdf_response.data
+        
         try:
-            send_email(email)
+            send_email(email, pdf)
+            # response = TicketResponse(
+            # emailed_date=datetime.datetime.now().date()
+            # )
         except Exception as ex:
             print("Error",ex)
-            return Response({"id": response.pk,"Email-sent":False})
+            return Response({"id": response.pk,"PdfId":pdf_response.pk,"Email-sent":False})
+        
+        #response.save()
     
       # {
         #     "disputantName": {"first": "first", "middle": "middle", "last": "last"},
@@ -189,7 +211,7 @@ class SubmitTicketResponseView(APIView):
         #     "disputantAcknowledgement": ["item1"],
         # }
 
-        return Response({"id": response.pk, "Email-sent":True})
+        return Response({"id": response.pk,"PdfId":pdf_response.pk, "Email-sent":True})
 
 
 class TicketResponseListView(generics.ListAPIView):
