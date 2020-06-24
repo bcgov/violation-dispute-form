@@ -27,18 +27,10 @@ export class GeneralDataService {
   }
 
   getApiUrl(action: string): string {
-    if (location.host === "localhost:8080") {
-      // for local debugging
-      return "http://localhost:8081/api/v1/" + action;
-    }
     return this.getBaseHref() + "api/v1/" + action;
   }
 
   getPrintApiUrl(action: string): string {
-    if (location.host === "localhost:8080") {
-      // for local debugging
-      return "http://localhost:8081/" + action;
-    }
     return this.getBaseHref()  + action;
   }
 

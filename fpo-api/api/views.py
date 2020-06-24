@@ -128,18 +128,17 @@ class SubmitTicketResponseView(APIView):
         result = request.data
         disputant = result.get("disputantName", {})
         # address = result.get("disputantAddress", {})
-        
-        ticketNumber = result.get("ticketNumber")
-        ticketNumber = ticketNumber.prefix + ticketNumber.suffix
+        ticketNumber = result.get("ticketNumber", {})
+        ticketNumber = str(ticketNumber.get("prefix")) + str(ticketNumber.get("suffix"))
 
         response = TicketResponse(
             first_name=disputant.get("first"),
             middle_name=disputant.get("middle"),
             last_name=disputant.get("last"),
             email=result.get("disputantEmail"),
-            ticket_number=ticketNumber,
+            ticket_number=ticketNumber.upper(),
             ticket_date=result.get("ticketDate"),
-            hearing_location_id=result.get("hearingLocationId"),
+            hearing_location_id=result.get("hearingLocation"),
             hearing_attendance=result.get("hearingAttendance"),
             dispute_type=result.get("disputeType"),
         )
@@ -150,10 +149,11 @@ class SubmitTicketResponseView(APIView):
             "email",
             "ticket_number",
             "ticket_date",
-            "hearing_location",
+            "hearing_location_id",
             "hearing_attendance",
             "dispute_type",
         ]
+
         for fname in check_required:
             if not getattr(response, fname):
                 return HttpResponseBadRequest()
