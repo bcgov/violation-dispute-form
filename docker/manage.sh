@@ -132,6 +132,7 @@ build-api() {
   #
   echo -e "\nBuilding django image ..."
   ${S2I_EXE} build \
+    -e "UPGRADE_PIP_TO_LATEST=true" \
     --copy \
     '../fpo-api' \
     'registry.fedoraproject.org/f32/python3' \
