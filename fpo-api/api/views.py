@@ -20,6 +20,8 @@
 from django.utils import timezone
 from datetime import datetime
 import json
+import logging
+
 
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.middleware.csrf import get_token
@@ -43,6 +45,8 @@ from api.pdf import render as render_pdf
 from api.send_email import send_email
 from api.utils import generate_pdf
 from api.serializers import TicketResponseSerializer
+
+LOGGER = logging.getLogger(__name__)
 
 
 class AcceptTermsView(APIView):
@@ -156,18 +160,19 @@ class SubmitTicketResponseView(APIView):
         # if not result.get("disputantAcknowledgement"):
         #     return HttpResponseBadRequest()
 
-        #Save the result to DB
-        response.save()
-
         #Generate and Save the pdf to DB
-        pdf_content = generate_pdf(result)
+        try:
+            pdf_content = generate_pdf(result)
+        except Exception as exception:
+            LOGGER.exception("PDF generation error", exception)
+
         pdf_response = PreparedPdf(
             data = pdf_content
         )
         pdf_response.save()
         response.prepared_pdf_id = pdf_response.pk; 
         response.printed_date = timezone.now()
-        response.save()
+        
 
         #Generate and Send the email with pdf attached
         email = result.get("disputantEmail")
@@ -176,12 +181,12 @@ class SubmitTicketResponseView(APIView):
         try:
             send_email(email, pdf)
             response.emailed_date = timezone.now()
-            response.save()
         except Exception as ex:
-            print("Error",ex)
+            LOGGER.exception("Email generation error", ex)
+            response.save()
             return Response({"id": response.pk,"PdfId":pdf_response.pk,"Email-sent":False})
         
-    
+        response.save()
       # {
         #     "disputantName": {"first": "first", "middle": "middle", "last": "last"},
         #     "disputantAddress": {
