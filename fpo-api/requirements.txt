@@ -1,5 +1,5 @@
 # Main
-django>=2.1.6,<2.2  # 2.2 increases minimum sqlite version, which is not supported on the centos image
+django>=3.0.3  # 2.2 increases minimum sqlite version, which is not supported on the centos image
 django-filter>=2.2,<2.3
 djangorestframework>=3.11.0,<4
 djangorestframework-bulk>=0.2.1,<1
