@@ -1,0 +1,53 @@
+{
+    "agent": "yes",
+    "agentAddress": {
+      "street": "7044",
+      "city": "Lantzville",
+      "state": "BC",
+      "country": "CAN",
+      "postcode": "V0R 2H0"
+    },
+    "agentName": {
+      "first": "agent",
+      "middle": "X",
+      "last": "007"
+    },
+    "continueDispute": "y",
+    "deadlineDate": "2021-01-01",
+    "disclaimer": 1,
+    "disputantAddress": {
+        "city": "Lantzville",
+        "country": "CAN",
+        "postcode": "V0R 2H0",
+        "state": "BC",
+        "street": "7044"
+    },
+    "disputantDOB": "2020-02-01",
+    "disputantEmail": "fdas@fjdk.cd",
+    "disputantLicenseIssuer": "British Columbia",
+    "disputantLicenseNumber": "342342314",
+    "disputantName": {
+        "first": "fds",
+        "last": "fjksdl",
+        "middle": "fdjks"
+    },
+    "disputantPhoneNumber": "555 555 5555",
+    "disputantPhoneType": [
+        "cell"
+    ],
+    "disputantWritingAgreement": [
+        "agreeWrittenReason"
+    ],
+    "disputeInWriting": "y",
+    "disputeType": "fineAmount",
+    "disputeTypeFineAmountExplanation": 1,
+    "hearingLocation": "100 Mile House",
+    "moreTimeToPay2": "y",
+    "reasonForFineReduction": "fjfdkalfjd",
+    "reasonForTimeToPay": "I have no sense of time",
+    "ticketDate": "2020-01-01",
+    "ticketNumber": {
+        "prefix": "fd",
+        "suffix": 43434343
+    }
+}
