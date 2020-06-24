@@ -35,10 +35,7 @@ def send_email(receiver_email, pdf):
     </html>
     """ 
 
-    LOGGER.info("User's email Id is  %s <%s>", receiver_email)
-
-    if not pdf:
-        LOGGER.debug("PDF is null", pdf)
+    LOGGER.info("User's email Id is  %s>", receiver_email)
     
     sender_info = formataddr((str(Header(sender_name, "utf-8")), sender_email))
 
