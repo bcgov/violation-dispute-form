@@ -19,35 +19,39 @@
 
 from rest_framework import serializers
 
-from api.models import TicketResponse
-from api.models import Location
-from api.models import Region
+from api.models import TicketResponse, Location, Region, User
 
-class TicketRegionSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name']
+
+class RegionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Region
         fields = "__all__"
 
-class TicketLocationSerializer(serializers.ModelSerializer):
-    region = TicketRegionSerializer()
+class LocationSerializer(serializers.ModelSerializer):
+    region = RegionSerializer()
     class Meta:
         model = Location
         fields = "__all__"
 
 class TicketResponseSerializer(serializers.ModelSerializer):
-    hearing_location = TicketLocationSerializer()
+    hearing_location = LocationSerializer()
+    printed_by = UserSerializer()
     class Meta:
         model = TicketResponse
         # if the size of the response is becoming a problem
         # exclude = ["result"]
         fields = "__all__"
 
-class LocationSerializer(serializers.ModelSerializer):
+class LocationLookupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Location
         fields = ['id', 'name']
 
-class RegionSerializer(serializers.ModelSerializer):
+class RegionLookupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Region
         fields = ['id', 'name']

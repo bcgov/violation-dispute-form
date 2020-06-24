@@ -13,13 +13,11 @@
 }
 
 :host ::ng-deep {
-    
-    //Nav-tabs doesn't work correctly with routing.
     .tab {
         border-color: #adb5bd #adb5bd white;
         border: 1px solid transparent;
-        border-top-left-radius: 0.25rem;
-        border-top-right-radius: 0.25rem;
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
         padding: .4rem .8rem;
         display:block;
         text-decoration: none;
@@ -27,28 +25,22 @@
     }
 
     .tab.active {
-        color: #495057;
-        border-color: #adb5bd #adb5bd white;
+        color:white;
+        background-color: $gov-navy-blue;
+        border-color: #adb5bd #adb5bd $gov-navy-blue;
         font-weight: bold;
     }
 
     .pager {
-
         .datatable-icon-prev:before {
             content: '\72';
-            position: relative;
-            top: 3px;
-            font-family: 'data-table' !important;
-            font-style: normal !important;
-            font-weight: normal !important;
-            font-variant: normal !important;
-            text-transform: none !important;
-            line-height: 1;
-            -webkit-font-smoothing: antialiased;
         }
-    
+
         .datatable-icon-skip:before {
             content: '\71';
+        }
+
+        .datatable-icon-prev:before , .datatable-icon-skip:before {
             position: relative;
             top: 3px;
             font-family: 'data-table' !important;
@@ -59,26 +51,23 @@
             line-height: 1;
             -webkit-font-smoothing: antialiased;
         }
-    
+
         .datatable-icon-left:before {
             content: '\AB';
-            font-style: normal !important;
-            font-weight: normal !important;
-            font-variant: normal !important;
-            text-transform: none !important;
-            line-height: 1;
-            -webkit-font-smoothing: antialiased;
         }
         
         .datatable-icon-right:before {
             content: '\BB';
+        }
+
+        .datatable-icon-right:before, .datatable-icon-left:before{
             font-style: normal !important;
             font-weight: normal !important;
             font-variant: normal !important;
             text-transform: none !important;
             line-height: 1;
             -webkit-font-smoothing: antialiased;
-        }
+        } 
 
         li.disabled a {
             color: #494949 !important;
@@ -93,8 +82,6 @@
             line-height: 1.5;
         }
 
-
-
         .pages.active a {
             color: #fff;
             background-color: #38598a;
@@ -103,14 +90,13 @@
         }   
 
         .pages a { 
-            color: #1a5a96;
+            color: $text-color-link;
             background-color: white;
             border: 1px solid #adb5bd;
             text-decoration: none;
             padding: .25rem .5rem;
             line-height: 1.5;
         }
-
     }
 
     .hide {
@@ -129,18 +115,17 @@
         color: #1a5a96;
     }
 
-    //unused. 
-    .input-group-text .outline {
+    .input-group-text {
         color: #38598a;
         border-color: #38598a;
         background-color: transparent;
     }
 
-    .input-group-text {
-        color: white;
-        border-color: #38598a;
-        background-color: #38598a;
-    }
+    //.input-group-text {
+    //    color: white;
+    //    border-color: #38598a;
+    //    background-color: #38598a;
+    //}
 
     .form-group {
         margin-bottom: 0;
@@ -153,12 +138,11 @@
         background-color: transparent;
     }
 
-
     .ngx-datatable.scroll-vertical .datatable-body {
         overflow-x: hidden;
         max-width: 97.5vw;
     }
-    
+
     .ngx-datatable.bootstrap .datatable-body .progress-linear {
         display: block;
         position: relative;
@@ -166,8 +150,8 @@
         height: 5px;
         padding-right: 15px;
         position: absolute;
-      }
-      .ngx-datatable.bootstrap .datatable-body .progress-linear .container {
+    }
+    .ngx-datatable.bootstrap .datatable-body .progress-linear .container {
         display: block;
         position: relative;
         overflow: hidden;
@@ -178,8 +162,8 @@
         -webkit-transform: translate(0, 0) scale(1, 1);
         transform: translate(0, 0) scale(1, 1);
         background-color: #aad1f9;
-      }
-      .ngx-datatable.bootstrap .datatable-body .progress-linear .container .bar {
+    }
+    .ngx-datatable.bootstrap .datatable-body .progress-linear .container .bar {
         transition: all .2s linear;
         -webkit-animation: query 0.8s infinite cubic-bezier(0.39, 0.575, 0.565, 1);
         animation: query 0.8s infinite cubic-bezier(0.39, 0.575, 0.565, 1);
@@ -192,20 +176,20 @@
         bottom: 0;
         width: 100%;
         height: 5px;
-      }
-      /**
-       * Progress bar animations
-       */
-       @keyframes query {
+    }
+    /**
+    * Progress bar animations
+    */
+    @keyframes query {
         0% {
-          opacity: 1;
-          transform: translateX(35%) scale(0.3, 1);
+            opacity: 1;
+            transform: translateX(35%) scale(0.3, 1);
         }
         100% {
-          opacity: 0;
-          transform: translateX(-50%) scale(0, 1);
+            opacity: 0;
+            transform: translateX(-50%) scale(0, 1);
         }
-      }
+    }
 
     .datatable-header-cell {
         //background-color:#38598a;
@@ -239,11 +223,9 @@
         filter: invert(100%);
     }
 
-    .datatable-icon-down, .datatable-icon-up, .datatable-icon-prev, .datatable-icon-next   {
+    .datatable-icon-down, .datatable-icon-up, .datatable-icon-prev, .datatable-icon-next {
         vertical-align: unset !important;
     }
-
- 
      
     .datatable-icon-down:before {
         content: '\66';

@@ -1,24 +1,18 @@
 <div> 
   <div class="bg-white rounded pb-1 pr-3 pl-3" >
     <div class="content-header">
-      <h1 class="mb-3">VTC Disputant Response Inbox</h1>
+      <h1 class="mb-3 mt-1">VTC Disputant Response Inbox</h1>
       <div>
 
         <ul ngbNav #nav="ngbNav"  class="nav-tabs">
           <li [ngbNavItem]="1">
             <a class="nav-link" [class.active]="mode !== 'Archive'" [routerLink]="['/admin/new-responses']" class="tab" >
               New Responses
-              <!--<button (click)="switchTabs()" [ngClass]="mode === 'New Responses' ? 'selected-page' : 'unselected-page'" style="font-size:28px;" class="btn"> 
-            
-              </button>-->
             </a>
           </li>
           <li [ngbNavItem]="2">
             <a class="nav-link" [routerLink]="['/admin/archive']" [class.active]="mode === 'Archive'" class="tab"  >  
               Archive 
-              <!--<button [ngClass]="mode === 'Archive' ? 'selected-page' : 'unselected-page'" style="font-size:28px;" class="btn">
-              
-              </button>-->
             </a>
           </li>
         </ul>
@@ -27,7 +21,7 @@
         <div class="row mb-3">
           <div class="col-sm form-inline pl-0">
             <div ngbDropdown class="mr-2 align-bottom">
-              <button id="hearingLocationButton" class="btn btn-primary" ngbDropdownToggle>{{ selectedRegion.name }}</button>
+              <button id="hearingLocationButton" class="btn btn-outline-primary" ngbDropdownToggle>{{ selectedRegion.name }}</button>
               <div ngbDropdownMenu id="hearingLocation" aria-labelledby="hearingLocationButton">
                 <button ngbDropdownItem *ngFor="let region of regions" (click)="filterByRegion(region)" title="{{region.name}}">{{region.name}}</button>
               </div>
@@ -66,8 +60,8 @@
       [summaryRow]="false"
       [selected]="selected"
       [selectionType]="SelectionType.multiClick"
-      [footerHeight]="45"
-      [limit]="pageSize"
+      [footerHeight]="90"
+      [limit]="this.searchParameters.filterParameters.limit"
       [reorderable]="true"
       [rowHeight]="'auto'"
       [externalPaging]="true"
@@ -105,28 +99,32 @@
         let-curPage="curPage"
         let-offset="offset"
       >
-        <div style="font-size:16px; max-width:95%" class="mt-0 mr-3">
+        <div style="font-size:16px;" class="mt-0 mr-3 mb-2 container-fluid">
+          <hr class="mb-3 mt-3">
           <span class="mt-1">
             <span style="display:inline-block" class="pt-2">
-            {{this.selected.length}} rows selected {{mode === 'New Responses' ? newCountString : archiveCountString}}
+            {{mode === 'New Responses' ? newCountString : archiveCountString}}
 
 
             </span>
+
+        
+            <datatable-pager
+            [pagerLeftArrowIcon]="'datatable-icon-left'"
+            [pagerRightArrowIcon]="'datatable-icon-right'"
+            [pagerPreviousIcon]="'datatable-icon-prev'"
+            [pagerNextIcon]="'datatable-icon-skip'"
+            [page]="curPage"
+            [size]="pageSize"
+            [count]="rowCount"
+            [style.visibility]="!((rowCount / pageSize) > 1) ? 'hidden' : 'visible'"
+            (change)="table.onFooterPage($event)"
+            style="margin-left:100px"
+            >
+            </datatable-pager>
+            <span class="ml-2">{{totalPages(rowCount, pageSize)}} Total Pages</span>
             <span class="mt-1" style="float:right">
-              <span class="ml-2">{{totalPages(rowCount, pageSize)}} Total Pages</span>
-              <datatable-pager
-              [pagerLeftArrowIcon]="'datatable-icon-left'"
-              [pagerRightArrowIcon]="'datatable-icon-right'"
-              [pagerPreviousIcon]="'datatable-icon-prev'"
-              [pagerNextIcon]="'datatable-icon-skip'"
-              [page]="curPage"
-              [size]="pageSize"
-              [count]="rowCount"
-              [style.visibility]="!((rowCount / pageSize) > 1) ? 'hidden' : 'visible'"
-              (change)="table.onFooterPage($event)"
-              style="margin-left:25px"
-              >
-              </datatable-pager>
+        
             <button type="button" [class.hide]="mode == 'Archive'" class="btn btn-secondary" (click)="printSelected($event)" class="btn btn-warning ml-2" style="color:black;" placement="top">
               <img src="assets\print-pdf.svg" class="printer unselectable" width="20" height="20"/>
               Print 50 Responses

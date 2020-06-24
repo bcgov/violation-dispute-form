@@ -18,19 +18,12 @@ export class AdminComponent implements OnInit {
   ColumnMode = ColumnMode;
   SelectionType = SelectionType;
   SortType = SortType;
-
   readonly headerHeight = 50;
-  readonly rowHeight = 50;
-  tableHeight = 0;
-  tableWidth = 0;
-  heightOffset = 345;
-  widthOffset = 68;
-
   loading = false;
   mode: string = 'New Responses';
   selectedRegion: Region =  { name: "All Regions", id: null };
   columns = [];
-  regions = [
+  regions: Array<Region> = [
     { name: "All Regions", id: null }
   ];
   data: SearchResponse = {
@@ -49,26 +42,24 @@ export class AdminComponent implements OnInit {
       region: null,
       page: 1,
       offset: 0,
-      limit: 50 //Hard coded to 100 on the API server for now. 
+      limit: 50 
     },
     sortParameters: [],
   };
   newCountString: string;
   archiveCountString: string;
   maxSelectedRecords = 50;
-  pageSize = 50;
   totalElements = 0;
-
 
   ngOnInit() {
     this.loadPage();
   }
 
-  constructor(private adminService: AdminDataService, private el: ElementRef, private activatedRoute: ActivatedRoute) {
+  constructor(private adminService: AdminDataService, private activatedRoute: ActivatedRoute) {
     this.AdminService = adminService;
 
     this.populateRegions();
-    this.populateCountStrings();
+    this.buildCountStrings();
 
     activatedRoute.data.subscribe((data) => {
       if ( data.title === 'New Responses')
@@ -98,7 +89,7 @@ export class AdminComponent implements OnInit {
     }
   }
 
-  async populateCountStrings() {
+  async buildCountStrings() {
       var counts = await this.adminService.getCounts() as RegionCountResponse;
       this.newCountString = '';
       this.archiveCountString = '';
@@ -112,7 +103,6 @@ export class AdminComponent implements OnInit {
       counts.archive_count.by_region.forEach(element => {
         this.archiveCountString += ` | ${element.name}: ${element.count}`;
       });
-
   }
 
   handlePageChange(event)   {
@@ -121,7 +111,7 @@ export class AdminComponent implements OnInit {
     this.loadPage();
   }
 
-  private async loadPage() {
+  async loadPage() {
     this.selected = [];
     this.loading = true;
     this.data = await this.AdminService.getSearchResponse(this.searchParameters);
@@ -131,8 +121,6 @@ export class AdminComponent implements OnInit {
   }
 
   switchToNewResponses() {
-    //Add in printed by == null filter
-    //Change the styling 
     this.columns = [
       { prop: "hearing_location__name", name: "Court Location" },
       { prop: "name", name: "Name" },
@@ -146,8 +134,6 @@ export class AdminComponent implements OnInit {
   }
 
   switchToArchive() {
-    //Add in printed by != null filter
-    //Change the styling 
     this.columns = [
       { prop: "hearing_location__name", name: "Court Location" },
       { prop: "name", name: "Name" },
@@ -162,16 +148,8 @@ export class AdminComponent implements OnInit {
   }
 
   async executeSearch(searchParameters: SearchParameters) {
-    //Reset our search to offset 0. 
     this.searchParameters.filterParameters.offset = 0;
- 
     this.loadPage();
-  }
-
-  responseDateText() : string {
-    if (this.searchParameters.filterParameters.createdDate == null)
-     return 'All Response Dates';
-    return `Response Date: ${this.searchParameters.filterParameters.createdDate}`
   }
 
   filterByRegion(region: Region) {
@@ -195,8 +173,6 @@ export class AdminComponent implements OnInit {
   }
 
   sort(event) {
-    console.log("Sort Event Triggered", event);
-    this.loading = true;
     this.searchParameters.sortParameters = event.sorts;
     this.executeSearch(this.searchParameters);
   }
@@ -211,7 +187,6 @@ export class AdminComponent implements OnInit {
   }
 
   printSelected(event: MouseEvent) {
-    //Get selected. 
     this.adminService.postGeneratePdf("5");
     console.log(this.selected);
     event.preventDefault(); 

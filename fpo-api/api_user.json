@@ -1,0 +1,25 @@
+[{
+        "model": "api.user",
+        "pk": 1,
+        "fields": {
+            "password": "temp",
+            "last_login": "2020-06-18T00:00:00Z",
+            "is_superuser": false,
+            "username": "test",
+            "first_name": "test",
+            "last_name": "test",
+            "email": "test@test.com",
+            "is_staff": false,
+            "is_active": false,
+            "date_joined": "2020-06-24T00:00:00Z",
+            "accepted_terms_at": "2020-06-24T00:00:00Z",
+            "authorization_id": null,
+            "authorization_guid": null,
+            "authorization_directory": null,
+            "authorization_email": null,
+            "display_name": "test",
+            "groups": [],
+            "user_permissions": []
+        }
+    }
+]

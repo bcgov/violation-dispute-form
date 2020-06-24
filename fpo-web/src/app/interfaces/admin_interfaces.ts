@@ -48,6 +48,13 @@ export interface TicketResponseContent {
     dispute_type: string;
     pdf_filename: string;
     archived_by: string;
+    printed_by: PrintedBy;
+    printed_date: Date;
+}
+
+export interface PrintedBy {
+    first_name: string;
+    last_name: string;
 }
   
 export interface Location {

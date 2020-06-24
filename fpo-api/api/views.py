@@ -46,7 +46,7 @@ from api.models import TicketResponse, User, Location, Region, PreparedPdf
 from api.pdf import render as render_pdf
 from api.send_email import send_email
 from api.utils import generate_pdf
-from api.serializers import TicketResponseSerializer, LocationSerializer, RegionSerializer
+from api.serializers import TicketResponseSerializer, LocationSerializer, RegionSerializer, LocationLookupSerializer, RegionLookupSerializer
 
 class AcceptTermsView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
@@ -129,12 +129,15 @@ class SubmitTicketResponseView(APIView):
         disputant = result.get("disputantName", {})
         # address = result.get("disputantAddress", {})
         
+        ticketNumber = result.get("ticketNumber")
+        ticketNumber = ticketNumber.prefix + ticketNumber.suffix
+
         response = TicketResponse(
             first_name=disputant.get("first"),
             middle_name=disputant.get("middle"),
             last_name=disputant.get("last"),
             email=result.get("disputantEmail"),
-            ticket_number=result.get("ticketNumber"),
+            ticket_number=ticketNumber,
             ticket_date=result.get("ticketDate"),
             hearing_location_id=result.get("hearingLocationId"),
             hearing_attendance=result.get("hearingAttendance"),
@@ -230,6 +233,7 @@ class TicketResponseListFilter(filters.FilterSet):
             'is_printed',
             'ticket_number',
             'hearing_location__name',
+            'printed_by__name'
         ]
 
 class TicketCountView(APIView):
@@ -274,12 +278,12 @@ class LocationListView(generics.ListAPIView):
     queryset = ''
     def get(self, request: Request, name=None):
         queryset = Location.objects.all()
-        serializer = LocationSerializer(queryset, many=True)
+        serializer = LocationLookupSerializer(queryset, many=True)
         return Response(serializer.data)
 
 class RegionListView(generics.ListAPIView):
     queryset = ''
     def get(self, request: Request, name=None):
         queryset = Region.objects.all()
-        serializer = RegionSerializer(queryset, many=True)
+        serializer = RegionLookupSerializer(queryset, many=True)
         return Response(serializer.data)
