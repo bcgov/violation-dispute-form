@@ -134,7 +134,7 @@ build-api() {
   ${S2I_EXE} build \
     --copy \
     '../fpo-api' \
-    'centos/python-36-centos7' \
+    'registry.fedoraproject.org/f32/python3' \
     'fpo-django'
 }
 
