@@ -90,19 +90,19 @@ export class AdminComponent implements OnInit {
   }
 
   async buildCountStrings() {
-      var counts = await this.adminService.getCounts() as RegionCountResponse;
-      this.newCountString = '';
-      this.archiveCountString = '';
+    var counts = await this.adminService.getCounts() as RegionCountResponse;
+    this.newCountString = '';
+    this.archiveCountString = '';
 
-      this.newCountString += `All Regions: ${counts.new_count.total.count}`;
-      counts.new_count.by_region.forEach(element => {
-        this.newCountString += ` | ${element.name}: ${element.count}`;
-      });
-  
-      this.archiveCountString += `All Regions: ${counts.archive_count.total.count}`;
-      counts.archive_count.by_region.forEach(element => {
-        this.archiveCountString += ` | ${element.name}: ${element.count}`;
-      });
+    this.newCountString += `New - All: ${counts.new_count.total.count}`;
+    counts.new_count.by_region.forEach(element => {
+      this.newCountString += ` | ${element.name}: ${element.count}`;
+    });
+
+    this.archiveCountString += `Archive - All: ${counts.archive_count.total.count}`;
+    counts.archive_count.by_region.forEach(element => {
+      this.archiveCountString += ` | ${element.name}: ${element.count}`;
+    });
   }
 
 
