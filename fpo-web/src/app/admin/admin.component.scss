@@ -12,7 +12,14 @@
     max-width:100%;
 }
 
+::ng-deep img {
+    vertical-align:middle;
+}
+
 :host ::ng-deep {
+    img {
+        vertical-align:middle;
+    }
     .tab {
         border-color: #adb5bd #adb5bd white;
         border: 1px solid transparent;
@@ -22,6 +29,13 @@
         display:block;
         text-decoration: none;
         font-size:28px;
+    }
+
+    ngb-pagination {
+        justify-content: center;
+    }
+    .pagination {
+        margin-bottom: 0px;
     }
 
     .tab.active {
@@ -274,4 +288,3 @@
         text-overflow: ellipsis;
     }
 } 
-

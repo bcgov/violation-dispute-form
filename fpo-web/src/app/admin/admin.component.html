@@ -19,7 +19,7 @@
       </div>
       <div class="container-fluid pr-8 mt-3">
         <div class="row mb-3">
-          <div class="col-sm form-inline pl-0">
+          <div class="col-sm form-inline p-0">
             <div ngbDropdown class="mr-2 align-bottom">
               <button id="hearingLocationButton" class="btn btn-outline-primary" ngbDropdownToggle>{{ selectedRegion.name }}</button>
               <div ngbDropdownMenu id="hearingLocation" aria-labelledby="hearingLocationButton">
@@ -33,15 +33,21 @@
                   <input autocomplete="off" type="text" class="form-control" id="search" (input)="filterByNameOrTicketNumber($event.target.value)">
             </div>
           </div>
-          <div class="col-auto">
-            <button type="button" [class.hide]="mode == 'Archive'" class="btn btn-secondary" (click)="printSelected($event)" class="btn btn-warning ml-2" style="color:black;" placement="top">
-              <img src="assets\print-pdf.svg" class="printer unselectable" width="20" height="20"/>
-              Print 50 Responses
-            </button>
-            <button type="button" class="btn btn-secondary" [class.disabled]="selected.length == 0" class="btn btn-warning ml-2" style="color:black;" placement="top" ngbTooltip="Tip: Hold the shift key to select multiple rows.">
-              <img src="assets\print-pdf.svg" class="printer unselectable" width="20" height="20"/>
-              Print Selected Responses
-            </button>
+          <div class="col-sm pr-0 pl-0" style="justify-content: center; align-items:center; display:flex;">
+            <ngb-pagination (pageChange)="switchPage($event)" [collectionSize]="totalElements" [pageSize]="this.searchParameters.filterParameters.limit" [(page)]="this.searchParameters.filterParameters.page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true">
+            </ngb-pagination>
+          </div>
+          <div class="col-sm pr-0 pl-0">
+            <span _ngcontent-dub-c1="" class="mt-1" style="float:right">
+              <button type="button" [class.hide]="mode == 'Archive'" class="btn btn-secondary" (click)="printSelected($event)" class="btn btn-warning ml-2" style="color:black;" placement="top">
+                <img src="assets\print-pdf.svg" class="printer unselectable" width="20" height="20"/>
+                Print Top 50 Responses
+              </button>
+              <button type="button" class="btn btn-secondary" [class.disabled]="selected.length == 0" class="btn btn-warning ml-2" style="color:black;" placement="top" ngbTooltip="Tip: Hold the shift key to select multiple rows.">
+                <img src="assets\print-pdf.svg" class="printer unselectable" width="20" height="20"/>
+                Print Selected Responses
+              </button>
+            </span>
           </div>
         </div>
       </div>
@@ -63,15 +69,14 @@
       [footerHeight]="90"
       [limit]="this.searchParameters.filterParameters.limit"
       [reorderable]="true"
-      [rowHeight]="'auto'"
+      [rowHeight]="51"
       [externalPaging]="true"
       [externalSorting]="true"
       [count]="totalElements"
       [offset]="this.searchParameters.filterParameters.page"
       [sorts]="this.searchParameters.sortParameters"
       (select)="select($event)"
-      (sort)="sort($event)"
-      (page)="handlePageChange($event)">
+      (sort)="sort($event)">
 
     <ngx-datatable-column *ngFor="let column of columns; let i = index;" name="{{column.name}}" prop="{{column.prop}}" [resizeable]="false" [sortable]="true" >
       <ng-template 
@@ -99,42 +104,31 @@
         let-curPage="curPage"
         let-offset="offset"
       >
-        <div style="font-size:16px;" class="mt-0 mr-3 mb-2 container-fluid">
+        <div style="font-size:16px;" class="mt-0 mb-2 container-fluid">
           <hr class="mb-3 mt-3">
-          <span class="mt-1">
-            <span style="display:inline-block" class="pt-2">
-            {{mode === 'New Responses' ? newCountString : archiveCountString}}
-
-
-            </span>
-
-        
-            <datatable-pager
-            [pagerLeftArrowIcon]="'datatable-icon-left'"
-            [pagerRightArrowIcon]="'datatable-icon-right'"
-            [pagerPreviousIcon]="'datatable-icon-prev'"
-            [pagerNextIcon]="'datatable-icon-skip'"
-            [page]="curPage"
-            [size]="pageSize"
-            [count]="rowCount"
-            [style.visibility]="!((rowCount / pageSize) > 1) ? 'hidden' : 'visible'"
-            (change)="table.onFooterPage($event)"
-            style="margin-left:100px"
-            >
-            </datatable-pager>
-            <span class="ml-2">{{totalPages(rowCount, pageSize)}} Total Pages</span>
-            <span class="mt-1" style="float:right">
-        
-            <button type="button" [class.hide]="mode == 'Archive'" class="btn btn-secondary" (click)="printSelected($event)" class="btn btn-warning ml-2" style="color:black;" placement="top">
-              <img src="assets\print-pdf.svg" class="printer unselectable" width="20" height="20"/>
-              Print 50 Responses
-            </button>
-            <button type="button" class="btn btn-secondary" [class.disabled]="selected.length == 0" class="btn btn-warning ml-2" style="color:black;" placement="top" ngbTooltip="Tip: Hold the shift key to select multiple rows.">
-              <img src="assets\print-pdf.svg" class="printer unselectable" width="20" height="20"/>
-              Print Selected Responses
-            </button>
-          </span>
-        </span>
+          <div class="row">
+            <div class="col-sm form-inline pr-0 pl-0">
+              <span style="display:inline-block">
+              {{mode === 'New Responses' ? newCountString : archiveCountString}}
+              </span>
+            </div>
+            <div class="col-sm pr-0 pl-0" style="justify-content: center; align-items:center; display:flex;">
+              <ngb-pagination (pageChange)="switchPage($event)" [collectionSize]="totalElements" [pageSize]="this.searchParameters.filterParameters.limit" [(page)]="this.searchParameters.filterParameters.page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true">
+              </ngb-pagination>
+            </div>
+            <div class="col-sm pr-0 pl-0">
+              <span class="mt-1" style="float:right">
+                <button type="button" [class.hide]="mode == 'Archive'" class="btn btn-secondary" (click)="printSelected($event)" class="btn btn-warning ml-2" style="color:black;">
+                  <img src="assets\print-pdf.svg" class="printer unselectable" width="20" height="20"/>
+                  Print Top 50 Responses
+                </button>
+                <button type="button" class="btn btn-secondary" [class.disabled]="selected.length == 0" class="btn btn-warning ml-2" style="color:black;" placement="top" container="body" ngbTooltip="Tip: Hold the shift key to select multiple rows.">
+                  <img src="assets\print-pdf.svg" class="printer unselectable" width="20" height="20"/>
+                  Print Selected Responses
+                </button>
+              </span>
+            </div>
+          </div>
         </div>
       </ng-template>
     </ngx-datatable-footer>

@@ -94,20 +94,21 @@ export class AdminComponent implements OnInit {
       this.newCountString = '';
       this.archiveCountString = '';
 
-      this.newCountString += ` | All Regions: ${counts.new_count.total.count}`;
+      this.newCountString += `All Regions: ${counts.new_count.total.count}`;
       counts.new_count.by_region.forEach(element => {
         this.newCountString += ` | ${element.name}: ${element.count}`;
       });
   
-      this.archiveCountString += ` | All Regions: ${counts.archive_count.total.count}`;
+      this.archiveCountString += `All Regions: ${counts.archive_count.total.count}`;
       counts.archive_count.by_region.forEach(element => {
         this.archiveCountString += ` | ${element.name}: ${element.count}`;
       });
   }
 
-  handlePageChange(event)   {
-    this.searchParameters.filterParameters.page = event.offset;
-    this.searchParameters.filterParameters.offset = event.offset * event.pageSize;
+
+  switchPage(page: number) {
+    this.searchParameters.filterParameters.page = page;
+    this.searchParameters.filterParameters.offset = this.searchParameters.filterParameters.limit * (page-1);
     this.loadPage();
   }
 
