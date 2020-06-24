@@ -33,8 +33,7 @@ from django_filters import rest_framework as filters
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from django.db.models import F
-from django.db.models import Count
+from django.db.models import Count, Case, IntegerField, When, F, Q
 
 from api.auth import (
     get_login_uri,
@@ -240,11 +239,11 @@ class TicketCountView(APIView):
     def get(self, request: Request, name=None):
         return Response({
             'new_count': {
-                'by_region': TicketResponse.objects.filter(printed_by__isnull=True).values(name=F('hearing_location__region__name'), id_=F('hearing_location__region__id')).annotate(count=Count('hearing_location__region_id')),
+                'by_region': Region.objects.values('name', 'id').annotate(count=Count('region_location__location_ticket__id', filter=Q(region_location__location_ticket__printed_by__isnull=True))),
                 'total': TicketResponse.objects.filter(printed_by__isnull=True).aggregate(count=Count('hearing_location__region'))
             },
             'archive_count': {
-                'by_region': TicketResponse.objects.filter(printed_by__isnull=False).values(name=F('hearing_location__region__name'), id_=F('hearing_location__region__id')).annotate(count=Count('hearing_location__region_id')),
+                'by_region': Region.objects.values('name', 'id').annotate(count=Count('region_location__location_ticket__id', filter=Q(region_location__location_ticket__printed_by__isnull=False))),
                 'total': TicketResponse.objects.filter(printed_by__isnull=False).aggregate(count=Count('hearing_location__region'))
             }
         })
