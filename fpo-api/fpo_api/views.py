@@ -36,8 +36,8 @@ def form(request):
     request.POST['data'] -> Here is the data
     """
 
+    data = json.loads(request.body)
 
-    data = json.loads(request.POST["data"])
     name = request.GET['name']
     template = '{}.html'.format(name)
 
@@ -55,10 +55,17 @@ def form(request):
     except KeyError:
         pass
 
-    # Format the data more user friendly
+    # Format the date to be more user friendly
     try:
         x = datetime.strptime(data['ticketDate'],'%Y-%m-%d')
         data['ticketDate'] = x.strftime('%d-%b-%Y')
+    except KeyError:
+        pass
+
+    # Format the date of birth to be more user friendly
+    try:
+        x2 = datetime.strptime(data['disputantDOB'],'%Y-%m-%d')
+        data['disputantDOB'] = x2.strftime('%d-%b-%Y')
     except KeyError:
         pass
      #######################
