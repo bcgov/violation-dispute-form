@@ -1,31 +1,11 @@
 import { Component, OnInit, ElementRef } from "@angular/core";
 import { ColumnMode, SelectionType, SortType } from "@swimlane/ngx-datatable";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
-import { AdminDataService, SearchResponse } from './admin-data.service';
-import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { AdminDataService} from './admin-data.service';
+import { ActivatedRoute } from '@angular/router';
+import { SearchParameters, Region, SearchResponse, RegionCountResponse } from 'app/interfaces/admin_interfaces';
 
 //#region Interfaces
-export interface SearchParameters {
-  filterParameters: FilterParameters;
-  sortParameters: SortParameters;
-}
-
-export interface FilterParameters {
-  search: string;
-  createdDate: string;
-  region: string;
-  offset: number;
-  limit: number;
-  isPrinted: boolean;
-}
-
-export interface SortParameters extends Array<SortParameter> {}
-
-interface SortParameter {
-  prop: string;
-  dir: string;
-}
-
 @Component({
   selector: "app-admin",
   templateUrl: "./admin.component.html",
@@ -35,17 +15,24 @@ export class AdminComponent implements OnInit {
   //#region Variables & Constructor
   AdminService: AdminDataService;
 
-  readonly headerHeight = 50;
-  readonly rowHeight = 50;
   ColumnMode = ColumnMode;
   SelectionType = SelectionType;
   SortType = SortType;
-  reorderable = true;
+
+  readonly headerHeight = 50;
+  readonly rowHeight = 50;
+  tableHeight = 0;
+  tableWidth = 0;
+  heightOffset = 345;
+  widthOffset = 68;
+
   loading = false;
   mode: string = 'New Responses';
-
+  selectedRegion: Region =  { name: "All Regions", id: null };
   columns = [];
-
+  regions = [
+    { name: "All Regions", id: null }
+  ];
   data: SearchResponse = {
     count: 0,
     next: null,
@@ -59,21 +46,29 @@ export class AdminComponent implements OnInit {
       search: "",
       isPrinted: false,
       createdDate: "",
-      region: "",
+      region: null,
+      page: 1,
       offset: 0,
-      limit: 100 //Hard coded to 100 on the API server for now. 
+      limit: 50 //Hard coded to 100 on the API server for now. 
     },
     sortParameters: [],
   };
+  newCountString: string;
+  archiveCountString: string;
   maxSelectedRecords = 50;
+  pageSize = 50;
+  totalElements = 0;
 
 
   ngOnInit() {
-    this.onScroll(0);
+    this.loadPage();
   }
 
   constructor(private adminService: AdminDataService, private el: ElementRef, private activatedRoute: ActivatedRoute) {
     this.AdminService = adminService;
+
+    this.populateRegions();
+    this.populateCountStrings();
 
     activatedRoute.data.subscribe((data) => {
       if ( data.title === 'New Responses')
@@ -91,50 +86,55 @@ export class AdminComponent implements OnInit {
       });
     });
 
-    this.searchParameters.sortParameters = [{ prop: 'hearing_location', dir: 'asc' }, {prop: 'created_date', dir: 'asc'}, { prop: 'name', dir: 'asc' }];
+    this.searchParameters.sortParameters = [{ prop: 'hearing_location__name', dir: 'asc' }, {prop: 'created_date', dir: 'asc'}, { prop: 'name', dir: 'asc' }];
   }
   //#endregion Variables & Constructor
 
-  onScroll(offsetY: number) {
-    // total height of all rows in the viewport
-    const viewHeight = this.el.nativeElement.getBoundingClientRect().height - this.headerHeight;
 
-    // check if we scrolled to the end of the viewport
-    if (!this.loading && offsetY + viewHeight >= this.rows.length * this.rowHeight) {
-      // total number of results to load
-      let limit = this.searchParameters.filterParameters.limit;
-
-      // check if we haven't fetched any results yet
-      if (this.rows.length === 0) {
-        // calculate the number of rows that fit within viewport
-        const pageSize = Math.ceil(viewHeight / this.rowHeight);
-
-        // change the limit to pageSize such that we fill the first page entirely
-        // (otherwise, we won't be able to scroll past it)
-        limit = Math.max(pageSize, this.searchParameters.filterParameters.limit);
-      }
-      this.loadPage(limit);
+  async populateRegions() {
+    if (this.regions.length == 1) {
+      var regions = await this.adminService.getRegions() as Array<Region>;
+      this.regions = this.regions.concat(regions);
     }
   }
 
-  private async loadPage(limit: number) {
-    // set the loading flag, which serves two purposes:
-    // 1) it prevents the same page from being loaded twice
-    // 2) it enables display of the loading indicator
-    this.loading = true;
-    this.data = await this.AdminService.getSearchResponse(this.searchParameters);
-    this.searchParameters.filterParameters.offset += this.data.results.length;
-    const rows = [...this.rows, ...this.data.results];
-    this.rows = rows;
-    this.loading = false;
+  async populateCountStrings() {
+      var counts = await this.adminService.getCounts() as RegionCountResponse;
+      this.newCountString = '';
+      this.archiveCountString = '';
+
+      this.newCountString += ` | All Regions: ${counts.new_count.total.count}`;
+      counts.new_count.by_region.forEach(element => {
+        this.newCountString += ` | ${element.name}: ${element.count}`;
+      });
+  
+      this.archiveCountString += ` | All Regions: ${counts.archive_count.total.count}`;
+      counts.archive_count.by_region.forEach(element => {
+        this.archiveCountString += ` | ${element.name}: ${element.count}`;
+      });
+
   }
 
+  handlePageChange(event)   {
+    this.searchParameters.filterParameters.page = event.offset;
+    this.searchParameters.filterParameters.offset = event.offset * event.pageSize;
+    this.loadPage();
+  }
+
+  private async loadPage() {
+    this.selected = [];
+    this.loading = true;
+    this.data = await this.AdminService.getSearchResponse(this.searchParameters);
+    this.loading = false;
+    this.totalElements = this.data.count;
+    this.rows = this.data.results;
+  }
 
   switchToNewResponses() {
     //Add in printed by == null filter
     //Change the styling 
     this.columns = [
-      { prop: "court_location", name: "Court Location" },
+      { prop: "hearing_location__name", name: "Court Location" },
       { prop: "name", name: "Name" },
       { prop: "ticket_number", name: "Ticket #" },
       { prop: "created_date", name: "Response Date" },
@@ -149,12 +149,12 @@ export class AdminComponent implements OnInit {
     //Add in printed by != null filter
     //Change the styling 
     this.columns = [
-      { prop: "court_location", name: "Court Location" },
+      { prop: "hearing_location__name", name: "Court Location" },
       { prop: "name", name: "Name" },
       { prop: "ticket_number", name: "Ticket #" },
       { prop: "created_date", name: "Response Date" },
+      { prop: "originally_printed_by", name: "Originally Printed By" },
       { prop: "action", name: "Action"},
-      { prop: "extra", name: "extra column" }
     ];
 
     this.searchParameters.filterParameters.isPrinted = true;
@@ -162,12 +162,10 @@ export class AdminComponent implements OnInit {
   }
 
   async executeSearch(searchParameters: SearchParameters) {
+    //Reset our search to offset 0. 
     this.searchParameters.filterParameters.offset = 0;
-    this.loading = true;
-    this.data = await this.AdminService.getSearchResponse(this.searchParameters);
-    this.loading = false;
-    this.rows = this.data.results;
-    this.selected = [];
+ 
+    this.loadPage();
   }
 
   responseDateText() : string {
@@ -176,8 +174,9 @@ export class AdminComponent implements OnInit {
     return `Response Date: ${this.searchParameters.filterParameters.createdDate}`
   }
 
-  filterByRegion(region: string) {
-    this.searchParameters.filterParameters.region = region;
+  filterByRegion(region: Region) {
+    this.searchParameters.filterParameters.region = region.id;
+    this.selectedRegion = region;
     this.executeSearch(this.searchParameters);
   }
 
@@ -228,13 +227,7 @@ export class AdminComponent implements OnInit {
     window.open("assets/doc.pdf");
   }
 
-  //#region Testing Data
-  regions = [
-    { name: "All Regions" },
-    { name: "Vancouver (Robson Square)" },
-    { name: "Richmond, Surrey, Abbotsford" },
-    { name: "Chilliwack, New Westminster, Port Coquitlam, North Vancouver, Pemberton, Bella Bella, Bella Coola, Klemtu, Sechelt"},
-    { name: "Rest of province" },
-  ];
-  //#endregion Testing Data
+  totalPages(rowCount: number, pageSize: number) {
+    return Math.ceil(rowCount/ pageSize);
+  }
 }

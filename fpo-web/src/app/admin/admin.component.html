@@ -1,61 +1,89 @@
 <div> 
-  <div class="shadow p-3 bg-white rounded">
-    <h1>VTC Disputant Response Inbox</h1>
-    <button routerLink="/admin/new-responses" style="font-size:28px" class="btn btn-primary mr-2"> 
-      New Responses 
-    </button>
-    <button routerLink="/admin/archive" style="font-size:28px; opacity: 0.6;" class="btn btn-secondary"> 
-      Archive 
-    </button>
-  <div class="container-fluid pr-8 mt-4">
-    <div class="row mb-3">
-      <div class="col-sm form-inline pl-0">
-        <div ngbDropdown class="mr-2 align-bottom">
-          <button id="hearingLocationButton" class="btn btn-outline-primary" ngbDropdownToggle title="{{searchParameters.filterParameters.region || 'All Regions'}}">{{searchParameters.filterParameters.region || 'All Regions'}}</button>
-          <div ngbDropdownMenu id="hearingLocation" aria-labelledby="hearingLocationButton">
-            <button ngbDropdownItem *ngFor="let region of regions" (click)="filterByRegion(region.name)" title="{{region.name}}">{{region.name}}</button>
+  <div class="bg-white rounded pb-1 pr-3 pl-3" >
+    <div class="content-header">
+      <h1 class="mb-3">VTC Disputant Response Inbox</h1>
+      <div>
+
+        <ul ngbNav #nav="ngbNav"  class="nav-tabs">
+          <li [ngbNavItem]="1">
+            <a class="nav-link" [class.active]="mode !== 'Archive'" [routerLink]="['/admin/new-responses']" class="tab" >
+              New Responses
+              <!--<button (click)="switchTabs()" [ngClass]="mode === 'New Responses' ? 'selected-page' : 'unselected-page'" style="font-size:28px;" class="btn"> 
+            
+              </button>-->
+            </a>
+          </li>
+          <li [ngbNavItem]="2">
+            <a class="nav-link" [routerLink]="['/admin/archive']" [class.active]="mode === 'Archive'" class="tab"  >  
+              Archive 
+              <!--<button [ngClass]="mode === 'Archive' ? 'selected-page' : 'unselected-page'" style="font-size:28px;" class="btn">
+              
+              </button>-->
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="container-fluid pr-8 mt-3">
+        <div class="row mb-3">
+          <div class="col-sm form-inline pl-0">
+            <div ngbDropdown class="mr-2 align-bottom">
+              <button id="hearingLocationButton" class="btn btn-primary" ngbDropdownToggle>{{ selectedRegion.name }}</button>
+              <div ngbDropdownMenu id="hearingLocation" aria-labelledby="hearingLocationButton">
+                <button ngbDropdownItem *ngFor="let region of regions" (click)="filterByRegion(region)" title="{{region.name}}">{{region.name}}</button>
+              </div>
+            </div>
+            <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Name or Ticket #: </span>
+                  </div>
+                  <input autocomplete="off" type="text" class="form-control" id="search" (input)="filterByNameOrTicketNumber($event.target.value)">
+            </div>
+          </div>
+          <div class="col-auto">
+            <button type="button" [class.hide]="mode == 'Archive'" class="btn btn-secondary" (click)="printSelected($event)" class="btn btn-warning ml-2" style="color:black;" placement="top">
+              <img src="assets\print-pdf.svg" class="printer unselectable" width="20" height="20"/>
+              Print 50 Responses
+            </button>
+            <button type="button" class="btn btn-secondary" [class.disabled]="selected.length == 0" class="btn btn-warning ml-2" style="color:black;" placement="top" ngbTooltip="Tip: Hold the shift key to select multiple rows.">
+              <img src="assets\print-pdf.svg" class="printer unselectable" width="20" height="20"/>
+              Print Selected Responses
+            </button>
           </div>
         </div>
-        <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text">Name or Ticket #: </span>
-              </div>
-              <input autocomplete="off" type="text" class="form-control" id="search" (input)="filterByNameOrTicketNumber($event.target.value)">
-        </div>
-      </div>
-      <div class="col-auto">
-        <button type="button" class="btn btn-secondary" (click)="printSelected($event)" [class.disabled]="selected.length == 0" class="btn btn-warning ml-2" style="color:black;" placement="top" ngbTooltip="Tip: Hold the shift key to select multiple rows.">
-          <img src="assets\print-pdf.svg" class="printer unselectable" width="20" height="20"/>
-          Print Selected Responses
-        </button>
       </div>
     </div>
-  </div>
-  <ngx-datatable
-    class="bootstrap"
-    [rows]="rows"
-    [scrollbarV]="true"
-    [scrollbarH]="false"
-    [loadingIndicator]="loading"
-    [sortType]="SortType.multi"
-    [columnMode]="ColumnMode.force"
-    [columns]="columns"
-    [headerHeight]="headerHeight"
-    [summaryRow]="false"
-    [selected]="selected"
-    [selectionType]="SelectionType.multiClick"
-    [footerHeight]="30"
-    [limit]="10"
-    [reorderable]="reorderable"
-    [rowHeight]="rowHeight"
-    [externalSorting]="false"
-    [sorts]="this.searchParameters.sortParameters"
-    (select)="select($event)"
-    (sort)="sort($event)"
-    (scroll)="onScroll($event.offsetY)"
-  >
+    <ngx-datatable
+      #table
+      class="bootstrap"
+      [rows]="rows"
+      [scrollbarV]="false"
+      [scrollbarH]="false"
+      [loadingIndicator]="loading"
+      [sortType]="SortType.multi"
+      [columnMode]="ColumnMode.force"
+      [columns]="columns"
+      [headerHeight]="headerHeight"
+      [summaryRow]="false"
+      [selected]="selected"
+      [selectionType]="SelectionType.multiClick"
+      [footerHeight]="45"
+      [limit]="pageSize"
+      [reorderable]="true"
+      [rowHeight]="auto"
+      [externalPaging]="true"
+      [externalSorting]="true"
+      [count]="totalElements"
+      [offset]="this.searchParameters.filterParameters.page"
+      [sorts]="this.searchParameters.sortParameters"
+      (select)="select($event)"
+      (sort)="sort($event)"
+      (page)="handlePageChange($event)">
+
     <ngx-datatable-column *ngFor="let column of columns; let i = index;" name="{{column.name}}" prop="{{column.prop}}" [resizeable]="false" [sortable]="true" >
-      <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn">
+      <ng-template 
+        ngx-datatable-header-template 
+        let-column="column" 
+        let-sort="sortFn">
         <span class="unselectable" *ngIf="column.name!=='Action'" (click)="sort()">
         {{column.name}}
         </span>
@@ -77,22 +105,38 @@
         let-curPage="curPage"
         let-offset="offset"
       >
-        <div style="min-width:100%; font-size:16px;" class="mt-0 mr-2">
-          <hr class="mb-0 mt-0"/>
-          All Regions: 150 New | Team A: 0 New | Team B: 1 New | Team C: 2 New | Team D: 50 New                    <span style="float:right">{{this.selected.length}} rows selected   </span>
-          <datatable-pager
-          [pagerLeftArrowIcon]="'datatable-icon-left'"
-          [pagerRightArrowIcon]="'datatable-icon-right'"
-          [pagerPreviousIcon]="'datatable-icon-prev'"
-          [pagerNextIcon]="'datatable-icon-skip'"
-          [page]="curPage"
-          [size]="pageSize"
-          [count]="rowCount"
-          [hidden]="!((rowCount / pageSize) > 1)"
-          (change)="table.onFooterPage($event)">
-          </datatable-pager>
+        <div style="font-size:16px; max-width:95%" class="mt-0 mr-3">
+          <span class="mt-1">
+            <span style="display:inline-block" class="pt-2">
+            {{this.selected.length}} rows selected {{mode === 'New Responses' ? newCountString : archiveCountString}}
 
-          X Pages Total
+
+            </span>
+            <span class="mt-1" style="float:right">
+              <span class="ml-2">{{totalPages(rowCount, pageSize)}} Total Pages</span>
+              <datatable-pager
+              [pagerLeftArrowIcon]="'datatable-icon-left'"
+              [pagerRightArrowIcon]="'datatable-icon-right'"
+              [pagerPreviousIcon]="'datatable-icon-prev'"
+              [pagerNextIcon]="'datatable-icon-skip'"
+              [page]="curPage"
+              [size]="pageSize"
+              [count]="rowCount"
+              [style.visibility]="!((rowCount / pageSize) > 1) ? 'hidden' : 'visible'"
+              (change)="table.onFooterPage($event)"
+              style="margin-left:25px"
+              >
+              </datatable-pager>
+            <button type="button" [class.hide]="mode == 'Archive'" class="btn btn-secondary" (click)="printSelected($event)" class="btn btn-warning ml-2" style="color:black;" placement="top">
+              <img src="assets\print-pdf.svg" class="printer unselectable" width="20" height="20"/>
+              Print 50 Responses
+            </button>
+            <button type="button" class="btn btn-secondary" [class.disabled]="selected.length == 0" class="btn btn-warning ml-2" style="color:black;" placement="top" ngbTooltip="Tip: Hold the shift key to select multiple rows.">
+              <img src="assets\print-pdf.svg" class="printer unselectable" width="20" height="20"/>
+              Print Selected Responses
+            </button>
+          </span>
+        </span>
         </div>
       </ng-template>
     </ngx-datatable-footer>

@@ -8,15 +8,138 @@
 //Instead I used ::ng-deep which is depreciated.
 //Alternatively this could be moved to the style.css at the root. 
 ::ng-deep .app-main {
-    padding: 15px !important;
+    padding: 15px 15px 0px 15px !important;
+    max-width:100%;
 }
 
 :host ::ng-deep {
     
-    .input-group-text {
+    //Nav-tabs doesn't work correctly with routing.
+    .tab {
+        border-color: #adb5bd #adb5bd white;
+        border: 1px solid transparent;
+        border-top-left-radius: 0.25rem;
+        border-top-right-radius: 0.25rem;
+        padding: .4rem .8rem;
+        display:block;
+        text-decoration: none;
+        font-size:28px;
+    }
+
+    .tab.active {
+        color: #495057;
+        border-color: #adb5bd #adb5bd white;
+        font-weight: bold;
+    }
+
+    .pager {
+
+        .datatable-icon-prev:before {
+            content: '\72';
+            position: relative;
+            top: 3px;
+            font-family: 'data-table' !important;
+            font-style: normal !important;
+            font-weight: normal !important;
+            font-variant: normal !important;
+            text-transform: none !important;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+        }
+    
+        .datatable-icon-skip:before {
+            content: '\71';
+            position: relative;
+            top: 3px;
+            font-family: 'data-table' !important;
+            font-style: normal !important;
+            font-weight: normal !important;
+            font-variant: normal !important;
+            text-transform: none !important;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+        }
+    
+        .datatable-icon-left:before {
+            content: '\AB';
+            font-style: normal !important;
+            font-weight: normal !important;
+            font-variant: normal !important;
+            text-transform: none !important;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        .datatable-icon-right:before {
+            content: '\BB';
+            font-style: normal !important;
+            font-weight: normal !important;
+            font-variant: normal !important;
+            text-transform: none !important;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        li.disabled a {
+            color: #494949 !important;
+        }
+
+        li:first-of-type a, li:nth-of-type(2) a, li:nth-last-of-type(2) a, li:last-of-type a  {
+            color: #1a5a96;
+            background-color: white;
+            border: 1px solid #adb5bd;
+            text-decoration: none;
+            padding: .25rem .5rem;
+            line-height: 1.5;
+        }
+
+
+
+        .pages.active a {
+            color: #fff;
+            background-color: #38598a;
+            border-color:#38598a;
+            text-decoration: none;
+        }   
+
+        .pages a { 
+            color: #1a5a96;
+            background-color: white;
+            border: 1px solid #adb5bd;
+            text-decoration: none;
+            padding: .25rem .5rem;
+            line-height: 1.5;
+        }
+
+    }
+
+    .hide {
+        display:none;
+    }
+
+    .selected-page {
+        color: #fff;
+        background-color: #036;
+        border-color: #036;
+        font-weight: bold;
+    }
+    
+    .unselected-page {
+        font-weight: normal;
+        color: #1a5a96;
+    }
+
+    //unused. 
+    .input-group-text .outline {
         color: #38598a;
         border-color: #38598a;
         background-color: transparent;
+    }
+
+    .input-group-text {
+        color: white;
+        border-color: #38598a;
+        background-color: #38598a;
     }
 
     .form-group {
@@ -29,9 +152,7 @@
         border-color: #38598a;
         background-color: transparent;
     }
-    .ngx-datatable.scroll-vertical {
-        height: 70vh;
-    }
+
 
     .ngx-datatable.scroll-vertical .datatable-body {
         overflow-x: hidden;
@@ -118,13 +239,11 @@
         filter: invert(100%);
     }
 
-    .datatable-icon-down {
+    .datatable-icon-down, .datatable-icon-up, .datatable-icon-prev, .datatable-icon-next   {
         vertical-align: unset !important;
     }
 
-    .datatable-icon-up {
-        vertical-align: unset !important;
-    }
+ 
      
     .datatable-icon-down:before {
         content: '\66';
@@ -167,7 +286,8 @@
     }
 
     #hearingLocationButton {
-        max-width:500px;
+        min-width:100px;
+        max-width:300px;
         overflow-x: hidden;
         text-overflow: ellipsis;
     }

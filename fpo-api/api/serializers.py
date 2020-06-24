@@ -19,7 +19,9 @@
 
 from rest_framework import serializers
 
-from api.models import TicketResponse, Location, Region
+from api.models import TicketResponse
+from api.models import Location
+from api.models import Region
 
 class TicketRegionSerializer(serializers.ModelSerializer):
     class Meta:

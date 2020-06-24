@@ -1,51 +1,6 @@
 import { Injectable } from "@angular/core";
 import { GeneralDataService } from "app/general-data.service";
-import {
-  SearchParameters,
-  FilterParameters,
-  SortParameters,
-} from "./admin.component";
-
-
-export interface SearchResponse {
-  count: number;
-  next: string;
-  previous: string;
-  results: Array<TicketResponseContent>;
-}
-
-interface TicketResponseContent {
-  created_date: Date | string;
-  updated_date: Date | string;
-  emailed_date: Date | string;
- 
-  first_name: string;
-  middle_name: string;
-  last_name: string;
-
-  email: string;
-
-  hearing_attendance: string;
-  hearing_location: Location;
-
-  ticket_number: string;
-  ticket_date: Date;
-  deadline_date: Date | string;
-  dispute_type: string;
-  pdf_filename: string;
-  archived_by: string;
-}
-
-interface Location {
-  id: number;
-  name: string;
-  region: Region;
-}
-
-interface Region {
-  id: number;
-  name: string;
-}
+import { RegionCountResponse, Region, SearchResponse, SortParameters, FilterParameters, SearchParameters } from 'app/interfaces/admin_interfaces';
 
 @Injectable()
 export class AdminDataService {
@@ -79,13 +34,16 @@ export class AdminDataService {
   //Todo offset and limit.
   buildFilterString(filterParameters: FilterParameters): string {
     return Object.keys(filterParameters)
-      .filter((x) => filterParameters[x].toString().trim().length !== 0)
+      .filter((x) => filterParameters[x] !== null && filterParameters[x].toString().trim().length !== 0)
       .map((key) => {
 
         var snakeCaseKey = key.replace(
           /[A-Z]/g,
           (letter) => `_${letter.toLowerCase()}`
         );
+        
+        if (snakeCaseKey === 'court_location')
+          snakeCaseKey = 'hearing_location';
 
         return `${encodeURIComponent(snakeCaseKey)}=${encodeURIComponent(
           filterParameters[key].toString().trim()
@@ -119,10 +77,23 @@ export class AdminDataService {
       deadline_date: new Date(r.deadline_date).getDate() + "-" + this.monthNames[new Date(r.deadline_date).getMonth()] + "-" + new Date(r.deadline_date).getFullYear(),
       created_date: new Date(r.created_date).getDate() + "-" + this.monthNames[new Date(r.created_date).getMonth()] + "-" + new Date(r.created_date).getFullYear(),
       name: `${r.last_name}, ${r.first_name} ${r.middle_name || ''}`,
-      court_location: r.hearing_location.name
+      hearing_location__name: r.hearing_location.name
+      //originally_printed_by: Name Date
     }));
 
     return searchResponse;    
+  }
+
+  async getRegions() : Promise<Array<Region>>
+  {
+    const url = this.generalDataService.getApiUrl("regions");
+    return await this.generalDataService.loadJson(url) as Array<Region>;
+  }
+
+  async getCounts() : Promise<RegionCountResponse>
+  {
+    const url = this.generalDataService.getApiUrl("responses/counts")
+    return await this.generalDataService.loadJson(url) as RegionCountResponse;
   }
 
   //Not sure yet if we're passing file names or ids.

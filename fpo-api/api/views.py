@@ -33,6 +33,9 @@ from django_filters import rest_framework as filters
 
 from django_filters.rest_framework import DjangoFilterBackend
 
+from django.db.models import F
+from django.db.models import Count
+
 from api.auth import (
     get_login_uri,
     get_logout_uri,
@@ -195,19 +198,32 @@ class SubmitTicketResponseView(APIView):
 
 
 class TicketResponseListFilter(filters.FilterSet):
-    is_printed = filters.BooleanFilter(field_name='printed_by', lookup_expr='isnull')
-
+    is_printed = filters.BooleanFilter(field_name='printed_by', lookup_expr='isnull', exclude=True)
+    region = filters.NumberFilter(field_name='hearing_location__region_id', lookup_expr='exact')
     class Meta:
      
         fields = [
-          # 'in_region',
+            'region',
             'hearing_attendance',
             'dispute_type',
             'is_printed',
             'ticket_number',
-            'hearing_location',
+            'hearing_location__name',
         ]
-        
+
+class TicketCountView(APIView):
+    def get(self, request: Request, name=None):
+        return Response({
+            'new_count': {
+                'by_region': TicketResponse.objects.filter(printed_by__isnull=True).values(name=F('hearing_location__region__name'), id_=F('hearing_location__region__id')).annotate(count=Count('hearing_location__region_id')),
+                'total': TicketResponse.objects.filter(printed_by__isnull=True).aggregate(count=Count('hearing_location__region'))
+            },
+            'archive_count': {
+                'by_region': TicketResponse.objects.filter(printed_by__isnull=False).values(name=F('hearing_location__region__name'), id_=F('hearing_location__region__id')).annotate(count=Count('hearing_location__region_id')),
+                'total': TicketResponse.objects.filter(printed_by__isnull=False).aggregate(count=Count('hearing_location__region'))
+            }
+        })
+
 class TicketResponseListView(generics.ListAPIView):
     queryset = TicketResponse.objects.all()
     serializer_class = TicketResponseSerializer
@@ -225,14 +241,13 @@ class TicketResponseListView(generics.ListAPIView):
         "printed_date",
         "ticket_date",
         "deadline_date",
-        "hearing_location",
+        "hearing_location__name",
         "ticket_number",
         "dispute_type",
         "last_name",
         "first_name",
-        "hearing_location"
     ]
-    ordering = ["hearing_location", "created_date", "last_name"]
+    ordering = ["hearing_location__name", "created_date", "last_name"]
 
 class LocationListView(generics.ListAPIView):
     queryset = ''

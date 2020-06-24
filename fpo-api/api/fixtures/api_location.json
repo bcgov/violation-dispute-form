@@ -1,1 +1,597 @@
-[{"model": "api.location", "pk": 1, "fields": {"name": "100 Mile House", "region": null}}, {"model": "api.location", "pk": 2, "fields": {"name": "Abbotsford", "region": 2}}, {"model": "api.location", "pk": 3, "fields": {"name": "Alexis Creek", "region": null}}, {"model": "api.location", "pk": 4, "fields": {"name": "Anahim Lake", "region": null}}, {"model": "api.location", "pk": 5, "fields": {"name": "Ashcroft", "region": null}}, {"model": "api.location", "pk": 6, "fields": {"name": "Atlin", "region": null}}, {"model": "api.location", "pk": 7, "fields": {"name": "Bella Bella", "region": 3}}, {"model": "api.location", "pk": 8, "fields": {"name": "Bella Coola", "region": 3}}, {"model": "api.location", "pk": 9, "fields": {"name": "Burns Lake", "region": null}}, {"model": "api.location", "pk": 10, "fields": {"name": "Campbell River", "region": null}}, {"model": "api.location", "pk": 11, "fields": {"name": "Castlegar", "region": null}}, {"model": "api.location", "pk": 12, "fields": {"name": "Chase", "region": null}}, {"model": "api.location", "pk": 13, "fields": {"name": "Chetwynd", "region": null}}, {"model": "api.location", "pk": 14, "fields": {"name": "Chilliwack", "region": 3}}, {"model": "api.location", "pk": 15, "fields": {"name": "Clearwater", "region": null}}, {"model": "api.location", "pk": 16, "fields": {"name": "Courtenay", "region": null}}, {"model": "api.location", "pk": 17, "fields": {"name": "Cranbrook", "region": null}}, {"model": "api.location", "pk": 18, "fields": {"name": "Dawson Creek", "region": null}}, {"model": "api.location", "pk": 19, "fields": {"name": "Dease Lake", "region": null}}, {"model": "api.location", "pk": 20, "fields": {"name": "Duncan", "region": null}}, {"model": "api.location", "pk": 21, "fields": {"name": "Fernie", "region": null}}, {"model": "api.location", "pk": 22, "fields": {"name": "Fort Nelson", "region": null}}, {"model": "api.location", "pk": 23, "fields": {"name": "Fort St. James", "region": null}}, {"model": "api.location", "pk": 24, "fields": {"name": "Fort St. John", "region": null}}, {"model": "api.location", "pk": 25, "fields": {"name": "Fraser Lake", "region": null}}, {"model": "api.location", "pk": 26, "fields": {"name": "Ganges", "region": null}}, {"model": "api.location", "pk": 27, "fields": {"name": "Gold River", "region": null}}, {"model": "api.location", "pk": 28, "fields": {"name": "Golden", "region": null}}, {"model": "api.location", "pk": 29, "fields": {"name": "Good Hope Lake", "region": null}}, {"model": "api.location", "pk": 30, "fields": {"name": "Grand Forks", "region": null}}, {"model": "api.location", "pk": 31, "fields": {"name": "Hazelton", "region": null}}, {"model": "api.location", "pk": 32, "fields": {"name": "Houston", "region": null}}, {"model": "api.location", "pk": 33, "fields": {"name": "Hudson's Hope", "region": null}}, {"model": "api.location", "pk": 34, "fields": {"name": "Invermere", "region": null}}, {"model": "api.location", "pk": 35, "fields": {"name": "Kamloops", "region": null}}, {"model": "api.location", "pk": 36, "fields": {"name": "Kelowna", "region": null}}, {"model": "api.location", "pk": 37, "fields": {"name": "Kitimat", "region": null}}, {"model": "api.location", "pk": 38, "fields": {"name": "Klemtu", "region": 3}}, {"model": "api.location", "pk": 39, "fields": {"name": "Kwadacha (Fort Ware)", "region": null}}, {"model": "api.location", "pk": 40, "fields": {"name": "Lillooet", "region": null}}, {"model": "api.location", "pk": 41, "fields": {"name": "Lower Post", "region": null}}, {"model": "api.location", "pk": 42, "fields": {"name": "Mackenzie", "region": null}}, {"model": "api.location", "pk": 43, "fields": {"name": "Masset", "region": null}}, {"model": "api.location", "pk": 44, "fields": {"name": "McBride", "region": null}}, {"model": "api.location", "pk": 45, "fields": {"name": "Merritt", "region": null}}, {"model": "api.location", "pk": 46, "fields": {"name": "Nakusp", "region": null}}, {"model": "api.location", "pk": 47, "fields": {"name": "Nanaimo", "region": null}}, {"model": "api.location", "pk": 48, "fields": {"name": "Nelson", "region": null}}, {"model": "api.location", "pk": 49, "fields": {"name": "New Aiyansh", "region": null}}, {"model": "api.location", "pk": 50, "fields": {"name": "New Westminster", "region": 3}}, {"model": "api.location", "pk": 51, "fields": {"name": "North Vancouver", "region": null}}, {"model": "api.location", "pk": 52, "fields": {"name": "Pemberton", "region": 3}}, {"model": "api.location", "pk": 53, "fields": {"name": "Penticton", "region": null}}, {"model": "api.location", "pk": 54, "fields": {"name": "Port Alberni", "region": null}}, {"model": "api.location", "pk": 55, "fields": {"name": "Port Coquitlam", "region": null}}, {"model": "api.location", "pk": 56, "fields": {"name": "Port Hardy", "region": null}}, {"model": "api.location", "pk": 57, "fields": {"name": "Powell River", "region": null}}, {"model": "api.location", "pk": 58, "fields": {"name": "Prince George", "region": null}}, {"model": "api.location", "pk": 59, "fields": {"name": "Prince Rupert", "region": null}}, {"model": "api.location", "pk": 60, "fields": {"name": "Princeton", "region": null}}, {"model": "api.location", "pk": 61, "fields": {"name": "Queen Charlotte City", "region": null}}, {"model": "api.location", "pk": 62, "fields": {"name": "Quesnel", "region": null}}, {"model": "api.location", "pk": 63, "fields": {"name": "Revelstoke", "region": null}}, {"model": "api.location", "pk": 64, "fields": {"name": "Richmond", "region": 2}}, {"model": "api.location", "pk": 65, "fields": {"name": "Rossland", "region": null}}, {"model": "api.location", "pk": 66, "fields": {"name": "Salmon Arm", "region": null}}, {"model": "api.location", "pk": 67, "fields": {"name": "Sechelt", "region": 3}}, {"model": "api.location", "pk": 68, "fields": {"name": "Sidney", "region": null}}, {"model": "api.location", "pk": 69, "fields": {"name": "Smithers", "region": null}}, {"model": "api.location", "pk": 70, "fields": {"name": "Sparwood", "region": null}}, {"model": "api.location", "pk": 71, "fields": {"name": "Stewart", "region": null}}, {"model": "api.location", "pk": 72, "fields": {"name": "Surrey", "region": 2}}, {"model": "api.location", "pk": 73, "fields": {"name": "Tahsis", "region": null}}, {"model": "api.location", "pk": 74, "fields": {"name": "Terrace", "region": null}}, {"model": "api.location", "pk": 75, "fields": {"name": "Tofino", "region": null}}, {"model": "api.location", "pk": 76, "fields": {"name": "Tsay Keh Dene", "region": null}}, {"model": "api.location", "pk": 77, "fields": {"name": "Tumbler Ridge", "region": null}}, {"model": "api.location", "pk": 78, "fields": {"name": "Ucluelet", "region": null}}, {"model": "api.location", "pk": 79, "fields": {"name": "Valemount", "region": null}}, {"model": "api.location", "pk": 80, "fields": {"name": "Vancouver", "region": 1}}, {"model": "api.location", "pk": 81, "fields": {"name": "Vanderhoof", "region": null}}, {"model": "api.location", "pk": 82, "fields": {"name": "Vernon", "region": null}}, {"model": "api.location", "pk": 83, "fields": {"name": "Victoria", "region": null}}, {"model": "api.location", "pk": 84, "fields": {"name": "Western Communities", "region": null}}, {"model": "api.location", "pk": 85, "fields": {"name": "Williams Lake", "region": null}}]
+[{
+        "model": "api.location",
+        "pk": 1,
+        "fields": {
+            "name": "100 Mile House",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 2,
+        "fields": {
+            "name": "Abbotsford",
+            "region": 2
+        }
+    }, {
+        "model": "api.location",
+        "pk": 3,
+        "fields": {
+            "name": "Alexis Creek",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 4,
+        "fields": {
+            "name": "Anahim Lake",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 5,
+        "fields": {
+            "name": "Ashcroft",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 6,
+        "fields": {
+            "name": "Atlin",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 7,
+        "fields": {
+            "name": "Bella Bella",
+            "region": 3
+        }
+    }, {
+        "model": "api.location",
+        "pk": 8,
+        "fields": {
+            "name": "Bella Coola",
+            "region": 3
+        }
+    }, {
+        "model": "api.location",
+        "pk": 9,
+        "fields": {
+            "name": "Burns Lake",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 10,
+        "fields": {
+            "name": "Campbell River",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 11,
+        "fields": {
+            "name": "Castlegar",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 12,
+        "fields": {
+            "name": "Chase",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 13,
+        "fields": {
+            "name": "Chetwynd",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 14,
+        "fields": {
+            "name": "Chilliwack",
+            "region": 3
+        }
+    }, {
+        "model": "api.location",
+        "pk": 15,
+        "fields": {
+            "name": "Clearwater",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 16,
+        "fields": {
+            "name": "Courtenay",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 17,
+        "fields": {
+            "name": "Cranbrook",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 18,
+        "fields": {
+            "name": "Dawson Creek",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 19,
+        "fields": {
+            "name": "Dease Lake",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 20,
+        "fields": {
+            "name": "Duncan",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 21,
+        "fields": {
+            "name": "Fernie",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 22,
+        "fields": {
+            "name": "Fort Nelson",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 23,
+        "fields": {
+            "name": "Fort St. James",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 24,
+        "fields": {
+            "name": "Fort St. John",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 25,
+        "fields": {
+            "name": "Fraser Lake",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 26,
+        "fields": {
+            "name": "Ganges",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 27,
+        "fields": {
+            "name": "Gold River",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 28,
+        "fields": {
+            "name": "Golden",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 29,
+        "fields": {
+            "name": "Good Hope Lake",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 30,
+        "fields": {
+            "name": "Grand Forks",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 31,
+        "fields": {
+            "name": "Hazelton",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 32,
+        "fields": {
+            "name": "Houston",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 33,
+        "fields": {
+            "name": "Hudson's Hope",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 34,
+        "fields": {
+            "name": "Invermere",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 35,
+        "fields": {
+            "name": "Kamloops",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 36,
+        "fields": {
+            "name": "Kelowna",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 37,
+        "fields": {
+            "name": "Kitimat",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 38,
+        "fields": {
+            "name": "Klemtu",
+            "region": 3
+        }
+    }, {
+        "model": "api.location",
+        "pk": 39,
+        "fields": {
+            "name": "Kwadacha (Fort Ware)",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 40,
+        "fields": {
+            "name": "Lillooet",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 41,
+        "fields": {
+            "name": "Lower Post",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 42,
+        "fields": {
+            "name": "Mackenzie",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 43,
+        "fields": {
+            "name": "Masset",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 44,
+        "fields": {
+            "name": "McBride",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 45,
+        "fields": {
+            "name": "Merritt",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 46,
+        "fields": {
+            "name": "Nakusp",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 47,
+        "fields": {
+            "name": "Nanaimo",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 48,
+        "fields": {
+            "name": "Nelson",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 49,
+        "fields": {
+            "name": "New Aiyansh",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 50,
+        "fields": {
+            "name": "New Westminster",
+            "region": 3
+        }
+    }, {
+        "model": "api.location",
+        "pk": 51,
+        "fields": {
+            "name": "North Vancouver",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 52,
+        "fields": {
+            "name": "Pemberton",
+            "region": 3
+        }
+    }, {
+        "model": "api.location",
+        "pk": 53,
+        "fields": {
+            "name": "Penticton",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 54,
+        "fields": {
+            "name": "Port Alberni",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 55,
+        "fields": {
+            "name": "Port Coquitlam",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 56,
+        "fields": {
+            "name": "Port Hardy",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 57,
+        "fields": {
+            "name": "Powell River",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 58,
+        "fields": {
+            "name": "Prince George",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 59,
+        "fields": {
+            "name": "Prince Rupert",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 60,
+        "fields": {
+            "name": "Princeton",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 61,
+        "fields": {
+            "name": "Queen Charlotte City",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 62,
+        "fields": {
+            "name": "Quesnel",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 63,
+        "fields": {
+            "name": "Revelstoke",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 64,
+        "fields": {
+            "name": "Richmond",
+            "region": 2
+        }
+    }, {
+        "model": "api.location",
+        "pk": 65,
+        "fields": {
+            "name": "Rossland",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 66,
+        "fields": {
+            "name": "Salmon Arm",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 67,
+        "fields": {
+            "name": "Sechelt",
+            "region": 3
+        }
+    }, {
+        "model": "api.location",
+        "pk": 68,
+        "fields": {
+            "name": "Sidney",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 69,
+        "fields": {
+            "name": "Smithers",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 70,
+        "fields": {
+            "name": "Sparwood",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 71,
+        "fields": {
+            "name": "Stewart",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 72,
+        "fields": {
+            "name": "Surrey",
+            "region": 2
+        }
+    }, {
+        "model": "api.location",
+        "pk": 73,
+        "fields": {
+            "name": "Tahsis",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 74,
+        "fields": {
+            "name": "Terrace",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 75,
+        "fields": {
+            "name": "Tofino",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 76,
+        "fields": {
+            "name": "Tsay Keh Dene",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 77,
+        "fields": {
+            "name": "Tumbler Ridge",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 78,
+        "fields": {
+            "name": "Ucluelet",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 79,
+        "fields": {
+            "name": "Valemount",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 80,
+        "fields": {
+            "name": "Vancouver",
+            "region": 1
+        }
+    }, {
+        "model": "api.location",
+        "pk": 81,
+        "fields": {
+            "name": "Vanderhoof",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 82,
+        "fields": {
+            "name": "Vernon",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 83,
+        "fields": {
+            "name": "Victoria",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 84,
+        "fields": {
+            "name": "Western Communities",
+            "region": 4
+        }
+    }, {
+        "model": "api.location",
+        "pk": 85,
+        "fields": {
+            "name": "Williams Lake",
+            "region": 4
+        }
+    }
+]
