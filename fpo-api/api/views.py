@@ -127,6 +127,7 @@ class SubmitTicketResponseView(APIView):
             return HttpResponseForbidden(text=check_captcha["message"])
 
         result = request.data
+        result1 =result.get("somevalue")
         disputant = result.get("disputantName", {})
         # address = result.get("disputantAddress", {})
 
@@ -160,31 +161,27 @@ class SubmitTicketResponseView(APIView):
         # if not result.get("disputantAcknowledgement"):
         #     return HttpResponseBadRequest()
 
-        #Generate and Save the pdf to DB
+        #Generate/Save the pdf to DB and generate email with pdf attached
+        email_status= False
         try:
-            pdf_content = generate_pdf(result)
+            if result:
+                pdf_content = generate_pdf(result)
+                pdf_response = PreparedPdf(
+                    data = pdf_content
+                )
+                pdf_response.save()
+                response.prepared_pdf_id = pdf_response.pk; 
+                response.printed_date = timezone.now()
+                email = result.get("disputantEmail")
+                if email and pdf_content:
+                    send_email(email, pdf_content)
+                    response.emailed_date = timezone.now()
+                    email_status= True
         except Exception as exception:
-            LOGGER.exception("PDF generation error", exception)
-
-        pdf_response = PreparedPdf(
-            data = pdf_content
-        )
-        pdf_response.save()
-        response.prepared_pdf_id = pdf_response.pk; 
-        response.printed_date = timezone.now()
-        
-
-        #Generate and Send the email with pdf attached
-        email = result.get("disputantEmail")
-        pdf = pdf_response.data
-        
-        try:
-            send_email(email, pdf)
-            response.emailed_date = timezone.now()
-        except Exception as ex:
-            LOGGER.exception("Email generation error", ex)
+            LOGGER.exception("Pdf / Email generation error", exception)
             response.save()
-            return Response({"id": response.pk,"PdfId":pdf_response.pk,"Email-sent":False})
+            return Response({"id": response.pk,"Email-sent":email_status})
+
         
         response.save()
       # {
@@ -212,7 +209,7 @@ class SubmitTicketResponseView(APIView):
         #     "disputantAcknowledgement": ["item1"],
         # }
 
-        return Response({"id": response.pk,"PdfId":pdf_response.pk, "Email-sent":True})
+        return Response({"id": response.pk, "Email-sent":email_status})
 
 
 class TicketResponseListView(generics.ListAPIView):
