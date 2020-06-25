@@ -47,6 +47,10 @@ from api.pdf import render as render_pdf
 from api.send_email import send_email
 from api.utils import generate_pdf
 from api.serializers import TicketResponseSerializer, LocationSerializer, RegionSerializer, LocationLookupSerializer, RegionLookupSerializer
+from django.http import FileResponse
+
+import io
+from django.core.files.base import File
 
 class AcceptTermsView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
@@ -140,7 +144,7 @@ class SubmitTicketResponseView(APIView):
             ticket_date=result.get("ticketDate"),
             hearing_location_id=result.get("hearingLocation"),
             hearing_attendance=result.get("hearingAttendance"),
-            dispute_type=result.get("disputeType"),
+            dispute_type=result.get("disputeType")
         )
 
         check_required = [
@@ -173,6 +177,7 @@ class SubmitTicketResponseView(APIView):
         pdf_response.save()
         response.prepared_pdf_id = pdf_response.pk; 
         response.printed_date = timezone.now()
+        
         response.save()
 
         #Generate and Send the email with pdf attached
@@ -232,7 +237,7 @@ class TicketResponseListFilter(filters.FilterSet):
         ]
 
 class TicketCountView(APIView):
-    def get(self, request: Request, name=None):
+    def get(self, request: Request):
         return Response({
             'new_count': {
                 'by_region': Region.objects.values('name', 'id').annotate(count=Count('region_location__location_ticket__id', filter=Q(region_location__location_ticket__printed_by__isnull=True))),
@@ -269,16 +274,32 @@ class TicketResponseListView(generics.ListAPIView):
     ]
     ordering = ["hearing_location__name", "created_date", "last_name"]
 
+class PdfFileView(APIView):
+    def get(self, request: Request, id=None):
+        if id is None:
+            return HttpResponseBadRequest()
+        pdf_queryset = PreparedPdf.objects.get(id=id)
+        ticket_queryset = TicketResponse.objects.get(prepared_pdf_id=id)
+        filename = ticket_queryset.pdf_filename
+        if ticket_queryset.pdf_filename is None:
+            filename = "needFileName.pdf"
+        return FileResponse(io.BytesIO(pdf_queryset.data), as_attachment=True, filename=filename)
+
+    def post(self, request: Request):
+        queryset = PreparedPdf.objects.filter(id__in=request.data.get("id"))
+        return FileResponse(io.BytesIO(queryset[0].data), as_attachment=True, filename='hello.pdf')
+
+
 class LocationListView(generics.ListAPIView):
     queryset = ''
-    def get(self, request: Request, name=None):
+    def get(self, request: Request):
         queryset = Location.objects.all()
         serializer = LocationLookupSerializer(queryset, many=True)
         return Response(serializer.data)
 
 class RegionListView(generics.ListAPIView):
     queryset = ''
-    def get(self, request: Request, name=None):
+    def get(self, request: Request):
         queryset = Region.objects.all()
         serializer = RegionLookupSerializer(queryset, many=True)
         return Response(serializer.data)
