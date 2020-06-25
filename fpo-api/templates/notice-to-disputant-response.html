@@ -589,7 +589,6 @@
         <div class="form-line">In-Person</div>
       </div>
 
-      {% if hearingAttendance == "remote" %}
       <div style="margin-bottom:0.5em; margin-top:1.5em;">If your preference is to appear remotely, please indicate if you have the ability to appear by:</div>
       <!-- <i style="margin-left:1em">Select which option(s) apply</i> -->
 
@@ -597,7 +596,7 @@
         <div class="form-line" style="margin-left:1rem">
           <div class="form-line-child check">
             <span class="content">
-              {% if hearingAttendancePhone == "y" %}
+              {% if hearingAttendancePhone == "y" and hearingAttendance == "remote" %}
                 &#10004;
               {% endif %}
             </span>
@@ -608,7 +607,7 @@
         <div class="form-line" style="margin-left:4rem">
           <div class="form-line-child check">
             <span class="content">
-              {% if hearingAttendanceVideo == "y" %}
+              {% if hearingAttendanceVideo == "y" and hearingAttendance == "remote"%}
                 &#10004;
               {% endif %}
             </span>
@@ -616,7 +615,6 @@
         </div>
         <div class="form-line">Videoconference</div>
       </div>
-      {% endif %}
     </div>
 
 
@@ -647,7 +645,7 @@
             </span>
           </div>
         </div>
-        <div class="form-line">Fine amount*</div>
+        <div class="form-line">Fine amount</div>
       </div>
 
       <div style="margin-top:1em">
@@ -739,12 +737,12 @@
               &nbsp;{{date}}
             </div>
           </div>
-          <div class="form-line" style="margin-left:1rem">Signed/acknowledged:</div>
+          <div class="form-line" style="margin-left:1rem">Signed electronically by:</div>
           <div class="form-line">
             <div
               class="form-line-child underline form-content"
-              style="width:19rem; font-size:14px;">
-              Digitally signed by {{disputantName.first}} {{disputantName.middle}} {{disputantName.last}}
+              style="width:19rem; font-size:12pt;">
+              {{disputantName.first}} {{disputantName.middle}} {{disputantName.last}}
             </div>
             <div class="form-line-child hint">Disputant</div>
           </div>
@@ -771,12 +769,12 @@
               &nbsp;{{date}}
             </div>
           </div>
-          <div class="form-line" style="margin-left:1rem">Signed/acknowledged:</div>
+          <div class="form-line" style="margin-left:1rem">Signed electronically by:</div>
           <div class="form-line">
             <div
               class="form-line-child underline form-content"
-              style="width:19rem; font-size:14px;">
-              Digitally signed by {{disputantName.first}} {{disputantName.middle}} {{disputantName.last}}
+              style="width:19rem; font-size:12pt;">
+              {{disputantName.first}} {{disputantName.middle}} {{disputantName.last}}
             </div>
             <div class="form-line-child hint">Disputant</div>
           </div>
