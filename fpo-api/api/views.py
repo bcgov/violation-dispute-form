@@ -175,7 +175,7 @@ class SubmitTicketResponseView(APIView):
             data = pdf_content
         )
         pdf_response.save()
-        response.prepared_pdf_id = pdf_response.pk; 
+        response.prepared_pdf_id = pdf_response.pk 
         response.printed_date = timezone.now()
         
         response.save()
@@ -287,7 +287,8 @@ class PdfFileView(APIView):
 
     def post(self, request: Request):
         queryset = PreparedPdf.objects.filter(id__in=request.data.get("id"))
-        return FileResponse(io.BytesIO(queryset[0].data), as_attachment=False, filename='hello.pdf')
+        filename = "TODO.pdf"
+        return FileResponse(io.BytesIO(queryset[0].data), as_attachment=False, filename=filename)
 
 
 class LocationListView(generics.ListAPIView):
