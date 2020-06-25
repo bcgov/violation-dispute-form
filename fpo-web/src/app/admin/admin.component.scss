@@ -12,14 +12,7 @@
     max-width:100%;
 }
 
-::ng-deep img {
-    vertical-align:middle;
-}
-
 :host ::ng-deep {
-    img {
-        vertical-align:middle;
-    }
     .tab {
         border-color: #adb5bd #adb5bd white;
         border: 1px solid transparent;
