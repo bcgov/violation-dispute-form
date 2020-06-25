@@ -199,12 +199,6 @@ export class SurveyComponent implements OnInit, OnDestroy {
       this.evalProgress();
     });
 
-
-    //Load up hearing locations, couldn't make a relative path work here, so doing it manually. 
-    surveyModel.questionHashes.names.hearingLocation[0].choicesByUrl.url = this.dataService.getApiUrl("locations"); 
-    surveyModel.questionHashes.names.hearingLocation[0].choicesByUrl.valueName = "id";
-    surveyModel.questionHashes.names.hearingLocation[0].choicesByUrl.titleName = "name";
-
     this.surveyModel = surveyModel;
     Survey.SurveyNG.render("surveyElement", { model: surveyModel });
 

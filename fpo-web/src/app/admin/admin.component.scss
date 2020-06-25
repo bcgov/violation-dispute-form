@@ -13,6 +13,11 @@
 }
 
 :host ::ng-deep {
+
+    .input-group { 
+        max-width: 375px;
+    }
+
     .tab {
         border-color: #adb5bd #adb5bd white;
         border: 1px solid transparent;

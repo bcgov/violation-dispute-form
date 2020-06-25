@@ -75,7 +75,7 @@ export class AdminDataService {
 
   async getData(searchParameters: SearchParameters) {
     var action = this.buildQueryString(searchParameters);
-    const url = this.generalDataService.getApiUrl("responses" + action);
+    const url = this.generalDataService.getApiUrl("responses/" + action);
     console.log(url);
     return await this.getJson(url) as SearchResponse;
   }
@@ -97,14 +97,14 @@ export class AdminDataService {
 
   async getRegions() : Promise<Array<Region>>
   {
-    const url = this.generalDataService.getApiUrl("regions");
+    const url = this.generalDataService.getApiUrl("regions/");
     console.log(url);
     return await this.getJson(url) as Array<Region>;
   }
 
   async getCounts() : Promise<RegionCountResponse>
   {
-    const url = this.generalDataService.getApiUrl("responses/counts");
+    const url = this.generalDataService.getApiUrl("responses/counts/");
     console.log(url);
     return await this.getJson(url) as RegionCountResponse;
   }
