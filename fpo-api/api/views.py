@@ -30,9 +30,13 @@ from django.template.loader import get_template
 from rest_framework.views import APIView
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework import filters, generics, permissions
+from rest_framework import filters as default_filters, generics, permissions
+
+from django_filters import rest_framework as filters
 
 from django_filters.rest_framework import DjangoFilterBackend
+
+from django.db.models import Count, Case, IntegerField, When, F, Q
 
 from api.auth import (
     get_login_uri,
@@ -40,14 +44,11 @@ from api.auth import (
     grecaptcha_verify,
     grecaptcha_site_key,
 )
-from api.models import TicketResponse, User, PreparedPdf
+from api.models import TicketResponse, User, Location, Region, PreparedPdf
 from api.pdf import render as render_pdf
 from api.send_email import send_email
 from api.utils import generate_pdf
-from api.serializers import TicketResponseSerializer
-
-LOGGER = logging.getLogger(__name__)
-
+from api.serializers import TicketResponseSerializer, LocationSerializer, RegionSerializer, LocationLookupSerializer, RegionLookupSerializer
 
 class AcceptTermsView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
@@ -130,15 +131,17 @@ class SubmitTicketResponseView(APIView):
         result1 =result.get("somevalue")
         disputant = result.get("disputantName", {})
         # address = result.get("disputantAddress", {})
+        ticketNumber = result.get("ticketNumber", {})
+        ticketNumber = str(ticketNumber.get("prefix")) + str(ticketNumber.get("suffix"))
 
         response = TicketResponse(
             first_name=disputant.get("first"),
             middle_name=disputant.get("middle"),
             last_name=disputant.get("last"),
             email=result.get("disputantEmail"),
-            ticket_number=result.get("ticketNumber"),
+            ticket_number=ticketNumber.upper(),
             ticket_date=result.get("ticketDate"),
-            hearing_location=result.get("hearingLocation"),
+            hearing_location_id=result.get("hearingLocation"),
             hearing_attendance=result.get("hearingAttendance"),
             dispute_type=result.get("disputeType"),
         )
@@ -149,10 +152,11 @@ class SubmitTicketResponseView(APIView):
             "email",
             "ticket_number",
             "ticket_date",
-            "hearing_location",
+            "hearing_location_id",
             "hearing_attendance",
             "dispute_type",
         ]
+
         for fname in check_required:
             if not getattr(response, fname):
                 return HttpResponseBadRequest()
@@ -212,21 +216,44 @@ class SubmitTicketResponseView(APIView):
         return Response({"id": response.pk, "Email-sent":email_status})
 
 
+class TicketResponseListFilter(filters.FilterSet):
+    is_printed = filters.BooleanFilter(field_name='printed_by', lookup_expr='isnull', exclude=True)
+    region = filters.NumberFilter(field_name='hearing_location__region_id', lookup_expr='exact')
+    class Meta:
+     
+        fields = [
+            'region',
+            'hearing_attendance',
+            'dispute_type',
+            'is_printed',
+            'ticket_number',
+            'hearing_location__name',
+            'printed_by__name'
+        ]
+
+class TicketCountView(APIView):
+    def get(self, request: Request, name=None):
+        return Response({
+            'new_count': {
+                'by_region': Region.objects.values('name', 'id').annotate(count=Count('region_location__location_ticket__id', filter=Q(region_location__location_ticket__printed_by__isnull=True))),
+                'total': TicketResponse.objects.filter(printed_by__isnull=True).aggregate(count=Count('hearing_location__region'))
+            },
+            'archive_count': {
+                'by_region': Region.objects.values('name', 'id').annotate(count=Count('region_location__location_ticket__id', filter=Q(region_location__location_ticket__printed_by__isnull=False))),
+                'total': TicketResponse.objects.filter(printed_by__isnull=False).aggregate(count=Count('hearing_location__region'))
+            }
+        })
+
 class TicketResponseListView(generics.ListAPIView):
     queryset = TicketResponse.objects.all()
     serializer_class = TicketResponseSerializer
     filter_backends = [
         DjangoFilterBackend,
-        filters.SearchFilter,
-        filters.OrderingFilter,
+        default_filters.SearchFilter,
+        default_filters.OrderingFilter,
     ]
-    filterset_fields = [
-        "hearing_location",
-        "hearing_attendance",
-        "dispute_type",
-        "printed_by",
-        "ticket_number",
-    ]
+    filterset_class = TicketResponseListFilter
+    
     search_fields = ["first_name", "middle_name", "last_name", "ticket_number"]
     ordering_fields = [
         "created_date",
@@ -234,10 +261,24 @@ class TicketResponseListView(generics.ListAPIView):
         "printed_date",
         "ticket_date",
         "deadline_date",
-        "hearing_location",
+        "hearing_location__name",
         "ticket_number",
         "dispute_type",
         "last_name",
         "first_name",
     ]
-    ordering = ["hearing_location", "created_date", "last_name"]
+    ordering = ["hearing_location__name", "created_date", "last_name"]
+
+class LocationListView(generics.ListAPIView):
+    queryset = ''
+    def get(self, request: Request, name=None):
+        queryset = Location.objects.all()
+        serializer = LocationLookupSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+class RegionListView(generics.ListAPIView):
+    queryset = ''
+    def get(self, request: Request, name=None):
+        queryset = Region.objects.all()
+        serializer = RegionLookupSerializer(queryset, many=True)
+        return Response(serializer.data)

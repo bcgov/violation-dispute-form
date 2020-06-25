@@ -8,16 +8,131 @@
 //Instead I used ::ng-deep which is depreciated.
 //Alternatively this could be moved to the style.css at the root. 
 ::ng-deep .app-main {
-    padding: 15px !important;
+    padding: 15px 15px 0px 15px !important;
+    max-width:100%;
 }
 
 :host ::ng-deep {
+    .tab {
+        border-color: #adb5bd #adb5bd white;
+        border: 1px solid transparent;
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
+        padding: .4rem .8rem;
+        display:block;
+        text-decoration: none;
+        font-size:28px;
+    }
+
+    ngb-pagination {
+        justify-content: center;
+    }
+    .pagination {
+        margin-bottom: 0px;
+    }
+
+    .tab.active {
+        color:white;
+        background-color: $gov-navy-blue;
+        border-color: #adb5bd #adb5bd $gov-navy-blue;
+        font-weight: bold;
+    }
+
+    .pager {
+        .datatable-icon-prev:before {
+            content: '\72';
+        }
+
+        .datatable-icon-skip:before {
+            content: '\71';
+        }
+
+        .datatable-icon-prev:before , .datatable-icon-skip:before {
+            position: relative;
+            top: 3px;
+            font-family: 'data-table' !important;
+            font-style: normal !important;
+            font-weight: normal !important;
+            font-variant: normal !important;
+            text-transform: none !important;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .datatable-icon-left:before {
+            content: '\AB';
+        }
+        
+        .datatable-icon-right:before {
+            content: '\BB';
+        }
+
+        .datatable-icon-right:before, .datatable-icon-left:before{
+            font-style: normal !important;
+            font-weight: normal !important;
+            font-variant: normal !important;
+            text-transform: none !important;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+        } 
+
+        li.disabled a {
+            color: #494949 !important;
+        }
+
+        li:first-of-type a, li:nth-of-type(2) a, li:nth-last-of-type(2) a, li:last-of-type a  {
+            color: #1a5a96;
+            background-color: white;
+            border: 1px solid #adb5bd;
+            text-decoration: none;
+            padding: .25rem .5rem;
+            line-height: 1.5;
+        }
+
+        .pages.active a {
+            color: #fff;
+            background-color: #38598a;
+            border-color:#38598a;
+            text-decoration: none;
+        }   
+
+        .pages a { 
+            color: $text-color-link;
+            background-color: white;
+            border: 1px solid #adb5bd;
+            text-decoration: none;
+            padding: .25rem .5rem;
+            line-height: 1.5;
+        }
+    }
+
+    .hide {
+        display:none;
+    }
+
+    .selected-page {
+        color: #fff;
+        background-color: #036;
+        border-color: #036;
+        font-weight: bold;
+    }
     
+    .unselected-page {
+        font-weight: normal;
+        color: #1a5a96;
+    }
+
     .input-group-text {
         color: #38598a;
         border-color: #38598a;
         background-color: transparent;
     }
+
+    //.input-group-text {
+    //    color: white;
+    //    border-color: #38598a;
+    //    background-color: #38598a;
+    //}
 
     .form-group {
         margin-bottom: 0;
@@ -29,15 +144,12 @@
         border-color: #38598a;
         background-color: transparent;
     }
-    .ngx-datatable.scroll-vertical {
-        height: 70vh;
-    }
 
     .ngx-datatable.scroll-vertical .datatable-body {
         overflow-x: hidden;
         max-width: 97.5vw;
     }
-    
+
     .ngx-datatable.bootstrap .datatable-body .progress-linear {
         display: block;
         position: relative;
@@ -45,8 +157,8 @@
         height: 5px;
         padding-right: 15px;
         position: absolute;
-      }
-      .ngx-datatable.bootstrap .datatable-body .progress-linear .container {
+    }
+    .ngx-datatable.bootstrap .datatable-body .progress-linear .container {
         display: block;
         position: relative;
         overflow: hidden;
@@ -57,8 +169,8 @@
         -webkit-transform: translate(0, 0) scale(1, 1);
         transform: translate(0, 0) scale(1, 1);
         background-color: #aad1f9;
-      }
-      .ngx-datatable.bootstrap .datatable-body .progress-linear .container .bar {
+    }
+    .ngx-datatable.bootstrap .datatable-body .progress-linear .container .bar {
         transition: all .2s linear;
         -webkit-animation: query 0.8s infinite cubic-bezier(0.39, 0.575, 0.565, 1);
         animation: query 0.8s infinite cubic-bezier(0.39, 0.575, 0.565, 1);
@@ -71,20 +183,20 @@
         bottom: 0;
         width: 100%;
         height: 5px;
-      }
-      /**
-       * Progress bar animations
-       */
-       @keyframes query {
+    }
+    /**
+    * Progress bar animations
+    */
+    @keyframes query {
         0% {
-          opacity: 1;
-          transform: translateX(35%) scale(0.3, 1);
+            opacity: 1;
+            transform: translateX(35%) scale(0.3, 1);
         }
         100% {
-          opacity: 0;
-          transform: translateX(-50%) scale(0, 1);
+            opacity: 0;
+            transform: translateX(-50%) scale(0, 1);
         }
-      }
+    }
 
     .datatable-header-cell {
         //background-color:#38598a;
@@ -118,11 +230,7 @@
         filter: invert(100%);
     }
 
-    .datatable-icon-down {
-        vertical-align: unset !important;
-    }
-
-    .datatable-icon-up {
+    .datatable-icon-down, .datatable-icon-up, .datatable-icon-prev, .datatable-icon-next {
         vertical-align: unset !important;
     }
      
@@ -167,9 +275,9 @@
     }
 
     #hearingLocationButton {
-        max-width:500px;
+        min-width:100px;
+        max-width:300px;
         overflow-x: hidden;
         text-overflow: ellipsis;
     }
 } 
-
