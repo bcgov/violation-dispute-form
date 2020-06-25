@@ -283,11 +283,11 @@ class PdfFileView(APIView):
         filename = ticket_queryset.pdf_filename
         if ticket_queryset.pdf_filename is None:
             filename = "needFileName.pdf"
-        return FileResponse(io.BytesIO(pdf_queryset.data), as_attachment=True, filename=filename)
+        return FileResponse(io.BytesIO(pdf_queryset.data), as_attachment=False, filename=filename)
 
     def post(self, request: Request):
         queryset = PreparedPdf.objects.filter(id__in=request.data.get("id"))
-        return FileResponse(io.BytesIO(queryset[0].data), as_attachment=True, filename='hello.pdf')
+        return FileResponse(io.BytesIO(queryset[0].data), as_attachment=False, filename='hello.pdf')
 
 
 class LocationListView(generics.ListAPIView):

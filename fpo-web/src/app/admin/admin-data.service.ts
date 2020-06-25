@@ -77,7 +77,7 @@ export class AdminDataService {
     var action = this.buildQueryString(searchParameters);
     const url = this.generalDataService.getApiUrl("responses/" + action);
     console.log(url);
-    return await this.getJson(url) as SearchResponse;
+    return await this.generalDataService.loadJson(url) as SearchResponse;
   }
 
   async getSearchResponse(searchParameters: SearchParameters) : Promise<SearchResponse> {
@@ -99,22 +99,14 @@ export class AdminDataService {
   {
     const url = this.generalDataService.getApiUrl("regions/");
     console.log(url);
-    return await this.getJson(url) as Array<Region>;
+    return await this.generalDataService.loadJson(url) as Array<Region>;
   }
 
   async getCounts() : Promise<RegionCountResponse>
   {
     const url = this.generalDataService.getApiUrl("responses/counts/");
     console.log(url);
-    return await this.getJson(url) as RegionCountResponse;
-  }
-
-  /* I tried using angular.HttpClient, but it requires really strict ending slashes, 
-  otherwise the relative url gets lost and goes out the window. */ 
-  async getJson(url : string) {
-    const response = await fetch(url);
-    const json = await response.json();
-    return json;
+    return await this.generalDataService.loadJson(url) as RegionCountResponse;
   }
 
   public postGeneratePdf(targetPdfs) {

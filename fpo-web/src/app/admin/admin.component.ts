@@ -127,7 +127,7 @@ export class AdminComponent implements OnInit {
       { prop: "name", name: "Name" },
       { prop: "ticket_number", name: "Ticket #" },
       { prop: "created_date", name: "Response Date" },
-      { prop: "action", name: "Action" }
+      { prop: "prepared_pdf", name: "Action" }
     ];
 
     this.searchParameters.filterParameters.isPrinted = false;
@@ -141,7 +141,7 @@ export class AdminComponent implements OnInit {
       { prop: "ticket_number", name: "Ticket #" },
       { prop: "created_date", name: "Response Date" },
       { prop: "originally_printed_by", name: "Originally Printed By" },
-      { prop: "action", name: "Action"},
+      { prop: "prepared_pdf", name: "Action"},
     ];
 
     this.searchParameters.filterParameters.isPrinted = true;
@@ -197,10 +197,10 @@ export class AdminComponent implements OnInit {
     oWindow.close();
   }
 
-  openPdf(event: MouseEvent) {
+  openPdf(event: MouseEvent, id: number) {
     event.preventDefault(); 
     event.stopPropagation();
-    window.open("assets/doc.pdf");
+    window.open(`api/v1/pdf/${id}`);
   }
 
   totalPages(rowCount: number, pageSize: number) {

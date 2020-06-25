@@ -86,8 +86,10 @@
           </span>
         </ng-template>
         <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-          {{value}}
-          <span (click)="openPdf($event);" *ngIf="column.name==='Action'" class="unselectable mr-4">
+          <ng-template [ngIf]="column.name!=='Action'">
+            {{value}}
+          </ng-template>
+          <span [ngClass]="{disabled: value===''}" (click)="openPdf($event,value);" *ngIf="column.name==='Action'" class="unselectable mr-4">
             <img [class.invert-color]="this.selected.indexOf(row) !== -1" width="24" height="24" src="assets/open-pdf.svg"/>
             View Response
           </span>
