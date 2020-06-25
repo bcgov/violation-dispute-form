@@ -1,0 +1,4 @@
+python manage.py loaddata api/fixtures/api_user.json
+python manage.py loaddata api/fixtures/api_region.json
+python manage.py loaddata api/fixtures/api_location.json
+python manage.py loaddata api/fixtures/api_ticketresponse.json

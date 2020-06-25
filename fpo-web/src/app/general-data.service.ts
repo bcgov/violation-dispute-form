@@ -26,19 +26,14 @@ export class GeneralDataService {
     return this.platformLocation.getBaseHrefFromDOM() || "/";
   }
 
+  /* Note be extremely careful about this. If you don't end the 
+  url with a ending slash, you may not get a relative url. 
+  Even with querystrings.  */
   getApiUrl(action: string): string {
-    if (location.host === "localhost:8080") {
-      // for local debugging
-      return "http://localhost:8081/api/v1/" + action;
-    }
     return this.getBaseHref() + "api/v1/" + action;
   }
 
   getPrintApiUrl(action: string): string {
-    if (location.host === "localhost:8080") {
-      // for local debugging
-      return "http://localhost:8081/" + action;
-    }
     return this.getBaseHref()  + action;
   }
 

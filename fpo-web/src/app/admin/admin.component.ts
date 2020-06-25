@@ -1,29 +1,11 @@
 import { Component, OnInit, ElementRef } from "@angular/core";
 import { ColumnMode, SelectionType, SortType } from "@swimlane/ngx-datatable";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
-import { AdminDataService, SearchResponse } from './admin-data.service';
+import { AdminDataService} from './admin-data.service';
+import { ActivatedRoute } from '@angular/router';
+import { SearchParameters, Region, SearchResponse, RegionCountResponse } from 'app/interfaces/admin_interfaces';
 
 //#region Interfaces
-export interface SearchParameters {
-  filterParameters: FilterParameters;
-  sortParameters: SortParameters;
-}
-
-export interface FilterParameters {
-  search: string;
-  createdDate: string;
-  region: string;
-  offset: number;
-  limit: number;
-}
-
-export interface SortParameters extends Array<SortParameter> {}
-
-interface SortParameter {
-  prop: string;
-  dir: string;
-}
-
 @Component({
   selector: "app-admin",
   templateUrl: "./admin.component.html",
@@ -33,23 +15,17 @@ export class AdminComponent implements OnInit {
   //#region Variables & Constructor
   AdminService: AdminDataService;
 
-  readonly headerHeight = 50;
-  readonly rowHeight = 50;
   ColumnMode = ColumnMode;
   SelectionType = SelectionType;
   SortType = SortType;
-  reorderable = true;
+  readonly headerHeight = 50;
   loading = false;
   mode: string = 'New Responses';
-
-  columns = [
-    { prop: "hearing_location", name: "Court Location" },
-    { prop: "name", name: "Name" },
-    { prop: "ticket_number", name: "Ticket #" },
-    { prop: "created_date", name: "Response Date" },
-    { prop: "action", name: "Action" }
+  selectedRegion: Region =  { name: "All Regions", id: null };
+  columns = [];
+  regions: Array<Region> = [
+    { name: "All Regions", id: null }
   ];
-
   data: SearchResponse = {
     count: 0,
     next: null,
@@ -61,22 +37,36 @@ export class AdminComponent implements OnInit {
   searchParameters: SearchParameters = {
     filterParameters: {
       search: "",
+      isPrinted: false,
       createdDate: "",
-      region: "",
+      region: null,
+      page: 1,
       offset: 0,
-      limit: 100 //Hard coded to 100 on the API server for now. 
+      limit: 50 
     },
     sortParameters: [],
   };
+  newCountString: string;
+  archiveCountString: string;
   maxSelectedRecords = 50;
-
+  totalElements = 0;
 
   ngOnInit() {
-    this.onScroll(0);
+    this.loadPage();
   }
 
-  constructor(private adminService: AdminDataService, private el: ElementRef) {
+  constructor(private adminService: AdminDataService, private activatedRoute: ActivatedRoute) {
     this.AdminService = adminService;
+
+    this.populateRegions();
+    this.buildCountStrings();
+
+    activatedRoute.data.subscribe((data) => {
+      if ( data.title === 'New Responses')
+        this.switchToNewResponses();
+      else 
+        this.switchToArchive();
+    });
 
     //This will disable text highlighting while shift is held down.
     ["keyup", "keydown"].forEach((event) => {
@@ -87,62 +77,85 @@ export class AdminComponent implements OnInit {
       });
     });
 
-    this.searchParameters.sortParameters = [{ prop: 'hearing_location', dir: 'asc' }, {prop: 'created_date', dir: 'asc'}, { prop: 'name', dir: 'asc' }];
+    this.searchParameters.sortParameters = [{ prop: 'hearing_location__name', dir: 'asc' }, {prop: 'created_date', dir: 'asc'}, { prop: 'name', dir: 'asc' }];
   }
   //#endregion Variables & Constructor
 
-  onScroll(offsetY: number) {
-    // total height of all rows in the viewport
-    const viewHeight = this.el.nativeElement.getBoundingClientRect().height - this.headerHeight;
 
-    // check if we scrolled to the end of the viewport
-    if (!this.loading && offsetY + viewHeight >= this.rows.length * this.rowHeight) {
-      // total number of results to load
-      let limit = this.searchParameters.filterParameters.limit;
-
-      // check if we haven't fetched any results yet
-      if (this.rows.length === 0) {
-        // calculate the number of rows that fit within viewport
-        const pageSize = Math.ceil(viewHeight / this.rowHeight);
-
-        // change the limit to pageSize such that we fill the first page entirely
-        // (otherwise, we won't be able to scroll past it)
-        limit = Math.max(pageSize, this.searchParameters.filterParameters.limit);
-      }
-      this.loadPage(limit);
+  async populateRegions() {
+    if (this.regions.length == 1) {
+      var regions = await this.adminService.getRegions() as Array<Region>;
+      this.regions = this.regions.concat(regions);
     }
   }
 
-  private async loadPage(limit: number) {
-    // set the loading flag, which serves two purposes:
-    // 1) it prevents the same page from being loaded twice
-    // 2) it enables display of the loading indicator
-    this.loading = true;
-    this.data = await this.AdminService.getSearchResponse(this.searchParameters);
-    this.searchParameters.filterParameters.offset += this.data.results.length;
-    const rows = [...this.rows, ...this.data.results];
-    this.rows = rows;
-    this.loading = false;
+  async buildCountStrings() {
+    var counts = await this.adminService.getCounts() as RegionCountResponse;
+    this.newCountString = '';
+    this.archiveCountString = '';
+
+    this.newCountString += `New - All: ${counts.new_count.total.count}`;
+    counts.new_count.by_region.forEach(element => {
+      this.newCountString += ` | ${element.name}: ${element.count}`;
+    });
+
+    this.archiveCountString += `Archive - All: ${counts.archive_count.total.count}`;
+    counts.archive_count.by_region.forEach(element => {
+      this.archiveCountString += ` | ${element.name}: ${element.count}`;
+    });
   }
 
+
+  switchPage(page: number) {
+    this.searchParameters.filterParameters.page = page;
+    this.searchParameters.filterParameters.offset = this.searchParameters.filterParameters.limit * (page-1);
+    this.loadPage();
+  }
+
+  async loadPage() {
+    this.selected = [];
+    this.loading = true;
+    this.data = await this.AdminService.getSearchResponse(this.searchParameters);
+    this.loading = false;
+    this.totalElements = this.data.count;
+    this.rows = this.data.results;
+  }
+
+  switchToNewResponses() {
+    this.columns = [
+      { prop: "hearing_location__name", name: "Court Location" },
+      { prop: "name", name: "Name" },
+      { prop: "ticket_number", name: "Ticket #" },
+      { prop: "created_date", name: "Response Date" },
+      { prop: "action", name: "Action" }
+    ];
+
+    this.searchParameters.filterParameters.isPrinted = false;
+    this.mode = 'New Responses';
+  }
+
+  switchToArchive() {
+    this.columns = [
+      { prop: "hearing_location__name", name: "Court Location" },
+      { prop: "name", name: "Name" },
+      { prop: "ticket_number", name: "Ticket #" },
+      { prop: "created_date", name: "Response Date" },
+      { prop: "originally_printed_by", name: "Originally Printed By" },
+      { prop: "action", name: "Action"},
+    ];
+
+    this.searchParameters.filterParameters.isPrinted = true;
+    this.mode = 'Archive'; 
+  }
 
   async executeSearch(searchParameters: SearchParameters) {
     this.searchParameters.filterParameters.offset = 0;
-    this.loading = true;
-    this.data = await this.AdminService.getSearchResponse(this.searchParameters);
-    this.loading = false;
-    this.rows = this.data.results;
-    this.selected = [];
+    this.loadPage();
   }
 
-  responseDateText() : string {
-    if (this.searchParameters.filterParameters.createdDate == null)
-     return 'All Response Dates';
-    return `Response Date: ${this.searchParameters.filterParameters.createdDate}`
-  }
-
-  filterByRegion(region: string) {
-    this.searchParameters.filterParameters.region = region;
+  filterByRegion(region: Region) {
+    this.searchParameters.filterParameters.region = region.id;
+    this.selectedRegion = region;
     this.executeSearch(this.searchParameters);
   }
 
@@ -161,8 +174,6 @@ export class AdminComponent implements OnInit {
   }
 
   sort(event) {
-    console.log("Sort Event Triggered", event);
-    this.loading = true;
     this.searchParameters.sortParameters = event.sorts;
     this.executeSearch(this.searchParameters);
   }
@@ -177,7 +188,6 @@ export class AdminComponent implements OnInit {
   }
 
   printSelected(event: MouseEvent) {
-    //Get selected. 
     this.adminService.postGeneratePdf("5");
     console.log(this.selected);
     event.preventDefault(); 
@@ -193,13 +203,7 @@ export class AdminComponent implements OnInit {
     window.open("assets/doc.pdf");
   }
 
-  //#region Testing Data
-  regions = [
-    { name: "All Regions" },
-    { name: "Vancouver (Robson Square)" },
-    { name: "Richmond, Surrey, Abbotsford" },
-    { name: "Chilliwack, New Westminster, Port Coquitlam, North Vancouver, Pemberton, Bella Bella, Bella Coola, Klemtu, Sechelt"},
-    { name: "Rest of province" },
-  ];
-  //#endregion Testing Data
+  totalPages(rowCount: number, pageSize: number) {
+    return Math.ceil(rowCount/ pageSize);
+  }
 }
