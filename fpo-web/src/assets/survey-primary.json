@@ -115,11 +115,7 @@
        "name": "hearingLocation",
        "title": "Hearing Location",
        "isRequired": true,
-        "choicesByUrl": {
-        "url": "/api/v1/locations",
-        "valueName": "id",
-        "titleName": "name"
-        }
+       "choices": []
       },
       {
        "type": "text",

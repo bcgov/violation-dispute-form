@@ -134,7 +134,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
     // else this.error = 'Missing survey definition';
   }
 
-  renderSurvey() {
+  async renderSurvey() {
     const surveyModel = new Survey.Model(this._jsonData);
     surveyModel.commentPrefix = "Comment";
     surveyModel.showQuestionNumbers = "off";
@@ -198,6 +198,12 @@ export class SurveyComponent implements OnInit, OnDestroy {
     surveyModel.onValueChanged.add((sender, options) => {
       this.evalProgress();
     });
+
+
+    //Load up hearing choices, couldn't make a relative path work here, so doing it manually. 
+    surveyModel.questionHashes.names.hearingLocation[0].choicesByUrl.url = this.dataService.getApiUrl("locations/"); 
+    surveyModel.questionHashes.names.hearingLocation[0].choicesByUrl.valueName = "id";
+    surveyModel.questionHashes.names.hearingLocation[0].choicesByUrl.titleName = "name";
 
     this.surveyModel = surveyModel;
     Survey.SurveyNG.render("surveyElement", { model: surveyModel });
