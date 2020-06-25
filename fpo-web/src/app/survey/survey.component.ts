@@ -200,8 +200,8 @@ export class SurveyComponent implements OnInit, OnDestroy {
     });
 
 
-    //Load up hearing choices, couldn't make a relative path work here, so doing it manually. 
-    surveyModel.questionHashes.names.hearingLocation[0].choicesByUrl.url = this.dataService.getApiUrl("locations/"); 
+    //Load up hearing locations, couldn't make a relative path work here, so doing it manually. 
+    surveyModel.questionHashes.names.hearingLocation[0].choicesByUrl.url = this.dataService.getApiUrl("locations"); 
     surveyModel.questionHashes.names.hearingLocation[0].choicesByUrl.valueName = "id";
     surveyModel.questionHashes.names.hearingLocation[0].choicesByUrl.titleName = "name";
 
