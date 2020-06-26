@@ -31,14 +31,13 @@ def generate_pdf(data):
     pdf_content = render_pdf(html_content)
     return pdf_content
 
-def merge_pdf(pdfStreams):
+def merge_pdf(queryset):
     pdfWriter = PyPDF2.PdfFileWriter()
     pdfOutput = io.BytesIO()
-    for pdfFileObj  in pdfStreams:
-        pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
+    for preparedPdf in queryset.iterator():
+        pdfReader = PyPDF2.PdfFileReader(io.BytesIO(preparedPdf.data))
         for pageNum in range(pdfReader.numPages):
             pageObj = pdfReader.getPage(pageNum)
             pdfWriter.addPage(pageObj)
-    #Outputting the PDF
     pdfWriter.write(pdfOutput)
     return pdfOutput

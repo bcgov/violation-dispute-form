@@ -1,9 +1,14 @@
 import { Component, OnInit, ElementRef } from "@angular/core";
 import { ColumnMode, SelectionType, SortType } from "@swimlane/ngx-datatable";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
-import { AdminDataService} from './admin-data.service';
-import { ActivatedRoute } from '@angular/router';
-import { SearchParameters, Region, SearchResponse, RegionCountResponse } from 'app/interfaces/admin_interfaces';
+import { AdminDataService } from "./admin-data.service";
+import { ActivatedRoute } from "@angular/router";
+import {
+  SearchParameters,
+  Region,
+  SearchResponse,
+  RegionCountResponse,
+} from "app/interfaces/admin_interfaces";
 
 //#region Interfaces
 @Component({
@@ -20,17 +25,15 @@ export class AdminComponent implements OnInit {
   SortType = SortType;
   readonly headerHeight = 50;
   loading = false;
-  mode: string = 'New Responses';
-  selectedRegion: Region =  { name: "All Regions", id: null };
+  mode: string = "New Responses";
+  selectedRegion: Region = { name: "All Regions", id: null };
   columns = [];
-  regions: Array<Region> = [
-    { name: "All Regions", id: null }
-  ];
+  regions: Array<Region> = [{ name: "All Regions", id: null }];
   data: SearchResponse = {
     count: 0,
     next: null,
     previous: null,
-    results: null
+    results: null,
   };
   rows = [];
   selected = [];
@@ -42,7 +45,7 @@ export class AdminComponent implements OnInit {
       region: null,
       page: 1,
       offset: 0,
-      limit: 50 
+      limit: 50,
     },
     sortParameters: [],
   };
@@ -50,22 +53,24 @@ export class AdminComponent implements OnInit {
   archiveCountString: string;
   maxSelectedRecords = 50;
   totalElements = 0;
+  searchCount = 0;
 
   ngOnInit() {
     this.loadPage();
   }
 
-  constructor(private adminService: AdminDataService, private activatedRoute: ActivatedRoute) {
+  constructor(
+    private adminService: AdminDataService,
+    private activatedRoute: ActivatedRoute
+  ) {
     this.AdminService = adminService;
 
     this.populateRegions();
     this.buildCountStrings();
 
     activatedRoute.data.subscribe((data) => {
-      if ( data.title === 'New Responses')
-        this.switchToNewResponses();
-      else 
-        this.switchToArchive();
+      if (data.title === "New Responses") this.switchToNewResponses();
+      else this.switchToArchive();
     });
 
     //This will disable text highlighting while shift is held down.
@@ -77,48 +82,62 @@ export class AdminComponent implements OnInit {
       });
     });
 
-    this.searchParameters.sortParameters = [{ prop: 'hearing_location__name', dir: 'asc' }, {prop: 'created_date', dir: 'asc'}, { prop: 'name', dir: 'asc' }];
+    this.searchParameters.sortParameters = [
+      { prop: "hearing_location__name", dir: "asc" },
+      { prop: "created_date", dir: "asc" },
+      { prop: "name", dir: "asc" },
+    ];
   }
   //#endregion Variables & Constructor
 
-
   async populateRegions() {
     if (this.regions.length == 1) {
-      var regions = await this.adminService.getRegions() as Array<Region>;
+      var regions = (await this.adminService.getRegions()) as Array<Region>;
       this.regions = this.regions.concat(regions);
     }
   }
 
   async buildCountStrings() {
-    var counts = await this.adminService.getCounts() as RegionCountResponse;
-    this.newCountString = '';
-    this.archiveCountString = '';
+    var counts = (await this.adminService.getCounts()) as RegionCountResponse;
+    this.newCountString = "";
+    this.archiveCountString = "";
 
     this.newCountString += `New - All: ${counts.new_count.total.count}`;
-    counts.new_count.by_region.forEach(element => {
+    counts.new_count.by_region.forEach((element) => {
       this.newCountString += ` | ${element.name}: ${element.count}`;
     });
 
     this.archiveCountString += `Archive - All: ${counts.archive_count.total.count}`;
-    counts.archive_count.by_region.forEach(element => {
+    counts.archive_count.by_region.forEach((element) => {
       this.archiveCountString += ` | ${element.name}: ${element.count}`;
     });
   }
 
-
-  switchPage(page: number) {
+  switchPage(page: number, pagerLocation: string) {
+    if (pagerLocation == "bottom") {
+      document.getElementById("newResponseTab").scrollIntoView();
+    }
     this.searchParameters.filterParameters.page = page;
-    this.searchParameters.filterParameters.offset = this.searchParameters.filterParameters.limit * (page-1);
+    this.searchParameters.filterParameters.offset =
+      this.searchParameters.filterParameters.limit * (page - 1);
     this.loadPage();
   }
 
   async loadPage() {
     this.selected = [];
     this.loading = true;
-    this.data = await this.AdminService.getSearchResponse(this.searchParameters);
+    this.searchCount++;
+    let localSearchCount = this.searchCount;
+    this.data = await this.AdminService.getSearchResponse(
+      this.searchParameters
+    );
     this.loading = false;
-    this.totalElements = this.data.count;
-    this.rows = this.data.results;
+    //This ensures we only get the latest search. 
+    if (localSearchCount == this.searchCount)
+    {
+      this.totalElements = this.data.count;
+      this.rows = this.data.results;
+    }
   }
 
   switchToNewResponses() {
@@ -127,11 +146,11 @@ export class AdminComponent implements OnInit {
       { prop: "name", name: "Name" },
       { prop: "ticket_number", name: "Ticket #" },
       { prop: "created_date", name: "Response Date" },
-      { prop: "prepared_pdf", name: "Action" }
+      { prop: "prepared_pdf", name: "Action" },
     ];
 
     this.searchParameters.filterParameters.isPrinted = false;
-    this.mode = 'New Responses';
+    this.mode = "New Responses";
   }
 
   switchToArchive() {
@@ -141,14 +160,16 @@ export class AdminComponent implements OnInit {
       { prop: "ticket_number", name: "Ticket #" },
       { prop: "created_date", name: "Response Date" },
       { prop: "originally_printed_by", name: "Originally Printed By" },
-      { prop: "prepared_pdf", name: "Action"},
+      { prop: "prepared_pdf", name: "Action" },
     ];
 
     this.searchParameters.filterParameters.isPrinted = true;
-    this.mode = 'Archive'; 
+    this.mode = "Archive";
   }
 
   async executeSearch(searchParameters: SearchParameters) {
+    if (searchParameters.filterParameters.search.length < 3 && searchParameters.filterParameters.search.length > 0)
+      return;
     this.searchParameters.filterParameters.offset = 0;
     this.loadPage();
   }
@@ -178,32 +199,50 @@ export class AdminComponent implements OnInit {
     this.executeSearch(this.searchParameters);
   }
 
-  select({ selected }) {  
+  select({ selected }) {
     if (selected.length > this.maxSelectedRecords) {
-      this.selected = selected.slice(0,this.maxSelectedRecords);
+      this.selected = selected.slice(0, this.maxSelectedRecords);
       return;
     }
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selected);
   }
 
-  printSelected(event: MouseEvent) {
-    this.adminService.postGeneratePdf("5");
-    console.log(this.selected);
-    event.preventDefault(); 
-    event.stopPropagation();
-    var oWindow = window.open("assets/doc.pdf", "print");
+
+  printSelected() {
+    this.print([...this.selected.map(ticketResponse => ticketResponse.prepared_pdf)]);
+  }
+
+  printTop50() {
+    this.print([...this.rows.map(ticketResponse => ticketResponse.prepared_pdf)]);
+  }
+
+  //TODO test with IE. 
+  async print(targetIds: Array<number>) {
+    console.log(targetIds);
+    debugger;
+    var response = await this.adminService.getPdf(targetIds);
+    var file = new Blob([response], { type: "application/pdf" });
+    var fileURL = URL.createObjectURL(file);
+    var oWindow = window.open(fileURL);
+    //Check for popup blocker. 
     oWindow.print();
-    oWindow.close();
+    window.URL.revokeObjectURL(fileURL);
+
+    //If successful, hit the API again and mark files as printed. 
+    await this.adminService.markFilesAsPrinted(targetIds);
+    //This resets us to the first page.
+    debugger; 
+    this.executeSearch(this.searchParameters);
   }
 
   openPdf(event: MouseEvent, id: number) {
-    event.preventDefault(); 
+    event.preventDefault();
     event.stopPropagation();
     window.open(`api/v1/pdf/${id}`);
   }
 
   totalPages(rowCount: number, pageSize: number) {
-    return Math.ceil(rowCount/ pageSize);
+    return Math.ceil(rowCount / pageSize);
   }
 }
