@@ -17,11 +17,11 @@
             "deadline_date": "2020-06-17",
             "dispute_type": "P",
             "pdf_filename": "hellogo.pdf",
-            "printed_by": null,
+            "printed_by": 1,
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 1
         }
     }, {
         "model": "api.ticketresponse",
@@ -42,11 +42,11 @@
             "deadline_date": "2020-06-17",
             "dispute_type": "P",
             "pdf_filename": "hellogo.pdf",
-            "printed_by": null,
+            "printed_by": 1,
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 2
         }
     }, {
         "model": "api.ticketresponse",
@@ -71,7 +71,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 3
         }
     }, {
         "model": "api.ticketresponse",
@@ -96,7 +96,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 4
         }
     }, {
         "model": "api.ticketresponse",
@@ -121,7 +121,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 5
         }
     }, {
         "model": "api.ticketresponse",
@@ -146,7 +146,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 6
         }
     }, {
         "model": "api.ticketresponse",
@@ -171,7 +171,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 7
         }
     }, {
         "model": "api.ticketresponse",
@@ -196,7 +196,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 8
         }
     }, {
         "model": "api.ticketresponse",
@@ -221,7 +221,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 9
         }
     }, {
         "model": "api.ticketresponse",
@@ -246,7 +246,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 10
         }
     }, {
         "model": "api.ticketresponse",
@@ -271,7 +271,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 11
         }
     }, {
         "model": "api.ticketresponse",
@@ -296,7 +296,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 12
         }
     }, {
         "model": "api.ticketresponse",
@@ -321,7 +321,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 13
         }
     }, {
         "model": "api.ticketresponse",
@@ -346,7 +346,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 14
         }
     }, {
         "model": "api.ticketresponse",
@@ -371,7 +371,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 15
         }
     }, {
         "model": "api.ticketresponse",
@@ -396,7 +396,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 16
         }
     }, {
         "model": "api.ticketresponse",
@@ -421,7 +421,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 17
         }
     }, {
         "model": "api.ticketresponse",
@@ -446,7 +446,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 18
         }
     }, {
         "model": "api.ticketresponse",
@@ -471,7 +471,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 19
         }
     }, {
         "model": "api.ticketresponse",
@@ -496,7 +496,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 20
         }
     }, {
         "model": "api.ticketresponse",
@@ -521,7 +521,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 21
         }
     }, {
         "model": "api.ticketresponse",
@@ -546,7 +546,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 22
         }
     }, {
         "model": "api.ticketresponse",
@@ -571,7 +571,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 23
         }
     }, {
         "model": "api.ticketresponse",
@@ -596,7 +596,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 24
         }
     }, {
         "model": "api.ticketresponse",
@@ -621,7 +621,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 25
         }
     }, {
         "model": "api.ticketresponse",
@@ -646,7 +646,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 26
         }
     }, {
         "model": "api.ticketresponse",
@@ -671,7 +671,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 27
         }
     }, {
         "model": "api.ticketresponse",
@@ -696,7 +696,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 28
         }
     }, {
         "model": "api.ticketresponse",
@@ -721,7 +721,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 29
         }
     }, {
         "model": "api.ticketresponse",
@@ -746,7 +746,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 30
         }
     }, {
         "model": "api.ticketresponse",
@@ -771,7 +771,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 31
         }
     }, {
         "model": "api.ticketresponse",
@@ -796,7 +796,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 32
         }
     }, {
         "model": "api.ticketresponse",
@@ -821,7 +821,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 33
         }
     }, {
         "model": "api.ticketresponse",
@@ -846,7 +846,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 34
         }
     }, {
         "model": "api.ticketresponse",
@@ -871,7 +871,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 35
         }
     }, {
         "model": "api.ticketresponse",
@@ -896,7 +896,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 36
         }
     }, {
         "model": "api.ticketresponse",
@@ -921,7 +921,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 37
         }
     }, {
         "model": "api.ticketresponse",
@@ -946,7 +946,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 38
         }
     }, {
         "model": "api.ticketresponse",
@@ -971,7 +971,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 39
         }
     }, {
         "model": "api.ticketresponse",
@@ -996,7 +996,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 40
         }
     }, {
         "model": "api.ticketresponse",
@@ -1021,7 +1021,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 41
         }
     }, {
         "model": "api.ticketresponse",
@@ -1046,7 +1046,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 42
         }
     }, {
         "model": "api.ticketresponse",
@@ -1071,7 +1071,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 43
         }
     }, {
         "model": "api.ticketresponse",
@@ -1096,7 +1096,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 44
         }
     }, {
         "model": "api.ticketresponse",
@@ -1121,7 +1121,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 45
         }
     }, {
         "model": "api.ticketresponse",
@@ -1146,7 +1146,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 46
         }
     }, {
         "model": "api.ticketresponse",
@@ -1171,7 +1171,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 47
         }
     }, {
         "model": "api.ticketresponse",
@@ -1196,7 +1196,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 48
         }
     }, {
         "model": "api.ticketresponse",
@@ -1221,7 +1221,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 49
         }
     }, {
         "model": "api.ticketresponse",
@@ -1246,7 +1246,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 50
         }
     }, {
         "model": "api.ticketresponse",
@@ -1271,7 +1271,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 51
         }
     }, {
         "model": "api.ticketresponse",
@@ -1296,7 +1296,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 52
         }
     }, {
         "model": "api.ticketresponse",
@@ -1321,7 +1321,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 53
         }
     }, {
         "model": "api.ticketresponse",
@@ -1346,7 +1346,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 54
         }
     }, {
         "model": "api.ticketresponse",
@@ -1371,7 +1371,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 55
         }
     }, {
         "model": "api.ticketresponse",
@@ -1396,7 +1396,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 56
         }
     }, {
         "model": "api.ticketresponse",
@@ -1421,7 +1421,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 57
         }
     }, {
         "model": "api.ticketresponse",
@@ -1446,7 +1446,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 58
         }
     }, {
         "model": "api.ticketresponse",
@@ -1471,7 +1471,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 59
         }
     }, {
         "model": "api.ticketresponse",
@@ -1496,7 +1496,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 60
         }
     }, {
         "model": "api.ticketresponse",
@@ -1521,7 +1521,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 61
         }
     }, {
         "model": "api.ticketresponse",
@@ -1546,7 +1546,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 62
         }
     }, {
         "model": "api.ticketresponse",
@@ -1571,7 +1571,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 63
         }
     }, {
         "model": "api.ticketresponse",
@@ -1596,7 +1596,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 64
         }
     }, {
         "model": "api.ticketresponse",
@@ -1621,7 +1621,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 65
         }
     }, {
         "model": "api.ticketresponse",
@@ -1646,7 +1646,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 66
         }
     }, {
         "model": "api.ticketresponse",
@@ -1671,7 +1671,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 67
         }
     }, {
         "model": "api.ticketresponse",
@@ -1696,7 +1696,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 68
         }
     }, {
         "model": "api.ticketresponse",
@@ -1721,7 +1721,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 69
         }
     }, {
         "model": "api.ticketresponse",
@@ -1746,7 +1746,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 70
         }
     }, {
         "model": "api.ticketresponse",
@@ -1771,7 +1771,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 71
         }
     }, {
         "model": "api.ticketresponse",
@@ -1796,7 +1796,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 72
         }
     }, {
         "model": "api.ticketresponse",
@@ -1821,7 +1821,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 73
         }
     }, {
         "model": "api.ticketresponse",
@@ -1842,11 +1842,11 @@
             "deadline_date": "2020-06-17",
             "dispute_type": "P",
             "pdf_filename": "hellogo.pdf",
-            "printed_by": 1,
+            "printed_by": null,
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 74
         }
     }, {
         "model": "api.ticketresponse",
@@ -1871,7 +1871,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 75
         }
     }, {
         "model": "api.ticketresponse",
@@ -1896,7 +1896,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 76
         }
     }, {
         "model": "api.ticketresponse",
@@ -1921,7 +1921,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 77
         }
     }, {
         "model": "api.ticketresponse",
@@ -1946,7 +1946,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 78
         }
     }, {
         "model": "api.ticketresponse",
@@ -1971,7 +1971,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 79
         }
     }, {
         "model": "api.ticketresponse",
@@ -1996,7 +1996,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 80
         }
     }, {
         "model": "api.ticketresponse",
@@ -2021,7 +2021,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 81
         }
     }, {
         "model": "api.ticketresponse",
@@ -2046,7 +2046,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 82
         }
     }, {
         "model": "api.ticketresponse",
@@ -2071,7 +2071,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 83
         }
     }, {
         "model": "api.ticketresponse",
@@ -2096,7 +2096,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 84
         }
     }, {
         "model": "api.ticketresponse",
@@ -2121,7 +2121,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 85
         }
     }, {
         "model": "api.ticketresponse",
@@ -2146,7 +2146,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 86
         }
     }, {
         "model": "api.ticketresponse",
@@ -2171,7 +2171,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 87
         }
     }, {
         "model": "api.ticketresponse",
@@ -2196,7 +2196,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 88
         }
     }, {
         "model": "api.ticketresponse",
@@ -2221,7 +2221,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 89
         }
     }, {
         "model": "api.ticketresponse",
@@ -2246,7 +2246,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 90
         }
     }, {
         "model": "api.ticketresponse",
@@ -2271,7 +2271,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 91
         }
     }, {
         "model": "api.ticketresponse",
@@ -2296,7 +2296,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 92
         }
     }, {
         "model": "api.ticketresponse",
@@ -2321,7 +2321,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 93
         }
     }, {
         "model": "api.ticketresponse",
@@ -2333,7 +2333,7 @@
             "result": null,
             "first_name": "Ahmed",
             "middle_name": "Marcia",
-            "last_name": 64,
+            "last_name": "64",
             "email": "fsadfsf",
             "hearing_attendance": null,
             "hearing_location": 4,
@@ -2346,7 +2346,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 94
         }
     }, {
         "model": "api.ticketresponse",
@@ -2371,7 +2371,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 95
         }
     }, {
         "model": "api.ticketresponse",
@@ -2396,7 +2396,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 96
         }
     }, {
         "model": "api.ticketresponse",
@@ -2421,7 +2421,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 97
         }
     }, {
         "model": "api.ticketresponse",
@@ -2446,7 +2446,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 98
         }
     }, {
         "model": "api.ticketresponse",
@@ -2471,7 +2471,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 99
         }
     }, {
         "model": "api.ticketresponse",
@@ -2496,7 +2496,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 100
         }
     }, {
         "model": "api.ticketresponse",
@@ -2521,7 +2521,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 101
         }
     }, {
         "model": "api.ticketresponse",
@@ -2546,7 +2546,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 102
         }
     }, {
         "model": "api.ticketresponse",
@@ -2571,7 +2571,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 103
         }
     }, {
         "model": "api.ticketresponse",
@@ -2596,7 +2596,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 104
         }
     }, {
         "model": "api.ticketresponse",
@@ -2621,7 +2621,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 105
         }
     }, {
         "model": "api.ticketresponse",
@@ -2646,7 +2646,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 106
         }
     }, {
         "model": "api.ticketresponse",
@@ -2671,7 +2671,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 107
         }
     }, {
         "model": "api.ticketresponse",
@@ -2696,7 +2696,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 108
         }
     }, {
         "model": "api.ticketresponse",
@@ -2706,7 +2706,7 @@
             "updated_date": "2020-06-17T08:09:15Z",
             "emailed_date": "2020-06-17T08:09:14Z",
             "result": null,
-            "first_name": "Hello",
+            "first_name": "John",
             "middle_name": null,
             "last_name": "Waldo",
             "email": "fsadfsf",
@@ -2721,7 +2721,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 109
         }
     }, {
         "model": "api.ticketresponse",
@@ -2746,7 +2746,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 110
         }
     }, {
         "model": "api.ticketresponse",
@@ -2758,7 +2758,7 @@
             "result": null,
             "first_name": "Hello",
             "middle_name": null,
-            "last_name": "Waldo",
+            "last_name": "Doe",
             "email": "fsadfsf",
             "hearing_attendance": null,
             "hearing_location": 4,
@@ -2771,7 +2771,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 111
         }
     }, {
         "model": "api.ticketresponse",
@@ -2796,7 +2796,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 112
         }
     }, {
         "model": "api.ticketresponse",
@@ -2821,7 +2821,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 113
         }
     }, {
         "model": "api.ticketresponse",
@@ -2846,7 +2846,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 114
         }
     }, {
         "model": "api.ticketresponse",
@@ -2856,9 +2856,9 @@
             "updated_date": "2020-06-17T08:09:15Z",
             "emailed_date": "2020-06-17T08:09:14Z",
             "result": null,
-            "first_name": "Hello",
+            "first_name": "Swift",
             "middle_name": null,
-            "last_name": "Maldo",
+            "last_name": "Miller",
             "email": "fsadfsf",
             "hearing_attendance": null,
             "hearing_location": 80,
@@ -2871,7 +2871,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 115
         }
     }, {
         "model": "api.ticketresponse",
@@ -2896,7 +2896,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 116
         }
     }, {
         "model": "api.ticketresponse",
@@ -2906,9 +2906,9 @@
             "updated_date": "2020-06-17T08:09:15Z",
             "emailed_date": "2020-06-17T08:09:14Z",
             "result": null,
-            "first_name": "Hello",
+            "first_name": "Advil",
             "middle_name": null,
-            "last_name": "Waldo",
+            "last_name": "Please",
             "email": "fsadfsf",
             "hearing_attendance": null,
             "hearing_location": 4,
@@ -2921,7 +2921,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 117
         }
     }, {
         "model": "api.ticketresponse",
@@ -2946,7 +2946,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 118
         }
     }, {
         "model": "api.ticketresponse",
@@ -2971,7 +2971,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 119
         }
     }, {
         "model": "api.ticketresponse",
@@ -2981,7 +2981,7 @@
             "updated_date": "2020-06-17T08:09:15Z",
             "emailed_date": "2020-06-17T08:09:14Z",
             "result": null,
-            "first_name": "Hello",
+            "first_name": "Robert",
             "middle_name": null,
             "last_name": "Waldo",
             "email": "fsadfsf",
@@ -2996,7 +2996,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 120
         }
     }, {
         "model": "api.ticketresponse",
@@ -3021,7 +3021,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 121
         }
     }, {
         "model": "api.ticketresponse",
@@ -3046,7 +3046,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 122
         }
     }, {
         "model": "api.ticketresponse",
@@ -3071,7 +3071,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 123
         }
     }, {
         "model": "api.ticketresponse",
@@ -3096,7 +3096,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 124
         }
     }, {
         "model": "api.ticketresponse",
@@ -3121,7 +3121,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 125
         }
     }, {
         "model": "api.ticketresponse",
@@ -3131,9 +3131,9 @@
             "updated_date": "2020-06-17T08:09:15Z",
             "emailed_date": "2020-06-17T08:09:14Z",
             "result": null,
-            "first_name": "Hello",
+            "first_name": "Natalia",
             "middle_name": null,
-            "last_name": "Waldo",
+            "last_name": "Barjs",
             "email": "fsadfsf",
             "hearing_attendance": null,
             "hearing_location": 4,
@@ -3146,7 +3146,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 126
         }
     }, {
         "model": "api.ticketresponse",
@@ -3171,7 +3171,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 127
         }
     }, {
         "model": "api.ticketresponse",
@@ -3196,7 +3196,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 128
         }
     }, {
         "model": "api.ticketresponse",
@@ -3206,9 +3206,9 @@
             "updated_date": "2020-06-17T08:09:15Z",
             "emailed_date": "2020-06-17T08:09:14Z",
             "result": null,
-            "first_name": "Hello",
+            "first_name": "Wendy",
             "middle_name": null,
-            "last_name": "Waldo",
+            "last_name": "Kobbs",
             "email": "fsadfsf",
             "hearing_attendance": null,
             "hearing_location": 4,
@@ -3221,7 +3221,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 129
         }
     }, {
         "model": "api.ticketresponse",
@@ -3246,7 +3246,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 130
         }
     }, {
         "model": "api.ticketresponse",
@@ -3271,7 +3271,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 131
         }
     }, {
         "model": "api.ticketresponse",
@@ -3296,7 +3296,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 132
         }
     }, {
         "model": "api.ticketresponse",
@@ -3306,7 +3306,7 @@
             "updated_date": "2020-06-17T08:09:15Z",
             "emailed_date": "2020-06-17T08:09:14Z",
             "result": null,
-            "first_name": "Hello",
+            "first_name": "David",
             "middle_name": null,
             "last_name": "Waldo",
             "email": "fsadfsf",
@@ -3321,7 +3321,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 133
         }
     }, {
         "model": "api.ticketresponse",
@@ -3346,7 +3346,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 134
         }
     }, {
         "model": "api.ticketresponse",
@@ -3371,7 +3371,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 135
         }
     }, {
         "model": "api.ticketresponse",
@@ -3396,7 +3396,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 136
         }
     }, {
         "model": "api.ticketresponse",
@@ -3421,7 +3421,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 137
         }
     }, {
         "model": "api.ticketresponse",
@@ -3431,7 +3431,7 @@
             "updated_date": "2020-06-17T08:09:15Z",
             "emailed_date": "2020-06-17T08:09:14Z",
             "result": null,
-            "first_name": "Hello",
+            "first_name": "Leo",
             "middle_name": null,
             "last_name": "Waldo",
             "email": "fsadfsf",
@@ -3446,7 +3446,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 138
         }
     }, {
         "model": "api.ticketresponse",
@@ -3471,7 +3471,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 139
         }
     }, {
         "model": "api.ticketresponse",
@@ -3496,7 +3496,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 140
         }
     }, {
         "model": "api.ticketresponse",
@@ -3521,7 +3521,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 141
         }
     }, {
         "model": "api.ticketresponse",
@@ -3546,7 +3546,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 142
         }
     }, {
         "model": "api.ticketresponse",
@@ -3571,7 +3571,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 143
         }
     }, {
         "model": "api.ticketresponse",
@@ -3596,7 +3596,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 144
         }
     }, {
         "model": "api.ticketresponse",
@@ -3606,9 +3606,9 @@
             "updated_date": "2020-06-17T08:09:15Z",
             "emailed_date": "2020-06-17T08:09:14Z",
             "result": null,
-            "first_name": "Wade",
+            "first_name": "Go",
             "middle_name": null,
-            "last_name": "Bee",
+            "last_name": "Goal",
             "email": "fsadfsf",
             "hearing_attendance": null,
             "hearing_location": 4,
@@ -3621,7 +3621,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 145
         }
     }, {
         "model": "api.ticketresponse",
@@ -3646,7 +3646,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 146
         }
     }, {
         "model": "api.ticketresponse",
@@ -3671,7 +3671,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 147
         }
     }, {
         "model": "api.ticketresponse",
@@ -3696,7 +3696,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 148
         }
     }, {
         "model": "api.ticketresponse",
@@ -3721,7 +3721,7 @@
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 149
         }
     }, {
         "model": "api.ticketresponse",
@@ -3742,11 +3742,11 @@
             "deadline_date": "2020-06-17",
             "dispute_type": "P",
             "pdf_filename": "hellogo.pdf",
-            "printed_by": 1,
+            "printed_by": null,
             "printed_date": "2020-06-17T08:09:56Z",
             "archived_by": null,
             "archived_date": "2020-06-17T08:09:56Z",
-            "prepared_pdf": null
+            "prepared_pdf": 150
         }
     }
 ]
