@@ -3,8 +3,11 @@
     <div class="content-header">
       <h1 class="mb-3 mt-1">VTC Disputant Response Inbox</h1>
       <div>
+        <ngb-alert type="danger" *ngIf="outdatedBrowser" [dismissible]="false">
+          Internet Explorer is unsupported. Please use a newer browser such as Microsoft Edge or Google Chrome.
+        </ngb-alert>
         <ul ngbNav #nav="ngbNav" class="nav-tabs">
-          <li [ngbNavItem]="1">
+          <li [ngbNavItem]="1" id="newResponseTab">
             <a class="nav-link" [class.active]="mode !== 'Archive'" [routerLink]="['/admin/new-responses']" class="tab" >
               New Responses
             </a>
@@ -27,22 +30,22 @@
             </div>
             <div class="input-group">
               <div class="input-group-prepend">
-                <span class="input-group-text">Name or Ticket #: </span>
+                <span class="input-group-text">Search: </span>
               </div>
               <input autocomplete="off" type="text" class="form-control" id="search" (input)="filterByNameOrTicketNumber($event.target.value)">
             </div>
           </div>
           <div class="col-sm pr-0 pl-0" style="justify-content: center; align-items:center; display:flex;">
-            <ngb-pagination (pageChange)="switchPage($event)" [collectionSize]="totalElements" [pageSize]="this.searchParameters.filterParameters.limit" [(page)]="this.searchParameters.filterParameters.page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true">
+            <ngb-pagination *ngIf="totalElements !== 0" (pageChange)="switchPage($event,'top')" [collectionSize]="totalElements" [pageSize]="this.searchParameters.filterParameters.limit" [(page)]="this.searchParameters.filterParameters.page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true">
             </ngb-pagination>
           </div>
           <div class="col-sm pr-0 pl-0">
             <span _ngcontent-dub-c1="" class="mt-1" style="float:right">
-              <button type="button" [class.hide]="mode == 'Archive'" class="btn btn-secondary" (click)="printSelected($event)" class="btn btn-warning ml-2" style="color:black;" placement="top">
+              <button (click)="printTop50()" type="button" [class.hide]="mode == 'Archive'" class="btn btn-secondary" class="btn btn-warning ml-2" style="color:black;" placement="top">
                 <img src="assets\print-pdf.svg" class="printer unselectable" width="20" height="20"/>
                 Print Top 50 Responses
               </button>
-              <button type="button" class="btn btn-secondary" [class.disabled]="selected.length == 0" class="btn btn-warning ml-2" style="color:black;" placement="top" ngbTooltip="Tip: Hold the shift key to select multiple rows.">
+              <button (click)="printSelected()" type="button" class="btn btn-secondary" [class.disabled]="selected.length == 0" class="btn btn-warning ml-2" style="color:black;" placement="top" ngbTooltip="Tip: Hold the shift key to select a range of rows.">
                 <img src="assets\print-pdf.svg" class="printer unselectable" width="20" height="20"/>
                 Print Selected Responses
               </button>
@@ -86,8 +89,10 @@
           </span>
         </ng-template>
         <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-          {{value}}
-          <span (click)="openPdf($event);" *ngIf="column.name==='Action'" class="unselectable mr-4">
+          <ng-template [ngIf]="column.name!=='Action'">
+            {{value}}
+          </ng-template>
+          <span [ngClass]="{disabled: value===''}" (click)="openPdf($event,value);" *ngIf="column.name==='Action'" class="unselectable mr-4">
             <img [class.invert-color]="this.selected.indexOf(row) !== -1" width="24" height="24" src="assets/open-pdf.svg"/>
             View Response
           </span>
@@ -111,16 +116,16 @@
                 </span>
               </div>
               <div class="col-sm pr-0 pl-0" style="justify-content: center; align-items:center; display:flex;">
-                <ngb-pagination (pageChange)="switchPage($event)" [collectionSize]="totalElements" [pageSize]="this.searchParameters.filterParameters.limit" [(page)]="this.searchParameters.filterParameters.page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true">
+                <ngb-pagination *ngIf="totalElements !== 0" (pageChange)="switchPage($event,'bottom')" [collectionSize]="totalElements" [pageSize]="this.searchParameters.filterParameters.limit" [(page)]="this.searchParameters.filterParameters.page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true">
                 </ngb-pagination>
               </div>
               <div class="col-sm pr-0 pl-0">
                 <span class="mt-1" style="float:right">
-                  <button type="button" [class.hide]="mode == 'Archive'" class="btn btn-secondary" (click)="printSelected($event)" class="btn btn-warning ml-2" style="color:black;">
+                  <button (click)="printTop50()" type="button" [class.hide]="mode == 'Archive'" class="btn btn-secondary" class="btn btn-warning ml-2" style="color:black;">
                     <img src="assets\print-pdf.svg" class="printer unselectable" width="20" height="20"/>
                     Print Top 50 Responses
                   </button>
-                  <button type="button" class="btn btn-secondary" [class.disabled]="selected.length == 0" class="btn btn-warning ml-2" style="color:black;" placement="top" container="body" ngbTooltip="Tip: Hold the shift key to select multiple rows.">
+                  <button (click)="printSelected()" type="button" class="btn btn-secondary" [class.disabled]="selected.length == 0" class="btn btn-warning ml-2" style="color:black;" placement="top" container="body" ngbTooltip="Tip: Hold the shift key to select a range of rows.">
                     <img src="assets\print-pdf.svg" class="printer unselectable" width="20" height="20"/>
                     Print Selected Responses
                   </button>

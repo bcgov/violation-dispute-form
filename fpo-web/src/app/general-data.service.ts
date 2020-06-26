@@ -157,6 +157,32 @@ export class GeneralDataService {
     return this.userInfo && this.userInfo.login_uri;
   }
 
+  executePostBlob(
+    url: string,
+    body: any
+  ): Promise<object> {
+    if (!url) return Promise.reject("Cache name not defined");
+    return this.http
+      .post(url, body, { withCredentials: true, responseType: 'blob' })
+      .toPromise()
+      .catch((error: any) => {
+        return Promise.reject(error.message || error);
+      });
+  }
+
+  executePostJson(
+    url: string,
+    body: any
+  ): Promise<object> {
+    if (!url) return Promise.reject("Cache name not defined");
+    return this.http
+      .post(url, body, { withCredentials: true })
+      .toPromise()
+      .catch((error: any) => {
+        return Promise.reject(error.message || error);
+      });
+  }
+
   acceptTerms() {
     if (this.browserOnly) {
       this.updateBrowserUser({ accepted_terms_at: new Date().toString() });
