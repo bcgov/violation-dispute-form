@@ -54,9 +54,11 @@ export class AdminComponent implements OnInit {
   maxSelectedRecords = 50;
   totalElements = 0;
   searchCount = 0;
+  outdatedBrowser = false;
 
   ngOnInit() {
     this.loadPage();
+    this.outdatedBrowser = this.checkForIE();
   }
 
   constructor(
@@ -217,7 +219,7 @@ export class AdminComponent implements OnInit {
     this.print([...this.rows.map(ticketResponse => ticketResponse.prepared_pdf)]);
   }
 
-  //TODO test with IE. 
+  //TODO currently doesn't work with IE.
   async print(targetIds: Array<number>) {
     console.log(targetIds);
     debugger;
@@ -225,15 +227,21 @@ export class AdminComponent implements OnInit {
     var file = new Blob([response], { type: "application/pdf" });
     var fileURL = URL.createObjectURL(file);
     var oWindow = window.open(fileURL);
+    let popupBlocked = false;
+    try {
     //Check for popup blocker. 
     oWindow.print();
+    }
+    catch {
+      popupBlocked = true;
+    }
     window.URL.revokeObjectURL(fileURL);
-
-    //If successful, hit the API again and mark files as printed. 
-    await this.adminService.markFilesAsPrinted(targetIds);
-    //This resets us to the first page.
-    debugger; 
-    this.executeSearch(this.searchParameters);
+    if (!popupBlocked) {
+      //If successful, hit the API again and mark files as printed. 
+      await this.adminService.markFilesAsPrinted(targetIds);
+      //This resets us to the first page.
+      this.executeSearch(this.searchParameters);
+    }
   }
 
   openPdf(event: MouseEvent, id: number) {
@@ -244,5 +252,11 @@ export class AdminComponent implements OnInit {
 
   totalPages(rowCount: number, pageSize: number) {
     return Math.ceil(rowCount / pageSize);
+  }
+
+  checkForIE() {
+    var ua = window.navigator.userAgent;
+    var msie = ua.indexOf("MSIE ");
+    return (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) ;
   }
 }
