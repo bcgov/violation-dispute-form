@@ -16,7 +16,8 @@
         }
         @bottom-right {
             counter-increment: page;
-            content:'Generated from "Choose how to attend your Traffic Hearing" on ' string(doctitle);
+            content:'Generated from "Choose how to attend your Traffic Hearing"';
+            /* content:'Generated from "Choose how to attend your Traffic Hearing" on ' string(doctitle);*/
             font-size: 8pt;
         };
         /*@top-right{
@@ -612,7 +613,7 @@
 
     <div style="margin-top:0.5rem"></div>
 
-    <div class="reg-box" style="page-break-inside:avoid;">
+    <div class="reg-box">
       <div>
         <span style="display:inline-block;"><b>Written Reasons for a Reduction in the Ticketed Amount(s) </b></span><span style="display:inline-block; font-size:10px;">(Must not contain a defence of the allegation)</span>:
         <div class="v-spacer-4 form-content">{{reasonForFineReduction}}</div>
@@ -621,7 +622,7 @@
 
     <div style="margin-top:0.5rem"></div>
 
-    <div class="reg-box" style="page-break-inside:avoid;">
+    <div class="reg-box">
       <div>
         <span style="display:inline-block;"><b>Written Reasons for Time to Pay the Ticketed Amounts(s) </b></span><span style="display:inline-block; font-size:10px;">(Must not contain a defence of the allegation)</span>:
         <div class="v-spacer-4 form-content">{{reasonForTimeToPay}}</div>
