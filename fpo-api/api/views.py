@@ -245,7 +245,6 @@ class TicketResponseListFilter(filters.FilterSet):
             'hearing_attendance',
             'dispute_type',
             'is_archived',
-            'date_search__date'
             'ticket_number',
             'hearing_location__name',
             'printed_by__name',
