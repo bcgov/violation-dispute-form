@@ -35,10 +35,6 @@ export class GeneralDataService {
     return this.getBaseHref() + "api/v1/" + action;
   }
 
-  getPrintApiUrl(action: string): string {
-    return this.getBaseHref()  + action;
-  }
-
   getBrowserUser() {
     const userKey = "temp-user";
     const sessionUser = sessionStorage.getItem(userKey);

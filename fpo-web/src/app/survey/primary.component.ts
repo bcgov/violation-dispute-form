@@ -57,8 +57,7 @@ export class SurveyPrimaryComponent implements OnInit {
     this.resultJson = JSON.stringify(data);
     this.jsonObject = JSON.parse(this.resultJson);
     console.log("data is =", this.jsonObject)
-    this.printUrl = this.dataService.getPrintApiUrl(
-      "form/?name=notice-to-disputant-response");
+    //this.printUrl = this.dataService.getApiUrl("form/?name=notice-to-disputant-response");
     
   }
 
