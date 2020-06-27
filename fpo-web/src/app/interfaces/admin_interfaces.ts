@@ -4,14 +4,20 @@ export interface SearchParameters {
     sortParameters: SortParameters;
 }
   
+export enum AdminPageMode {
+    NewResponse,
+    Archive
+}
+
 export interface FilterParameters {
     search: string;
     createdDate: string;
+    archivedDate: string;
     region: number;
     offset: number;
     page: number; //Unused in Django, we use offset records, not offset page
     limit: number;
-    isPrinted: boolean;
+    isArchived: boolean;
 }
   
 export interface SortParameters extends Array<SortParameter> {}
@@ -47,9 +53,15 @@ export interface TicketResponseContent {
     deadline_date: Date | string;
     dispute_type: string;
     pdf_filename: string;
-    archived_by: string;
+    archived_by: ArchivedBy;
+    archived_date: Date | string;
     printed_by: PrintedBy;
     printed_date: Date;
+}
+
+export interface ArchivedBy {
+    first_name: string;
+    last_name: string;
 }
 
 export interface PrintedBy {

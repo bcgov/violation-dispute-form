@@ -34,7 +34,7 @@ export class AdminDataService {
 
   buildSortString(sortParameters: SortParameters): string {
     if (sortParameters.length == 0) return "";
-
+    
     let serverSortParameters = [...sortParameters];
     //Expand name into last_name, middle_name, first_name
     var indexOfName = serverSortParameters.findIndex((sp) => sp.prop == "name");
@@ -54,8 +54,6 @@ export class AdminDataService {
       var orderName = order.prop;
       if (order.dir === "desc") orderingString += "-";
       orderingString += `${orderName},`;
-      if (orderName == "originally_printed_by")
-        orderName = "printed_date";
       //Remove trailing comma.
       if (serverSortParameters[serverSortParameters.length - 1] === order) {
         orderingString = orderingString.slice(0, -1);
@@ -86,16 +84,28 @@ export class AdminDataService {
   }
 
   buildQueryString(searchParameters: SearchParameters): string {
+    //Clone our search parameters. 
+    let searchParam = JSON.parse(JSON.stringify(searchParameters)) as  SearchParameters
+
+    //Move date from search into createdDate. 
+    var dateRegex = /([0123]?[0-9])-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-(\d{4})/ig;
+    var match = searchParam.filterParameters.search.match(dateRegex);
+    if (match != null && match.length === 1) {
+      searchParam.filterParameters.createdDate = new Date(match[0]).toISOString();
+      if (searchParam.filterParameters.isArchived)
+        searchParam.filterParameters.archivedDate = new Date(match[0]).toISOString();
+      searchParam.filterParameters.search = searchParam.filterParameters.search.replace(dateRegex,"").trim();
+    }
+
     var filterString = this.buildFilterString(
-      searchParameters.filterParameters
+      searchParam.filterParameters
     );
-    var sortString = this.buildSortString(searchParameters.sortParameters);
+    var sortString = this.buildSortString(searchParam.sortParameters);
     return `?${filterString}${sortString}`;
   }
 
-  buildDateString(targetDate: Date): string {
+  buildDayMonthWordYearDateString(targetDate: Date): string {
     return `${new Date(targetDate).getDate()}-${this.monthNames[new Date(targetDate).getMonth()]}-${new Date(targetDate).getFullYear()}`;
-    
   }
 
   buildTimeString(targetDate: Date): string {
@@ -113,19 +123,14 @@ export class AdminDataService {
     searchParameters: SearchParameters
   ): Promise<SearchResponse> {
     var searchResponse = await this.getData(searchParameters);
-
     searchResponse.results = searchResponse.results.map((r) => ({
       ...r,
-      deadline_date: this.buildDateString(r.deadline_date as Date),
-      created_date: this.buildDateString(r.created_date as Date),
+      deadline_date: this.buildDayMonthWordYearDateString(r.deadline_date as Date),
+      created_date: this.buildDayMonthWordYearDateString(r.created_date as Date),
+      archived_date: this.buildDayMonthWordYearDateString(r.archived_date as Date),
       name: `${r.last_name}, ${r.first_name} ${r.middle_name || ""}`,
       hearing_location__name: r.hearing_location.name,
-      originally_printed_by:
-        r.printed_by !== null
-          ? `${r.printed_by.first_name} ${
-              r.printed_by.last_name
-            } on ${this.buildDateString(r.printed_date)} ${this.buildTimeString(r.printed_date)}`
-          : "",
+      archived_by__name: r.archived_by !== null ? `${r.archived_by.last_name}, ${r.archived_by.first_name}` : null
     }));
 
     return searchResponse;
@@ -148,8 +153,8 @@ export class AdminDataService {
     })) as BlobPart;
   }
 
-  public async markFilesAsPrinted(targetPdfIds) {
-    const url = this.generalDataService.getApiUrl("printed/");
+  public async markFilesAsArchived(targetPdfIds) {
+    const url = this.generalDataService.getApiUrl("archived/");
     return await this.generalDataService.executePostJson(url, {
       id: [...targetPdfIds]
     })

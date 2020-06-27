@@ -16,9 +16,9 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 """
-from datetime import datetime
-import json
-import io
+from datetime import datetime, timezone, timedelta
+
+import json, io
 
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, FileResponse
 from django.middleware.csrf import get_token
@@ -136,6 +136,7 @@ class SubmitTicketResponseView(APIView):
             middle_name=disputant.get("middle"),
             last_name=disputant.get("last"),
             email=result.get("disputantEmail"),
+            result=result,
             ticket_number=ticketNumber.upper(),
             ticket_date=result.get("ticketDate"),
             hearing_location_id=result.get("hearingLocation"),
@@ -218,18 +219,38 @@ class SubmitTicketResponseView(APIView):
 
 
 class TicketResponseListFilter(filters.FilterSet):
-    is_printed = filters.BooleanFilter(field_name='printed_by', lookup_expr='isnull', exclude=True)
+    is_archived = filters.BooleanFilter(field_name='archived_by', lookup_expr='isnull', exclude=True)
     region = filters.NumberFilter(field_name='hearing_location__region_id', lookup_expr='exact')
+    created_date = filters.IsoDateTimeFilter(field_name='created_date__date', method='filter_date')
+    archived_date = filters.IsoDateTimeFilter(field_name='archived_date__date', method='filter_date')
+
+    #Combining filters here, if we have is_archived, we want to look in the archived_date or created_date fields. 
+    #If it's not archived, only search the created_date field. 
+    def filter_date(self, queryset, field_name, value):
+        if not value:
+            return queryset
+        is_archived = self.data.get("is_archived")
+        start = value
+        end = value + timedelta(hours=24) - timedelta(seconds=1)
+        if is_archived and field_name == "archived_date__date":
+            return queryset.filter(created_date__range=(start, end)) | queryset.filter(archived_date__range=(start, end))
+        elif not is_archived and field_name == "created_date__date":
+            return queryset.filter(created_date__range=(start, end))
+        else:
+            return queryset
+
     class Meta:
-     
         fields = [
             'region',
             'hearing_attendance',
             'dispute_type',
-            'is_printed',
+            'is_archived',
+            'date_search__date'
             'ticket_number',
             'hearing_location__name',
-            'printed_by__name'
+            'printed_by__name',
+            'created_date__date',
+            'archived_date__date'
         ]
 
 class TicketCountView(APIView):
@@ -255,20 +276,15 @@ class TicketResponseListView(generics.ListAPIView):
     ]
     filterset_class = TicketResponseListFilter
     
-    search_fields = ["first_name", "middle_name", "last_name", "ticket_number", "hearing_location__name", "created_date", "printed_by__last_name", "printed_by__first_name"]
+    search_fields = ["first_name", "middle_name", "last_name", "ticket_number", "hearing_location__name", "archived_by__last_name", "archived_by__first_name"]
     ordering_fields = [
         "created_date",
         "archived_date",
-        "printed_date",
-        "ticket_date",
-        "deadline_date",
         "hearing_location__name",
         "ticket_number",
-        "dispute_type",
         "last_name",
         "first_name",
     ]
-    ordering = ["hearing_location__name", "created_date", "last_name"]
 
 class PdfFileView(APIView):
     #This route is used for viewing PDF files from survey page and the admin pages.
@@ -284,17 +300,24 @@ class PdfFileView(APIView):
 
     #This route is used for printing by the staff on the admin page, as it can handle multiple files.  
     def post(self, request: Request):
+        if len(request.data.get("id")) > 50:
+            return HttpResponseBadRequest()
         pdf_queryset = PreparedPdf.objects.filter(id__in=request.data.get("id"))
         merged_pdf = merge_pdf(pdf_queryset)
         merged_pdf.seek(0)
+        ticket_queryset = TicketResponse.objects.filter(prepared_pdf_id__in=request.data.get("id"))
+        ##TODO change this off of 1. 
+        ticket_queryset.update(printed_by = 1)
+        ticket_queryset.update(printed_date = datetime.now())
         return HttpResponse(merged_pdf.getvalue(), content_type='application/octet-stream')
 
-class PrintedView(APIView):
-    #This is used for marking the files as printed.
+class ArchivedView(APIView):
+    #This is used for marking the files as archived.
     def post(self, request: Request):
         ticket_queryset = TicketResponse.objects.filter(prepared_pdf_id__in=request.data.get("id"))
-        ##todo change this off of 1.
-        ticket_queryset.update(printed_by = 1)
+        ##TODO change this off of 1.
+        ticket_queryset.update(archived_by = 1)
+        ticket_queryset.update(archived_date = datetime.now())
         return Response("success")
 
 class LocationListView(generics.ListAPIView):
