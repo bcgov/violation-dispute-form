@@ -43,6 +43,7 @@ export class AdminComponent implements OnInit {
       search: "",
       isArchived: false,
       createdDate: "",
+      archivedDate: "",
       region: null,
       page: 1,
       offset: 0,

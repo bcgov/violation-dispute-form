@@ -16,7 +16,7 @@
             </a>
           </li>
           <li [ngbNavItem]="2">
-            <a class="nav-link" [routerLink]="['/admin/archive']" [class.active]="mode === 'Archive'" class="tab"  >  
+            <a class="nav-link" [routerLink]="['/admin/archive']" [class.active]="mode === AdminMode.Archive" class="tab"  >  
               Archive 
             </a>
           </li>
@@ -44,7 +44,7 @@
           </div>
           <div class="col-sm pr-0 pl-0">
             <span _ngcontent-dub-c1="" class="mt-1" style="float:right">
-              <button (click)="printTop50()" type="button" [class.hide]="mode == 'Archive'" class="btn btn-secondary" class="btn btn-warning ml-2" style="color:black;" placement="top">
+              <button (click)="printTop50()" type="button" [class.hide]="mode == AdminMode.Archive" class="btn btn-secondary" class="btn btn-warning ml-2" style="color:black;" placement="top">
                 <img src="assets\print-pdf.svg" class="printer unselectable" width="20" height="20"/>
                 Print Top 50 Responses
               </button>
