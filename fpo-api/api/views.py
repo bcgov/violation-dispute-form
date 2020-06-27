@@ -165,29 +165,8 @@ class SubmitTicketResponseView(APIView):
         # if not result.get("disputantAcknowledgement"):
         #     return HttpResponseBadRequest()
 
-<<<<<<< HEAD
         #Generate/Save the pdf to DB and generate email with pdf attached
         email_status= False
-=======
-        #Save the result to DB
-        response.save()
-
-        #Generate and Save the pdf to DB
-        pdf_content = generate_pdf(result)
-        pdf_response = PreparedPdf(
-            data = pdf_content
-        )
-        pdf_response.save()
-        response.prepared_pdf_id = pdf_response.pk 
-        response.printed_date = timezone.now()
-        
-        response.save()
-
-        #Generate and Send the email with pdf attached
-        email = result.get("disputantEmail")
-        pdf = pdf_response.data
-        
->>>>>>> upstream/master
         try:
             if result:
                 pdf_content = generate_pdf(result)
@@ -205,7 +184,7 @@ class SubmitTicketResponseView(APIView):
         except Exception as exception:
             LOGGER.exception("Pdf / Email generation error", exception)
             response.save()
-            return Response({"id": response.pk,"Email-sent":email_status})
+            return Response({"id": response.pk,"pdf-id":pdf_response.pk,"email-sent":email_status})
 
         
         response.save()
@@ -234,7 +213,7 @@ class SubmitTicketResponseView(APIView):
         #     "disputantAcknowledgement": ["item1"],
         # }
 
-        return Response({"id": response.pk, "Email-sent":email_status})
+        return Response({"id": response.pk,"pdf-id":pdf_response.pk, "email-sent":email_status})
 
 
 class TicketResponseListFilter(filters.FilterSet):

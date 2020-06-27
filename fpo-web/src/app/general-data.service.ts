@@ -13,6 +13,8 @@ export interface UserInfo {
 @Injectable()
 export class GeneralDataService {
   private onUserInfo: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  private PdfId: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  public currentValue= this.PdfId.asObservable();
   private userInfo: any = null;
   // restrict to browser cache - not database
   private browserOnly = false;
@@ -137,6 +139,11 @@ export class GeneralDataService {
     } else if (this.userInfo && this.userInfo.logout_uri) {
       window.location.replace(this.userInfo.logout_uri);
     }
+  }
+
+  changePdfId(pdfId: number) {
+    console.log("PDF id:", pdfId);
+    this.PdfId.next(pdfId);
   }
 
   returnUserInfo(result) {

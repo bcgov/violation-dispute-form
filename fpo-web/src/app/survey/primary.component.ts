@@ -15,6 +15,8 @@ export class SurveyPrimaryComponent implements OnInit {
   public printUrl: string;
   public resultJson: any;
   public surveyPath: string;
+  public submitted: boolean;
+  public pdfId: number;
   public surveyJson: any;
   public complete: Function;
   public data: any;
@@ -33,6 +35,7 @@ export class SurveyPrimaryComponent implements OnInit {
     this.surveyPath = routeData.survey_path;
     this.surveyJson = routeData.survey;
     this.cacheName = routeData.cache_name;
+    this.dataService.currentValue.subscribe(pdfId => this.pdfId = pdfId)
     this.complete = data => this.onComplete(data);
     const hash = this.route.snapshot.fragment;
     if (hash === "print") this.initialMode = "print";
@@ -41,9 +44,10 @@ export class SurveyPrimaryComponent implements OnInit {
   onComplete(data) {
     if (this.cacheName) {
       if (data) {
-        this.showPrintable(data);
+        this.submitted = true;
+        //this.showPrintable(data);
       } else {
-        this.printUrl = null;
+        this.submitted = false;
         this.initialMode = "";
       }
     }
@@ -56,6 +60,11 @@ export class SurveyPrimaryComponent implements OnInit {
     this.printUrl = this.dataService.getPrintApiUrl(
       "form/?name=notice-to-disputant-response");
     
+  }
+
+  previewPdf(){
+    const action = this.pdfId;
+    window.open(this.dataService.getApiUrl("pdf/") + action); 
   }
 
   onPrint() {
