@@ -14,12 +14,16 @@
           white-space: pre;
           font-size: 6pt;
         }
-        @bottom-right {
-            counter-increment: page;
-            content:'Generated from "Choose how to attend your Traffic Hearing"';
+        @bottom-left {
+            content:'Generated from "Choose how to attend your Traffic Hearing."';
             /* content:'Generated from "Choose how to attend your Traffic Hearing" on ' string(doctitle);*/
             font-size: 8pt;
-        };
+        }
+        @bottom-right {
+            content:"Page " counter(page) " of " counter(pages);
+            /*counter-increment: page;*/
+            font-size: 8pt;
+        }
         /*@top-right{
           content: "yo";
           height: 1rem;
@@ -29,7 +33,7 @@
         }*/
 
     }
-    @page label{font-size: 9pt;}
+    /*@page label{font-size: 9pt;}*/
 
     #ticket-date {
       opacity: 0;
