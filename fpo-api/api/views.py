@@ -126,6 +126,7 @@ class SubmitTicketResponseView(APIView):
             return HttpResponseForbidden(text=check_captcha["message"])
 
         result = request.data
+        result1 =result.get("somevalue")
         disputant = result.get("disputantName", {})
         # address = result.get("disputantAddress", {})
         ticketNumber = result.get("ticketNumber", {})
@@ -163,33 +164,29 @@ class SubmitTicketResponseView(APIView):
         # if not result.get("disputantAcknowledgement"):
         #     return HttpResponseBadRequest()
 
-        #Save the result to DB
-        response.save()
-
-        #Generate and Save the pdf to DB
-        pdf_content = generate_pdf(result)
-        pdf_response = PreparedPdf(
-            data = pdf_content
-        )
-        pdf_response.save()
-        response.prepared_pdf_id = pdf_response.pk 
-        response.printed_date = timezone.now()
-        
-        response.save()
-
-        #Generate and Send the email with pdf attached
-        email = result.get("disputantEmail")
-        pdf = pdf_response.data
-        
+        #Generate/Save the pdf to DB and generate email with pdf attached
+        email_status= False
         try:
-            send_email(email, pdf)
-            response.emailed_date = timezone.now()
+            if result:
+                pdf_content = generate_pdf(result)
+                pdf_response = PreparedPdf(
+                    data = pdf_content
+                )
+                pdf_response.save()
+                response.prepared_pdf_id = pdf_response.pk; 
+                response.printed_date = timezone.now()
+                email = result.get("disputantEmail")
+                if email and pdf_content:
+                    send_email(email, pdf_content)
+                    response.emailed_date = timezone.now()
+                    email_status= True
+        except Exception as exception:
+            LOGGER.exception("Pdf / Email generation error", exception)
             response.save()
-        except Exception as ex:
-            print("Error",ex)
-            return Response({"id": response.pk,"PdfId":pdf_response.pk,"Email-sent":False})
+            return Response({"id": response.pk,"pdf-id":pdf_response.pk,"email-sent":email_status})
+
         
-    
+        response.save()
       # {
         #     "disputantName": {"first": "first", "middle": "middle", "last": "last"},
         #     "disputantAddress": {
@@ -215,7 +212,7 @@ class SubmitTicketResponseView(APIView):
         #     "disputantAcknowledgement": ["item1"],
         # }
 
-        return Response({"id": response.pk,"PdfId":pdf_response.pk, "Email-sent":True})
+        return Response({"id": response.pk,"pdf-id":pdf_response.pk, "email-sent":email_status})
 
 
 class TicketResponseListFilter(filters.FilterSet):

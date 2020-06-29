@@ -8,7 +8,6 @@ import { GlossaryService } from "../glossary/glossary.service";
 import { InsertService } from "../insert/insert.service";
 import { addQuestionTypes } from "./question-types";
 import { RecaptchaModule, RecaptchaFormsModule } from "ng-recaptcha";
-//import { RecaptchaService } from "./recaptcha.service";
 import { HttpClient } from "@angular/common/http";
 
 @Component({
@@ -25,6 +24,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
   @Input() onComplete: Function;
   @Input() surveyPath: string;
   @Input() initialMode: string;
+  public pdfId: number;
   public cacheLoadTime: any;
   public cacheKey: string;
   public recaptchaKey: string;
@@ -51,7 +51,6 @@ export class SurveyComponent implements OnInit, OnDestroy {
   constructor(
     private dataService: GeneralDataService,
     private http: HttpClient,
-    //private recaptchaService: RecaptchaService,
     private insertService: InsertService,
     private glossaryService: GlossaryService,
     private _router: Router,
@@ -72,6 +71,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
     this._active = true;
     // FIXME - disabled: this.autoSave(true);
     this.fetchRecaptchaKey();
+    this.dataService.currentValue.subscribe(pdfId => this.pdfId = pdfId)
   }
 
   initSurvey() {
@@ -277,8 +277,11 @@ export class SurveyComponent implements OnInit, OnDestroy {
       .toPromise()
       .then(
         (rs) => {
-         console.log("submitted form successfully", rs);
-          this.submitSuccess = "submitted form successfully";
+        console.log("submitted form successfully", rs);
+        if(rs && "pdf-id" in rs){
+          this.pdfId = rs["pdf-id"];
+          this.dataService.changePdfId(this.pdfId)
+        }
         },
         (err) => {
           console.log("form submission failed", err);
