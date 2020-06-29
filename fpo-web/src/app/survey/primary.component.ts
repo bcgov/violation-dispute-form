@@ -63,7 +63,7 @@ export class SurveyPrimaryComponent implements OnInit {
 
   previewPdf(){
     const action = this.pdfId;
-    window.open(this.dataService.getApiUrl("pdf/") + action); 
+    window.open(this.dataService.getApiUrl("pdf/") + action + "/"); 
   }
 
   onPrint() {
