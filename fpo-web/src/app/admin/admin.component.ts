@@ -247,7 +247,7 @@ export class AdminComponent implements OnInit {
   openPdf(event: MouseEvent, id: number) {
     event.preventDefault();
     event.stopPropagation();
-    window.open(`api/v1/pdf/${id}`);
+    window.open(`api/v1/pdf/${id}/`);
   }
 
   totalPages(rowCount: number, pageSize: number) {
