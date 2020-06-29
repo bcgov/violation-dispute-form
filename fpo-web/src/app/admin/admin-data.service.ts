@@ -159,6 +159,4 @@ export class AdminDataService {
       id: [...targetPdfIds]
     })
   }
-
-
 }
