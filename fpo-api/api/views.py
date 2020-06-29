@@ -50,6 +50,8 @@ from api.serializers import TicketResponseSerializer, LocationSerializer, Region
 
 from django.core.files.base import File
 
+LOGGER = logging.getLogger(__name__)
+
 class AcceptTermsView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
