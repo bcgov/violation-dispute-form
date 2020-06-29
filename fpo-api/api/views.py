@@ -18,7 +18,7 @@
 """
 from datetime import datetime, timezone, timedelta
 
-import json, io
+import json, io, logging
 
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, FileResponse
 from django.middleware.csrf import get_token

@@ -146,17 +146,19 @@ export class AdminDataService {
     return (await this.generalDataService.loadJson(url)) as RegionCountResponse;
   }
 
-  public async getPdf(targetPdfIds) {
+  async getPdf(targetPdfIds) {
     const url = this.generalDataService.getApiUrl("pdf/");
     return (await this.generalDataService.executePostBlob(url, {
       id: [...targetPdfIds],
     })) as BlobPart;
   }
 
-  public async markFilesAsArchived(targetPdfIds) {
+  async markFilesAsArchived(targetPdfIds) {
     const url = this.generalDataService.getApiUrl("archived/");
     return await this.generalDataService.executePostJson(url, {
       id: [...targetPdfIds]
     })
   }
+
+
 }
