@@ -52,7 +52,7 @@ urlpatterns = [
     path("locations/", views.LocationListView.as_view()),
     path("regions/", views.RegionListView.as_view()),
     path("pdf/<int:id>/", views.PdfFileView.as_view()),
-    path("pdf/", views.LocationListView.as_view()),
+    path("pdf/", views.PdfFileView.as_view()),
     path("archived/", views.ArchivedView.as_view())
 ]
 
