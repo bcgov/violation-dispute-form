@@ -10,7 +10,7 @@ import {
   AdminPageMode,
 } from "app/interfaces/admin_interfaces";
 
-//#region Interfaces
+
 @Component({
   selector: "app-admin",
   templateUrl: "./admin.component.html",
@@ -58,6 +58,7 @@ export class AdminComponent implements OnInit {
   searchCount = 0;
   outdatedBrowser = false;
   closeAlert = false;
+  printAborted = false;
 
   ngOnInit() {
     this.loadPage();
@@ -226,6 +227,10 @@ export class AdminComponent implements OnInit {
   //TODO currently doesn't work with IE.
   async print(targetIds: Array<number>) {
     var response = await this.adminService.getPdf(targetIds);
+
+    //Check response to see if someone already printed. 
+    //printAborted
+    
     var file = new Blob([response], { type: "application/pdf" });
     var fileURL = URL.createObjectURL(file);
     var oWindow = window.open(fileURL);
