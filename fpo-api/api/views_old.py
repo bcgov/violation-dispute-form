@@ -147,13 +147,12 @@ class SubmitTicketResponseView(APIView):
             "ticket_number",
             "ticket_date",
             "hearing_location_id",
-            "hearing_attendance",
             "dispute_type",
         ]
 
         for fname in check_required:
             if not getattr(response, fname):
-                return HttpResponseBadRequest()
+                return HttpResponseBadRequest('Missing: ' + fname)
         # FIXME add required fields here
         # check terms acceptance
         # if not result.get("disputantAcknowledgement"):
