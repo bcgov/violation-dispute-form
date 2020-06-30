@@ -28,8 +28,8 @@ from django.conf import settings
 
 # from rest_framework.urlpatterns import format_suffix_patterns
 
-from .views import SubmitTicketResponseView, TicketResponseListView, LocationListView, RegionListView, TicketCountView, PdfFileView, ArchivedView
-
+import api.views as views
+from .views_old import SubmitTicketResponseView
 
 # class SwaggerSchemaView(APIView):
 #     permission_classes = [AllowAny]
@@ -47,13 +47,13 @@ urlpatterns = [
     # Swagger documentation
     # url(r'^$', SwaggerSchemaView.as_view()), 
     path("submit-form/", SubmitTicketResponseView.as_view()),
-    path("responses/counts/", TicketCountView.as_view()),
-    path("responses/", TicketResponseListView.as_view()),
-    path("locations/", LocationListView.as_view()),
-    path("regions/", RegionListView.as_view()),
-    path("pdf/<int:id>/", PdfFileView.as_view()),
-    path("pdf/", PdfFileView.as_view()),
-    path("archived/",ArchivedView.as_view())
+    path("responses/counts/", views.TicketCountView.as_view()),
+    path("responses/", views.TicketResponseListView.as_view()),
+    path("locations/", views.LocationListView.as_view()),
+    path("regions/", views.RegionListView.as_view()),
+    path("pdf/<int:id>/", views.PdfFileView.as_view()),
+    path("pdf/", views.LocationListView.as_view()),
+    path("archived/", views.ArchivedView.as_view())
 ]
 
 if settings.OIDC_ENABLED:
