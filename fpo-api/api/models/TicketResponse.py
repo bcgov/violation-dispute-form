@@ -16,7 +16,13 @@ class TicketResponse(models.Model):
     email = models.CharField(max_length=255, blank=True, null=True)
 
     hearing_attendance = models.CharField(max_length=255, blank=True, null=True)
-    hearing_location = models.CharField(max_length=255, blank=True, null=True)
+    hearing_location = models.ForeignKey(
+        "Location",
+        related_name="location_ticket",
+        on_delete=models.SET_NULL, 
+        blank=True, 
+        null=True
+    )
 
     ticket_number = models.CharField(max_length=255, blank=True, null=True)
     ticket_date = models.DateField(blank=True, null=True)

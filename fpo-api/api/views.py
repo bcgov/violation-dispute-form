@@ -16,20 +16,25 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 """
-
 from datetime import datetime
 import json
+import logging
 
-from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
+import io
+
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, FileResponse
 from django.middleware.csrf import get_token
 from django.template.loader import get_template
+from django.utils import timezone
+from django.db.models import Count, Case, IntegerField, When, F, Q
+
+from django_filters import rest_framework as filters
+from django_filters.rest_framework import DjangoFilterBackend
 
 from rest_framework.views import APIView
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework import filters, generics, permissions
-
-from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters as default_filters, generics, permissions
 
 from api.auth import (
     get_login_uri,
@@ -37,12 +42,15 @@ from api.auth import (
     grecaptcha_verify,
     grecaptcha_site_key,
 )
-from api.models import TicketResponse, User, PreparedPdf
+from api.models import TicketResponse, User, Location, Region, PreparedPdf
 from api.pdf import render as render_pdf
 from api.send_email import send_email
-from api.utils import generate_pdf
-from api.serializers import TicketResponseSerializer
+from api.utils import generate_pdf, merge_pdf
+from api.serializers import TicketResponseSerializer, LocationSerializer, RegionSerializer, LocationLookupSerializer, RegionLookupSerializer
 
+from django.core.files.base import File
+
+LOGGER = logging.getLogger(__name__)
 
 class AcceptTermsView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
@@ -122,19 +130,22 @@ class SubmitTicketResponseView(APIView):
             return HttpResponseForbidden(text=check_captcha["message"])
 
         result = request.data
+        result1 =result.get("somevalue")
         disputant = result.get("disputantName", {})
         # address = result.get("disputantAddress", {})
+        ticketNumber = result.get("ticketNumber", {})
+        ticketNumber = str(ticketNumber.get("prefix")) + str(ticketNumber.get("suffix"))
 
         response = TicketResponse(
             first_name=disputant.get("first"),
             middle_name=disputant.get("middle"),
             last_name=disputant.get("last"),
             email=result.get("disputantEmail"),
-            ticket_number=result.get("ticketNumber"),
+            ticket_number=ticketNumber.upper(),
             ticket_date=result.get("ticketDate"),
-            hearing_location=result.get("hearingLocation"),
+            hearing_location_id=result.get("hearingLocation"),
             hearing_attendance=result.get("hearingAttendance"),
-            dispute_type=result.get("disputeType"),
+            dispute_type=result.get("disputeType")
         )
 
         check_required = [
@@ -143,10 +154,11 @@ class SubmitTicketResponseView(APIView):
             "email",
             "ticket_number",
             "ticket_date",
-            "hearing_location",
+            "hearing_location_id",
             "hearing_attendance",
             "dispute_type",
         ]
+
         for fname in check_required:
             if not getattr(response, fname):
                 return HttpResponseBadRequest()
@@ -155,37 +167,29 @@ class SubmitTicketResponseView(APIView):
         # if not result.get("disputantAcknowledgement"):
         #     return HttpResponseBadRequest()
 
-        #Save the result to DB
-        response.save()
-
-        #Generate and Save the pdf to DB
-        pdf_content = generate_pdf(result)
-        pdf_response = PreparedPdf(
-            data = pdf_content
-        )
-        pdf_response.save()
-
-        response = TicketResponse(
-            prepared_pdf_id = pdf_response.pk
-            #printed_date = datetime.datetime.now().date()
-    
-        )
-
-        #Generate and Send the email with pdf attached
-        email = result.get("disputantEmail")
-        pdf = pdf_response.data
-        
+        #Generate/Save the pdf to DB and generate email with pdf attached
+        email_status= False
         try:
-            send_email(email, pdf)
-            # response = TicketResponse(
-            # emailed_date=datetime.datetime.now().date()
-            # )
-        except Exception as ex:
-            print("Error",ex)
-            return Response({"id": response.pk,"PdfId":pdf_response.pk,"Email-sent":False})
+            if result:
+                pdf_content = generate_pdf(result)
+                pdf_response = PreparedPdf(
+                    data = pdf_content
+                )
+                pdf_response.save()
+                response.prepared_pdf_id = pdf_response.pk; 
+                response.printed_date = timezone.now()
+                email = result.get("disputantEmail")
+                if email and pdf_content:
+                    send_email(email, pdf_content)
+                    response.emailed_date = timezone.now()
+                    email_status= True
+        except Exception as exception:
+            LOGGER.exception("Pdf / Email generation error", exception)
+            response.save()
+            return Response({"id": response.pk,"pdf-id":pdf_response.pk,"email-sent":email_status})
+
         
-        #response.save()
-    
+        response.save()
       # {
         #     "disputantName": {"first": "first", "middle": "middle", "last": "last"},
         #     "disputantAddress": {
@@ -211,35 +215,99 @@ class SubmitTicketResponseView(APIView):
         #     "disputantAcknowledgement": ["item1"],
         # }
 
-        return Response({"id": response.pk,"PdfId":pdf_response.pk, "Email-sent":True})
+        return Response({"id": response.pk,"pdf-id":pdf_response.pk, "email-sent":email_status})
 
+
+class TicketResponseListFilter(filters.FilterSet):
+    is_printed = filters.BooleanFilter(field_name='printed_by', lookup_expr='isnull', exclude=True)
+    region = filters.NumberFilter(field_name='hearing_location__region_id', lookup_expr='exact')
+    class Meta:
+     
+        fields = [
+            'region',
+            'hearing_attendance',
+            'dispute_type',
+            'is_printed',
+            'ticket_number',
+            'hearing_location__name',
+            'printed_by__name'
+        ]
+
+class TicketCountView(APIView):
+    def get(self, request: Request):
+        return Response({
+            'new_count': {
+                'by_region': Region.objects.values('name', 'id').annotate(count=Count('region_location__location_ticket__id', filter=Q(region_location__location_ticket__printed_by__isnull=True))),
+                'total': TicketResponse.objects.filter(printed_by__isnull=True).aggregate(count=Count('hearing_location__region'))
+            },
+            'archive_count': {
+                'by_region': Region.objects.values('name', 'id').annotate(count=Count('region_location__location_ticket__id', filter=Q(region_location__location_ticket__printed_by__isnull=False))),
+                'total': TicketResponse.objects.filter(printed_by__isnull=False).aggregate(count=Count('hearing_location__region'))
+            }
+        })
 
 class TicketResponseListView(generics.ListAPIView):
     queryset = TicketResponse.objects.all()
     serializer_class = TicketResponseSerializer
     filter_backends = [
         DjangoFilterBackend,
-        filters.SearchFilter,
-        filters.OrderingFilter,
+        default_filters.SearchFilter,
+        default_filters.OrderingFilter,
     ]
-    filterset_fields = [
-        "hearing_location",
-        "hearing_attendance",
-        "dispute_type",
-        "printed_by",
-        "ticket_number",
-    ]
-    search_fields = ["first_name", "middle_name", "last_name", "ticket_number"]
+    filterset_class = TicketResponseListFilter
+    
+    search_fields = ["first_name", "middle_name", "last_name", "ticket_number", "hearing_location__name", "created_date", "printed_by__last_name", "printed_by__first_name"]
     ordering_fields = [
         "created_date",
         "archived_date",
         "printed_date",
         "ticket_date",
         "deadline_date",
-        "hearing_location",
+        "hearing_location__name",
         "ticket_number",
         "dispute_type",
         "last_name",
         "first_name",
     ]
-    ordering = ["hearing_location", "created_date", "last_name"]
+    ordering = ["hearing_location__name", "created_date", "last_name"]
+
+class PdfFileView(APIView):
+    #This route is used for viewing PDF files from survey page and the admin pages.
+    def get(self, request: Request, id=None):
+        if id is None:
+            return HttpResponseBadRequest()
+        pdf_queryset = PreparedPdf.objects.get(id=id)
+        ticket_queryset = TicketResponse.objects.get(prepared_pdf_id=id)
+        filename = ticket_queryset.pdf_filename
+        if ticket_queryset.pdf_filename is None:
+            filename = "ticketResponse.pdf"
+        return FileResponse(io.BytesIO(pdf_queryset.data), as_attachment=False, filename=filename)
+
+    #This route is used for printing by the staff on the admin page, as it can handle multiple files.  
+    def post(self, request: Request):
+        pdf_queryset = PreparedPdf.objects.filter(id__in=request.data.get("id"))
+        merged_pdf = merge_pdf(pdf_queryset)
+        merged_pdf.seek(0)
+        return HttpResponse(merged_pdf.getvalue(), content_type='application/octet-stream')
+
+class PrintedView(APIView):
+    #This is used for marking the files as printed.
+    def post(self, request: Request):
+        ticket_queryset = TicketResponse.objects.filter(prepared_pdf_id__in=request.data.get("id"))
+        ##todo change this off of 1.
+        ticket_queryset.update(printed_by = 1)
+        return Response("success")
+
+class LocationListView(generics.ListAPIView):
+    queryset = ''
+    def get(self, request: Request):
+        queryset = Location.objects.all()
+        serializer = LocationLookupSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+class RegionListView(generics.ListAPIView):
+    queryset = ''
+    def get(self, request: Request):
+        queryset = Region.objects.all()
+        serializer = RegionLookupSerializer(queryset, many=True)
+        return Response(serializer.data)

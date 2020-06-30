@@ -11,7 +11,7 @@
       {
        "type": "infotext",
        "name": "disclaimer",
-       "title": "\"Choose how to attend your Traffic Hearing\" is a service provided by the Government of British Columbia. \n<br><br>\nThe Government of British Columbia has the right to change this service at any time. \n<ul>\n<li>\nLearn more about <a href=\"https://www2.gov.bc.ca/gov/content/home/disclaimer\" target=\"_blank\">the disclaimer and liability here.</a> (This link opens in a new tab)\n</li>\n<li>\nLearn more about <a href=\"https://www2.gov.bc.ca/gov/content/home/privacy\" target=\"_blank\">privacy and security  here.</a> (This link opens in a new tab)\n</li>\n</ul>\nBe pressing \"Continue,\" you are agreeing to these terms. ",
+       "title": "\"Choose how to attend your Traffic Hearing\" is a service provided by the Government of British Columbia. \n<br><br>\nThe Government of British Columbia has the right to change this service at any time. \n<ul>\n<li>\nLearn more about <a href=\"https://www2.gov.bc.ca/gov/content/home/disclaimer\" target=\"_blank\">the disclaimer and liability here.</a> (This link opens in a new tab)\n</li>\n<li>\nLearn more about <a href=\"https://www2.gov.bc.ca/gov/content/home/privacy\" target=\"_blank\">privacy and security  here.</a> (This link opens in a new tab)\n</li>\n</ul>\nThe Provincial Court of British Columbia will look at your choice to decide how you will attend your Traffic Hearing.\n<br><br>\nBy pressing \"Continue,\" you are agreeing to these terms. ",
        "isRequired": true,
        "titleLocation": "hidden"
       }
@@ -26,7 +26,7 @@
        "name": "disputantName",
        "title": "Name",
        "isRequired": true,
-       "defaultSubstitution": "(Applicant Name)",
+       "defaultSubstitution": "(Disputant Name)",
        "descFirstName": "First Name is also known as Given Name",
        "descMiddleName": "If you have more than one Middle Name, write them all in this box with spaces separating your Middle Names",
        "descLastName": "Last Name is also known as Family Name or Surname"
@@ -48,7 +48,6 @@
       {
        "type": "checkbox",
        "name": "disputantPhoneType",
-       "startWithNewLine": false,
        "title": "This is my phone number for:",
        "isRequired": true,
        "choices": [
@@ -71,6 +70,11 @@
        "name": "disputantEmail",
        "title": "Email Address",
        "isRequired": true,
+       "validators": [
+        {
+         "type": "email"
+        }
+       ],
        "inputType": "email"
       }
      ],
@@ -108,7 +112,7 @@
        "title": "Date of the Ticket",
        "isRequired": true,
        "inputType": "date",
-       "dateYearsBehind": 1
+       "dateYearsBehind": 2
       },
       {
        "type": "dropdown",
@@ -290,7 +294,8 @@
        "name": "disputantDOB",
        "title": "Date of Birth",
        "isRequired": true,
-       "inputType": "date"
+       "inputType": "date",
+       "dateYearsAhead": -14
       },
       {
        "type": "text",
@@ -309,10 +314,9 @@
        "name": "reasonForFineReduction",
        "visible": false,
        "visibleIf": "{continueDispute} = \"y\" and {disputeType} = \"fineAmount\" and {disputeInWriting} = \"y\"",
-       "title": "Why do you think you the fine should be reduced for your Violation Ticket?",
+       "title": "Why do you think the fine should be reduced for your Violation Ticket?",
        "description": "This section must not contain an explanation about how you did NOT commit the offence.",
-       "isRequired": true,
-       "maxLength": 10
+       "isRequired": true
       },
       {
        "type": "yesno",
@@ -327,7 +331,7 @@
        "name": "reasonForTimeToPay",
        "visible": false,
        "visibleIf": "({continueDispute} = \"n\" and {moreTimeToPay1} = \"y\") or {moreTimeToPay2} = \"y\"",
-       "title": "Why do you need more time to pay the fine for your Violation Ticket?",
+       "title": "Why do you need more time to pay for your Violation Ticket?",
        "description": "This section must not contain an explanation about how you did NOT commit the offence.",
        "isRequired": true
       },
@@ -354,7 +358,7 @@
        "visibleIf": "{agent} = \"yes\"",
        "title": "What is your name? (the person who is helping {disputantName})",
        "isRequired": true,
-       "defaultSubstitution": "(Applicant Name)",
+       "defaultSubstitution": "(Agent Name)",
        "descFirstName": "First Name is also known as Given Name",
        "descMiddleName": "If you have more than one Middle Name, write them all in this box with spaces separating your Middle Names",
        "descLastName": "Last Name is also known as Family Name or Surname"
@@ -397,7 +401,7 @@
        "choices": [
         {
          "value": "remote",
-         "text": "I want to attend my Traffic Hearing Remotely by phone or videoconference"
+         "text": "I want to attend my Traffic Hearing Remotely by phone or video"
         },
         {
          "value": "in-person",
@@ -418,8 +422,8 @@
        "name": "hearingAttendanceVideo",
        "visible": false,
        "visibleIf": "{hearingAttendance} = \"remote\"",
-       "title": "Are you able to attend your Traffic Hearing by videoconference?",
-       "description": "The Court will use Microsoft Teams for videoconferencing. It is free to use. You do not need to download Microsoft Teams to use it. ",
+       "title": "Are you able to attend your Traffic Hearing by video?",
+       "description": "The Court will use Microsoft Teams for video hearings. It is free to use. You do not need to download Microsoft Teams to use it. ",
        "isRequired": true
       },
       {
@@ -450,7 +454,7 @@
       {
        "type": "yesno",
        "name": "interpreter",
-       "title": "Do you need someone to help you with English for you at your Traffic Hearing? The Court will pay for a professional interpreter.",
+       "title": "Do you need help with English at your Traffic Hearing? (the Court will pay for an interpreter)",
        "description": "English and French are the official languages. English is the language that is spoken in Traffic Hearings.",
        "isRequired": true
       },
@@ -459,7 +463,7 @@
        "name": "interpreterLanguage",
        "visible": false,
        "visibleIf": "{interpreter} = \"y\"",
-       "title": "What language interpreter do you need for your Traffic Hearing?",
+       "title": "What language(s) are you comfortable speaking?",
        "isRequired": true
       },
       {
@@ -468,6 +472,15 @@
        "title": "Will you be asking Witnesses to attend your Traffic Hearing?",
        "description": "Witnesses are people (other than yourself) who saw what happened when you were given your Violation Ticket.",
        "isRequired": true
+      },
+      {
+       "type": "helptext",
+       "name": "witnessesFAQ",
+       "visible": false,
+       "visibleIf": "{hearingAttendance} = \"remote\" and ({hearingAttendancePhone} = \"y\" or {hearingAttendanceVideo} = \"y\")",
+       "title": "How do I prepare my witnesses for my Traffic Hearing?",
+       "titleLocation": "hidden",
+       "body": "You will need to provide your witnesses with documents related to your Traffic Hearing before it starts.\n<br><br>\nThe Court will administer <a href=\"https://www.provincialcourt.bc.ca/enews/enews-27-11-2018\" target=\"_blank\">the oath or affirmation</a> for each witness. If your witness wants to swear an oath on a religious text, you must make sure they have the religious text they want before your Traffic Hearing starts."
       },
       {
        "type": "text",
@@ -484,6 +497,15 @@
        "title": "Will you be bringing Exhibits to your Traffic Hearing?",
        "description": "Examples of Exhibits are a doctor's note, police report, photograph, video (dash cam), or other documents.",
        "isRequired": true
+      },
+      {
+       "type": "helptext",
+       "name": "exhibitsFAQ",
+       "visible": false,
+       "visibleIf": "{hearingAttendance} = \"remote\" and {hearingAttendanceVideo} = \"y\"",
+       "title": "Can I show Exhibits by video?",
+       "titleLocation": "hidden",
+       "body": "You can share your screen using Microsoft Teams to show documents during your Traffic Hearing. You may only share your screen if directed to do so by the Court.\n<br><br>\nYou will get instructions on how to share you screen.\n<br><br>\nIf you have a large number of documents to show during your Traffic Hearing, you may provide advance copies to the Court by email. \n<br><br>\nPlease contact the Violation Ticket Centre at 1-877-661-8026 for more information."
       },
       {
        "type": "yesno",

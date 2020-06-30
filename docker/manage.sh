@@ -38,7 +38,7 @@ usage() {
           Examples:
           $0 start
           $0 start fpo-web
-          $0 start fpo-web API_URL=http://docker.for.win.localhost:56325/api/v1
+          $0 start fpo-web API_URL=http://docker.for.win.localhost:56325/api
 
   stop - Stops the services.  This is a non-destructive process.  The containers
          are not deleted so they will be reused the next time you run start.
@@ -132,9 +132,10 @@ build-api() {
   #
   echo -e "\nBuilding django image ..."
   ${S2I_EXE} build \
+    -e "UPGRADE_PIP_TO_LATEST=true" \
     --copy \
     '../fpo-api' \
-    'centos/python-36-centos7' \
+    'registry.fedoraproject.org/f32/python3' \
     'fpo-django'
 }
 
@@ -202,7 +203,7 @@ configureEnvironment () {
 
   # fpo-web
   export WEB_HTTP_PORT=${WEB_HTTP_PORT-8080}
-  export API_URL=${API_URL-http://fpo-api:8080/api/v1/}
+  export API_URL=${API_URL-http://fpo-api:8080/api}
   export IpFilterRules='#allow all; deny all;'
   export RealIpFrom='127.0.0.0/16'
   export WEB_BASE_HREF=${WEB_BASE_HREF:-/choose-how-to-attend-your-traffic-hearing/}

@@ -48,15 +48,25 @@ objects:
         sourceStrategy:
           from:
             kind: "${KIND_OF_IMAGE}"
-            namespace: "${SOURCE_IMAGE_NAMESPACE}"
             name: "${SOURCE_IMAGE_NAME}:${SOURCE_IMAGE_TAG}"
           env:
-            - name: PIP_INDEX_URL
-              value: "${PIP_INDEX_URL}"
+          - name: PIP_INDEX_URL
+            value: "${PIP_INDEX_URL}"
+          - name: UPGRADE_PIP_TO_LATEST
+            value: "${UPGRADE_PIP_TO_LATEST}"
+          - name: PIP_NO_CACHE_DIR
+            value: "${PIP_NO_CACHE_DIR}"
       output:
         to:
           kind: ImageStreamTag
           name: "${NAME}:${OUTPUT_IMAGE_TAG}"
+      resources:
+        requests:
+          cpu: "${CPU_REQUEST}"
+          memory: "${MEMORY_REQUEST}"
+        limits:
+          cpu: "${CPU_LIMIT}"
+          memory: "${MEMORY_LIMIT}"
       triggers:
         - type: ImageChange
         - type: ConfigChange
@@ -95,28 +105,51 @@ parameters:
     displayName: Kind of the Source Image
     required: true
     description: The kind of the source image.
-    value: ImageStreamTag
+    value: DockerImage
   - name: SOURCE_IMAGE_NAME
     displayName: Source Image Name
     required: true
     description: The name of the source image.
-    value: python
+    value: registry.fedoraproject.org/f32/python3
   - name: SOURCE_IMAGE_TAG
     displayName: Source Image Tag
     required: true
     description: The tag of the source image.
-    value: "3.6"
-  - name: SOURCE_IMAGE_NAMESPACE
-    displayName: Namespace
-    required: true
-    description: The Namespace where the ImageStream resides.
-    value: openshift
-  - name: PIP_INDEX_URL
-    displayName: Custom PyPi Index URL
-    description: The custom PyPi index URL
-    value: ""
+    value: "latest"
   - name: OUTPUT_IMAGE_TAG
     displayName: Output Image Tag
     description: The tag given to the built image.
     required: true
     value: latest
+  - name: PIP_INDEX_URL
+    displayName: Custom PyPi Index URL
+    description: The custom PyPi index URL
+    value: ''
+  - name: UPGRADE_PIP_TO_LATEST
+    displayName: Upgrade Pip To Latest
+    description: Upgrade Pip To Latest
+    value: 'true'
+  - name: PIP_NO_CACHE_DIR
+    displayName: Pip No Cache Dir
+    description: Pip No Cache Dir
+    value: ''
+  - name: CPU_LIMIT
+    displayName: Resources CPU Limit
+    description: The resources CPU limit (in cores) for this build.
+    required: true
+    value: '1'
+  - name: MEMORY_LIMIT
+    displayName: Resources Memory Limit
+    description: The resources Memory limit (in Mi, Gi, etc) for this build.
+    required: true
+    value: 1Gi
+  - name: CPU_REQUEST
+    displayName: Resources CPU Request
+    description: The resources CPU request (in cores) for this build.
+    required: true
+    value: 250m
+  - name: MEMORY_REQUEST
+    displayName: Resources Memory Request
+    description: The resources Memory request (in Mi, Gi, etc) for this build.
+    required: true
+    value: 250m

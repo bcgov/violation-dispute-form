@@ -13,6 +13,8 @@ export interface UserInfo {
 @Injectable()
 export class GeneralDataService {
   private onUserInfo: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  private PdfId: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  public currentValue= this.PdfId.asObservable();
   private userInfo: any = null;
   // restrict to browser cache - not database
   private browserOnly = false;
@@ -26,20 +28,11 @@ export class GeneralDataService {
     return this.platformLocation.getBaseHrefFromDOM() || "/";
   }
 
+  /* Note be extremely careful about this. If you don't end the 
+  url with a ending slash, you may not get a relative url. 
+  Even with querystrings.  */
   getApiUrl(action: string): string {
-    if (location.host === "localhost:8080") {
-      // for local debugging
-      return "http://localhost:8081/api/v1/" + action;
-    }
     return this.getBaseHref() + "api/v1/" + action;
-  }
-
-  getPrintApiUrl(action: string): string {
-    if (location.host === "localhost:8080") {
-      // for local debugging
-      return "http://localhost:8081/" + action;
-    }
-    return this.getBaseHref()  + action;
   }
 
   getBrowserUser() {
@@ -144,6 +137,11 @@ export class GeneralDataService {
     }
   }
 
+  changePdfId(pdfId: number) {
+    console.log("PDF id:", pdfId);
+    this.PdfId.next(pdfId);
+  }
+
   returnUserInfo(result) {
     console.log("user info:", result);
     this.userInfo = result;
@@ -160,6 +158,32 @@ export class GeneralDataService {
 
   loginUri(): string {
     return this.userInfo && this.userInfo.login_uri;
+  }
+
+  executePostBlob(
+    url: string,
+    body: any
+  ): Promise<object> {
+    if (!url) return Promise.reject("Cache name not defined");
+    return this.http
+      .post(url, body, { withCredentials: true, responseType: 'blob' })
+      .toPromise()
+      .catch((error: any) => {
+        return Promise.reject(error.message || error);
+      });
+  }
+
+  executePostJson(
+    url: string,
+    body: any
+  ): Promise<object> {
+    if (!url) return Promise.reject("Cache name not defined");
+    return this.http
+      .post(url, body, { withCredentials: true })
+      .toPromise()
+      .catch((error: any) => {
+        return Promise.reject(error.message || error);
+      });
   }
 
   acceptTerms() {
