@@ -58,7 +58,7 @@ export class AdminComponent implements OnInit {
   searchCount = 0;
   outdatedBrowser = false;
   closeAlert = false;
-  printAborted = false;
+  printAborted = true;
 
   ngOnInit() {
     this.loadPage();

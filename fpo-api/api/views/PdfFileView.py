@@ -8,7 +8,7 @@ from api.models import TicketResponse, PreparedPdf
 
 class PdfFileView(APIView):
     # This route is used for viewing PDF files from survey page and the admin pages.
-    def get(self, request: Request):
+    def get(self, request: Request, id=None):
         if id is None:
             return HttpResponseBadRequest()
         pdf_queryset = PreparedPdf.objects.get(id=id)
