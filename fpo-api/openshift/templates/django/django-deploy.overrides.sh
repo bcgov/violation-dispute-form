@@ -13,11 +13,20 @@ if createOperation; then
   # Ask the user to supply the sensitive parameters ...
   readParameter "RECAPTCHA_SITE_KEY - Please provide reCAPTHCA site key for the application environment.  If left blank, a 48 character long base64 encoded value will be randomly generated using openssl:" RECAPTCHA_SITE_KEY $(generateKey) "false"
   readParameter "RECAPTCHA_SECRET_KEY - Please provide reCAPTHCA secret key for the application environment.  If left blank, a 48 character long base64 encoded value will be randomly generated using openssl:" RECAPTCHA_SECRET_KEY $(generateKey) "false"
+
+  # Get the email settings
+  readParameter "SMTP_SERVER_ADDRESS - Please provide the address of the outgoing smtp server.  The default is a blank string." SMTP_SERVER_ADDRESS "false"
+  readParameter "SENDER_EMAIL - Please provide the email address used for sending confirmation emails.  The default is a blank string." SENDER_EMAIL "false"
+  readParameter "SENDER_NAME - Please provide the name to use with the above email address.  The default is a blank string." SENDER_NAME "false"
 else
   # Secrets are removed from the configurations during update operations ...
-  printStatusMsg "Update operation detected ...\nSkipping the prompts for RECAPTCHA_SITE_KEY, and RECAPTCHA_SECRET_KEY secrets ... \n"
+  printStatusMsg "Update operation detected ...\nSkipping the prompts for RECAPTCHA_SITE_KEY, RECAPTCHA_SECRET_KEY, SMTP_SERVER_ADDRESS, SENDER_EMAIL, and SENDER_NAME secrets ... \n"
   writeParameter "RECAPTCHA_SITE_KEY" "prompt_skipped" "false"
   writeParameter "RECAPTCHA_SECRET_KEY" "prompt_skipped" "false"
+
+  writeParameter "SMTP_SERVER_ADDRESS" "prompt_skipped" "false"
+  writeParameter "SENDER_EMAIL" "prompt_skipped" "false"
+  writeParameter "SENDER_NAME" "prompt_skipped" "false"
 fi
 
 SPECIALDEPLOYPARMS="--param-file=${_overrideParamFile}"
