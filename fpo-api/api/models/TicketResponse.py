@@ -1,4 +1,6 @@
-from django.contrib.postgres.fields import JSONField
+# Used jsonfield module here, because it allows the field to be database-agnostic,
+# since we're not leveraging JSONField's extended querying this is fine for now.  
+from jsonfield import JSONField
 from django.db import models
 
 

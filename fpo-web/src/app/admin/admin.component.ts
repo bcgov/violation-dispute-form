@@ -1,6 +1,5 @@
 import { Component, OnInit, ElementRef } from "@angular/core";
 import { ColumnMode, SelectionType, SortType } from "@swimlane/ngx-datatable";
-import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import { AdminDataService } from "./admin-data.service";
 import { ActivatedRoute } from "@angular/router";
 import {
@@ -8,9 +7,10 @@ import {
   Region,
   SearchResponse,
   RegionCountResponse,
+  AdminPageMode,
 } from "app/interfaces/admin_interfaces";
 
-//#region Interfaces
+
 @Component({
   selector: "app-admin",
   templateUrl: "./admin.component.html",
@@ -25,7 +25,8 @@ export class AdminComponent implements OnInit {
   SortType = SortType;
   readonly headerHeight = 50;
   loading = false;
-  mode: string = "New Responses";
+  AdminMode = AdminPageMode;
+  mode = AdminPageMode.NewResponse;
   selectedRegion: Region = { name: "All Regions", id: null };
   columns = [];
   regions: Array<Region> = [{ name: "All Regions", id: null }];
@@ -40,12 +41,13 @@ export class AdminComponent implements OnInit {
   searchParameters: SearchParameters = {
     filterParameters: {
       search: "",
-      isPrinted: false,
+      isArchived: false,
       createdDate: "",
+      archivedDate: "",
       region: null,
       page: 1,
       offset: 0,
-      limit: 50,
+      limit: 50
     },
     sortParameters: [],
   };
@@ -55,6 +57,8 @@ export class AdminComponent implements OnInit {
   totalElements = 0;
   searchCount = 0;
   outdatedBrowser = false;
+  closeAlert = false;
+  printAborted = true;
 
   ngOnInit() {
     this.loadPage();
@@ -83,12 +87,6 @@ export class AdminComponent implements OnInit {
         };
       });
     });
-
-    this.searchParameters.sortParameters = [
-      { prop: "hearing_location__name", dir: "asc" },
-      { prop: "created_date", dir: "asc" },
-      { prop: "name", dir: "asc" },
-    ];
   }
   //#endregion Variables & Constructor
 
@@ -134,9 +132,8 @@ export class AdminComponent implements OnInit {
       this.searchParameters
     );
     this.loading = false;
-    //This ensures we only get the latest search. 
-    if (localSearchCount == this.searchCount)
-    {
+    //This ensures we only get the latest search.
+    if (localSearchCount == this.searchCount) {
       this.totalElements = this.data.count;
       this.rows = this.data.results;
     }
@@ -150,9 +147,14 @@ export class AdminComponent implements OnInit {
       { prop: "created_date", name: "Response Date" },
       { prop: "prepared_pdf", name: "Action" },
     ];
-
-    this.searchParameters.filterParameters.isPrinted = false;
-    this.mode = "New Responses";
+    this.searchParameters.filterParameters.isArchived = false;
+    this.searchParameters.sortParameters = [
+      { prop: "hearing_location__name", dir: "asc" },
+      { prop: "created_date", dir: "asc" },
+      { prop: "name", dir: "asc" },
+    ];
+    this.closeAlert = true;
+    this.mode = AdminPageMode.NewResponse
   }
 
   switchToArchive() {
@@ -161,16 +163,25 @@ export class AdminComponent implements OnInit {
       { prop: "name", name: "Name" },
       { prop: "ticket_number", name: "Ticket #" },
       { prop: "created_date", name: "Response Date" },
-      { prop: "originally_printed_by", name: "Originally Printed By" },
+      { prop: "archived_by__name", name: "Archived By" },
+      { prop: "archived_date", name: "Archived On" },
       { prop: "prepared_pdf", name: "Action" },
     ];
-
-    this.searchParameters.filterParameters.isPrinted = true;
-    this.mode = "Archive";
+    this.searchParameters.filterParameters.isArchived = true;
+    this.searchParameters.sortParameters = [
+      { prop: "hearing_location__name", dir: "asc" },
+      { prop: "name", dir: "asc" },
+      { prop: "ticket_number", dir: "asc" },
+    ];
+    this.closeAlert = true;
+    this.mode = AdminPageMode.Archive;
   }
 
   async executeSearch(searchParameters: SearchParameters) {
-    if (searchParameters.filterParameters.search.length < 3 && searchParameters.filterParameters.search.length > 0)
+    if (
+      searchParameters.filterParameters.search.length < 3 &&
+      searchParameters.filterParameters.search.length > 0
+    )
       return;
     this.searchParameters.filterParameters.offset = 0;
     this.loadPage();
@@ -182,17 +193,8 @@ export class AdminComponent implements OnInit {
     this.executeSearch(this.searchParameters);
   }
 
-  filterByNameOrTicketNumber(search: string) {
+  search(search: string) {
     this.searchParameters.filterParameters.search = search;
-    this.executeSearch(this.searchParameters);
-  }
-
-  filterByResponseDate(responseNgbDate: NgbDateStruct) {
-    this.searchParameters.filterParameters.createdDate = new Date(
-      responseNgbDate.year,
-      responseNgbDate.month - 1,
-      responseNgbDate.day
-    ).toISOString();
     this.executeSearch(this.searchParameters);
   }
 
@@ -210,35 +212,51 @@ export class AdminComponent implements OnInit {
     this.selected.push(...selected);
   }
 
-
   printSelected() {
-    this.print([...this.selected.map(ticketResponse => ticketResponse.prepared_pdf)]);
+    this.print([
+      ...this.selected.map((ticketResponse) => ticketResponse.prepared_pdf),
+    ]);
   }
 
   printTop50() {
-    this.print([...this.rows.map(ticketResponse => ticketResponse.prepared_pdf)]);
+    this.print([
+      ...this.rows.map((ticketResponse) => ticketResponse.prepared_pdf),
+    ]);
   }
 
   //TODO currently doesn't work with IE.
   async print(targetIds: Array<number>) {
-    console.log(targetIds);
-    debugger;
     var response = await this.adminService.getPdf(targetIds);
+
+    //Check response to see if someone already printed. 
+    //printAborted
+    
     var file = new Blob([response], { type: "application/pdf" });
     var fileURL = URL.createObjectURL(file);
     var oWindow = window.open(fileURL);
     let popupBlocked = false;
     try {
-    //Check for popup blocker. 
-    oWindow.print();
-    }
-    catch {
+      //Check for popup blocker.
+      oWindow.print();
+    } catch {
       popupBlocked = true;
     }
     window.URL.revokeObjectURL(fileURL);
     if (!popupBlocked) {
-      //If successful, hit the API again and mark files as printed. 
-      await this.adminService.markFilesAsPrinted(targetIds);
+      //If successful, hit the API again and mark files as printed.
+      if (this.mode === AdminPageMode.NewResponse) {
+        await this.adminService.markFilesAsArchived(targetIds);
+      }
+
+      window.onfocus = () => {
+        //Fix tooltip from remaining open. 
+        if (document.activeElement instanceof HTMLElement)
+        document.activeElement.blur();
+        this.closeAlert = false;
+        setTimeout(() => (this.closeAlert = true), 5000);
+        window.onfocus = null;
+      }
+
       //This resets us to the first page.
       this.executeSearch(this.searchParameters);
     }
@@ -257,6 +275,6 @@ export class AdminComponent implements OnInit {
   checkForIE() {
     var ua = window.navigator.userAgent;
     var msie = ua.indexOf("MSIE ");
-    return (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) ;
+    return msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./);
   }
 }

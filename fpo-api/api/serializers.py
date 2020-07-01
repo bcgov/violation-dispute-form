@@ -40,6 +40,7 @@ class LocationSerializer(serializers.ModelSerializer):
 class TicketResponseSerializer(serializers.ModelSerializer):
     hearing_location = LocationSerializer()
     printed_by = UserSerializer()
+    archived_by = UserSerializer()
     class Meta:
         model = TicketResponse
         # if the size of the response is becoming a problem

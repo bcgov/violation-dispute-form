@@ -3,17 +3,23 @@
     <div class="content-header">
       <h1 class="mb-3 mt-1">VTC Disputant Response Inbox</h1>
       <div>
+        <ngb-alert type="danger" [dismissible]="true" *ngIf="!printAborted" (close)="printAborted=true"> 
+          <strong>Aborted!</strong> The selected files have been aborted. Someone else has printed these files. 
+        </ngb-alert>
+        <ngb-alert type="success" [dismissible]="true" *ngIf="!closeAlert" (close)="closeAlert=true"> 
+          <strong>Success!</strong> The selected files have been {{mode === AdminMode.NewResponse ? "printed and archived." : "printed."}}
+        </ngb-alert>
         <ngb-alert type="danger" *ngIf="outdatedBrowser" [dismissible]="false">
           Internet Explorer is unsupported. Please use a newer browser such as Microsoft Edge or Google Chrome.
         </ngb-alert>
         <ul ngbNav #nav="ngbNav" class="nav-tabs">
           <li [ngbNavItem]="1" id="newResponseTab">
-            <a class="nav-link" [class.active]="mode !== 'Archive'" [routerLink]="['/admin/new-responses']" class="tab" >
+            <a class="nav-link" [class.active]="mode === AdminMode.NewResponse" [routerLink]="['/admin/new-responses']" class="tab" >
               New Responses
             </a>
           </li>
           <li [ngbNavItem]="2">
-            <a class="nav-link" [routerLink]="['/admin/archive']" [class.active]="mode === 'Archive'" class="tab"  >  
+            <a class="nav-link" [routerLink]="['/admin/archive']" [class.active]="mode === AdminMode.Archive" class="tab"  >  
               Archive 
             </a>
           </li>
@@ -32,7 +38,7 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">Search: </span>
               </div>
-              <input autocomplete="off" type="text" class="form-control" id="search" (input)="filterByNameOrTicketNumber($event.target.value)">
+              <input autocomplete="off" type="text" class="form-control" id="search" (input)="search($event.target.value)">
             </div>
           </div>
           <div class="col-sm pr-0 pl-0" style="justify-content: center; align-items:center; display:flex;">
@@ -41,7 +47,7 @@
           </div>
           <div class="col-sm pr-0 pl-0">
             <span _ngcontent-dub-c1="" class="mt-1" style="float:right">
-              <button (click)="printTop50()" type="button" [class.hide]="mode == 'Archive'" class="btn btn-secondary" class="btn btn-warning ml-2" style="color:black;" placement="top">
+              <button (click)="printTop50()" type="button" [class.hide]="mode == AdminMode.Archive" class="btn btn-secondary" class="btn btn-warning ml-2" style="color:black;" placement="top">
                 <img src="assets\print-pdf.svg" class="printer unselectable" width="20" height="20"/>
                 Print Top 50 Responses
               </button>
@@ -112,7 +118,7 @@
             <div class="row m-0">
               <div class="col-sm form-inline pr-0 pl-0">
                 <span style="display:inline-block">
-                {{mode === 'New Responses' ? newCountString : archiveCountString}}
+                {{mode === AdminMode.NewResponses ? newCountString : archiveCountString}}
                 </span>
               </div>
               <div class="col-sm pr-0 pl-0" style="justify-content: center; align-items:center; display:flex;">
@@ -121,7 +127,7 @@
               </div>
               <div class="col-sm pr-0 pl-0">
                 <span class="mt-1" style="float:right">
-                  <button (click)="printTop50()" type="button" [class.hide]="mode == 'Archive'" class="btn btn-secondary" class="btn btn-warning ml-2" style="color:black;">
+                  <button (click)="printTop50()" type="button" [class.hide]="mode == AdminMode.Archive" class="btn btn-secondary" class="btn btn-warning ml-2" style="color:black;">
                     <img src="assets\print-pdf.svg" class="printer unselectable" width="20" height="20"/>
                     Print Top 50 Responses
                   </button>
