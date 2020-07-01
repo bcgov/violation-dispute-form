@@ -166,11 +166,8 @@ export class GeneralDataService {
   ): Promise<object> {
     if (!url) return Promise.reject("Cache name not defined");
     return this.http
-      .post(url, body, { withCredentials: true, responseType: 'blob' })
+      .post(url, body, { withCredentials: true, responseType: 'arraybuffer'})
       .toPromise()
-      .catch((error: any) => {
-        return Promise.reject(error.message || error);
-      });
   }
 
   executePostJson(

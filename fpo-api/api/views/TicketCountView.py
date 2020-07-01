@@ -6,10 +6,10 @@ from api.models import TicketResponse, Region
 
 
 class TicketCountView(APIView):
-    ''' Used for counts displayed on the bottom of the admin screen. '''
+    """ Used for counts displayed on the bottom of the admin screen. """
 
     def get(self, request: Request):
-        ''' Used for counts displayed on the bottom of the admin screen. '''
+        """ Used for counts displayed on the bottom of the admin screen. """
         return Response(
             {
                 "new_count": {
@@ -17,7 +17,7 @@ class TicketCountView(APIView):
                         count=Count(
                             "region_location__location_ticket__id",
                             filter=Q(
-                                region_location__location_ticket__printed_by__isnull=True
+                                region_location__location_ticket__printed_by__isnull=True   # noqa: E501
                             ),
                         )
                     ),
@@ -30,7 +30,7 @@ class TicketCountView(APIView):
                         count=Count(
                             "region_location__location_ticket__id",
                             filter=Q(
-                                region_location__location_ticket__printed_by__isnull=False
+                                region_location__location_ticket__printed_by__isnull=False  # noqa: E501
                             ),
                         )
                     ),

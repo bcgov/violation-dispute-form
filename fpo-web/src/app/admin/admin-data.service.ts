@@ -8,6 +8,7 @@ import {
   FilterParameters,
   SearchParameters,
   SortParameter,
+  AdminPageMode,
 } from "app/interfaces/admin_interfaces";
 
 @Injectable()
@@ -146,11 +147,21 @@ export class AdminDataService {
     return (await this.generalDataService.loadJson(url)) as RegionCountResponse;
   }
 
-  async getPdf(targetPdfIds) {
+  async getPdf(targetPdfIds: Array<number>, mode: AdminPageMode) : Promise<BlobPart | string> {
     const url = this.generalDataService.getApiUrl("pdf/");
-    return (await this.generalDataService.executePostBlob(url, {
-      id: [...targetPdfIds],
-    })) as BlobPart;
+    try {
+      return await this.generalDataService.executePostBlob(url, {
+        id: [...targetPdfIds], mode: mode
+      }) as BlobPart
+    } 
+    catch (error) {
+      if (error.error) {
+        var decodedString = String.fromCharCode.apply(null, new Uint8Array(error.error));
+        return decodedString;
+      }
+      console.error(error);
+      return error;
+    }
   }
 
   async markFilesAsArchived(targetPdfIds) {

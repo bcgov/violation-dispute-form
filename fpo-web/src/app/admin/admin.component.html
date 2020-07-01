@@ -3,10 +3,10 @@
     <div class="content-header">
       <h1 class="mb-3 mt-1">VTC Disputant Response Inbox</h1>
       <div>
-        <ngb-alert type="danger" [dismissible]="true" *ngIf="!printAborted" (close)="printAborted=true"> 
-          <strong>Aborted!</strong> The selected files have been aborted. Someone else has printed these files. 
+        <ngb-alert type="danger" [dismissible]="true" *ngIf="showPrintAborted && mode === AdminMode.NewResponse" (close)="showPrintAborted=false"> 
+          <strong>Aborted!</strong> Someone else has recently archived these files. Please try again.
         </ngb-alert>
-        <ngb-alert type="success" [dismissible]="true" *ngIf="!closeAlert" (close)="closeAlert=true"> 
+        <ngb-alert type="success" [dismissible]="true" *ngIf="showPrintSuccess" (close)="showPrintSuccess=false"> 
           <strong>Success!</strong> The selected files have been {{mode === AdminMode.NewResponse ? "printed and archived." : "printed."}}
         </ngb-alert>
         <ngb-alert type="danger" *ngIf="outdatedBrowser" [dismissible]="false">

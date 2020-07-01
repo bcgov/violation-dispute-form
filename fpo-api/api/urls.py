@@ -53,7 +53,8 @@ urlpatterns = [
     path("regions/", views.RegionListView.as_view()),
     path("pdf/<int:id>/", views.PdfFileView.as_view()),
     path("pdf/", views.PdfFileView.as_view()),
-    path("archived/", views.ArchivedView.as_view())
+    path("archived/", views.ArchivedView.as_view()),
+    path("user-info/", views.UserStatusView.as_view())
 ]
 
 if settings.OIDC_ENABLED:

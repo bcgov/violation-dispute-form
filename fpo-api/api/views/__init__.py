@@ -25,3 +25,4 @@ from .TicketCountView import TicketCountView
 from .LocationListView import LocationListView
 from .RegionListView import RegionListView
 from .PdfFileView import PdfFileView
+from .UserStatusView import UserStatusView

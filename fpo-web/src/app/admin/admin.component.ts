@@ -10,7 +10,6 @@ import {
   AdminPageMode,
 } from "app/interfaces/admin_interfaces";
 
-
 @Component({
   selector: "app-admin",
   templateUrl: "./admin.component.html",
@@ -47,7 +46,7 @@ export class AdminComponent implements OnInit {
       region: null,
       page: 1,
       offset: 0,
-      limit: 50
+      limit: 50,
     },
     sortParameters: [],
   };
@@ -57,8 +56,8 @@ export class AdminComponent implements OnInit {
   totalElements = 0;
   searchCount = 0;
   outdatedBrowser = false;
-  closeAlert = false;
-  printAborted = true;
+  showPrintSuccess = false;
+  showPrintAborted = false;
 
   ngOnInit() {
     this.loadPage();
@@ -153,8 +152,8 @@ export class AdminComponent implements OnInit {
       { prop: "created_date", dir: "asc" },
       { prop: "name", dir: "asc" },
     ];
-    this.closeAlert = true;
-    this.mode = AdminPageMode.NewResponse
+    this.showPrintSuccess = false;
+    this.mode = AdminPageMode.NewResponse;
   }
 
   switchToArchive() {
@@ -173,16 +172,13 @@ export class AdminComponent implements OnInit {
       { prop: "name", dir: "asc" },
       { prop: "ticket_number", dir: "asc" },
     ];
-    this.closeAlert = true;
+    this.showPrintSuccess = false;
     this.mode = AdminPageMode.Archive;
   }
 
   async executeSearch(searchParameters: SearchParameters) {
-    if (
-      searchParameters.filterParameters.search.length < 3 &&
-      searchParameters.filterParameters.search.length > 0
-    )
-      return;
+    var searchLength = searchParameters.filterParameters.search.length;
+    if (searchLength < 3 && searchLength > 0) return;
     this.searchParameters.filterParameters.offset = 0;
     this.loadPage();
   }
@@ -224,13 +220,16 @@ export class AdminComponent implements OnInit {
     ]);
   }
 
-  //TODO currently doesn't work with IE.
   async print(targetIds: Array<number>) {
-    var response = await this.adminService.getPdf(targetIds);
+    var response = await this.adminService.getPdf(targetIds, this.mode);
+    if (response instanceof ArrayBuffer == false) {
+      this.showPrintAborted = true;
+      setTimeout(() => (this.showPrintAborted = false), 10000);
+      //This resets us to the first page.
+      this.executeSearch(this.searchParameters);
+      return;
+    }
 
-    //Check response to see if someone already printed. 
-    //printAborted
-    
     var file = new Blob([response], { type: "application/pdf" });
     var fileURL = URL.createObjectURL(file);
     var oWindow = window.open(fileURL);
@@ -249,13 +248,13 @@ export class AdminComponent implements OnInit {
       }
 
       window.onfocus = () => {
-        //Fix tooltip from remaining open. 
+        //Fix tooltip from remaining open.
         if (document.activeElement instanceof HTMLElement)
-        document.activeElement.blur();
-        this.closeAlert = false;
-        setTimeout(() => (this.closeAlert = true), 5000);
+          document.activeElement.blur();
+        this.showPrintSuccess = true;
+        setTimeout(() => (this.showPrintSuccess = false), 10000);
         window.onfocus = null;
-      }
+      };
 
       //This resets us to the first page.
       this.executeSearch(this.searchParameters);
