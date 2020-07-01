@@ -43,13 +43,6 @@ from api.utils import generate_pdf
 
 LOGGER = logging.getLogger(__name__)
 
-class AcceptTermsView(APIView):
-    permission_classes = (permissions.IsAuthenticated,)
-
-    def post(self, request: Request):
-        request.user.accepted_terms_at = datetime.now()
-        request.user.save()
-        return Response({"ok": True})
 
 
 class SurveyPdfView(generics.GenericAPIView):
