@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AdminComponent } from 'app/admin/admin.component';
+import { ActivateGuard } from 'app/admin/activate-guard.component';
 
 const routes: Routes = [
   {
     path: 'admin',
     component: AdminComponent,
+    canActivate: [ActivateGuard],
     data: {
       title: 'New Responses'
     }
@@ -13,6 +15,7 @@ const routes: Routes = [
   {
     path: 'admin/new-responses',
     component: AdminComponent,
+    canActivate: [ActivateGuard],
     data: {
       title: 'New Responses'
     }
@@ -20,13 +23,15 @@ const routes: Routes = [
   {
     path: 'admin/archive',
     component: AdminComponent,
+    canActivate: [ActivateGuard],
     data : {
       title: 'Archive'
     }
   },
   {
     path: 'admin/contact',
-    component: AdminComponent
+    component: AdminComponent,
+    canActivate: [ActivateGuard]
   }
 ];
 

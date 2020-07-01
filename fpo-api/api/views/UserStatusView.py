@@ -6,9 +6,7 @@ from api.models import User
 
 from api.auth import (
     get_login_uri,
-    get_logout_uri,
-    grecaptcha_verify,
-    grecaptcha_site_key,
+    get_logout_uri
 )
 
 

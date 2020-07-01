@@ -5,6 +5,7 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './admin.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ActivateGuard } from './activate-guard.component';
 
 @NgModule({
   imports: [
@@ -13,6 +14,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     NgxDatatableModule,
     NgbModule
   ],
+  providers: [ActivateGuard],
   declarations: [AdminComponent]
 })
 export class AdminModule { }

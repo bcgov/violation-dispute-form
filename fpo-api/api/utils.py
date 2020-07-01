@@ -1,6 +1,8 @@
 from django.template.loader import get_template
 from api.pdf import render as render_pdf
-import io, os, PyPDF2
+import io
+import PyPDF2
+
 
 def generate_pdf(data):
 
@@ -30,6 +32,7 @@ def generate_pdf(data):
     html_content = template.render(data)
     pdf_content = render_pdf(html_content)
     return pdf_content
+
 
 def merge_pdf(queryset):
     pdfWriter = PyPDF2.PdfFileWriter()

@@ -156,6 +156,11 @@ export class GeneralDataService {
     return !!(this.userInfo && this.userInfo.user_id);
   }
 
+  isAdmin(): boolean {
+    return true;
+  }
+
+
   loginUri(): string {
     return this.userInfo && this.userInfo.login_uri;
   }

@@ -7,7 +7,6 @@ import {
   SortParameters,
   FilterParameters,
   SearchParameters,
-  SortParameter,
   AdminPageMode,
 } from "app/interfaces/admin_interfaces";
 

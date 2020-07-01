@@ -5,6 +5,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from api.models import TicketResponse
 from api.serializers import TicketResponseSerializer
 
+
 class TicketResponseListFilter(filters.FilterSet):
     is_archived = filters.BooleanFilter(
         field_name="archived_by", lookup_expr="isnull", exclude=True
@@ -19,8 +20,8 @@ class TicketResponseListFilter(filters.FilterSet):
         field_name="archived_date__date", method="filter_date"
     )
 
-    ''' Combining filters here, if we have is_archived, we want to look 
-        in the archived_date or created_date fields.
+    ''' Combining filters here, if we have is_archived, we want
+        to look in the archived_date or created_date fields.
         If it's not archived, only search the created_date field.'''
 
     def filter_date(self, queryset, field_name, value):
