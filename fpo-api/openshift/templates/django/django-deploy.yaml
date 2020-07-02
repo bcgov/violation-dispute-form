@@ -87,6 +87,9 @@ objects:
     stringData:
       recaptcha-site-key: ${RECAPTCHA_SITE_KEY}
       recaptcha-secret-key: ${RECAPTCHA_SECRET_KEY}
+      smtp-host: "${SMTP_SERVER_ADDRESS}"
+      sender-email: "${SENDER_EMAIL}"
+      sender-name: "${SENDER_NAME}"
     type: Opaque
 
   - kind: DeploymentConfig
@@ -181,6 +184,22 @@ objects:
                       name: ${NAME}
                       key: recaptcha-secret-key
 
+                - name: SMTP_SERVER_ADDRESS
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${NAME}
+                      key: smtp-host
+                - name: SENDER_EMAIL
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${NAME}
+                      key: sender-email
+                - name: SENDER_NAME
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${NAME}
+                      key: sender-name
+
               resources:
                 requests:
                   cpu: "${CPU_REQUEST}"
@@ -266,6 +285,22 @@ parameters:
     description: reCAPTCHA Secret Key.
     required: false
     value:
+
+  - name: SMTP_SERVER_ADDRESS
+    displayName: SMTP Server Address
+    description: SMTP Server Address
+    required: true
+    value:
+  - name: SENDER_EMAIL
+    displayName: Sender email address
+    description: Sender email address
+    required: true
+    value:
+  - name: SENDER_NAME
+    displayName: Sender name
+    description: Sender name
+    required: true
+    value: Virtual Traffic Hearing Notification
 
   - name: CPU_REQUEST
     displayName: Resources CPU Request

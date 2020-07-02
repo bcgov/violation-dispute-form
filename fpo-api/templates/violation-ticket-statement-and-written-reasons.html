@@ -14,12 +14,16 @@
           white-space: pre;
           font-size: 6pt;
         }
-        @bottom-right {
-            counter-increment: page;
-            content:'Generated from "Choose how to attend your Traffic Hearing"';
+        @bottom-left {
+            content:'Generated from "Choose how to attend your Traffic Hearing."';
             /* content:'Generated from "Choose how to attend your Traffic Hearing" on ' string(doctitle);*/
             font-size: 8pt;
-        };
+        }
+        @bottom-right {
+            content:"Page " counter(page) " of " counter(pages);
+            /*counter-increment: page;*/
+            font-size: 8pt;
+        }
         /*@top-right{
           content: "yo";
           height: 1rem;
@@ -29,7 +33,7 @@
         }*/
 
     }
-    @page label{font-size: 9pt;}
+    /*@page label{font-size: 9pt;}*/
 
     #ticket-date {
       opacity: 0;
@@ -615,7 +619,9 @@
 
     <div class="reg-box">
       <div>
-        <span style="display:inline-block;"><b>Written Reasons for a Reduction in the Ticketed Amount(s) </b></span><span style="display:inline-block; font-size:10px;">(Must not contain a defence of the allegation)</span>:
+        <div style="margin: 0.3rem 0 0.4rem 0">
+          <span style="display:inline-block;"><b>Written Reasons for a Reduction in the Ticketed Amount(s) </b></span><span style="display:inline-block; font-size:10px;">(Must not contain a defence of the allegation)</span>:
+        </div>
         <div class="v-spacer-4 form-content">{{reasonForFineReduction}}</div>
       </div>
     </div>
@@ -624,7 +630,9 @@
 
     <div class="reg-box">
       <div>
-        <span style="display:inline-block;"><b>Written Reasons for Time to Pay the Ticketed Amounts(s) </b></span><span style="display:inline-block; font-size:10px;">(Must not contain a defence of the allegation)</span>:
+        <div style="margin: 0.3rem 0 0.4rem 0">
+          <span style="display:inline-block;"><b>Written Reasons for Time to Pay the Ticketed Amounts(s) </b></span><span style="display:inline-block; font-size:10px;">(Must not contain a defence of the allegation)</span>:
+        </div>
         <div class="v-spacer-4 form-content">{{reasonForTimeToPay}}</div>
       </div>
     </div>
