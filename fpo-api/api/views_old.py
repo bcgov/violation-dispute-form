@@ -41,6 +41,8 @@ from api.pdf import render as render_pdf
 from api.send_email import send_email
 from api.utils import generate_pdf
 
+from datetime import date,datetime # For working with dates
+
 LOGGER = logging.getLogger(__name__)
 
 class AcceptTermsView(APIView):
@@ -87,8 +89,8 @@ class SurveyPdfView(generics.GenericAPIView):
         tpl_name = "survey-{}.html".format(name)
         # return HttpResponseBadRequest('Unknown survey name')
 
-        responses = json.loads(request.POST["data"])
-        # responses = {'question1': 'test value'}
+        #responses = json.loads(request.POST["data"])
+        responses = {'question1': 'test value'}
 
         template = get_template(tpl_name)
         html_content = template.render(responses)
@@ -119,6 +121,57 @@ class SubmitTicketResponseView(APIView):
         check_captcha = grecaptcha_verify(request)
         if not check_captcha["status"]:
             return HttpResponseForbidden(text=check_captcha["message"])
+
+        #############################################################
+        #  Adding different pdf form logic: Jul 3, 2020
+        data = json.loads(request.body)
+        name = request.GET['name']
+        template = '{}.html'.format(name)
+
+        # Add date to the payload
+        today = date.today().strftime('%d-%b-%Y')
+        data['date'] = today
+
+        #######################
+        # Notice To Disputant - Response
+        #
+        # Make the Violation Ticket Number all upper case
+        try:
+            x = data['ticketNumber']['prefix']
+            data['ticketNumber']['prefix'] = x.upper()
+        except KeyError:
+            pass
+
+        # Format the date to be more user friendly
+        try:
+            x = datetime.strptime(data['ticketDate'],'%Y-%m-%d')
+            data['ticketDate'] = x.strftime('%d-%b-%Y')
+        except KeyError:
+            pass
+
+        # Format the date of birth to be more user friendly
+        try:
+            x2 = datetime.strptime(data['disputantDOB'],'%Y-%m-%d')
+            data['disputantDOB'] = x2.strftime('%d-%b-%Y')
+        except KeyError:
+            pass
+        #######################
+
+        template = get_template(template)
+        html_content = template.render(data)
+
+        pdf_content2 = render_pdf(html_content)
+
+        # XXX: Just for testing
+        # response = HttpResponse(content_type='application/pdf')
+        # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+
+        # response.write(pdf_content)
+
+        # return response
+
+        #############################################################
+
 
         result = request.data
         result1 =result.get("somevalue")
