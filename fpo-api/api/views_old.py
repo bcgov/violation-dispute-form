@@ -89,8 +89,8 @@ class SurveyPdfView(generics.GenericAPIView):
         tpl_name = "survey-{}.html".format(name)
         # return HttpResponseBadRequest('Unknown survey name')
 
-        #responses = json.loads(request.POST["data"])
-        responses = {'question1': 'test value'}
+        responses = json.loads(request.POST["data"])
+        # responses = {'question1': 'test value'}
 
         template = get_template(tpl_name)
         html_content = template.render(responses)
