@@ -10,11 +10,9 @@ export class AuthGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot)  {
-        return true;
         if (this.generalDataService.isLoggedIn() && this.generalDataService.isAdmin()) {
           return true;
         }
-        //TODO take the user back to the login screen. 
-        return this.router.createUrlTree(['/']);
+        return this.router.createUrlTree(['/login']);
   }
 }

@@ -143,7 +143,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
-STATIC_URL = "/static/"
+STATIC_URL = "/choose-how-to-attend-your-traffic-hearing/static/"
 
 STATIC_ROOT = posixpath.join(*(BASE_DIR.split(os.path.sep) + ["static"]))
 
@@ -192,7 +192,6 @@ LOGGING = {
         "propagate": False,
     },
 }
-
 OIDC_ENABLED = False
 
 # Settings for django-oidc-rp
@@ -222,6 +221,9 @@ if OIDC_RP_PROVIDER_ENDPOINT:
     OIDC_RP_ID_TOKEN_INCLUDE_USERINFO = True
     OIDC_RP_AUTHENTICATION_FAILURE_REDIRECT_URI = os.getenv("OIDC_RP_FAILURE_URI", "/")
     OIDC_RP_USER_DETAILS_HANDLER = "api.auth.sync_keycloak_user"
+    OIDC_RP_AUTHENTICATION_REDIRECT_URI = (
+        os.getenv("OIDC_RP_AUTHENTICATION_REDIRECT_URI", "/")
+    )
 
     DRF_AUTH_CLASS = (
         "oidc_rp.contrib.rest_framework.authentication.BearerTokenAuthentication"

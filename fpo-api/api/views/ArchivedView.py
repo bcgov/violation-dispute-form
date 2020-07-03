@@ -18,6 +18,6 @@ class ArchivedView(APIView):
         ticket_queryset = TicketResponse.objects.filter(
             prepared_pdf_id__in=request.data.get("id"))
 
-        ticket_queryset.update(printed_by=request.user.id)
+        ticket_queryset.update(archived_by=request.user.id)
         ticket_queryset.update(archived_date=datetime.now())
         return Response("success")

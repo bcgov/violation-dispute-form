@@ -28,8 +28,8 @@
       <li *ngIf="this.dataService.isLoggedIn() && this.dataService.isAdmin()" class="nav-item">
         <a class="nav-link" routerLink="/admin">Admin</a>
       </li>
-      <li *ngIf="this.dataService.isLoggedIn() && this.dataService.isAdmin()" class="nav-item">
-        <a class="nav-link" routerLink="/admin/contact">Contact</a>
+      <li *ngIf="this.dataService.isLoggedIn()" class="nav-item">
+        <a class="nav-link" routerLink="/contact">Contact</a>
       </li>
     </ul>
   </div>
