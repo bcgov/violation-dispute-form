@@ -4,9 +4,14 @@ from rest_framework.request import Request
 from rest_framework.views import APIView
 from api.models import TicketResponse, Region
 
+from rest_framework.permissions import (
+    IsAuthenticated,
+    IsAdminUser
+)
+
 
 class TicketCountView(APIView):
-    """ Used for counts displayed on the bottom of the admin screen. """
+    permission_classes = [IsAuthenticated | IsAdminUser]
 
     def get(self, request: Request):
         """ Used for counts displayed on the bottom of the admin screen. """

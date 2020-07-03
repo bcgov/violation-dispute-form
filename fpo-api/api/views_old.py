@@ -28,15 +28,13 @@ from django.utils import timezone
 from rest_framework.views import APIView
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework import generics, permissions
+from rest_framework import generics
 
 from api.auth import (
-    get_login_uri,
-    get_logout_uri,
     grecaptcha_verify,
     grecaptcha_site_key,
 )
-from api.models import TicketResponse, User, PreparedPdf
+from api.models import TicketResponse, PreparedPdf
 from api.pdf import render as render_pdf
 from api.send_email import send_email
 from api.utils import generate_pdf

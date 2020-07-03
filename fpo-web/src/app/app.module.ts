@@ -26,6 +26,7 @@ import { SurveyPrimaryComponent } from "./survey/primary.component";
 import { SurveyEditorComponent } from "./survey/editor.component";
 import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
 import { AdminDataService } from "./admin/admin-data.service";
+import { AuthGuard } from "./guards/auth-guard.component"
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { AdminDataService } from "./admin/admin-data.service";
     GlossaryService,
     InsertService,
     AdminDataService,
-    { provide: HTTP_INTERCEPTORS, useClass: HttpCsrfInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: HttpCsrfInterceptor, multi: true },
+    AuthGuard,
   ],
   bootstrap: [AppComponent]
 })

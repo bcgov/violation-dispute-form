@@ -1,5 +1,5 @@
 # Used jsonfield module here, because it allows the field to be database-agnostic,
-# since we're not leveraging JSONField's extended querying this is fine for now.  
+# since we're not leveraging JSONField's extended querying this is fine for now.
 from jsonfield import JSONField
 from django.db import models
 
@@ -21,9 +21,9 @@ class TicketResponse(models.Model):
     hearing_location = models.ForeignKey(
         "Location",
         related_name="location_ticket",
-        on_delete=models.SET_NULL, 
-        blank=True, 
-        null=True
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
     )
 
     ticket_number = models.CharField(max_length=255, blank=True, null=True)

@@ -160,7 +160,6 @@ export class GeneralDataService {
     return true;
   }
 
-
   loginUri(): string {
     return this.userInfo && this.userInfo.login_uri;
   }
