@@ -9,7 +9,7 @@ class TicketResponse(models.Model):
     # stored encrypted when key_id is set
     result = models.BinaryField(blank=True, null=True)
 
-    # public key reference
+    # encryption key identifier
     key_id = models.CharField(max_length=32, blank=True, null=True)
 
     first_name = models.CharField(max_length=255, blank=True, null=True)
