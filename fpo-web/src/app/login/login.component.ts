@@ -33,7 +33,6 @@ export class LoginComponent implements OnInit {
     if (!this._loginRedirect) {
       var userInfo = await this.generalDataService.loadUserInfo();
       this.generalDataService.returnUserInfo(userInfo);
-      debugger;
       if (!userInfo.user_id) {
         window.location.href = `${userInfo.login_uri}`;
       }
