@@ -166,7 +166,7 @@ class SubmitTicketResponseView(APIView):
         # response = HttpResponse(content_type='application/pdf')
         # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
 
-        # response.write(pdf_content)
+        # response.write(pdf_content2)
 
         # return response
 
