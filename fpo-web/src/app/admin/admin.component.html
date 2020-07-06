@@ -100,8 +100,12 @@
           </ng-template>
           <span [ngClass]="{disabled: value===''}" (click)="openPdf($event,value);" *ngIf="column.name==='Action'" class="unselectable mr-4">
             <img [class.invert-color]="this.selected.indexOf(row) !== -1" width="24" height="24" src="assets/open-pdf.svg"/>
-            View Response
+            View 
           </span>
+          <!--<span (click)="deletePdf($event,value);" *ngIf="column.name==='Action'" class="unselectable ml-4">
+            <img [class.invert-color]="this.selected.indexOf(row) !== -1" width="24" height="24" src="assets/trash.svg"/>
+            Delete 
+          </span>-->
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-footer>

@@ -1,4 +1,6 @@
+import uuid
 from django.db import models
+
 
 
 class TicketResponse(models.Model):
@@ -11,6 +13,9 @@ class TicketResponse(models.Model):
 
     # encryption key identifier
     key_id = models.CharField(max_length=32, blank=True, null=True)
+
+    # used by clients to open generated files
+    file_guid = models.UUIDField(default=uuid.uuid4, editable=False)
 
     first_name = models.CharField(max_length=255, blank=True, null=True)
     middle_name = models.CharField(max_length=255, blank=True, null=True)

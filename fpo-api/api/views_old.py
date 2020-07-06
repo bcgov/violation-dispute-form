@@ -191,6 +191,7 @@ class SubmitTicketResponseView(APIView):
                     pdf_response.save()
                     response.prepared_pdf_id = pdf_response.pk
                     response.save()
+                    request.session['file_guid'] = str(response.file_guid)
 
                 email = result.get("disputantEmail")
                 if email and pdf_content:
@@ -205,7 +206,6 @@ class SubmitTicketResponseView(APIView):
         return Response(
             {
                 "id": response.pk,
-                "pdf-id": pdf_response and pdf_response.pk,
                 "email-sent": email_sent,
             }
         )

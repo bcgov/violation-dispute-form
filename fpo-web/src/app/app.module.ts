@@ -27,7 +27,6 @@ import { SurveyEditorComponent } from "./survey/editor.component";
 import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
 import { AdminDataService } from "./admin/admin-data.service";
 import { AuthGuard } from "./guards/auth-guard.component"
-import { LoginComponent } from './login/login.component';
 import { ContactComponent } from './contact/contact.component';
 
 @NgModule({
@@ -40,7 +39,6 @@ import { ContactComponent } from './contact/contact.component';
     SurveyComponent,
     SurveyPrimaryComponent,
     SurveyEditorComponent,
-    LoginComponent,
     ContactComponent,
     StaticComponent
   ],

@@ -14,7 +14,6 @@ import os
 import posixpath
 
 from corsheaders.defaults import default_headers
-
 from . import database
 from .encryption import Encryptor
 
@@ -35,6 +34,7 @@ SECRET_KEY = os.getenv(
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DJANGO_DEBUG", "True") == "True"
+
 
 ALLOWED_HOSTS = ["*"]
 
@@ -68,9 +68,11 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "oidc_rp.middleware.OIDCRefreshIDTokenMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
+    "fpo_api.XForwardedForPortMiddleware"
 ]
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
+SESSION_SAVE_EVERY_REQUEST = True
 
 ROOT_URLCONF = "fpo_api.urls"
 

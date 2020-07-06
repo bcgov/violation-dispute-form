@@ -266,6 +266,11 @@ export class AdminComponent implements OnInit {
     event.stopPropagation();
     window.open(`api/v1/pdf/${id}/`);
   }
+  deletePdf(event: MouseEvent, id: number) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+  }
 
   totalPages(rowCount: number, pageSize: number) {
     return Math.ceil(rowCount / pageSize);

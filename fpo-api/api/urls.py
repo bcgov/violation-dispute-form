@@ -17,6 +17,9 @@
     limitations under the License.
 """
 
+import os
+import logging
+import sys
 from django.urls import include, path
 from django.conf import settings
 
@@ -45,7 +48,7 @@ from .views_old import SubmitTicketResponseView
 
 urlpatterns = [
     # Swagger documentation
-    # url(r'^$', SwaggerSchemaView.as_view()), 
+    # url(r'^$', SwaggerSchemaView.as_view()),
     path("submit-form/", SubmitTicketResponseView.as_view()),
     path("responses/counts/", views.TicketCountView.as_view()),
     path("responses/", views.TicketResponseListView.as_view()),
@@ -54,10 +57,32 @@ urlpatterns = [
     path("pdf/<int:id>/", views.PdfFileView.as_view()),
     path("pdf/", views.PdfFileView.as_view()),
     path("archived/", views.ArchivedView.as_view()),
-    path("user-info/", views.UserStatusView.as_view())
+    path("user-info/", views.UserStatusView.as_view()),
 ]
 
 if settings.OIDC_ENABLED:
     urlpatterns.append(path("oidc/", include("oidc_rp.urls")))
 
 # urlpatterns = format_suffix_patterns(urlpatterns)
+
+"""
+Usually in our Docker/Production environment the API server and the WEB server
+are both on port 8080. If they are on the same port the "?next=" querystring for login
+redirect will work correctly, otherwise OIDC_RP_AUTHENTICATION_REDIRECT_URI needs to
+be set. EX. OIDC_RP_AUTHENTICATION_REDIRECT_URI = 
+http://localhost:8080/choose-how-to-attend-your-traffic-hearing/admin
+"""
+LOGGER = logging.getLogger(__name__)
+RUNNING_DEVSERVER = (
+    len(sys.argv) > 1 and sys.argv[1] == "runserver"
+)
+if (
+    RUNNING_DEVSERVER
+    and sys.argv[2] != "8080"
+    and os.getenv("OIDC_RP_AUTHENTICATION_REDIRECT_URI", "/") == "/"
+):
+    LOGGER.warning(
+        "DEVSERVER not matching webserver on port 8080 - Ensure "
+        "OIDC_RP_AUTHENTICATION_REDIRECT_URI environment variable "
+        "is set or login will only redirect to API."
+    )

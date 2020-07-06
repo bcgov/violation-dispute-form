@@ -268,7 +268,8 @@ export class SurveyComponent implements OnInit, OnDestroy {
   }
 
   submitForm(data: any) {
-    const url = this.dataService.getApiUrl("submit-form/");
+    //Default to notice to disputant response. Please change later on. 
+    const url = this.dataService.getApiUrl("submit-form/?name=notice-to-disputant-response");
     const opts = this.recaptchaResponse
       ? { headers: { "X-CAPTCHA-RESPONSE": this.recaptchaResponse } }
       : undefined;
