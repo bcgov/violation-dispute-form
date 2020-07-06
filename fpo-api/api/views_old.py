@@ -16,10 +16,10 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 """
-from datetime import datetime
+import json
+import logging
 
-import json, logging
-
+from django.conf import settings
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.middleware.csrf import get_token
 from django.template.loader import get_template
@@ -43,11 +43,12 @@ from api.utils import generate_pdf
 
 LOGGER = logging.getLogger(__name__)
 
+
 class AcceptTermsView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def post(self, request: Request):
-        request.user.accepted_terms_at = datetime.now()
+        request.user.accepted_terms_at = timezone.now()
         request.user.save()
         return Response({"ok": True})
 
@@ -121,29 +122,30 @@ class SubmitTicketResponseView(APIView):
             return HttpResponseForbidden(text=check_captcha["message"])
 
         result = request.data
-        result1 =result.get("somevalue")
         disputant = result.get("disputantName", {})
         # address = result.get("disputantAddress", {})
         ticketNumber = result.get("ticketNumber", {})
         ticketNumber = str(ticketNumber.get("prefix")) + str(ticketNumber.get("suffix"))
 
+        result_bin = json.dumps(result).encode("ascii")
+        (key_id, result_enc) = settings.ENCRYPTOR.encrypt(result_bin)
+
         response = TicketResponse(
             first_name=disputant.get("first"),
             middle_name=disputant.get("middle"),
             last_name=disputant.get("last"),
-            email=result.get("disputantEmail"),
-            result=result,
+            result=result_enc,
+            key_id=key_id,
             ticket_number=ticketNumber.upper(),
             ticket_date=result.get("ticketDate"),
             hearing_location_id=result.get("hearingLocation"),
             hearing_attendance=result.get("hearingAttendance"),
-            dispute_type=result.get("disputeType")
+            dispute_type=result.get("disputeType"),
         )
 
         check_required = [
             "first_name",
             "last_name",
-            "email",
             "ticket_number",
             "ticket_date",
             "hearing_location_id",
@@ -152,58 +154,42 @@ class SubmitTicketResponseView(APIView):
 
         for fname in check_required:
             if not getattr(response, fname):
-                return HttpResponseBadRequest('Missing: ' + fname)
-        # FIXME add required fields here
-        # check terms acceptance
+                return HttpResponseBadRequest("Missing: " + fname)
+
+        # check terms acceptance?
         # if not result.get("disputantAcknowledgement"):
         #     return HttpResponseBadRequest()
 
-        #Generate/Save the pdf to DB and generate email with pdf attached
-        email_status= False
+        # Generate/Save the pdf to DB and generate email with pdf attached
+        email_sent = False
+        pdf_response = None
+
         try:
             if result:
                 pdf_content = generate_pdf(result)
-                pdf_response = PreparedPdf(
-                    data = pdf_content
-                )
-                pdf_response.save()
-                response.prepared_pdf_id = pdf_response.pk; 
-                response.printed_date = timezone.now()
+                if pdf_content:
+                    (pdf_key_id, pdf_content_enc) = settings.ENCRYPTOR.encrypt(
+                        pdf_content
+                    )
+                    pdf_response = PreparedPdf(data=pdf_content_enc, key_id=pdf_key_id)
+                    pdf_response.save()
+                    response.prepared_pdf_id = pdf_response.pk
+                    response.save()
+
                 email = result.get("disputantEmail")
                 if email and pdf_content:
                     send_email(email, pdf_content)
                     response.emailed_date = timezone.now()
-                    email_status= True
+                    email_sent = True
+                    response.save()
+
         except Exception as exception:
             LOGGER.exception("Pdf / Email generation error", exception)
-            response.save()
-            return Response({"id": response.pk,"pdf-id":pdf_response.pk,"email-sent":email_status})
 
-        
-        response.save()
-      # {
-        #     "disputantName": {"first": "first", "middle": "middle", "last": "last"},
-        #     "disputantAddress": {
-        #         "street": "addr",
-        #         "city": "",
-        #         "state": "BC",
-        #         "country": "CAN",
-        #         "postcode": "",
-        #     },
-        #     "disputantPhoneNumber": "phone",
-        #     "disputantPhoneType": ["item2"],
-        #     "disputantEmail": "email",
-        #     "ticketNumber": "ticket",
-        #     "ticketDate": "2018-04-04",
-        #     "hearingLocation": "item2",
-        #     "disputeType": "allegation",
-        #     "hearingAttendance": "remotely",
-        #     "hearingAttendancePhone": "n",
-        #     "hearingAttendanceVideo": "y",
-        #     "french": "n",
-        #     "interpreter": "n",
-        #     "witnesses": "n",
-        #     "disputantAcknowledgement": ["item1"],
-        # }
-
-        return Response({"id": response.pk,"pdf-id":pdf_response.pk, "email-sent":email_status})
+        return Response(
+            {
+                "id": response.pk,
+                "pdf-id": pdf_response and pdf_response.pk,
+                "email-sent": email_sent,
+            }
+        )
