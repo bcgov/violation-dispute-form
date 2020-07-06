@@ -87,9 +87,10 @@ objects:
     stringData:
       recaptcha-site-key: ${RECAPTCHA_SITE_KEY}
       recaptcha-secret-key: ${RECAPTCHA_SECRET_KEY}
-      smtp-host: "${SMTP_SERVER_ADDRESS}"
-      sender-email: "${SENDER_EMAIL}"
-      sender-name: "${SENDER_NAME}"
+      smtp-host: ${SMTP_SERVER_ADDRESS}
+      sender-email: ${SENDER_EMAIL}
+      sender-name: ${SENDER_NAME}"
+      encryption-key: ${DATA_SECURITY_KEY}
     type: Opaque
 
   - kind: DeploymentConfig
@@ -199,7 +200,11 @@ objects:
                     secretKeyRef:
                       name: ${NAME}
                       key: sender-name
-
+                - name: DATA_SECURITY_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${NAME}
+                      key: encryption-key
               resources:
                 requests:
                   cpu: "${CPU_REQUEST}"
@@ -301,6 +306,12 @@ parameters:
     description: Sender name
     required: true
     value: Virtual Traffic Hearing Notification
+
+  - name: DATA_SECURITY_KEY
+    displayName: Data Security (Encryption) Key
+    description: The Encryption Key for the environment.
+    generate: expression
+    from: '[a-zA-Z0-9]{32}'
 
   - name: CPU_REQUEST
     displayName: Resources CPU Request
