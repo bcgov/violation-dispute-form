@@ -125,8 +125,18 @@ class SubmitTicketResponseView(APIView):
         #############################################################
         #  Adding different pdf form logic: Jul 3, 2020
         data = json.loads(request.body)
-        name = request.GET['name']
+        name = request.query_params.get('name')
         template = '{}.html'.format(name)
+
+        possibleTemplates = [
+            'notice-to-disputant-response',
+            'violation-ticket-statement-and-written-reasons'
+        ]
+
+        if not name in possibleTemplates:
+            print(name)
+            print("Error error error")
+            return HttpResponseBadRequest('No valid form specified')
 
         # Add date to the payload
         today = date.today().strftime('%d-%b-%Y')
@@ -163,12 +173,12 @@ class SubmitTicketResponseView(APIView):
         pdf_content2 = render_pdf(html_content)
 
         # XXX: Just for testing
-        # response = HttpResponse(content_type='application/pdf')
-        # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="report.pdf"'
 
-        # response.write(pdf_content2)
+        response.write(pdf_content2)
 
-        # return response
+        return response
 
         #############################################################
 
