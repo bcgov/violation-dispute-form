@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
       var userInfo = await this.generalDataService.loadUserInfo();
       this.generalDataService.returnUserInfo(userInfo);
       if (!userInfo.user_id) {
-        window.location.href = `${userInfo.login_uri}`;
+        window.location.replace(userInfo.login_uri);
       }
       else {
         this.router.navigate(['/admin']);

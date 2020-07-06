@@ -1,23 +1,16 @@
-import os
+import json
+
+from datetime import date, datetime  # For working with dates
 
 from django.http import HttpResponse
 from django.template.loader import get_template
 
-from django.shortcuts import render
-from api.models.User import User
-
 from api.pdf import render as render_pdf
-
-import json # For converting json to dict
-
-from datetime import date,datetime # For working with dates
-
-# For importing our custom font 'BCSans'.
-#  from weasyprint import HTML, CSS
-#  from weasyprint.fonts import FontConfiguration
+from api.models.User import User
 
 # For testing and development
 from django.views.decorators.csrf import csrf_exempt
+
 
 def health(request):
     """
@@ -25,9 +18,12 @@ def health(request):
     """
     return HttpResponse(User.objects.count())
 
+
 """
   End point for all forms.
 """
+
+
 @csrf_exempt
 def form(request):
     """
@@ -38,45 +34,45 @@ def form(request):
 
     data = json.loads(request.body)
 
-    name = request.GET['name']
-    template = '{}.html'.format(name)
+    name = request.GET["name"]
+    template = "{}.html".format(name)
 
     # Add date to the payload
-    today = date.today().strftime('%d-%b-%Y')
-    data['date'] = today
+    today = date.today().strftime("%d-%b-%Y")
+    data["date"] = today
 
-     #######################
-     # Notice To Disputant - Response
-     #
-     # Make the Violation Ticket Number all upper case
+    #######################
+    # Notice To Disputant - Response
+    #
+    # Make the Violation Ticket Number all upper case
     try:
-        x = data['ticketNumber']['prefix']
-        data['ticketNumber']['prefix'] = x.upper()
+        x = data["ticketNumber"]["prefix"]
+        data["ticketNumber"]["prefix"] = x.upper()
     except KeyError:
         pass
 
     # Format the date to be more user friendly
     try:
-        x = datetime.strptime(data['ticketDate'],'%Y-%m-%d')
-        data['ticketDate'] = x.strftime('%d-%b-%Y')
+        x = datetime.strptime(data["ticketDate"], "%Y-%m-%d")
+        data["ticketDate"] = x.strftime("%d-%b-%Y")
     except KeyError:
         pass
 
     # Format the date of birth to be more user friendly
     try:
-        x2 = datetime.strptime(data['disputantDOB'],'%Y-%m-%d')
-        data['disputantDOB'] = x2.strftime('%d-%b-%Y')
+        x2 = datetime.strptime(data["disputantDOB"], "%Y-%m-%d")
+        data["disputantDOB"] = x2.strftime("%d-%b-%Y")
     except KeyError:
         pass
-     #######################
+    #######################
 
     template = get_template(template)
     html_content = template.render(data)
 
     pdf_content = render_pdf(html_content)
 
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+    response = HttpResponse(content_type="application/pdf")
+    response["Content-Disposition"] = 'attachment; filename="report.pdf"'
 
     response.write(pdf_content)
 

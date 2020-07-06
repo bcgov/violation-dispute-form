@@ -16,6 +16,7 @@ import posixpath
 from corsheaders.defaults import default_headers
 
 from . import database
+from .encryption import Encryptor
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -245,3 +246,9 @@ REST_FRAMEWORK = {
 
 RECAPTCHA_SITE_KEY = os.getenv("RECAPTCHA_SITE_KEY", "")
 RECAPTCHA_SECRET_KEY = os.getenv("RECAPTCHA_SECRET_KEY", "")
+
+SMTP_SERVER_ADDRESS = os.environ.get("SMTP_SERVER_ADDRESS", "")
+SMTP_SENDER_EMAIL = os.environ.get("SENDER_EMAIL", "")
+SMTP_SENDER_NAME = os.environ.get("SENDER_NAME", "")
+
+ENCRYPTOR = Encryptor("DATA_SECURITY_KEY")
