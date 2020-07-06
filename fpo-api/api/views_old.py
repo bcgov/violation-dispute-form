@@ -128,14 +128,14 @@ class SubmitTicketResponseView(APIView):
         name = request.query_params.get('name')
         template = '{}.html'.format(name)
 
+        # These are the current allowed forms (whitelist)
         possibleTemplates = [
             'notice-to-disputant-response',
             'violation-ticket-statement-and-written-reasons'
         ]
 
+        # If not one of our two forms... reject.
         if not name in possibleTemplates:
-            print(name)
-            print("Error error error")
             return HttpResponseBadRequest('No valid form specified')
 
         # Add date to the payload
