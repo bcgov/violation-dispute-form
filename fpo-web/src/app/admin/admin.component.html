@@ -2,7 +2,7 @@
   <div class="bg-white rounded pb-1 pr-3 pl-3" >
     <div class="content-header">
       <h1 class="mb-3 mt-1">VTC Disputant Response Inbox</h1>
-      <div>
+      <div id="tableHeader">
         <ngb-alert type="danger" [dismissible]="true" *ngIf="showPrintAborted && mode === AdminMode.NewResponse" (close)="showPrintAborted=false"> 
           <strong>Aborted!</strong> Someone else has recently archived these files. Please try again.
         </ngb-alert>
@@ -122,7 +122,7 @@
             <div class="row m-0">
               <div class="col-sm form-inline pr-0 pl-0">
                 <span style="display:inline-block">
-                {{mode === AdminMode.NewResponses ? newCountString : archiveCountString}}
+                {{mode === AdminMode.NewResponse ? newCountString : archiveCountString}}
                 </span>
               </div>
               <div class="col-sm pr-0 pl-0" style="justify-content: center; align-items:center; display:flex;">

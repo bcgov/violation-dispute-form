@@ -62,7 +62,7 @@ export class SurveyPrimaryComponent implements OnInit {
   }
 
   previewPdf(){
-    //We should already have session loaded from this.
+    //We should already have session loaded for this.
     window.open(this.dataService.getApiUrl("pdf/")); 
   }
 

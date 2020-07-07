@@ -25,7 +25,7 @@ class AdminMode(enum.Enum):
 class PdfFileView(APIView):
     permission_classes = []
 
-    def _timestamp_older_than_one_hour(target_date):
+    def _timestamp_older_than_one_hour(self, target_date):
         return datetime.utcnow() - timedelta(hours=1) > target_date.replace(tzinfo=None)
 
     """ This route is used for viewing PDF files from the admin page. """
@@ -33,12 +33,11 @@ class PdfFileView(APIView):
     def get(self, request: Request, id=None):
 
         try:
-            # Regular users have their file_guid stored in session.
-            if not request.user.is_staff:
+            if not request.user.is_staff or id is None:
                 file_guid = request.session.get("file_guid")
                 ticket_response = TicketResponse.objects.get(file_guid=file_guid)
                 id = ticket_response.prepared_pdf_id
-                
+
                 if self._timestamp_older_than_one_hour(ticket_response.created_date):
                     return HttpResponseNotFound(
                         "This link has expired.", content_type="text/plain"
@@ -55,7 +54,7 @@ class PdfFileView(APIView):
     """ This route is used for printing by the staff on the admin page
         it can handle multiple files. """
 
-    @method_permission_classes((IsAuthenticated, IsAdminUser,))
+    @method_permission_classes((IsAdminUser,))
     def post(self, request: Request):
         ids = request.data.get("id")
         mode = AdminMode(request.data.get("mode"))

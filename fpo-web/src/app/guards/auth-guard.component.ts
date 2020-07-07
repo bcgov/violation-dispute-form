@@ -17,7 +17,6 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    //Check if we're already logged in.
     if (
       this.generalDataService.isLoggedIn() &&
       this.generalDataService.isAdmin()
@@ -32,8 +31,11 @@ export class AuthGuard implements CanActivate {
       window.location.replace(
         userInfo.login_uri + "?next=" + encodeURIComponent(extUri)
       );
-    } else {
+    } else if (userInfo.is_staff) {
       return true;
+    }
+    else {
+      return this.router.createUrlTree(['/']);
     }
   }
 }

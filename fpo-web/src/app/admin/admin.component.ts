@@ -69,7 +69,6 @@ export class AdminComponent implements OnInit {
     private activatedRoute: ActivatedRoute
   ) {
     this.AdminService = adminService;
-
     this.populateRegions();
     this.buildCountStrings();
 
@@ -223,6 +222,7 @@ export class AdminComponent implements OnInit {
   async print(targetIds: Array<number>) {
     var response = await this.adminService.getPdf(targetIds, this.mode);
     if (response instanceof ArrayBuffer == false) {
+      document.getElementById("tableHeader").scrollIntoView();
       this.showPrintAborted = true;
       setTimeout(() => (this.showPrintAborted = false), 10000);
       //This resets us to the first page.

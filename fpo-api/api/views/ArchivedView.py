@@ -5,13 +5,12 @@ from rest_framework.response import Response
 from api.models import TicketResponse
 
 from rest_framework.permissions import (
-    IsAuthenticated,
     IsAdminUser
 )
 
 
 class ArchivedView(APIView):
-    permission_classes = [IsAuthenticated | IsAdminUser]
+    permission_classes = [IsAdminUser]
 
     # This is used for marking the files as archived.
     def post(self, request: Request):

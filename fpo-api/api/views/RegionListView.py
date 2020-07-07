@@ -12,7 +12,7 @@ from rest_framework.permissions import (
 
 class RegionListView(generics.ListAPIView):
     queryset = ""
-    permission_classes = [IsAuthenticated | IsAdminUser]
+    permission_classes = [IsAdminUser]
 
     def get(self, request: Request, *args, **kwargs):
         queryset = Region.objects.all()

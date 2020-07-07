@@ -80,7 +80,7 @@ export class GeneralDataService {
       });
   }
 
-  loadUserInfo(demo_login?: string): Promise<UserInfo | null> {
+  async loadUserInfo(demo_login?: string): Promise<UserInfo | null> {
     if (this.browserOnly) {
       return new Promise((resolve) => {
         try {
@@ -157,7 +157,7 @@ export class GeneralDataService {
   }
 
   isAdmin(): boolean {
-    return true;
+    return !!(this.userInfo && this.userInfo.is_staff);
   }
 
   loginUri(): string {
