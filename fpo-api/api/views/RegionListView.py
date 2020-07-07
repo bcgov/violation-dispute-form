@@ -5,7 +5,6 @@ from api.models import Region
 from api.serializers import RegionLookupSerializer
 
 from rest_framework.permissions import (
-    IsAuthenticated,
     IsAdminUser
 )
 

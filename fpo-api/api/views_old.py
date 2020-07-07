@@ -16,6 +16,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 """
+import copy
 import json
 import logging
 
@@ -54,7 +55,7 @@ class SubmitTicketResponseView(APIView):
 
         #############################################################
         #  Adding different pdf form logic: Jul 3, 2020
-        data = request.data
+        data = copy.deepcopy(request.data)
         name = request.GET['name']
         template = '{}.html'.format(name)
 

@@ -18,7 +18,6 @@ export class AuthGuard implements CanActivate {
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     if (
-      this.generalDataService.isLoggedIn() &&
       this.generalDataService.isAdmin()
     ) {
       return true;

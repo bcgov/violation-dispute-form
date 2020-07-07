@@ -4,7 +4,7 @@ from rest_framework import filters as default_filters, generics
 from django_filters.rest_framework import DjangoFilterBackend
 from api.models import TicketResponse
 from api.serializers import TicketResponseSerializer
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAdminUser
 
 
 class TicketResponseListFilter(filters.FilterSet):

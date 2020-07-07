@@ -10,7 +10,7 @@ from django.http import (
 )
 from rest_framework.request import Request
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAdminUser
 from api.utils import merge_pdf
 from api.auth import method_permission_classes
 from api.models import TicketResponse, PreparedPdf

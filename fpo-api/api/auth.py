@@ -142,6 +142,7 @@ def grecaptcha_verify(request) -> dict:
         "message": verify_rs.get("error-codes", None) or "Unspecified error.",
     }
 
+
 def method_permission_classes(classes):
     '''Note The permissions set through the decorator are the only
     ones called for object permissions, but for request permissions
