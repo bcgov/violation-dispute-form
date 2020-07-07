@@ -89,6 +89,7 @@
        "type": "multipletext",
        "name": "ticketNumber",
        "title": "Violation Ticket Number",
+       "isRequired": true,
        "items": [
         {
          "name": "prefix",
@@ -145,14 +146,16 @@
       {
        "type": "yesno",
        "name": "continueDispute",
-       "title": "Do you still want to continue with your dispute for Violation Ticket #{ticketNumber.prefix}{ticketNumber.suffix}? "
+       "title": "Do you still want to continue with your dispute for Violation Ticket #{ticketNumber.prefix}{ticketNumber.suffix}? ",
+       "isRequired": true
       },
       {
        "type": "yesno",
        "name": "moreTimeToPay1",
        "visible": false,
        "visibleIf": "{continueDispute} = \"n\"",
-       "title": "Do you need more time to pay for your Violation Ticket?"
+       "title": "Do you need more time to pay for your Violation Ticket?",
+       "isRequired": true
       },
       {
        "type": "infotext",
@@ -168,16 +171,15 @@
        "visible": false,
        "visibleIf": "{continueDispute} = \"y\"",
        "title": "Are you `disputing the allegation` or `disputing the fine amount`",
-       "description": "Disputing the allegation means you are saying that you did NOT commit the offence described on your Violation Ticket. This will require a Traffic Hearing.\n<br>\nDisputing the fine amount means you are saying that you did commit the offence described on your Violation Ticket and you want to reduce the fine. This does not necessarily require a Traffic Hearing.",
        "isRequired": true,
        "choices": [
         {
          "value": "allegation",
-         "text": "I did NOT commit the offence and I am disputing the ticket (the allegation)"
+         "text": "I did NOT commit the offence and I am disputing the ticket (disputing the allegation)"
         },
         {
          "value": "fineAmount",
-         "text": "I did commit the offence but I am asking for a reduced fine"
+         "text": "I did commit the offence but I am asking for a reduced fine (disputing the fine amount)"
         }
        ]
       },
@@ -313,7 +315,7 @@
        "type": "radiogroup",
        "name": "hearingAttendance",
        "title": "How do you want to attend your Traffic Hearing for Violation Ticket #{ticketNumber.prefix}{ticketNumber.suffix}?",
-       "description": "In-Person Traffic Hearings may be held on evenings or Saturdays as decided by the Court.",
+       "description": "In-Person Traffic Hearings may be held on evenings or Saturdays. The Court will decide the date and time for your Traffic Hearing.",
        "isRequired": true,
        "choices": [
         {
