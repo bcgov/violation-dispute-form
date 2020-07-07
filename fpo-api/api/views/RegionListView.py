@@ -4,9 +4,14 @@ from rest_framework import generics
 from api.models import Region
 from api.serializers import RegionLookupSerializer
 
+from rest_framework.permissions import (
+    IsAdminUser
+)
+
 
 class RegionListView(generics.ListAPIView):
     queryset = ""
+    permission_classes = [IsAdminUser]
 
     def get(self, request: Request, *args, **kwargs):
         queryset = Region.objects.all()

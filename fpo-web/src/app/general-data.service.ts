@@ -80,7 +80,7 @@ export class GeneralDataService {
       });
   }
 
-  loadUserInfo(demo_login?: string): Promise<UserInfo | null> {
+  async loadUserInfo(demo_login?: string): Promise<UserInfo | null> {
     if (this.browserOnly) {
       return new Promise((resolve) => {
         try {
@@ -156,6 +156,10 @@ export class GeneralDataService {
     return !!(this.userInfo && this.userInfo.user_id);
   }
 
+  isAdmin(): boolean {
+    return !!(this.userInfo && this.userInfo.is_staff);
+  }
+
   loginUri(): string {
     return this.userInfo && this.userInfo.login_uri;
   }
@@ -166,11 +170,8 @@ export class GeneralDataService {
   ): Promise<object> {
     if (!url) return Promise.reject("Cache name not defined");
     return this.http
-      .post(url, body, { withCredentials: true, responseType: 'blob' })
+      .post(url, body, { withCredentials: true, responseType: 'arraybuffer'})
       .toPromise()
-      .catch((error: any) => {
-        return Promise.reject(error.message || error);
-      });
   }
 
   executePostJson(

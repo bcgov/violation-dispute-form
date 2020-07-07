@@ -4,12 +4,16 @@ from rest_framework.request import Request
 from rest_framework.views import APIView
 from api.models import TicketResponse, Region
 
+from rest_framework.permissions import (
+    IsAdminUser
+)
+
 
 class TicketCountView(APIView):
-    ''' Used for counts displayed on the bottom of the admin screen. '''
+    permission_classes = [IsAdminUser]
 
     def get(self, request: Request):
-        ''' Used for counts displayed on the bottom of the admin screen. '''
+        """ Used for counts displayed on the bottom of the admin screen. """
         return Response(
             {
                 "new_count": {
@@ -17,12 +21,12 @@ class TicketCountView(APIView):
                         count=Count(
                             "region_location__location_ticket__id",
                             filter=Q(
-                                region_location__location_ticket__printed_by__isnull=True
+                                region_location__location_ticket__archived_by__isnull=True   # noqa: E501
                             ),
                         )
                     ),
                     "total": TicketResponse.objects.filter(
-                        printed_by__isnull=True
+                        archived_by__isnull=True
                     ).aggregate(count=Count("hearing_location__region")),
                 },
                 "archive_count": {
@@ -30,12 +34,12 @@ class TicketCountView(APIView):
                         count=Count(
                             "region_location__location_ticket__id",
                             filter=Q(
-                                region_location__location_ticket__printed_by__isnull=False
+                                region_location__location_ticket__archived_by__isnull=False  # noqa: E501
                             ),
                         )
                     ),
                     "total": TicketResponse.objects.filter(
-                        printed_by__isnull=False
+                        archived_by__isnull=False
                     ).aggregate(count=Count("hearing_location__region")),
                 },
             }
