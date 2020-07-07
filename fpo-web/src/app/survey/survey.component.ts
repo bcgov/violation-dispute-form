@@ -268,7 +268,23 @@ export class SurveyComponent implements OnInit, OnDestroy {
   }
 
   submitForm(data: any) {
-    const url = this.dataService.getApiUrl("submit-form/");
+    console.log("here's the data",data);
+    // This is horrendous.
+    if (
+      (data.continueDispute == 'y' &&
+      data.disputeType == 'fineAmount' &&
+      data.disputeInWriting == 'y')
+        ||
+      (data.continueDispute == 'n' &&
+      data.moreTimeToPay1 == 'y'
+      )
+    ) {
+      var form = "violation-ticket-statement-and-written-reasons"; 
+    } else {
+      var form = "notice-to-disputant-response";
+    }
+
+    const url = this.dataService.getApiUrl(`submit-form/?name=${form}`);
     const opts = this.recaptchaResponse
       ? { headers: { "X-CAPTCHA-RESPONSE": this.recaptchaResponse } }
       : undefined;

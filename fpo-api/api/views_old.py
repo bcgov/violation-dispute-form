@@ -170,15 +170,16 @@ class SubmitTicketResponseView(APIView):
         template = get_template(template)
         html_content = template.render(data)
 
-        pdf_content2 = render_pdf(html_content)
+        pdf_content = render_pdf(html_content)
 
+        #######################
         # XXX: Just for testing
-        response = HttpResponse(content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+        # response = HttpResponse(content_type='application/pdf')
+        # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+        # response.write(pdf_content)
+        # return response
+        #######################
 
-        response.write(pdf_content2)
-
-        return response
 
         #############################################################
 
@@ -225,7 +226,7 @@ class SubmitTicketResponseView(APIView):
         email_status= False
         try:
             if result:
-                pdf_content = generate_pdf(result)
+                # pdf_content = generate_pdf(result)
                 pdf_response = PreparedPdf(
                     data = pdf_content
                 )
