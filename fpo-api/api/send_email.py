@@ -1,26 +1,33 @@
-from smtplib import SMTP, SMTPException
 import logging
 
-from string import Template
-import smtplib , ssl , email
-import os
+from django.conf import settings
 
 from email import encoders
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from pathlib import Path
-from email.utils import formataddr
 from email.header import Header
+from email.utils import formataddr
+
+from smtplib import SMTP, SMTPException
 
 LOGGER = logging.getLogger(__name__)
 
-def send_email(receiver_email, pdf):
-    server_addr = os.environ.get("SMTP_SERVER_ADDRESS")
-    sender_email= os.environ.get("SENDER_EMAIL")
-    sender_name = os.environ.get("SENDER_NAME")
 
-   
+def send_email(recipient_email: str, pdf_data: bytes):
+    server_addr = settings.SMTP_SERVER_ADDRESS
+    sender_email = settings.SMTP_SENDER_EMAIL
+    sender_name = settings.SMTP_SENDER_NAME
+    if not server_addr:
+        LOGGER.debug("SMTP server address not configured")
+        return
+    if not sender_email:
+        LOGGER.error("Sender email address not configured")
+        return
+    if not recipient_email:
+        LOGGER.error("No recipient email address provided")
+        return
+
     subject = "Responded to attend your Traffic Hearing"
     body = """\
     <html>
@@ -33,7 +40,9 @@ def send_email(receiver_email, pdf):
           If you have any questions, please contact the Violation Ticket Centre at: 1-877-661-8026</p>
     </body>
     </html>
-    """ 
+    """
+
+    LOGGER.info("Recipient email address: %s", recipient_email)
 
     LOGGER.info("User's email Id is  %s>", receiver_email)
 
@@ -44,26 +53,24 @@ def send_email(receiver_email, pdf):
     msg["From"] = sender_info
     msg["To"] = receiver_email
     msg["Subject"] = subject
-    
+
     msg.attach(MIMEText(body, "html"))
 
     # # Add file as application/octet-stream
     # # Email client can usually download this automatically as attachment
-    base=MIMEBase("application", "octet-stream")
-    base.set_payload(pdf) 
+    base = MIMEBase("application", "octet-stream")
+    base.set_payload(pdf_data)
     encoders.encode_base64(base)
 
     # # Add header as key/value pair to attachment part
-    base.add_header('Content-Disposition','attachment; filename="report.pdf"')
+    base.add_header("Content-Disposition", 'attachment; filename="report.pdf"')
     # # Add attachment to message and convert message to string
     msg.attach(base)
     text = msg.as_string()
 
     with SMTP(server_addr) as smtp:
         try:
-            smtp.sendmail(sender_info, (receiver_email,), text)
+            smtp.sendmail(sender_info, (recipient_email,), text)
             LOGGER.debug("Email sent successfully!")
         except SMTPException as err:
             LOGGER.exception("Email failed!", err)
-
-
