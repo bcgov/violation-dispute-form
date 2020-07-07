@@ -51,19 +51,3 @@ def merge_pdf(queryset):
     return pdfOutput
 
 
-def method_permission_classes(classes):
-    '''Note The permissions set through the decorator are the only
-    ones called for object permissions, but for request permissions
-    they are in addition to the class wide permissions, because those
-    are always checked before the request method is even called.
-    If you want to specify all permissions per method only,
-    set permission_classes = [] on the class.
-    '''
-    def decorator(func):
-        def decorated_func(self, *args, **kwargs):
-            self.permission_classes = classes
-            # this call is needed for request permissions
-            self.check_permissions(self.request)
-            return func(self, *args, **kwargs)
-        return decorated_func
-    return decorator

@@ -25,6 +25,9 @@ class AdminMode(enum.Enum):
 class PdfFileView(APIView):
     permission_classes = []
 
+    def _timestamp_older_than_one_hour(target_date):
+        return datetime.utcnow() - timedelta(hours=1) > target_date.replace(tzinfo=None)
+
     """ This route is used for viewing PDF files from the admin page. """
 
     def get(self, request: Request, id=None):
@@ -35,19 +38,15 @@ class PdfFileView(APIView):
                 file_guid = request.session.get("file_guid")
                 ticket_response = TicketResponse.objects.get(file_guid=file_guid)
                 id = ticket_response.prepared_pdf_id
+                
+                if self._timestamp_older_than_one_hour(ticket_response.created_date):
+                    return HttpResponseNotFound(
+                        "This link has expired.", content_type="text/plain"
+                    )
 
             pdf_result = PreparedPdf.objects.get(id=id)
-        except PreparedPdf.DoesNotExist:
+        except (PreparedPdf.DoesNotExist, TicketResponse.DoesNotExist):
             return HttpResponseNotFound()
-
-        # Ensure file was created within the last hour.
-        created_within_hour = datetime.utcnow() - timedelta(
-            hours=1
-        ) <= pdf_result.created_date.replace(tzinfo=None)
-        if not request.user.is_staff and not created_within_hour:
-            return HttpResponseNotFound(
-                "This link has expired.", content_type="text/plain"
-            )
 
         filename = "ticketResponse.pdf"
         pdf_data = settings.ENCRYPTOR.decrypt(pdf_result.key_id, pdf_result.data)
