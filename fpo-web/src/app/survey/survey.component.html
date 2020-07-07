@@ -17,11 +17,11 @@
 </div>
 
 <div *ngIf="!loading">
-  <re-captcha
-    *ngIf="recaptchaKey"
-    (resolved)="resolvedCaptcha($event)"
-    [siteKey]="recaptchaKey"
-  ></re-captcha>
+    <re-captcha
+      *ngIf="recaptchaKey && displayRecaptcha"
+      (resolved)="resolvedCaptcha($event)"
+      [siteKey]="recaptchaKey"
+    ></re-captcha>
   <button
     class="btn btn-success btn-lg mt-4"
     id="completeBtn"

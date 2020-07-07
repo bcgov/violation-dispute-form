@@ -130,9 +130,8 @@ class SubmitTicketResponseView(APIView):
             "last_name",
             "ticket_number",
             "ticket_date",
-            "hearing_location_id",
-            "dispute_type",
-        ]
+            "hearing_location_id"
+            ]
 
         for fname in check_required:
             if not getattr(response, fname):

@@ -9,7 +9,6 @@ import { InsertService } from "../insert/insert.service";
 import { addQuestionTypes } from "./question-types";
 import { RecaptchaModule, RecaptchaFormsModule } from "ng-recaptcha";
 import { HttpClient } from "@angular/common/http";
-
 @Component({
   selector: "app-survey-view",
   templateUrl: "./survey.component.html",
@@ -180,7 +179,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
       if (this.onComplete) this.onComplete(sender.data);
       this.onPageUpdate.next(sender);
       this.submitForm(sender.data);
-     
+
     });
     surveyModel.onCurrentPageChanged.add((sender, options) => {
       this.onPageUpdate.next(sender);
@@ -252,6 +251,10 @@ export class SurveyComponent implements OnInit, OnDestroy {
     return !this.recaptchaRequired || !!this.recaptchaResponse;
   }
 
+  get displayRecaptcha(): boolean {
+    return !this.missingRequired;
+  }
+
   fetchRecaptchaKey() {
     const url = this.dataService.getApiUrl("submit-form/");
     this.dataService.loadJson(url).then((rs) => {
@@ -278,11 +281,11 @@ export class SurveyComponent implements OnInit, OnDestroy {
       .toPromise()
       .then(
         (rs) => {
-        console.log("submitted form successfully", rs);
-        if(rs && "pdf-id" in rs){
-          this.pdfId = rs["pdf-id"];
-          this.dataService.changePdfId(this.pdfId)
-        }
+          console.log("submitted form successfully", rs);
+          if(rs && "pdf-id" in rs) {
+            this.pdfId = rs["pdf-id"];
+            this.dataService.changePdfId(this.pdfId)
+          }
         },
         (err) => {
           console.log("form submission failed", err);
@@ -383,10 +386,14 @@ export class SurveyComponent implements OnInit, OnDestroy {
     if (this.surveyModel) {
       const page = this.surveyModel.currentPage;
       if (page) {
-        for (const q of page.questions) {
-          if (q.isVisible && q.isRequired && q.isEmpty()) {
-            missing = true;
-            break;
+        for (const panel of page.elements) {
+          if (panel.isVisible) {
+            for (const question of panel.elements) {
+              if (question.isVisible && question.isRequired && question.isEmpty()) {
+                missing = true;
+                break;
+              }
+            }
           }
         }
       }
