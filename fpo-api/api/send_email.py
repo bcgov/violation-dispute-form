@@ -44,14 +44,11 @@ def send_email(recipient_email: str, pdf_data: bytes):
 
     LOGGER.info("Recipient email address: %s", recipient_email)
 
-    LOGGER.info("User's email Id is  %s>", receiver_email)
-
-    if sender_name and sender_email:
-        sender_info = formataddr((str(Header(sender_name, "utf-8")), sender_email))
+    sender_info = formataddr((str(Header(sender_name, "utf-8")), sender_email))
 
     msg = MIMEMultipart()
-    msg["From"] = sender_info
-    msg["To"] = receiver_email
+    msg["From"] = sender_email
+    msg["To"] = recipient_email
     msg["Subject"] = subject
 
     msg.attach(MIMEText(body, "html"))
