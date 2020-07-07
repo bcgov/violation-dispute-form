@@ -3,7 +3,7 @@ from django.utils.deprecation import MiddlewareMixin
 
 class XForwardedForPortMiddleware(MiddlewareMixin):
     """
-        request.get_host() only uses HTTP_X_FORWARDED_FOR and doesn't include
+        request.get_host() only uses HTTP_X_FORWARDED_HOST and doesn't include
         HTTP_X_FORWARDED_PORT. Problematic here:
         https://github.com/django/django/blob/stable/3.1.x/django/http/request.py#L106
         This causes django.urls.reverse method to only return a host and no port.

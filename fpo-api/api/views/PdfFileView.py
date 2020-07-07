@@ -6,6 +6,7 @@ from django.http import (
     HttpResponse,
     HttpResponseBadRequest,
     HttpResponseNotFound,
+    HttpResponseForbidden,
     FileResponse,
 )
 from rest_framework.request import Request
@@ -28,22 +29,27 @@ class PdfFileView(APIView):
     def _timestamp_older_than_one_hour(self, target_date):
         return datetime.utcnow() - timedelta(hours=1) > target_date.replace(tzinfo=None)
 
-    """ This route is used for viewing PDF files from the admin page. """
+    """ This route is used for viewing PDF files. """
 
     def get(self, request: Request, id=None):
 
+        target_id = id
+        # Prevent regular users from looking up by id.
+        if not request.user.is_staff and target_id is not None:
+            return HttpResponseForbidden()
+
         try:
-            if not request.user.is_staff or id is None:
+            if not request.user.is_staff or target_id is None:
                 file_guid = request.session.get("file_guid")
                 ticket_response = TicketResponse.objects.get(file_guid=file_guid)
-                id = ticket_response.prepared_pdf_id
-
+                target_id = ticket_response.prepared_pdf_id
                 if self._timestamp_older_than_one_hour(ticket_response.created_date):
+                    print('oldtimestamp')
                     return HttpResponseNotFound(
                         "This link has expired.", content_type="text/plain"
                     )
 
-            pdf_result = PreparedPdf.objects.get(id=id)
+            pdf_result = PreparedPdf.objects.get(id=target_id)
         except (PreparedPdf.DoesNotExist, TicketResponse.DoesNotExist):
             return HttpResponseNotFound()
 
@@ -57,13 +63,13 @@ class PdfFileView(APIView):
     @method_permission_classes((IsAdminUser,))
     def post(self, request: Request):
         ids = request.data.get("id")
-        mode = AdminMode(request.data.get("mode"))
-        is_new_response_mode = mode == AdminMode.NewResponse
         if len(ids) > 50:
             return HttpResponseBadRequest(
                 "Cannot print more than 50 PDFs.", content_type="text/plain"
             )
 
+        mode = AdminMode(request.data.get("mode"))
+        is_new_response_mode = mode == AdminMode.NewResponse
         ticket_queryset = TicketResponse.objects.filter(prepared_pdf_id__in=ids)
         archived_count = ticket_queryset.filter(archived_by_id__isnull=False).count()
         if is_new_response_mode and archived_count > 0:
@@ -82,8 +88,7 @@ class PdfFileView(APIView):
             merged_pdf.getvalue(), content_type="application/octet-stream"
         )
 
-    # @action(detail=False, methods=['delete'])
-    # @permission_classes([IsAuthenticated, IsAdminUser])
+    # @method_permission_classes((IsAdminUser,))
     # def delete(self, request: Request):
     # id = request.data.get("id")
     # return HttpResponse("success")

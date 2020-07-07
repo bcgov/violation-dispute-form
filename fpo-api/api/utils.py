@@ -49,5 +49,3 @@ def merge_pdf(queryset):
             pdfWriter.addPage(pageObj)
     pdfWriter.write(pdfOutput)
     return pdfOutput
-
-

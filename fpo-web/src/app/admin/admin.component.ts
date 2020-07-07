@@ -225,7 +225,9 @@ export class AdminComponent implements OnInit {
       document.getElementById("tableHeader").scrollIntoView();
       this.showPrintAborted = true;
       setTimeout(() => (this.showPrintAborted = false), 10000);
-      //This resets us to the first page.
+    
+      //Reload Counts + resets to the first page.
+      this.buildCountStrings();
       this.executeSearch(this.searchParameters);
       return;
     }
@@ -256,7 +258,8 @@ export class AdminComponent implements OnInit {
         window.onfocus = null;
       };
 
-      //This resets us to the first page.
+      //Reload Counts + resets to the first page.
+      this.buildCountStrings();
       this.executeSearch(this.searchParameters);
     }
   }

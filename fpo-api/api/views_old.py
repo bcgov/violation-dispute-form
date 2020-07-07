@@ -75,14 +75,14 @@ class SubmitTicketResponseView(APIView):
 
         # Format the date to be more user friendly
         try:
-            x = datetime.strptime(data['ticketDate'],'%Y-%m-%d')
+            x = datetime.strptime(data['ticketDate'], '%Y-%m-%d')
             data['ticketDate'] = x.strftime('%d-%b-%Y')
         except KeyError:
             pass
 
         # Format the date of birth to be more user friendly
         try:
-            x2 = datetime.strptime(data['disputantDOB'],'%Y-%m-%d')
+            x2 = datetime.strptime(data['disputantDOB'], '%Y-%m-%d')
             data['disputantDOB'] = x2.strftime('%d-%b-%Y')
         except KeyError:
             pass

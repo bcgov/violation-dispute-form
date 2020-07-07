@@ -71,7 +71,7 @@ MIDDLEWARE = [
     "fpo_api.XForwardedForPortMiddleware"
 ]
 
-SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 SESSION_SAVE_EVERY_REQUEST = True
 
 ROOT_URLCONF = "fpo_api.urls"
