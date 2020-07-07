@@ -24,6 +24,9 @@ def send_email(recipient_email: str, pdf_data: bytes):
     if not sender_email:
         LOGGER.error("Sender email address not configured")
         return
+    if not sender_name:
+        LOGGER.error("Sender name not configured")
+        return
     if not recipient_email:
         LOGGER.error("No recipient email address provided")
         return
