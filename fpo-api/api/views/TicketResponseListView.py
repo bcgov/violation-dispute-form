@@ -4,6 +4,8 @@ from rest_framework import filters as default_filters, generics
 from django_filters.rest_framework import DjangoFilterBackend
 from api.models import TicketResponse
 from api.serializers import TicketResponseSerializer
+from rest_framework.permissions import IsAdminUser
+
 
 class TicketResponseListFilter(filters.FilterSet):
     is_archived = filters.BooleanFilter(
@@ -19,9 +21,9 @@ class TicketResponseListFilter(filters.FilterSet):
         field_name="archived_date__date", method="filter_date"
     )
 
-    ''' Combining filters here, if we have is_archived, we want to look 
-        in the archived_date or created_date fields.
-        If it's not archived, only search the created_date field.'''
+    """ Combining filters here, if we have is_archived, we want
+        to look in the archived_date or created_date fields.
+        If it's not archived, only search the created_date field."""
 
     def filter_date(self, queryset, field_name, value):
         if not value:
@@ -53,8 +55,9 @@ class TicketResponseListFilter(filters.FilterSet):
 
 
 class TicketResponseListView(generics.ListAPIView):
-    '''Used for the admin table, sorting, filtering, ordering. '''
+    """Used for the admin table, sorting, filtering, ordering. """
 
+    permission_classes = [IsAdminUser]
     queryset = TicketResponse.objects.all()
     serializer_class = TicketResponseSerializer
     filter_backends = [

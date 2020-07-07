@@ -6,7 +6,6 @@ import { SurveyResolver } from "app/survey/survey-resolver.service";
 import { SurveyEditorComponent } from "app/survey/editor.component";
 
 const routes: Routes = [
- 
   {
     path: "",
     component: SurveyPrimaryComponent,

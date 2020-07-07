@@ -62,8 +62,8 @@ export class SurveyPrimaryComponent implements OnInit {
   }
 
   previewPdf(){
-    const action = this.pdfId;
-    window.open(this.dataService.getApiUrl("pdf/") + action + "/"); 
+    //We should already have session loaded for this.
+    window.open(this.dataService.getApiUrl("pdf/")); 
   }
 
   onPrint() {

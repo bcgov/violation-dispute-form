@@ -2,11 +2,11 @@
   <div class="bg-white rounded pb-1 pr-3 pl-3" >
     <div class="content-header">
       <h1 class="mb-3 mt-1">VTC Disputant Response Inbox</h1>
-      <div>
-        <ngb-alert type="danger" [dismissible]="true" *ngIf="!printAborted" (close)="printAborted=true"> 
-          <strong>Aborted!</strong> The selected files have been aborted. Someone else has printed these files. 
+      <div id="tableHeader">
+        <ngb-alert type="danger" [dismissible]="true" *ngIf="showPrintAborted && mode === AdminMode.NewResponse" (close)="showPrintAborted=false"> 
+          <strong>Aborted!</strong> Someone else has recently archived these files. Please try again.
         </ngb-alert>
-        <ngb-alert type="success" [dismissible]="true" *ngIf="!closeAlert" (close)="closeAlert=true"> 
+        <ngb-alert type="success" [dismissible]="true" *ngIf="showPrintSuccess" (close)="showPrintSuccess=false"> 
           <strong>Success!</strong> The selected files have been {{mode === AdminMode.NewResponse ? "printed and archived." : "printed."}}
         </ngb-alert>
         <ngb-alert type="danger" *ngIf="outdatedBrowser" [dismissible]="false">
@@ -100,8 +100,12 @@
           </ng-template>
           <span [ngClass]="{disabled: value===''}" (click)="openPdf($event,value);" *ngIf="column.name==='Action'" class="unselectable mr-4">
             <img [class.invert-color]="this.selected.indexOf(row) !== -1" width="24" height="24" src="assets/open-pdf.svg"/>
-            View Response
+            View 
           </span>
+          <!--<span (click)="deletePdf($event,value);" *ngIf="column.name==='Action'" class="unselectable ml-4">
+            <img [class.invert-color]="this.selected.indexOf(row) !== -1" width="24" height="24" src="assets/trash.svg"/>
+            Delete 
+          </span>-->
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-footer>
@@ -118,7 +122,7 @@
             <div class="row m-0">
               <div class="col-sm form-inline pr-0 pl-0">
                 <span style="display:inline-block">
-                {{mode === AdminMode.NewResponses ? newCountString : archiveCountString}}
+                {{mode === AdminMode.NewResponse ? newCountString : archiveCountString}}
                 </span>
               </div>
               <div class="col-sm pr-0 pl-0" style="justify-content: center; align-items:center; display:flex;">
