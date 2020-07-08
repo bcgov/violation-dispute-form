@@ -59,7 +59,7 @@ class TicketResponseListFilter(filters.FilterSet):
         ]
 
 
-class TicketResponseListView(generics.ListAPIView):
+class TicketResponseView(generics.ListAPIView):
     """Used for the admin table, sorting, filtering, ordering. """
 
     permission_classes = [IsAdminUser]

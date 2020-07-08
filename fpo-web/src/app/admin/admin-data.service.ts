@@ -169,4 +169,16 @@ export class AdminDataService {
       id: [...targetPdfIds]
     })
   }
+
+  async deleteTicketResponse(id) : Promise<string> {
+    const url = this.generalDataService.getApiUrl(`responses/${id}/`);
+    try {
+      return await this.generalDataService.delete(url)
+    }
+    catch (error) {
+      if (error && error.status === 404)
+        return "not found"
+      return "error"
+    }
+  }
 }

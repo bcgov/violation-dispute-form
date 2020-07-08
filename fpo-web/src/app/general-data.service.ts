@@ -80,6 +80,20 @@ export class GeneralDataService {
       });
   }
 
+  delete(
+    url: string,
+    params?: any,
+    headers?: any,
+  ): Promise<string> {
+    if (!url) return Promise.reject("Cache name not defined");
+    return this.http
+      .delete(url, { params, headers, withCredentials: true, responseType: "text" })
+      .toPromise()
+      .catch((error: any) => {
+        return Promise.reject(error);
+      });
+  }
+
   async loadUserInfo(demo_login?: string): Promise<UserInfo | null> {
     if (this.browserOnly) {
       return new Promise((resolve) => {

@@ -20,7 +20,7 @@
     limitations under the License.
 """
 from .ArchivedView import ArchivedView
-from .TicketResponseListView import TicketResponseListView
+from .TicketResponseView import TicketResponseView
 from .TicketCountView import TicketCountView
 from .LocationListView import LocationListView
 from .RegionListView import RegionListView

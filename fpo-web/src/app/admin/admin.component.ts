@@ -8,8 +8,9 @@ import {
   SearchResponse,
   RegionCountResponse,
   AdminPageMode,
+  TicketResponseContent,
 } from "app/interfaces/admin_interfaces";
-import { ModalDelete } from './modal-delete';
+import { ModalDelete } from "./modal-delete";
 
 @Component({
   selector: "app-admin",
@@ -61,8 +62,11 @@ export class AdminComponent implements OnInit {
   totalElements = 0;
   searchCount = 0;
   outdatedBrowser = false;
-  showPrintSuccess = false;
-  showPrintAborted = false;
+
+  showAlert = false;
+  alertType = "success";
+  alertTimeout: NodeJS.Timer;
+  alertMessage = "";
 
   ngOnInit() {
     this.loadPage();
@@ -156,7 +160,7 @@ export class AdminComponent implements OnInit {
       { prop: "created_date", dir: "asc" },
       { prop: "name", dir: "asc" },
     ];
-    this.showPrintSuccess = false;
+    this.showAlert = false;
     this.mode = AdminPageMode.NewResponse;
   }
 
@@ -176,7 +180,7 @@ export class AdminComponent implements OnInit {
       { prop: "name", dir: "asc" },
       { prop: "ticket_number", dir: "asc" },
     ];
-    this.showPrintSuccess = false;
+    this.showAlert = false;
     this.mode = AdminPageMode.Archive;
   }
 
@@ -227,10 +231,10 @@ export class AdminComponent implements OnInit {
   async print(targetIds: Array<number>) {
     var response = await this.adminService.getPdf(targetIds, this.mode);
     if (response instanceof ArrayBuffer == false) {
-      document.getElementById("tableHeader").scrollIntoView();
-      this.showPrintAborted = true;
-      setTimeout(() => (this.showPrintAborted = false), 10000);
-    
+      this.showAbortedMessage(
+        "Someone else has recently archived these files."
+      );
+
       //Reload Counts + resets to the first page.
       this.buildCountStrings();
       this.executeSearch(this.searchParameters);
@@ -258,8 +262,13 @@ export class AdminComponent implements OnInit {
         //Fix tooltip from remaining open.
         if (document.activeElement instanceof HTMLElement)
           document.activeElement.blur();
-        this.showPrintSuccess = true;
-        setTimeout(() => (this.showPrintSuccess = false), 10000);
+
+        var message = `The selected files have been ${
+          this.mode === this.AdminMode.NewResponse
+            ? "printed and archived."
+            : "printed."
+        }`;
+        this.showSuccessMessage(message);
         window.onfocus = null;
       };
 
@@ -274,11 +283,50 @@ export class AdminComponent implements OnInit {
     event.stopPropagation();
     window.open(`api/v1/pdf/${id}/`);
   }
-  
-  deleteResponse(event: MouseEvent, id: number) {
+
+  async deleteResponse(event: MouseEvent, row: TicketResponseContent) {
     event.preventDefault();
     event.stopPropagation();
-    this.modalDelete.open();
+
+    //TODO Highlight the current row when pressing delete.
+
+    try {
+      await this.modalDelete.open(row);
+    } catch {
+      return;
+    }
+
+    let result = await this.adminService.deleteTicketResponse(row.id);
+    switch (result) {
+      case "success":
+        this.showSuccessMessage("Deletion successful.");
+        break;
+      case "error":
+      case "not found":
+        var message =
+          result == "error"
+            ? "Deletion failed - an error occured."
+            : "Deletion failed - file does not exist.";
+        this.showAbortedMessage(message);
+    }
+  }
+
+  showSuccessMessage(message: string) {
+    document.getElementById("tableHeader").scrollIntoView();
+    this.showAlert = true;
+    this.alertType = "success";
+    this.alertMessage = message;
+    clearTimeout(this.alertTimeout);
+    this.alertTimeout = setTimeout(() => (this.showAlert = false), 10000);
+  }
+
+  showAbortedMessage(message: string) {
+    document.getElementById("tableHeader").scrollIntoView();
+    this.showAlert = true;
+    this.alertType = "danger";
+    this.alertMessage = message;
+    clearTimeout(this.alertTimeout);
+    this.alertTimeout = setTimeout(() => (this.showAlert = false), 10000);
   }
 
   totalPages(rowCount: number, pageSize: number) {
