@@ -85,7 +85,7 @@
           ngx-datatable-header-template 
           let-column="column" 
           let-sort="sortFn">
-          <span class="unselectable"  (click)="sort()">
+          <span class="unselectable" *ngIf="column.name!=='Action'" (click)="sort()">
           {{column.name}}
           </span>
         </ng-template>
@@ -93,12 +93,12 @@
           <ng-template [ngIf]="column.name!=='Action'">
             {{value}}
           </ng-template>
-          <div>
-            <span [ngClass]="{disabled: value===''}" (click)="openPdf($event,value);" *ngIf="column.name==='Action'" class="unselectable mr-4">
+          <div class="d-flex justify-content-center pr-2">
+            <span [ngClass]="{disabled: value===''}" (click)="openPdf($event,value);" *ngIf="column.name==='Action'" class="w-100 unselectable mr-4">
               <img [class.invert-color]="this.selected.indexOf(row) !== -1" width="24" height="24" src="assets/open-pdf.svg"/>
               View 
             </span>
-            <span (click)="deleteResponse($event,row, i);" *ngIf="column.name==='Action'" class="unselectable ml-2">
+            <span (click)="deleteResponse($event,row);" *ngIf="column.name==='Action'" class="w-100 unselectable ml-2">
               <img [class.invert-color]="this.selected.indexOf(row) !== -1" width="24" height="24" src="assets/trash.svg"/>
               Delete 
             </span>
