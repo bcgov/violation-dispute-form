@@ -1,0 +1,23 @@
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-title">Ticket Response Deletion</h4>
+      <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div ngbAutofocus class="modal-body">
+      <p>
+        <strong>Are you sure you want to delete? </strong>
+          <br/> 
+          <br/>
+          <span class="text-primary">Vancouver - John Doe - #55555</span>
+        <br/>
+      <br/>
+      <span class="text-danger">Will be permanently deleted. This operation can not be undone.</span>
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button type="button"  class="btn btn-danger" (click)="modal.close('Ok click')">Ok</button>
+      <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>
+    </div>
+</ng-template>

@@ -87,9 +87,3 @@ class PdfFileView(APIView):
         return HttpResponse(
             merged_pdf.getvalue(), content_type="application/octet-stream"
         )
-
-    # @method_permission_classes((IsAdminUser,))
-    # def delete(self, request: Request):
-    # id = request.data.get("id")
-    # return HttpResponse("success")
-    # delete api_ticketresponse, api_preparedpdf

@@ -5,6 +5,11 @@ from django_filters.rest_framework import DjangoFilterBackend
 from api.models import TicketResponse
 from api.serializers import TicketResponseSerializer
 from rest_framework.permissions import IsAdminUser
+from django.http import (
+    HttpResponse,
+    HttpResponseNotFound,
+)
+from rest_framework.request import Request
 
 
 class TicketResponseListFilter(filters.FilterSet):
@@ -84,3 +89,11 @@ class TicketResponseListView(generics.ListAPIView):
         "last_name",
         "first_name",
     ]
+
+    def delete(self, request: Request, id=None):
+        try:
+            TicketResponse.objects.get(id=id).delete()
+        except (TicketResponse.DoesNotExist):
+            return HttpResponseNotFound()
+
+        return HttpResponse("success")

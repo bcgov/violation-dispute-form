@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef } from "@angular/core";
+import { Component, OnInit, ElementRef, ViewChild } from "@angular/core";
 import { ColumnMode, SelectionType, SortType } from "@swimlane/ngx-datatable";
 import { AdminDataService } from "./admin-data.service";
 import { ActivatedRoute } from "@angular/router";
@@ -9,6 +9,7 @@ import {
   RegionCountResponse,
   AdminPageMode,
 } from "app/interfaces/admin_interfaces";
+import { ModalDelete } from './modal-delete';
 
 @Component({
   selector: "app-admin",
@@ -17,6 +18,10 @@ import {
 })
 export class AdminComponent implements OnInit {
   //#region Variables & Constructor
+
+  @ViewChild(ModalDelete, { static: false })
+  private modalDelete: ModalDelete;
+
   AdminService: AdminDataService;
 
   ColumnMode = ColumnMode;
@@ -269,10 +274,11 @@ export class AdminComponent implements OnInit {
     event.stopPropagation();
     window.open(`api/v1/pdf/${id}/`);
   }
-  deletePdf(event: MouseEvent, id: number) {
+  
+  deleteResponse(event: MouseEvent, id: number) {
     event.preventDefault();
     event.stopPropagation();
-    
+    this.modalDelete.open();
   }
 
   totalPages(rowCount: number, pageSize: number) {

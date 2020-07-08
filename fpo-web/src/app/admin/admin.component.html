@@ -3,6 +3,7 @@
     <div class="content-header">
       <h1 class="mb-3 mt-1">VTC Disputant Response Inbox</h1>
       <div id="tableHeader">
+        <modal-delete> </modal-delete>
         <ngb-alert type="danger" [dismissible]="true" *ngIf="showPrintAborted && mode === AdminMode.NewResponse" (close)="showPrintAborted=false"> 
           <strong>Aborted!</strong> Someone else has recently archived these files. Please try again.
         </ngb-alert>
@@ -102,10 +103,10 @@
             <img [class.invert-color]="this.selected.indexOf(row) !== -1" width="24" height="24" src="assets/open-pdf.svg"/>
             View 
           </span>
-          <!--<span (click)="deletePdf($event,value);" *ngIf="column.name==='Action'" class="unselectable ml-4">
+          <span (click)="deleteResponse($event,value);" *ngIf="column.name==='Action'" class="unselectable ml-4">
             <img [class.invert-color]="this.selected.indexOf(row) !== -1" width="24" height="24" src="assets/trash.svg"/>
             Delete 
-          </span>-->
+          </span>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-footer>
