@@ -11,6 +11,7 @@ import {
   TicketResponseContent,
 } from "app/interfaces/admin_interfaces";
 import { ModalDelete } from "./modal-delete";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-admin",
@@ -63,11 +64,6 @@ export class AdminComponent implements OnInit {
   searchCount = 0;
   outdatedBrowser = false;
 
-  showAlert = false;
-  alertType = "success";
-  alertTimeout: NodeJS.Timer;
-  alertMessage = "";
-
   ngOnInit() {
     this.loadPage();
     this.outdatedBrowser = this.checkForIE();
@@ -75,7 +71,8 @@ export class AdminComponent implements OnInit {
 
   constructor(
     private adminService: AdminDataService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private toastr: ToastrService
   ) {
     this.AdminService = adminService;
     this.populateRegions();
@@ -160,7 +157,7 @@ export class AdminComponent implements OnInit {
       { prop: "created_date", dir: "asc" },
       { prop: "name", dir: "asc" },
     ];
-    this.showAlert = false;
+    this.toastr.clear();
     this.mode = AdminPageMode.NewResponse;
   }
 
@@ -180,7 +177,7 @@ export class AdminComponent implements OnInit {
       { prop: "name", dir: "asc" },
       { prop: "ticket_number", dir: "asc" },
     ];
-    this.showAlert = false;
+    this.toastr.clear();
     this.mode = AdminPageMode.Archive;
   }
 
@@ -235,9 +232,7 @@ export class AdminComponent implements OnInit {
         "Someone else has recently archived these files."
       );
 
-      //Reload Counts + resets to the first page.
-      this.buildCountStrings();
-      this.executeSearch(this.searchParameters);
+      this.reloadAndResetToFirstPage();
       return;
     }
 
@@ -263,7 +258,7 @@ export class AdminComponent implements OnInit {
         if (document.activeElement instanceof HTMLElement)
           document.activeElement.blur();
 
-        var message = `The selected files have been ${
+        var message = `The requested files have been ${
           this.mode === this.AdminMode.NewResponse
             ? "printed and archived."
             : "printed."
@@ -272,9 +267,7 @@ export class AdminComponent implements OnInit {
         window.onfocus = null;
       };
 
-      //Reload Counts + resets to the first page.
-      this.buildCountStrings();
-      this.executeSearch(this.searchParameters);
+      this.reloadAndResetToFirstPage();
     }
   }
 
@@ -288,7 +281,7 @@ export class AdminComponent implements OnInit {
     event.preventDefault();
     event.stopPropagation();
 
-    //TODO Highlight the current row when pressing delete.
+    this.selected = [row];
 
     try {
       await this.modalDelete.open(row);
@@ -309,24 +302,21 @@ export class AdminComponent implements OnInit {
             : "Deletion failed - file does not exist.";
         this.showAbortedMessage(message);
     }
+    this.reloadAndResetToFirstPage();
+  }
+
+  reloadAndResetToFirstPage() {
+    //Reload Counts + resets to the first page.
+    this.buildCountStrings();
+    this.executeSearch(this.searchParameters);
   }
 
   showSuccessMessage(message: string) {
-    document.getElementById("tableHeader").scrollIntoView();
-    this.showAlert = true;
-    this.alertType = "success";
-    this.alertMessage = message;
-    clearTimeout(this.alertTimeout);
-    this.alertTimeout = setTimeout(() => (this.showAlert = false), 10000);
+    this.toastr.success(message, "Success!");
   }
 
   showAbortedMessage(message: string) {
-    document.getElementById("tableHeader").scrollIntoView();
-    this.showAlert = true;
-    this.alertType = "danger";
-    this.alertMessage = message;
-    clearTimeout(this.alertTimeout);
-    this.alertTimeout = setTimeout(() => (this.showAlert = false), 10000);
+    this.toastr.error(message, "Aborted!");
   }
 
   totalPages(rowCount: number, pageSize: number) {

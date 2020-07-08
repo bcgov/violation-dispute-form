@@ -4,9 +4,6 @@
       <h1 class="mb-3 mt-1">VTC Disputant Response Inbox</h1>
       <div id="tableHeader">
         <modal-delete> </modal-delete>
-        <ngb-alert [type]="alertType" [dismissible]="true" *ngIf="showAlert" (close)="showAlert=false"> 
-          <strong>{{alertType == "danger" ? "Aborted!" : "Success!"}}</strong> {{alertMessage}}
-        </ngb-alert>
         <ngb-alert type="danger" *ngIf="outdatedBrowser" [dismissible]="false">
           Internet Explorer is unsupported. Please use a newer browser such as Microsoft Edge or Google Chrome.
         </ngb-alert>
@@ -88,7 +85,7 @@
           ngx-datatable-header-template 
           let-column="column" 
           let-sort="sortFn">
-          <span class="unselectable" *ngIf="column.name!=='Action'" (click)="sort()">
+          <span class="unselectable"  (click)="sort()">
           {{column.name}}
           </span>
         </ng-template>
@@ -101,7 +98,7 @@
               <img [class.invert-color]="this.selected.indexOf(row) !== -1" width="24" height="24" src="assets/open-pdf.svg"/>
               View 
             </span>
-            <span (click)="deleteResponse($event,row);" *ngIf="column.name==='Action'" class="unselectable ml-2">
+            <span (click)="deleteResponse($event,row, i);" *ngIf="column.name==='Action'" class="unselectable ml-2">
               <img [class.invert-color]="this.selected.indexOf(row) !== -1" width="24" height="24" src="assets/trash.svg"/>
               Delete 
             </span>

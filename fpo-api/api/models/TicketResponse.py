@@ -57,7 +57,7 @@ class TicketResponse(models.Model):
     prepared_pdf = models.ForeignKey(
         "PreparedPdf",
         related_name="pdf_ticket",
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         blank=True,
         null=True,
     )
