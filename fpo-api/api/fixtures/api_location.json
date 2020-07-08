@@ -353,7 +353,7 @@
         "pk": 51,
         "fields": {
             "name": "North Vancouver",
-            "region": 4
+            "region": 3
         }
     }, {
         "model": "api.location",
@@ -381,7 +381,7 @@
         "pk": 55,
         "fields": {
             "name": "Port Coquitlam",
-            "region": 4
+            "region": 3
         }
     }, {
         "model": "api.location",
