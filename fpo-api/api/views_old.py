@@ -55,14 +55,11 @@ class SubmitTicketResponseView(APIView):
 
         #############################################################
         #  Adding different pdf form logic: Jul 3, 2020
-<<<<<<< HEAD
         data = json.loads(request.body)
         name = request.query_params.get('name')
 
-=======
-        data = copy.deepcopy(request.data)
-        name = request.GET['name']
->>>>>>> upstream/master
+        # data = copy.deepcopy(request.data)
+        # name = request.GET['name']
         template = '{}.html'.format(name)
 
         # These are the current allowed forms (whitelist)
@@ -164,16 +161,15 @@ class SubmitTicketResponseView(APIView):
 
         try:
             if result:
-<<<<<<< HEAD
+                ############## Merge conflict #################
                 # pdf_content = generate_pdf(result)
-                pdf_response = PreparedPdf(
-                    data = pdf_content
-                )
-                pdf_response.save()
-                response.prepared_pdf_id = pdf_response.pk; 
-                response.printed_date = timezone.now()
-=======
-                pdf_content = generate_pdf(result)
+                # pdf_response = PreparedPdf(
+                #     data = pdf_content
+                # )
+                # pdf_response.save()
+                # response.prepared_pdf_id = pdf_response.pk; 
+                # response.printed_date = timezone.now()
+                ###############################################
                 if pdf_content:
                     (pdf_key_id, pdf_content_enc) = settings.ENCRYPTOR.encrypt(
                         pdf_content
@@ -184,7 +180,6 @@ class SubmitTicketResponseView(APIView):
                     response.save()
                     request.session['file_guid'] = str(response.file_guid)
 
->>>>>>> upstream/master
                 email = result.get("disputantEmail")
                 if email and pdf_content:
                     send_email(email, pdf_content)

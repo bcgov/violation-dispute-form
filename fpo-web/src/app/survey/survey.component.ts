@@ -271,7 +271,6 @@ export class SurveyComponent implements OnInit, OnDestroy {
   }
 
   submitForm(data: any) {
-<<<<<<< HEAD
     console.log("here's the data",data);
     // This is horrendous.
     if (
@@ -289,10 +288,6 @@ export class SurveyComponent implements OnInit, OnDestroy {
     }
 
     const url = this.dataService.getApiUrl(`submit-form/?name=${form}`);
-=======
-    //Default to notice to disputant response. Please change later on. 
-    const url = this.dataService.getApiUrl("submit-form/?name=notice-to-disputant-response");
->>>>>>> upstream/master
     const opts = this.recaptchaResponse
       ? { headers: { "X-CAPTCHA-RESPONSE": this.recaptchaResponse } }
       : undefined;
