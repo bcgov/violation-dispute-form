@@ -12,6 +12,7 @@ class XForwardedForPortMiddleware(MiddlewareMixin):
         if (
             "HTTP_X_FORWARDED_HOST" in request.META
             and "HTTP_X_FORWARDED_PORT" in request.META
+            and request.META["HTTP_X_FORWARDED_PORT"] not in ("80", "443")
         ):
             request.META["HTTP_X_FORWARDED_HOST"] = (
                 request.META["HTTP_X_FORWARDED_HOST"]

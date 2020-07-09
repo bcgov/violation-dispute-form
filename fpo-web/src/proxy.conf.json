@@ -1,11 +1,17 @@
 [
 	{
-    "context": ["/choose-how-to-attend-your-traffic-hearing/api", "/api"],
-    "target": "http://localhost:8081",
-	"pathRewrite": {
-      "^/choose-how-to-attend-your-traffic-hearing/": "/"
-    },
-    "secure": false,
-    "changeOrigin": true
+		"context": [
+			"/choose-how-to-attend-your-traffic-hearing/api",
+			"/api"
+		],
+		"target": "http://localhost:8081",
+		"pathRewrite": {
+			"^/choose-how-to-attend-your-traffic-hearing/": "/"
+		},
+		"secure": false,
+		"changeOrigin": true,
+		"headers": {
+			"X-Forwarded-Host": "localhost:8080"
+		}
 	}
 ]
