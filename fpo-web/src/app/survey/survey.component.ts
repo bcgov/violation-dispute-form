@@ -248,7 +248,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
 
   get canComplete(): boolean {
     // FIXME include status of survey completion
-    return !this.recaptchaRequired || !!this.recaptchaResponse;
+    return !this.recaptchaRequired || !!this.recaptchaResponse && !this.missingRequired ;
   }
 
   get displayRecaptcha(): boolean {
