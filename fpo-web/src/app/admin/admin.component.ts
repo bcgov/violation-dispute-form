@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { ColumnMode, SelectionType, SortType } from "@swimlane/ngx-datatable";
 import { AdminDataService } from "./admin-data.service";
 import { ActivatedRoute } from "@angular/router";
@@ -8,7 +8,10 @@ import {
   SearchResponse,
   RegionCountResponse,
   AdminPageMode,
+  TicketResponseContent,
 } from "app/interfaces/admin_interfaces";
+import { ModalDelete } from "./modal-delete";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-admin",
@@ -17,6 +20,10 @@ import {
 })
 export class AdminComponent implements OnInit {
   //#region Variables & Constructor
+
+  @ViewChild(ModalDelete, { static: false })
+  private modalDelete: ModalDelete;
+
   AdminService: AdminDataService;
 
   ColumnMode = ColumnMode;
@@ -56,8 +63,6 @@ export class AdminComponent implements OnInit {
   totalElements = 0;
   searchCount = 0;
   outdatedBrowser = false;
-  showPrintSuccess = false;
-  showPrintAborted = false;
 
   ngOnInit() {
     this.loadPage();
@@ -66,7 +71,8 @@ export class AdminComponent implements OnInit {
 
   constructor(
     private adminService: AdminDataService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private toastr: ToastrService
   ) {
     this.AdminService = adminService;
     this.populateRegions();
@@ -89,14 +95,28 @@ export class AdminComponent implements OnInit {
   //#endregion Variables & Constructor
 
   async populateRegions() {
+    // 1 because we have a PSUEDO region. 
     if (this.regions.length == 1) {
-      var regions = (await this.adminService.getRegions()) as Array<Region>;
-      this.regions = this.regions.concat(regions);
+      try {
+        var regions = (await this.adminService.getRegions()) as Array<Region>;
+        this.regions = this.regions.concat(regions);
+      } catch (error) {
+        console.error(error);
+        this.showErrorMessage(this.adminService.GenericErrorMessage);
+        return;
+      }
     }
   }
 
   async buildCountStrings() {
-    var counts = (await this.adminService.getCounts()) as RegionCountResponse;
+    let counts;
+    try {
+      counts = (await this.adminService.getCounts()) as RegionCountResponse;
+    } catch (error) {
+      console.error(error);
+      this.showErrorMessage(this.adminService.GenericErrorMessage);
+      return;
+    }
     this.newCountString = "";
     this.archiveCountString = "";
 
@@ -126,9 +146,14 @@ export class AdminComponent implements OnInit {
     this.loading = true;
     this.searchCount++;
     let localSearchCount = this.searchCount;
-    this.data = await this.AdminService.getSearchResponse(
-      this.searchParameters
-    );
+    try {
+      this.data = await this.AdminService.getSearchResponse(
+        this.searchParameters
+      );
+    } catch (error) {
+      console.error(error);
+      this.showErrorMessage(this.adminService.GenericErrorMessage);
+    }
     this.loading = false;
     //This ensures we only get the latest search.
     if (localSearchCount == this.searchCount) {
@@ -151,7 +176,7 @@ export class AdminComponent implements OnInit {
       { prop: "created_date", dir: "asc" },
       { prop: "name", dir: "asc" },
     ];
-    this.showPrintSuccess = false;
+    this.toastr.clear();
     this.mode = AdminPageMode.NewResponse;
   }
 
@@ -171,7 +196,7 @@ export class AdminComponent implements OnInit {
       { prop: "name", dir: "asc" },
       { prop: "ticket_number", dir: "asc" },
     ];
-    this.showPrintSuccess = false;
+    this.toastr.clear();
     this.mode = AdminPageMode.Archive;
   }
 
@@ -221,14 +246,17 @@ export class AdminComponent implements OnInit {
 
   async print(targetIds: Array<number>) {
     var response = await this.adminService.getPdf(targetIds, this.mode);
-    if (response instanceof ArrayBuffer == false) {
-      document.getElementById("tableHeader").scrollIntoView();
-      this.showPrintAborted = true;
-      setTimeout(() => (this.showPrintAborted = false), 10000);
-    
-      //Reload Counts + resets to the first page.
-      this.buildCountStrings();
-      this.executeSearch(this.searchParameters);
+    if (
+      response instanceof ArrayBuffer == false &&
+      (response as string).includes(
+        "PDFs selected for print have already been archived."
+      )
+    ) {
+      this.showAbortedMessage(
+        "Someone else has recently archived these file(s)."
+      );
+
+      this.reloadAndResetToFirstPage();
       return;
     }
 
@@ -246,21 +274,30 @@ export class AdminComponent implements OnInit {
     if (!popupBlocked) {
       //If successful, hit the API again and mark files as printed.
       if (this.mode === AdminPageMode.NewResponse) {
-        await this.adminService.markFilesAsArchived(targetIds);
+        try {
+          await this.adminService.markFilesAsArchived(targetIds);
+        } catch (error) {
+          console.error(error);
+          this.showErrorMessage(this.adminService.GenericErrorMessage);
+          return;
+        }
       }
 
       window.onfocus = () => {
         //Fix tooltip from remaining open.
         if (document.activeElement instanceof HTMLElement)
           document.activeElement.blur();
-        this.showPrintSuccess = true;
-        setTimeout(() => (this.showPrintSuccess = false), 10000);
+
+        var message = `The requested files have been ${
+          this.mode === this.AdminMode.NewResponse
+            ? "printed and archived."
+            : "printed."
+        }`;
+        this.showSuccessMessage(message);
         window.onfocus = null;
       };
 
-      //Reload Counts + resets to the first page.
-      this.buildCountStrings();
-      this.executeSearch(this.searchParameters);
+      this.reloadAndResetToFirstPage();
     }
   }
 
@@ -269,10 +306,51 @@ export class AdminComponent implements OnInit {
     event.stopPropagation();
     window.open(`api/v1/pdf/${id}/`);
   }
-  deletePdf(event: MouseEvent, id: number) {
+
+  async deleteResponse(event: MouseEvent, row: TicketResponseContent) {
     event.preventDefault();
     event.stopPropagation();
-    
+
+    this.selected = [row];
+
+    try {
+      await this.modalDelete.open(row);
+    } catch {
+      return;
+    }
+
+    let result = await this.adminService.deleteTicketResponse(row.id);
+    switch (result) {
+      case "success":
+        this.showSuccessMessage("Deletion successful.");
+        break;
+      case "error":
+      case "not found":
+        var message =
+          result == "error"
+            ? "Deletion failed - an error occured."
+            : "Deletion failed - file does not exist.";
+        this.showAbortedMessage(message);
+    }
+    this.reloadAndResetToFirstPage();
+  }
+
+  reloadAndResetToFirstPage() {
+    //Reload Counts + resets to the first page.
+    this.buildCountStrings();
+    this.executeSearch(this.searchParameters);
+  }
+
+  showSuccessMessage(message: string) {
+    this.toastr.success(message, "Success!");
+  }
+
+  showAbortedMessage(message: string) {
+    this.toastr.error(message, "Aborted!");
+  }
+
+  showErrorMessage(message: string) {
+    this.toastr.error(message, "Error");
   }
 
   totalPages(rowCount: number, pageSize: number) {

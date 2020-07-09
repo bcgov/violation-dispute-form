@@ -3,12 +3,7 @@
     <div class="content-header">
       <h1 class="mb-3 mt-1">VTC Disputant Response Inbox</h1>
       <div id="tableHeader">
-        <ngb-alert type="danger" [dismissible]="true" *ngIf="showPrintAborted && mode === AdminMode.NewResponse" (close)="showPrintAborted=false"> 
-          <strong>Aborted!</strong> Someone else has recently archived these files. Please try again.
-        </ngb-alert>
-        <ngb-alert type="success" [dismissible]="true" *ngIf="showPrintSuccess" (close)="showPrintSuccess=false"> 
-          <strong>Success!</strong> The selected files have been {{mode === AdminMode.NewResponse ? "printed and archived." : "printed."}}
-        </ngb-alert>
+        <modal-delete> </modal-delete>
         <ngb-alert type="danger" *ngIf="outdatedBrowser" [dismissible]="false">
           Internet Explorer is unsupported. Please use a newer browser such as Microsoft Edge or Google Chrome.
         </ngb-alert>
@@ -98,14 +93,16 @@
           <ng-template [ngIf]="column.name!=='Action'">
             {{value}}
           </ng-template>
-          <span [ngClass]="{disabled: value===''}" (click)="openPdf($event,value);" *ngIf="column.name==='Action'" class="unselectable mr-4">
-            <img [class.invert-color]="this.selected.indexOf(row) !== -1" width="24" height="24" src="assets/open-pdf.svg"/>
-            View 
-          </span>
-          <!--<span (click)="deletePdf($event,value);" *ngIf="column.name==='Action'" class="unselectable ml-4">
-            <img [class.invert-color]="this.selected.indexOf(row) !== -1" width="24" height="24" src="assets/trash.svg"/>
-            Delete 
-          </span>-->
+          <div class="d-flex justify-content-center pr-2">
+            <span [ngClass]="{disabled: value===''}" (click)="openPdf($event,value);" *ngIf="column.name==='Action'" class="w-100 unselectable mr-4">
+              <img [class.invert-color]="this.selected.indexOf(row) !== -1" width="24" height="24" src="assets/open-pdf.svg"/>
+              View 
+            </span>
+            <span (click)="deleteResponse($event,row);" *ngIf="column.name==='Action'" class="w-100 unselectable ml-2">
+              <img [class.invert-color]="this.selected.indexOf(row) !== -1" width="24" height="24" src="assets/trash.svg"/>
+              Delete 
+            </span>
+          </div>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-footer>

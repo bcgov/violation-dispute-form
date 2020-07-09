@@ -35,6 +35,7 @@ export interface SearchResponse {
 }
 
 export interface TicketResponseContent {
+  id: number;
   created_date: Date | string;
   updated_date: Date | string;
   emailed_date: Date | string;

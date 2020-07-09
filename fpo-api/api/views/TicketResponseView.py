@@ -2,9 +2,17 @@ from datetime import timedelta
 from django_filters import rest_framework as filters
 from rest_framework import filters as default_filters, generics
 from django_filters.rest_framework import DjangoFilterBackend
-from api.models import TicketResponse
+from api.models import TicketResponse, PreparedPdf
 from api.serializers import TicketResponseSerializer
 from rest_framework.permissions import IsAdminUser
+from django.db import transaction, DatabaseError
+
+from django.http import (
+    HttpResponse,
+    HttpResponseNotFound,
+    HttpResponseServerError,
+)
+from rest_framework.request import Request
 
 
 class TicketResponseListFilter(filters.FilterSet):
@@ -54,7 +62,7 @@ class TicketResponseListFilter(filters.FilterSet):
         ]
 
 
-class TicketResponseListView(generics.ListAPIView):
+class TicketResponseView(generics.ListAPIView):
     """Used for the admin table, sorting, filtering, ordering. """
 
     permission_classes = [IsAdminUser]
@@ -84,3 +92,20 @@ class TicketResponseListView(generics.ListAPIView):
         "last_name",
         "first_name",
     ]
+
+    def delete(self, request: Request, id=None):
+        try:
+            ticket_response = TicketResponse.objects.get(id=id)
+            prepared_pdf = PreparedPdf.objects.get(
+                id=ticket_response.prepared_pdf_id
+            )
+            with transaction.atomic():
+                prepared_pdf.delete()
+                ticket_response.delete()
+
+        except (TicketResponse.DoesNotExist, PreparedPdf.DoesNotExist):
+            return HttpResponseNotFound()
+        except DatabaseError:
+            return HttpResponseServerError()
+
+        return HttpResponse("success")
