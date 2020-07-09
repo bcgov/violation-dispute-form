@@ -15,7 +15,7 @@ export class ModalDelete {
 
     constructor(private modalService: NgbModal) { }
 
-    open(ticket: TicketResponseContent) : Promise<any> {
+    open(ticket: TicketResponseContent) : Promise<string> {
         this.currentTicket = ticket;
         return this.modalService.open(this.content, { ariaLabelledBy: 'modal-basic-title' }).result
     }

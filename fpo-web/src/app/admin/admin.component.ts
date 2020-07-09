@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { ColumnMode, SelectionType, SortType } from "@swimlane/ngx-datatable";
 import { AdminDataService } from "./admin-data.service";
 import { ActivatedRoute } from "@angular/router";
@@ -95,14 +95,28 @@ export class AdminComponent implements OnInit {
   //#endregion Variables & Constructor
 
   async populateRegions() {
+    // 1 because we have a PSUEDO region. 
     if (this.regions.length == 1) {
-      var regions = (await this.adminService.getRegions()) as Array<Region>;
-      this.regions = this.regions.concat(regions);
+      try {
+        var regions = (await this.adminService.getRegions()) as Array<Region>;
+        this.regions = this.regions.concat(regions);
+      } catch (error) {
+        console.error(error);
+        this.showErrorMessage(this.adminService.GenericErrorMessage);
+        return;
+      }
     }
   }
 
   async buildCountStrings() {
-    var counts = (await this.adminService.getCounts()) as RegionCountResponse;
+    let counts;
+    try {
+      counts = (await this.adminService.getCounts()) as RegionCountResponse;
+    } catch (error) {
+      console.error(error);
+      this.showErrorMessage(this.adminService.GenericErrorMessage);
+      return;
+    }
     this.newCountString = "";
     this.archiveCountString = "";
 
@@ -132,9 +146,14 @@ export class AdminComponent implements OnInit {
     this.loading = true;
     this.searchCount++;
     let localSearchCount = this.searchCount;
-    this.data = await this.AdminService.getSearchResponse(
-      this.searchParameters
-    );
+    try {
+      this.data = await this.AdminService.getSearchResponse(
+        this.searchParameters
+      );
+    } catch (error) {
+      console.error(error);
+      this.showErrorMessage(this.adminService.GenericErrorMessage);
+    }
     this.loading = false;
     //This ensures we only get the latest search.
     if (localSearchCount == this.searchCount) {
@@ -227,9 +246,14 @@ export class AdminComponent implements OnInit {
 
   async print(targetIds: Array<number>) {
     var response = await this.adminService.getPdf(targetIds, this.mode);
-    if (response instanceof ArrayBuffer == false) {
+    if (
+      response instanceof ArrayBuffer == false &&
+      (response as string).includes(
+        "PDFs selected for print have already been archived."
+      )
+    ) {
       this.showAbortedMessage(
-        "Someone else has recently archived these files."
+        "Someone else has recently archived these file(s)."
       );
 
       this.reloadAndResetToFirstPage();
@@ -250,7 +274,13 @@ export class AdminComponent implements OnInit {
     if (!popupBlocked) {
       //If successful, hit the API again and mark files as printed.
       if (this.mode === AdminPageMode.NewResponse) {
-        await this.adminService.markFilesAsArchived(targetIds);
+        try {
+          await this.adminService.markFilesAsArchived(targetIds);
+        } catch (error) {
+          console.error(error);
+          this.showErrorMessage(this.adminService.GenericErrorMessage);
+          return;
+        }
       }
 
       window.onfocus = () => {
@@ -317,6 +347,10 @@ export class AdminComponent implements OnInit {
 
   showAbortedMessage(message: string) {
     this.toastr.error(message, "Aborted!");
+  }
+
+  showErrorMessage(message: string) {
+    this.toastr.error(message, "Error");
   }
 
   totalPages(rowCount: number, pageSize: number) {

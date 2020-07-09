@@ -7,13 +7,15 @@ import {
 import { GeneralDataService } from "app/general-data.service";
 import { Injectable } from "@angular/core";
 import { Location } from "@angular/common";
+import { ToastrService } from "ngx-toastr";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
     public generalDataService: GeneralDataService,
     public router: Router,
-    private location: Location
+    private location: Location,
+    private toastr: ToastrService
   ) {}
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
@@ -23,7 +25,13 @@ export class AuthGuard implements CanActivate {
       return true;
     }
 
-    var userInfo = await this.generalDataService.loadUserInfo();
+    try {
+      var userInfo = await this.generalDataService.loadUserInfo();
+    } catch (error) {
+      console.error(error);
+      this.toastr.error(this.generalDataService.GenericErrorMessage, "Error");
+      return this.router.createUrlTree(['/']);
+    }
     if (!userInfo || !userInfo.user_id) {
       const extUri =
         window.location.origin + this.location.prepareExternalUrl("/admin");

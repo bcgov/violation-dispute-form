@@ -12,6 +12,7 @@ export interface UserInfo {
 
 @Injectable()
 export class GeneralDataService {
+  public GenericErrorMessage = "An unexpected error occured. If this persists please contact an administrator.";
   private onUserInfo: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   private PdfId: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   public currentValue= this.PdfId.asObservable();
