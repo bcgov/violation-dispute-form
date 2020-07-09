@@ -29,6 +29,7 @@
     "bootstrap": "~4.3.1",
     "core-js": "^3.6.4",
     "ng-recaptcha": "^5.0.0",
+    "ngx-toastr": "^11.3.3",
     "node-sass": "^4.13.1",
     "rxjs": "^6.5.4",
     "showdown": "^1.9.1",

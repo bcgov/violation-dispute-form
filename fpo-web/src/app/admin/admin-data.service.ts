@@ -12,9 +12,11 @@ import {
 
 @Injectable()
 export class AdminDataService {
+  public GenericErrorMessage;
   generalDataService: GeneralDataService;
   constructor(private dataService: GeneralDataService) {
     this.generalDataService = dataService;
+    this.GenericErrorMessage = dataService.GenericErrorMessage;
   }
 
   monthNames = [
@@ -146,7 +148,7 @@ export class AdminDataService {
     return (await this.generalDataService.loadJson(url)) as RegionCountResponse;
   }
 
-  async getPdf(targetPdfIds: Array<number>, mode: AdminPageMode) : Promise<BlobPart | string> {
+  async getPdf(targetPdfIds: Array<number>, mode: AdminPageMode) : Promise<BlobPart> {
     const url = this.generalDataService.getApiUrl("pdf/");
     try {
       return await this.generalDataService.executePostBlob(url, {
@@ -168,5 +170,17 @@ export class AdminDataService {
     return await this.generalDataService.executePostJson(url, {
       id: [...targetPdfIds]
     })
+  }
+
+  async deleteTicketResponse(id) : Promise<string> {
+    const url = this.generalDataService.getApiUrl(`responses/${id}/`);
+    try {
+      return await this.generalDataService.delete(url)
+    }
+    catch (error) {
+      if (error && error.status === 404)
+        return "not found"
+      return "error"
+    }
   }
 }
