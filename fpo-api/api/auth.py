@@ -22,7 +22,8 @@ def get_login_uri(request: Request = None, next: str = None) -> str:
     uri = None
     if request:
         try:
-            set_script_prefix(settings.WEB_BASE_HREF)
+            if ("HTTP_X_FORWARDED_HOST" in request.META):
+                set_script_prefix(settings.WEB_BASE_HREF)
             uri = reverse("oidc_auth_request", request=request)
         except NoReverseMatch:
             pass
@@ -37,7 +38,8 @@ def get_logout_uri(request: Request = None) -> str:
     uri = None
     if request:
         try:
-            set_script_prefix(settings.WEB_BASE_HREF)
+            if ("HTTP_X_FORWARDED_HOST" in request.META):
+                set_script_prefix(settings.WEB_BASE_HREF)
             uri = reverse("oidc_end_session", request=request)
         except NoReverseMatch:
             pass
