@@ -28,3 +28,4 @@ from .PdfFileView import PdfFileView
 from .UserStatusView import UserStatusView
 from .AcceptTermsView import AcceptTermsView
 from .SurveyPdfView import SurveyPdfView
+from .TestHeadersView import TestHeadersView
