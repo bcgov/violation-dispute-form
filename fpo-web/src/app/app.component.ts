@@ -20,7 +20,7 @@ export class AppComponent implements AfterViewInit {
     private renderer: Renderer2,
     private router: Router,
     private locStrat: LocationStrategy,
-    private dataService: GeneralDataService,
+    public dataService: GeneralDataService,
     private matomoInjector: MatomoInjector
   ) {}
 

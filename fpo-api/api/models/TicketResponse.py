@@ -1,7 +1,6 @@
-# Used jsonfield module here, because it allows the field to be database-agnostic,
-# since we're not leveraging JSONField's extended querying this is fine for now.  
-from jsonfield import JSONField
+import uuid
 from django.db import models
+
 
 
 class TicketResponse(models.Model):
@@ -9,21 +8,26 @@ class TicketResponse(models.Model):
     updated_date = models.DateTimeField(auto_now=True)
     emailed_date = models.DateTimeField(blank=True, null=True)
 
-    result = JSONField(blank=True, null=True)
+    # stored encrypted when key_id is set
+    result = models.BinaryField(blank=True, null=True)
+
+    # encryption key identifier
+    key_id = models.CharField(max_length=32, blank=True, null=True)
+
+    # used by clients to open generated files
+    file_guid = models.UUIDField(default=uuid.uuid4, editable=False)
 
     first_name = models.CharField(max_length=255, blank=True, null=True)
     middle_name = models.CharField(max_length=255, blank=True, null=True)
     last_name = models.CharField(max_length=255, blank=True, null=True)
 
-    email = models.CharField(max_length=255, blank=True, null=True)
-
     hearing_attendance = models.CharField(max_length=255, blank=True, null=True)
     hearing_location = models.ForeignKey(
         "Location",
         related_name="location_ticket",
-        on_delete=models.SET_NULL, 
-        blank=True, 
-        null=True
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
     )
 
     ticket_number = models.CharField(max_length=255, blank=True, null=True)

@@ -199,7 +199,7 @@ configureEnvironment () {
   export SMTP_SERVER_ADDRESS=${SMTP_SERVER_ADDRESS}
   export SENDER_EMAIL=${SENDER_EMAIL-noreply@TrafficForm.gov.bc.ca}
   export SENDER_NAME=${SENDER_NAME-Traffic-Hearing}
- 
+  export DATA_SECURITY_KEY=${DATA_SECURITY_KEY} 
 
   # fpo-web
   export WEB_HTTP_PORT=${WEB_HTTP_PORT-8080}

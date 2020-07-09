@@ -14,8 +14,8 @@ import os
 import posixpath
 
 from corsheaders.defaults import default_headers
-
 from . import database
+from .encryption import Encryptor
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -34,6 +34,7 @@ SECRET_KEY = os.getenv(
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DJANGO_DEBUG", "True") == "True"
+
 
 ALLOWED_HOSTS = ["*"]
 
@@ -67,9 +68,11 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "oidc_rp.middleware.OIDCRefreshIDTokenMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
+    "fpo_api.XForwardedForPortMiddleware"
 ]
 
-SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
+SESSION_SAVE_EVERY_REQUEST = True
 
 ROOT_URLCONF = "fpo_api.urls"
 
@@ -143,7 +146,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
-STATIC_URL = "/static/"
+STATIC_URL = "/choose-how-to-attend-your-traffic-hearing/static/"
 
 STATIC_ROOT = posixpath.join(*(BASE_DIR.split(os.path.sep) + ["static"]))
 
@@ -192,7 +195,6 @@ LOGGING = {
         "propagate": False,
     },
 }
-
 OIDC_ENABLED = False
 
 # Settings for django-oidc-rp
@@ -222,6 +224,9 @@ if OIDC_RP_PROVIDER_ENDPOINT:
     OIDC_RP_ID_TOKEN_INCLUDE_USERINFO = True
     OIDC_RP_AUTHENTICATION_FAILURE_REDIRECT_URI = os.getenv("OIDC_RP_FAILURE_URI", "/")
     OIDC_RP_USER_DETAILS_HANDLER = "api.auth.sync_keycloak_user"
+    OIDC_RP_AUTHENTICATION_REDIRECT_URI = (
+        os.getenv("OIDC_RP_AUTHENTICATION_REDIRECT_URI", "/")
+    )
 
     DRF_AUTH_CLASS = (
         "oidc_rp.contrib.rest_framework.authentication.BearerTokenAuthentication"
@@ -243,3 +248,9 @@ REST_FRAMEWORK = {
 
 RECAPTCHA_SITE_KEY = os.getenv("RECAPTCHA_SITE_KEY", "")
 RECAPTCHA_SECRET_KEY = os.getenv("RECAPTCHA_SECRET_KEY", "")
+
+SMTP_SERVER_ADDRESS = os.environ.get("SMTP_SERVER_ADDRESS", "")
+SMTP_SENDER_EMAIL = os.environ.get("SENDER_EMAIL", "")
+SMTP_SENDER_NAME = os.environ.get("SENDER_NAME", "")
+
+ENCRYPTOR = Encryptor("DATA_SECURITY_KEY")
