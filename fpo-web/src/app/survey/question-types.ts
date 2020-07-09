@@ -422,10 +422,6 @@ function initAddressBlock(Survey) {
     provinceOptions: function() {
       return [
         {
-          value: "",
-          text: "(Select Province)"
-        },
-        {
           value: "British Columbia",
           text: "British Columbia"
         },
@@ -476,10 +472,6 @@ function initAddressBlock(Survey) {
         {
           value: "Yukon",
           text: "Yukon"
-        },
-        {
-          value: "Other",
-          text: "Other"
         }
       ];
     },
@@ -617,36 +609,27 @@ function initAddressBlock(Survey) {
       label.className = "survey-sublabel";
       label.appendChild(document.createTextNode("Province / Territory / State / Region"));
       cell.appendChild(label);
-      const state = document.createElement("select");
+      const state = document.createElement("input")
+      state.setAttribute("list","stateData")
       state.className = "form-control";
+      state.id ="stateId";
+      state.setAttribute("type","text")
+      state.placeholder ="Enter Province / Territory / State / Region";
+      const statedatalist = document.createElement("datalist")
+      statedatalist.id = "stateData";
+
       const stateOpts = this.provinceOptions();
       for (const province of stateOpts) {
         const opt = document.createElement("option");
         opt.text = province.text;
         opt.value = province.value;
-        console.log("option is" , opt)
-        state.appendChild(opt);
+        statedatalist.appendChild(opt);
       }
-      console.log("states",state)
+      state.appendChild(statedatalist);
       cell.appendChild(state);
       row.appendChild(cell);
 
       outer.appendChild(row);
-
-      // Display this field only when state value is 'Other' otherwise hide
-      row = document.createElement("div");
-      row.className = "row survey-address-line";
-      cell = document.createElement("div");
-      cell.className = "col-sm-12";
-      const otherState = document.createElement("input"); 
-      otherState.className = "form-control";
-      otherState.id ="othertest"
-      otherState.placeholder ="Enter Province / Territory / State / Region";
-      otherState.style.display = "None";
-      cell.appendChild(otherState);
-      row.appendChild(cell);
-      outer.appendChild(row);
-    
 
       row = document.createElement("div");
       row.className = "row survey-address-line";
@@ -693,16 +676,9 @@ function initAddressBlock(Survey) {
           // 'line2': addr2.value,
           city: city.value,
           state: state.value,
-          otherState: state.value == "Other" ? otherState.value : "",
           country: country.value,
           postcode: postCode.value
         };
-        if (value.state =="Other" || value.otherState!==""){
-          document.getElementById("othertest").style.display ="block"
-        } else {
-            const x = document.getElementById("othertest");
-            x.style.display = "None";
-        }
 
         for (const k in value) {
           if (value[k] !== undefined && value[k].length) {
@@ -716,7 +692,6 @@ function initAddressBlock(Survey) {
       // addr2.addEventListener('change', updateValue);
       city.addEventListener("change", updateValue);
       state.addEventListener("change", updateValue);
-      otherState.addEventListener("change", updateValue);
       country.addEventListener("change", updateValue);
       postCode.addEventListener("change", updateValue);
 
@@ -725,7 +700,6 @@ function initAddressBlock(Survey) {
         addr1.value = val.street || "";
         city.value = val.city || "";
         state.value =  val.state || "";
-        otherState.value = val.otherState || "";
         country.value = val.country || "";
         postCode.value = val.postcode || "";
       };
