@@ -1,3 +1,6 @@
+import { stat } from 'fs';
+import * as countryJson from "../../assets/country.json";
+
 function fixCheckboxes(Survey) {
   const widget = {
     name: "fixchecks",
@@ -481,22 +484,6 @@ function initAddressBlock(Survey) {
         }
       ];
     },
-    countryOptions: function() {
-      return [
-        {
-          value: "",
-          text: "(Select Country)"
-        },
-        {
-          value: "Canada",
-          text: "Canada"
-        },
-        {
-          value: "United States of America",
-          text: "United States of America"
-        }
-      ];
-    },
     prevAddrOptions: function(question) {
       const skipName = question.name;
       const survey = question.survey;
@@ -537,7 +524,7 @@ function initAddressBlock(Survey) {
     },
     afterRender: function(question, el) {
       while (el.childNodes.length) el.removeChild(el.childNodes[0]);
-
+      
       const outer = document.createElement("div");
       const outerCls = "survey-address";
       let label;
@@ -629,7 +616,7 @@ function initAddressBlock(Survey) {
       label = document.createElement("label");
       // FIXME - set label.for to province ID
       label.className = "survey-sublabel";
-      label.appendChild(document.createTextNode("Province / State / Region"));
+      label.appendChild(document.createTextNode("Province / Territory / State / Region"));
       cell.appendChild(label);
       const state = document.createElement("select");
       state.className = "form-control";
@@ -652,17 +639,11 @@ function initAddressBlock(Survey) {
       row.className = "row survey-address-line";
       cell = document.createElement("div");
       cell.className = "col-sm-12";
-      // label = document.createElement("label");
-        
-      // label.className = "survey-sublabel";
-      // label.appendChild(document.createTextNode("Other state"));
-      // cell.appendChild(label);
       const otherState = document.createElement("input"); 
       otherState.className = "form-control";
       otherState.id ="othertest"
-      otherState.placeholder ="Enter State";
+      otherState.placeholder ="Enter Province / Territory / State / Region";
       otherState.style.display = "None";
-      //otherState.value ="";
       cell.appendChild(otherState);
       row.appendChild(cell);
       outer.appendChild(row);
@@ -680,11 +661,13 @@ function initAddressBlock(Survey) {
       cell.appendChild(label);
       const country = document.createElement("select");
       country.className = "form-control";
-      const countryOpts = this.countryOptions();
+      const countryOpts = countryJson.default.Countries;
+      console.log(countryOpts)
+
       for (const cval of countryOpts) {
         const opt = document.createElement("option");
-        opt.text = cval.text;
-        opt.value = cval.value;
+        opt.text = cval.Name;
+        opt.value = cval.Value;
         country.appendChild(opt);
       }
       cell.appendChild(country);
@@ -708,34 +691,28 @@ function initAddressBlock(Survey) {
       el.appendChild(outer);
 
       function updateValue(evt) {
-        const value = {
+         const value = {
           street: addr1.value,
           // 'line2': addr2.value,
           city: city.value,
+         // state: otherState.value=="" ? state.value : otherState.value,
           state: state.value,
-          otherState:otherState.value,
+          otherState: state.value == "Other" ? otherState.value : "",
           country: country.value,
           postcode: postCode.value
         };
-        if (value.state =="Other"){
-          console.log("hello hello")
+        if (state.value =="Other" || otherState.value !==""){
           document.getElementById("othertest").style.display ="block"
-          return
+        } else {
+            const x = document.getElementById("othertest");
+            x.style.display = "None";
         }
-        const x = document.getElementById("othertest");
-        x.style.display = "None";
-        
+
         for (const k in value) {
           if (value[k] !== undefined && value[k].length) {
             console.log("Value of k", value);
-            // Check if state is not 'other' then set otherState value to ""
-            // if(value.state !=="Other"){
-            //   value.otherState = "";
-            //   console.log(question.value);
-            //   question.value = value;
-            //   return
-            // }
             question.value = value;
+            console.log("after",question.value)
             return;
           }
         }
@@ -753,8 +730,8 @@ function initAddressBlock(Survey) {
         const val = question.value || {};
         addr1.value = val.street || "";
         city.value = val.city || "";
-        state.value = val.state || "";
-        otherState.value =val.otherState || "";
+        state.value =  val.state || "";
+        otherState.value = val.otherState || "";
         country.value = val.country || "";
         postCode.value = val.postcode || "";
       };
