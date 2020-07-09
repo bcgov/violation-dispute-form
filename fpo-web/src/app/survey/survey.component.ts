@@ -271,7 +271,6 @@ export class SurveyComponent implements OnInit, OnDestroy {
   }
 
   submitForm(data: any) {
-    console.log("here's the data",data);
     // This is horrendous.
     if (
       (data.continueDispute == 'y' &&

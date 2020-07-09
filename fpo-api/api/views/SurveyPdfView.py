@@ -66,7 +66,7 @@ class SurveyPdfView(generics.GenericAPIView):
         pdf_content = render_pdf(html_content)
 
         response = HttpResponse(content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+        response['Content-Disposition'] = 'attachment; filename="' + name + '-' + today + '.pdf"'
         response.write(pdf_content)
         return response
         ######################
