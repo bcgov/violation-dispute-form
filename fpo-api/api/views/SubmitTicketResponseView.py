@@ -86,7 +86,7 @@ class SubmitTicketResponseView(APIView):
         html_content = template.render(data)
 
         #######################
-        # XXX: Just for testing
+        # XXX: Just for testing. Send the pdf directly to the browser.
         # response = HttpResponse(content_type='application/pdf')
         # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
         # response.write(pdf_content)
@@ -141,7 +141,7 @@ class SubmitTicketResponseView(APIView):
         try:
             if result:
 
-                pdf_content = render_pdf(html_content)
+                pdf_content = render_pdf(html_content) # Create the PDF
 
                 pdf_response = PreparedPdf(
                     data = pdf_content
