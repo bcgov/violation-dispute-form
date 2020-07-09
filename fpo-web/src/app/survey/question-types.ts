@@ -1,4 +1,3 @@
-import { stat } from 'fs';
 import * as countryJson from "../../assets/country.json";
 
 function fixCheckboxes(Survey) {
@@ -661,9 +660,7 @@ function initAddressBlock(Survey) {
       cell.appendChild(label);
       const country = document.createElement("select");
       country.className = "form-control";
-      const countryOpts = countryJson.default.Countries;
-      console.log(countryOpts)
-
+      const countryOpts = countryJson.Countries;
       for (const cval of countryOpts) {
         const opt = document.createElement("option");
         opt.text = cval.Name;
@@ -695,13 +692,12 @@ function initAddressBlock(Survey) {
           street: addr1.value,
           // 'line2': addr2.value,
           city: city.value,
-         // state: otherState.value=="" ? state.value : otherState.value,
           state: state.value,
           otherState: state.value == "Other" ? otherState.value : "",
           country: country.value,
           postcode: postCode.value
         };
-        if (state.value =="Other" || otherState.value !==""){
+        if (value.state =="Other" || value.otherState!==""){
           document.getElementById("othertest").style.display ="block"
         } else {
             const x = document.getElementById("othertest");
@@ -710,9 +706,7 @@ function initAddressBlock(Survey) {
 
         for (const k in value) {
           if (value[k] !== undefined && value[k].length) {
-            console.log("Value of k", value);
             question.value = value;
-            console.log("after",question.value)
             return;
           }
         }
