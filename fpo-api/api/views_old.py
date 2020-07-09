@@ -126,6 +126,7 @@ class SubmitTicketResponseView(APIView):
         #  Adding different pdf form logic: Jul 3, 2020
         data = json.loads(request.body)
         name = request.query_params.get('name')
+
         template = '{}.html'.format(name)
 
         # These are the current allowed forms (whitelist)
