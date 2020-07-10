@@ -17,10 +17,9 @@ from api.auth import (
 
 from api.models import TicketResponse, PreparedPdf
 from api.pdf import render as render_pdf
+from api.pdf import transform_data_for_pdf as transform
 from api.send_email import send_email
 from api.utils import generate_pdf
-
-from datetime import date, datetime  # For working with dates
 
 LOGGER = logging.getLogger(__name__)
 
@@ -36,11 +35,9 @@ class SubmitTicketResponseView(APIView):
 
         #############################################################
         #  Adding different pdf form logic: Jul 3, 2020
-        data = json.loads(request.body)
+        data = request.data
         name = request.query_params.get('name')
 
-        # data = copy.deepcopy(request.data)
-        # name = request.GET['name']
         template = '{}.html'.format(name)
 
         # These are the current allowed forms (whitelist)
@@ -53,37 +50,10 @@ class SubmitTicketResponseView(APIView):
         if not name in possibleTemplates:
             return HttpResponseBadRequest('No valid form specified')
 
-        # Add date to the payload
-        today = date.today().strftime('%d-%b-%Y')
-        data['date'] = today
-
-        #######################
-        # Notice To Disputant - Response
-        #
-        # Make the Violation Ticket Number all upper case
-        try:
-            x = data['ticketNumber']['prefix']
-            data['ticketNumber']['prefix'] = x.upper()
-        except KeyError:
-            pass
-
-        # Format the date to be more user friendly
-        try:
-            x = datetime.strptime(data['ticketDate'], '%Y-%m-%d')
-            data['ticketDate'] = x.strftime('%d-%b-%Y')
-        except KeyError:
-            pass
-
-        # Format the date of birth to be more user friendly
-        try:
-            x2 = datetime.strptime(data['disputantDOB'], '%Y-%m-%d')
-            data['disputantDOB'] = x2.strftime('%d-%b-%Y')
-        except KeyError:
-            pass
-        #######################
+        transformed_data = transform(data)
 
         template = get_template(template)
-        html_content = template.render(data)
+        html_content = template.render(transformed_data)
 
         #######################
         # XXX: Just for testing. Send the pdf directly to the browser.
@@ -93,16 +63,14 @@ class SubmitTicketResponseView(APIView):
         # return response
         #######################
 
-
         #############################################################
 
-        result = request.data
-        disputant = result.get("disputantName", {})
-        # address = result.get("disputantAddress", {})
-        ticketNumber = result.get("ticketNumber", {})
+        disputant = data.get("disputantName", {})
+        # address = data.get("disputantAddress", {})
+        ticketNumber = data.get("ticketNumber", {})
         ticketNumber = str(ticketNumber.get("prefix")) + str(ticketNumber.get("suffix"))
 
-        result_bin = json.dumps(result).encode("ascii")
+        result_bin = json.dumps(data).encode("ascii")
         (key_id, result_enc) = settings.ENCRYPTOR.encrypt(result_bin)
 
         response = TicketResponse(
@@ -112,10 +80,10 @@ class SubmitTicketResponseView(APIView):
             result=result_enc,
             key_id=key_id,
             ticket_number=ticketNumber.upper(),
-            ticket_date=result.get("ticketDate"),
-            hearing_location_id=result.get("hearingLocation"),
-            hearing_attendance=result.get("hearingAttendance"),
-            dispute_type=result.get("disputeType"),
+            ticket_date=data.get("ticketDate"),
+            hearing_location_id=data.get("hearingLocation"),
+            hearing_attendance=data.get("hearingAttendance"),
+            dispute_type=data.get("disputeType"),
         )
 
         check_required = [
@@ -131,7 +99,7 @@ class SubmitTicketResponseView(APIView):
                 return HttpResponseBadRequest("Missing: " + fname)
 
         # check terms acceptance?
-        # if not result.get("disputantAcknowledgement"):
+        # if not data.get("disputantAcknowledgement"):
         #     return HttpResponseBadRequest()
 
         # Generate/Save the pdf to DB and generate email with pdf attached
@@ -139,7 +107,7 @@ class SubmitTicketResponseView(APIView):
         pdf_response = None
 
         try:
-            if result:
+            if data:
 
                 pdf_content = render_pdf(html_content) # Create the PDF
 
@@ -160,7 +128,7 @@ class SubmitTicketResponseView(APIView):
                     response.save()
                     request.session['file_guid'] = str(response.file_guid)
 
-                email = result.get("disputantEmail")
+                email = data.get("disputantEmail")
                 if email and pdf_content:
                     send_email(email, pdf_content)
                     response.emailed_date = timezone.now()

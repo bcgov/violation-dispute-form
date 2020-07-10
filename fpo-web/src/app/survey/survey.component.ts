@@ -272,6 +272,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
 
   submitForm(data: any) {
     // This is horrendous.
+    let form
     if (
       (data.continueDispute == 'y' &&
       data.disputeType == 'fineAmount' &&
@@ -281,9 +282,9 @@ export class SurveyComponent implements OnInit, OnDestroy {
       data.moreTimeToPay1 == 'y'
       )
     ) {
-      var form = "violation-ticket-statement-and-written-reasons"; 
+      form = "violation-ticket-statement-and-written-reasons"; 
     } else {
-      var form = "notice-to-disputant-response";
+      form = "notice-to-disputant-response";
     }
 
     const url = this.dataService.getApiUrl(`submit-form/?name=${form}`);
