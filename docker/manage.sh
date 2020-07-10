@@ -44,6 +44,8 @@ usage() {
          are not deleted so they will be reused the next time you run start.
 
   rm - Removes any existing application containers.
+
+  loadFixtures - Load the data fixtures (sample data).  The application must be running.
 EOF
 exit 1
 }
@@ -253,6 +255,10 @@ toLower() {
   echo $(echo ${@} | tr '[:upper:]' '[:lower:]')
 }
 
+
+loadFixtures() {
+  docker exec fpo_fpo-api_1 bash loadFixtures
+}
 # =================================================================================================================
 
 pushd ${SCRIPT_HOME} >/dev/null
@@ -278,6 +284,9 @@ case "$COMMAND" in
   rm)
     configureEnvironment
     deleteVolumes
+    ;;
+  loadfixtures)
+    loadFixtures
     ;;
   build)
     case "$@" in

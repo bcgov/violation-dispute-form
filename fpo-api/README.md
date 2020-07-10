@@ -14,6 +14,11 @@ Here is an example
 
 The API is developed in Django/Python, using a Visual Studio 2017 project.
 
+The database is bare after docker build. Run the following script within the container to add data.
+```bash
+./loadFixtures
+```
+
 ## Development Deployment Environment
 
 To deploy Family Protection Order on an instance of OpenShift, see [the instructions](../RunningLocal.md) in the file RunningLocal.md.

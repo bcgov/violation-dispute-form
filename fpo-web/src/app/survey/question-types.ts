@@ -1,3 +1,5 @@
+import * as countryJson from "../../assets/country.json";
+
 function fixCheckboxes(Survey) {
   const widget = {
     name: "fixchecks",
@@ -420,68 +422,56 @@ function initAddressBlock(Survey) {
     provinceOptions: function() {
       return [
         {
-          value: "AB",
-          text: "Alberta"
-        },
-        {
-          value: "BC",
+          value: "British Columbia",
           text: "British Columbia"
         },
         {
-          value: "MB",
+          value: "Alberta",
+          text: "Alberta"
+        },
+        {
+          value: "Manitoba",
           text: "Manitoba"
         },
         {
-          value: "NB",
+          value: "New Brunswick",
           text: "New Brunswick"
         },
         {
-          value: "NF",
+          value: "Newfoundland and Labrador",
           text: "Newfoundland and Labrador"
         },
         {
-          value: "NT",
+          value: "Northwest Territories",
           text: "Northwest Territories"
         },
         {
-          value: "NS",
+          value: "Nova Scotia",
           text: "Nova Scotia"
         },
         {
-          value: "NU",
+          value: "Nunavut",
           text: "Nunavut"
         },
         {
-          value: "ON",
+          value: "Ontario",
           text: "Ontario"
         },
         {
-          value: "PE",
+          value: "Prince Edward Island",
           text: "Prince Edward Island"
         },
         {
-          value: "QC",
+          value: "Quebec",
           text: "Quebec"
         },
         {
-          value: "SK",
+          value: "Saskatchewan",
           text: "Saskatchewan"
         },
         {
-          value: "YT",
+          value: "Yukon",
           text: "Yukon"
-        }
-      ];
-    },
-    countryOptions: function() {
-      return [
-        {
-          value: "CAN",
-          text: "Canada"
-        },
-        {
-          value: "USA",
-          text: "USA"
         }
       ];
     },
@@ -525,7 +515,7 @@ function initAddressBlock(Survey) {
     },
     afterRender: function(question, el) {
       while (el.childNodes.length) el.removeChild(el.childNodes[0]);
-
+      
       const outer = document.createElement("div");
       const outerCls = "survey-address";
       let label;
@@ -575,9 +565,13 @@ function initAddressBlock(Survey) {
       cell = document.createElement("div");
       cell.className = "col-sm-12";
       row.appendChild(cell);
+      label = document.createElement("label");
+      label.className = "survey-sublabel";
+      label.appendChild(document.createTextNode("Street Address"));
+      cell.appendChild(label);
       const addr1 = document.createElement("input");
       addr1.className = "form-control";
-      addr1.placeholder = "Street address, for example: 800 Hornby St.";
+      //addr1.placeholder = "Street address, for example: 800 Hornby St.";
       addr1.id = question.inputId; // allow auto focus
       cell.appendChild(addr1);
       outer.appendChild(row);
@@ -613,17 +607,25 @@ function initAddressBlock(Survey) {
       label = document.createElement("label");
       // FIXME - set label.for to province ID
       label.className = "survey-sublabel";
-      label.appendChild(document.createTextNode("Province / State / Region"));
+      label.appendChild(document.createTextNode("Province / Territory / State / Region"));
       cell.appendChild(label);
-      const state = document.createElement("select");
+      const state = document.createElement("input")
+      state.setAttribute("list","stateData")
       state.className = "form-control";
+      state.id ="stateId";
+      state.setAttribute("type","text")
+      state.placeholder ="Enter Province / Territory / State / Region";
+      const statedatalist = document.createElement("datalist")
+      statedatalist.id = "stateData";
+
       const stateOpts = this.provinceOptions();
       for (const province of stateOpts) {
         const opt = document.createElement("option");
         opt.text = province.text;
         opt.value = province.value;
-        state.appendChild(opt);
+        statedatalist.appendChild(opt);
       }
+      state.appendChild(statedatalist);
       cell.appendChild(state);
       row.appendChild(cell);
 
@@ -641,22 +643,23 @@ function initAddressBlock(Survey) {
       cell.appendChild(label);
       const country = document.createElement("select");
       country.className = "form-control";
-      const countryOpts = this.countryOptions();
+      const countryOpts = countryJson.Countries;
       for (const cval of countryOpts) {
         const opt = document.createElement("option");
-        opt.text = cval.text;
-        opt.value = cval.value;
+        opt.text = cval.Name;
+        opt.value = cval.Value;
         country.appendChild(opt);
       }
       cell.appendChild(country);
       row.appendChild(cell);
+
 
       cell = document.createElement("div");
       cell.className = "col-sm-6";
       label = document.createElement("label");
       // FIXME - set label.for to postal code ID
       label.className = "survey-sublabel";
-      label.appendChild(document.createTextNode("Postal Code"));
+      label.appendChild(document.createTextNode("Postal Code / Zip Code"));
       cell.appendChild(label);
       const postCode = document.createElement("input");
       postCode.className = "form-control";
@@ -668,7 +671,7 @@ function initAddressBlock(Survey) {
       el.appendChild(outer);
 
       function updateValue(evt) {
-        const value = {
+         const value = {
           street: addr1.value,
           // 'line2': addr2.value,
           city: city.value,
@@ -676,6 +679,7 @@ function initAddressBlock(Survey) {
           country: country.value,
           postcode: postCode.value
         };
+
         for (const k in value) {
           if (value[k] !== undefined && value[k].length) {
             question.value = value;
@@ -695,8 +699,8 @@ function initAddressBlock(Survey) {
         const val = question.value || {};
         addr1.value = val.street || "";
         city.value = val.city || "";
-        state.value = val.state || "BC";
-        country.value = val.country || "CAN";
+        state.value =  val.state || "";
+        country.value = val.country || "";
         postCode.value = val.postcode || "";
       };
       question.valueChangedCallback();
@@ -704,6 +708,8 @@ function initAddressBlock(Survey) {
       if (question.value === undefined) {
         setTimeout(question.valueChangedCallback, 50);
       }
+      
+
     },
     willUnmount: function(question, el) {}
   };

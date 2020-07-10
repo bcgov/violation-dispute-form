@@ -425,9 +425,9 @@
 
     <!-- correct positioning of repeated block -->
     <div class="container-head">
-      <div style="position: absolute; top: 0; left: 0; margin-left: -70px; margin-top: -60px;">
+      <div style="position: absolute; width: 320px; top: 0; left: 0; margin-left: -70px; margin-top: -60px;">
         <div class="box-header">
-          <table style="margin-right: -140px">
+          <table>
             <tbody>
             <tr class="brdr-btm">
               <td>
@@ -438,7 +438,7 @@
             <tr class="brdr-btm">
               <td>
                 <label>VIOLATION DATE</label>
-                <div class="form-content">&nbsp;{{ticketDate}}</div>
+                <div class="form-content">&nbsp;{{ticketDatePDF}}</div>
               </td>
             </tr>
             <tr>
@@ -734,7 +734,7 @@
               id="ticket-date1"
               class="form-line-child underline form-content"
               style="width:5.7rem; font-size:14px;">
-              &nbsp;{{date}}
+              &nbsp;{{datePDF}}
             </div>
           </div>
           <div class="form-line" style="margin-left:1rem">Signed electronically by:</div>
@@ -766,7 +766,7 @@
               id="ticket-date2"
               class="form-line-child underline form-content"
               style="width:5.7rem; font-size:14px;">
-              &nbsp;{{date}}
+              &nbsp;{{datePDF}}
             </div>
           </div>
           <div class="form-line" style="margin-left:1rem">Signed electronically by:</div>
