@@ -22,7 +22,7 @@ def get_login_uri(request: Request = None, next: str = None) -> str:
     uri = None
     if request:
         try:
-            if ("HTTP_X_FORWARDED_HOST" in request.META):
+            if "HTTP_X_FORWARDED_HOST" in request.META:
                 set_script_prefix(settings.WEB_BASE_HREF)
             uri = reverse("oidc_auth_request", request=request)
         except NoReverseMatch:
@@ -38,7 +38,7 @@ def get_logout_uri(request: Request = None) -> str:
     uri = None
     if request:
         try:
-            if ("HTTP_X_FORWARDED_HOST" in request.META):
+            if "HTTP_X_FORWARDED_HOST" in request.META:
                 set_script_prefix(settings.WEB_BASE_HREF)
             uri = reverse("oidc_end_session", request=request)
         except NoReverseMatch:
@@ -153,18 +153,21 @@ def grecaptcha_verify(request) -> dict:
 
 
 def method_permission_classes(classes):
-    '''Note The permissions set through the decorator are the only
+    """Note The permissions set through the decorator are the only
     ones called for object permissions, but for request permissions
     they are in addition to the class wide permissions, because those
     are always checked before the request method is even called.
     If you want to specify all permissions per method only,
     set permission_classes = [] on the class.
-    '''
+    """
+
     def decorator(func):
         def decorated_func(self, *args, **kwargs):
             self.permission_classes = classes
             # this call is needed for request permissions
             self.check_permissions(self.request)
             return func(self, *args, **kwargs)
+
         return decorated_func
+
     return decorator
