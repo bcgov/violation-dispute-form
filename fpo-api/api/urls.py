@@ -50,13 +50,15 @@ urlpatterns = [
     # url(r'^$', SwaggerSchemaView.as_view()),
     path("submit-form/", views.SubmitTicketResponseView.as_view()),
     path("responses/counts/", views.TicketCountView.as_view()),
-    path("responses/", views.TicketResponseListView.as_view()),
+    path("responses/", views.TicketResponseView.as_view()),
+    path("responses/<int:id>/", views.TicketResponseView.as_view()),
     path("locations/", views.LocationListView.as_view()),
     path("regions/", views.RegionListView.as_view()),
     path("pdf/<int:id>/", views.PdfFileView.as_view()),
     path("pdf/", views.PdfFileView.as_view()),
     path("archived/", views.ArchivedView.as_view()),
     path("user-info/", views.UserStatusView.as_view()),
+    path("test/headers/", views.TestHeadersView.as_view())
 ]
 
 if settings.OIDC_ENABLED:

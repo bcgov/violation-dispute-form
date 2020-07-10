@@ -12,6 +12,7 @@ export interface UserInfo {
 
 @Injectable()
 export class GeneralDataService {
+  public GenericErrorMessage = "An unexpected error occured. If this persists please contact an administrator.";
   private onUserInfo: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   private PdfId: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   public currentValue= this.PdfId.asObservable();
@@ -77,6 +78,20 @@ export class GeneralDataService {
       .toPromise()
       .catch((error: any) => {
         return Promise.reject(error.message || error);
+      });
+  }
+
+  delete(
+    url: string,
+    params?: any,
+    headers?: any,
+  ): Promise<string> {
+    if (!url) return Promise.reject("Cache name not defined");
+    return this.http
+      .delete(url, { params, headers, withCredentials: true, responseType: "text" })
+      .toPromise()
+      .catch((error: any) => {
+        return Promise.reject(error);
       });
   }
 
