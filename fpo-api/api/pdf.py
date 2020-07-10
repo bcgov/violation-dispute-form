@@ -1,6 +1,8 @@
 import json
 import os
 import requests
+import copy
+from api.models import Location
 
 from datetime import date, datetime  # For working with dates
 
@@ -30,34 +32,45 @@ def render(*html):
     response.raise_for_status()
     return response.content
 
-def transform_data_for_pdf (data):
+
+def transform_data_for_pdf(original_data):
+
+    ''' Doing a deep copy, so we can store our original in the database untouched. '''
+    data = copy.deepcopy(original_data)
     # Add date to the payload
-    today = date.today().strftime('%d-%b-%Y')
-    data['datePDF'] = today
+    today = date.today().strftime("%d-%b-%Y")
+    hearingLocationId = data["hearingLocation"]
+    data["datePDF"] = today
 
     #######################
     # Notice To Disputant - Response
     #
     # Make the Violation Ticket Number all upper case
     try:
-        x = data['ticketNumber']['prefix']
-        data['ticketNumber']['prefix'] = x.upper()
+        x = data["ticketNumber"]["prefix"]
+        data["ticketNumber"]["prefix"] = x.upper()
     except KeyError:
         pass
 
     # Format the date to be more user friendly
     try:
-        x = datetime.strptime(data['ticketDate'], '%Y-%m-%d')
-        data['ticketDatePDF'] = x.strftime('%d-%b-%Y')
+        x = datetime.strptime(data["ticketDate"], "%Y-%m-%d")
+        data["ticketDatePDF"] = x.strftime("%d-%b-%Y")
     except KeyError:
         pass
 
     # Format the date of birth to be more user friendly
     try:
-        x2 = datetime.strptime(data['disputantDOB'], '%Y-%m-%d')
-        data['disputantDOBPDF'] = x2.strftime('%d-%b-%Y')
+        x2 = datetime.strptime(data["disputantDOB"], "%Y-%m-%d")
+        data["disputantDOBPDF"] = x2.strftime("%d-%b-%Y")
     except KeyError:
         pass
+
+    try:
+        data["hearingLocation"] = Location.objects.get(id=hearingLocationId).name
+    except Location.DoesNotExist:
+        pass
+
     #######################
 
     return data

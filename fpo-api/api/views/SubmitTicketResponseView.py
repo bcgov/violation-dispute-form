@@ -19,9 +19,10 @@ from api.models import TicketResponse, PreparedPdf
 from api.pdf import render as render_pdf
 from api.pdf import transform_data_for_pdf as transform
 from api.send_email import send_email
-from api.utils import generate_pdf
+
 
 LOGGER = logging.getLogger(__name__)
+
 
 class SubmitTicketResponseView(APIView):
     def get(self, request: Request, name=None):
@@ -33,41 +34,33 @@ class SubmitTicketResponseView(APIView):
         if not check_captcha["status"]:
             return HttpResponseForbidden(text=check_captcha["message"])
 
+        request.session["file_guid"] = None
         #############################################################
         #  Adding different pdf form logic: Jul 3, 2020
         data = request.data
-        name = request.query_params.get('name')
+        name = request.query_params.get("name")
 
-        template = '{}.html'.format(name)
+        template = "{}.html".format(name)
 
         # These are the current allowed forms (whitelist)
         possibleTemplates = [
-            'notice-to-disputant-response',
-            'violation-ticket-statement-and-written-reasons'
+            "notice-to-disputant-response",
+            "violation-ticket-statement-and-written-reasons",
         ]
 
         # If not one of our two forms... reject.
-        if not name in possibleTemplates:
-            return HttpResponseBadRequest('No valid form specified')
+        if name not in possibleTemplates:
+            return HttpResponseBadRequest("No valid form specified")
 
         transformed_data = transform(data)
 
         template = get_template(template)
         html_content = template.render(transformed_data)
-
-        #######################
-        # XXX: Just for testing. Send the pdf directly to the browser.
-        # response = HttpResponse(content_type='application/pdf')
-        # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
-        # response.write(pdf_content)
-        # return response
-        #######################
-
         #############################################################
 
         disputant = data.get("disputantName", {})
-        # address = data.get("disputantAddress", {})
         ticketNumber = data.get("ticketNumber", {})
+        email = data.get("disputantEmail")
         ticketNumber = str(ticketNumber.get("prefix")) + str(ticketNumber.get("suffix"))
 
         result_bin = json.dumps(data).encode("ascii")
@@ -91,56 +84,40 @@ class SubmitTicketResponseView(APIView):
             "last_name",
             "ticket_number",
             "ticket_date",
-            "hearing_location_id"
-            ]
+            "hearing_location_id",
+        ]
 
         for fname in check_required:
             if not getattr(response, fname):
                 return HttpResponseBadRequest("Missing: " + fname)
-
-        # check terms acceptance?
-        # if not data.get("disputantAcknowledgement"):
-        #     return HttpResponseBadRequest()
 
         # Generate/Save the pdf to DB and generate email with pdf attached
         email_sent = False
         pdf_response = None
 
         try:
-            if data:
+            pdf_content = render_pdf(html_content)
 
-                pdf_content = render_pdf(html_content) # Create the PDF
+            pdf_response = PreparedPdf(data=pdf_content)
+            pdf_response.save()
+            response.prepared_pdf_id = pdf_response.pk
+            response.printed_date = timezone.now()
 
-                pdf_response = PreparedPdf(
-                    data = pdf_content
-                )
+            if pdf_content:
+                (pdf_key_id, pdf_content_enc) = settings.ENCRYPTOR.encrypt(pdf_content)
+                pdf_response = PreparedPdf(data=pdf_content_enc, key_id=pdf_key_id)
                 pdf_response.save()
-                response.prepared_pdf_id = pdf_response.pk; 
-                response.printed_date = timezone.now()
+                response.prepared_pdf_id = pdf_response.pk
+                response.save()
+                request.session["file_guid"] = str(response.file_guid)
 
-                if pdf_content:
-                    (pdf_key_id, pdf_content_enc) = settings.ENCRYPTOR.encrypt(
-                        pdf_content
-                    )
-                    pdf_response = PreparedPdf(data=pdf_content_enc, key_id=pdf_key_id)
-                    pdf_response.save()
-                    response.prepared_pdf_id = pdf_response.pk
-                    response.save()
-                    request.session['file_guid'] = str(response.file_guid)
-
-                email = data.get("disputantEmail")
-                if email and pdf_content:
-                    send_email(email, pdf_content)
-                    response.emailed_date = timezone.now()
-                    email_sent = True
-                    response.save()
+            if email and pdf_content:
+                send_email(email, pdf_content)
+                response.emailed_date = timezone.now()
+                email_sent = True
+                response.save()
 
         except Exception as exception:
             LOGGER.exception("Pdf / Email generation error", exception)
 
-        return Response(
-            {
-                "id": response.pk,
-                "email-sent": email_sent,
-            }
-        )
+        return Response({"id": response.pk, "email-sent": email_sent})
