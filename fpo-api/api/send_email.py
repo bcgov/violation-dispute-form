@@ -14,7 +14,7 @@ from smtplib import SMTP, SMTPException
 LOGGER = logging.getLogger(__name__)
 
 
-def send_email(recipient_email: str, pdf_data: bytes):
+def send_email(recipient_email: str, pdf_data: bytes,pdf_name: str):
     server_addr = settings.SMTP_SERVER_ADDRESS
     sender_email = settings.SMTP_SENDER_EMAIL
     sender_name = settings.SMTP_SENDER_NAME
@@ -47,6 +47,13 @@ def send_email(recipient_email: str, pdf_data: bytes):
 
     LOGGER.info("Recipient email address: %s", recipient_email)
 
+    if (pdf_name == "violation-ticket-statement-and-written-reasons"):
+        filename = "Violation Ticket Statement and Written Reasons.pdf"
+    elif (pdf_name == "notice-to-disputant-response"):
+        filename = "Notice to Disputant Response.pdf"
+    else:
+        filename = "Response.pdf"
+
     sender_info = formataddr((str(Header(sender_name, "utf-8")), sender_email))
 
     msg = MIMEMultipart()
@@ -63,7 +70,7 @@ def send_email(recipient_email: str, pdf_data: bytes):
     encoders.encode_base64(base)
 
     # # Add header as key/value pair to attachment part
-    base.add_header("Content-Disposition", 'attachment; filename="report.pdf"')
+    base.add_header("Content-Disposition", 'attachment', filename=filename)
     # # Add attachment to message and convert message to string
     msg.attach(base)
     text = msg.as_string()
