@@ -8,29 +8,31 @@
         "state": "BC",
         "street": "7044"
     },
-    "disputantEmail": "fds@fjkd.ca",
+    "disputantEmail": "popkinj@gmail.com",
     "disputantInPersonAcknowledgement": [
-        "acknowledgeDisputantResponse"
+        "acknowledgeDisputantResponseInPerson"
     ],
     "disputantName": {
-        "first": "fds",
-        "last": "fds",
-        "middle": "fds"
+        "first": "fdsf",
+        "last": "fdas",
+        "middle": "fdas"
     },
-    "disputantPhoneNumber": "434 444 4444",
+    "disputantPhoneNumber": "555 555 5555",
     "disputantPhoneType": [
         "cell"
     ],
-    "disputeType": "allegation",
+    "disputeInWriting": "n",
+    "disputeType": "fineAmount",
+    "disputeTypeFineAmountExplanation": 1,
     "exhibits": "n",
     "french": "n",
     "hearingAttendance": "in-person",
-    "hearingLocation": "item1",
+    "hearingLocation": 2,
     "interpreter": "n",
-    "ticketDate": "2020-01-01",
+    "ticketDate": "2020-01-02",
     "ticketNumber": {
         "prefix": "fd",
-        "suffix": 43434343
+        "suffix": 44444444
     },
     "witnesses": "n"
 }

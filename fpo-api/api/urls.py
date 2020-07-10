@@ -32,7 +32,6 @@ from django.conf import settings
 # from rest_framework.urlpatterns import format_suffix_patterns
 
 import api.views as views
-from .views_old import SubmitTicketResponseView
 
 # class SwaggerSchemaView(APIView):
 #     permission_classes = [AllowAny]
@@ -49,7 +48,7 @@ from .views_old import SubmitTicketResponseView
 urlpatterns = [
     # Swagger documentation
     # url(r'^$', SwaggerSchemaView.as_view()),
-    path("submit-form/", SubmitTicketResponseView.as_view()),
+    path("submit-form/", views.SubmitTicketResponseView.as_view()),
     path("responses/counts/", views.TicketCountView.as_view()),
     path("responses/", views.TicketResponseView.as_view()),
     path("responses/<int:id>/", views.TicketResponseView.as_view()),

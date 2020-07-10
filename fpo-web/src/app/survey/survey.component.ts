@@ -271,8 +271,23 @@ export class SurveyComponent implements OnInit, OnDestroy {
   }
 
   submitForm(data: any) {
-    //Default to notice to disputant response. Please change later on. 
-    const url = this.dataService.getApiUrl("submit-form/?name=notice-to-disputant-response");
+    // This is horrendous.
+    let form
+    if (
+      (data.continueDispute == 'y' &&
+      data.disputeType == 'fineAmount' &&
+      data.disputeInWriting == 'y')
+        ||
+      (data.continueDispute == 'n' &&
+      data.moreTimeToPay1 == 'y'
+      )
+    ) {
+      form = "violation-ticket-statement-and-written-reasons"; 
+    } else {
+      form = "notice-to-disputant-response";
+    }
+
+    const url = this.dataService.getApiUrl(`submit-form/?name=${form}`);
     const opts = this.recaptchaResponse
       ? { headers: { "X-CAPTCHA-RESPONSE": this.recaptchaResponse } }
       : undefined;
