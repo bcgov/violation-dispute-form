@@ -6,6 +6,7 @@ from string import ascii_lowercase, digits
 from django.conf import settings
 from django.urls.exceptions import NoReverseMatch
 from django.utils.encoding import escape_uri_path
+from django.urls import set_script_prefix, clear_script_prefix
 
 from rest_framework import authentication
 from rest_framework.request import Request
@@ -21,9 +22,13 @@ def get_login_uri(request: Request = None, next: str = None) -> str:
     uri = None
     if request:
         try:
+            if ("HTTP_X_FORWARDED_HOST" in request.META):
+                set_script_prefix(settings.WEB_BASE_HREF)
             uri = reverse("oidc_auth_request", request=request)
         except NoReverseMatch:
             pass
+        finally:
+            clear_script_prefix()
         if uri and next:
             uri += "?next=" + escape_uri_path(next)
     return uri
@@ -33,9 +38,13 @@ def get_logout_uri(request: Request = None) -> str:
     uri = None
     if request:
         try:
+            if ("HTTP_X_FORWARDED_HOST" in request.META):
+                set_script_prefix(settings.WEB_BASE_HREF)
             uri = reverse("oidc_end_session", request=request)
         except NoReverseMatch:
             pass
+        finally:
+            clear_script_prefix()
     return uri
 
 

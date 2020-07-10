@@ -254,3 +254,5 @@ SMTP_SENDER_EMAIL = os.environ.get("SENDER_EMAIL", "")
 SMTP_SENDER_NAME = os.environ.get("SENDER_NAME", "")
 
 ENCRYPTOR = Encryptor("DATA_SECURITY_KEY")
+
+WEB_BASE_HREF = os.getenv("WEB_BASE_HREF", "/choose-how-to-attend-your-traffic-hearing/")
