@@ -59,8 +59,8 @@ class SubmitTicketResponseView(APIView):
         #############################################################
 
         disputant = data.get("disputantName", {})
-        ticketNumber = data.get("ticketNumber", {})
         email = data.get("disputantEmail")
+        ticketNumber = data.get("ticketNumber", {})
         ticketNumber = str(ticketNumber.get("prefix")) + str(ticketNumber.get("suffix"))
 
         result_bin = json.dumps(data).encode("ascii")
