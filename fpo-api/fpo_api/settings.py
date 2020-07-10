@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     "api",
     "corsheaders",
     "django_filters",
-    "oidc_rp",
+    "oidc_rp"
 ]
 
 MIDDLEWARE = [
@@ -227,6 +227,9 @@ if OIDC_RP_PROVIDER_ENDPOINT:
     OIDC_RP_AUTHENTICATION_REDIRECT_URI = (
         os.getenv("OIDC_RP_AUTHENTICATION_REDIRECT_URI", "/")
     )
+    OIDC_RP_AUTHENTICATION_FAILURE_REDIRECT_URI = (
+        os.getenv("OIDC_RP_AUTHENTICATION_FAILURE_REDIRECT_URI", "/")
+    )
 
     DRF_AUTH_CLASS = (
         "oidc_rp.contrib.rest_framework.authentication.BearerTokenAuthentication"
@@ -255,4 +258,4 @@ SMTP_SENDER_NAME = os.environ.get("SENDER_NAME", "")
 
 ENCRYPTOR = Encryptor("DATA_SECURITY_KEY")
 
-WEB_BASE_HREF = os.getenv("WEB_BASE_HREF", "/choose-how-to-attend-your-traffic-hearing/")
+FORCE_SCRIPT_NAME = os.getenv("WEB_BASE_HREF", "/choose-how-to-attend-your-traffic-hearing/")

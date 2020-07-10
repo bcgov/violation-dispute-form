@@ -5,7 +5,7 @@ import { AuthGuard } from 'app/guards/auth-guard.component';
 import { ContactComponent } from '../contact/contact.component';
 const routes: Routes = [
   {
-    path: 'admin',
+    path: 'inbox',
     component: AdminComponent,
     canActivate: [AuthGuard],
     data: {
@@ -13,7 +13,7 @@ const routes: Routes = [
     }
   },
   {
-    path: 'admin/new-responses',
+    path: 'inbox/new-responses',
     component: AdminComponent,
     canActivate: [AuthGuard],
     data: {
@@ -21,7 +21,7 @@ const routes: Routes = [
     }
   },
   {
-    path: 'admin/archive',
+    path: 'inbox/archive',
     component: AdminComponent,
     canActivate: [AuthGuard],
     data : {

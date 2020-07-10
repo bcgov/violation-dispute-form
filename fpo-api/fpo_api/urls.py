@@ -4,11 +4,8 @@ Definition of urls for fpo_api.
 from django.contrib import admin
 from django.urls import include, path
 from django.views.generic import RedirectView
-
-
+from oidc_rp.models import OIDCUser
 from . import views
-#from . import UserAdmin
-
 
 urlpatterns = [
     path("", RedirectView.as_view(url="api/v1/user-info/")),
@@ -17,4 +14,4 @@ urlpatterns = [
     path("admin/", admin.site.urls)
 ]
 
-
+admin.site.unregister(OIDCUser)

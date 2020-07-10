@@ -9,12 +9,12 @@
         </ngb-alert>
         <ul ngbNav #nav="ngbNav" class="nav-tabs">
           <li [ngbNavItem]="1" id="newResponseTab">
-            <a class="nav-link" [class.active]="mode === AdminMode.NewResponse" [routerLink]="['/admin/new-responses']" class="tab" >
+            <a class="nav-link" [class.active]="mode === AdminMode.NewResponse" [routerLink]="['/inbox/new-responses']" class="tab" >
               New Responses
             </a>
           </li>
           <li [ngbNavItem]="2">
-            <a class="nav-link" [routerLink]="['/admin/archive']" [class.active]="mode === AdminMode.Archive" class="tab"  >  
+            <a class="nav-link" [routerLink]="['/inbox/archive']" [class.active]="mode === AdminMode.Archive" class="tab"  >  
               Archive 
             </a>
           </li>

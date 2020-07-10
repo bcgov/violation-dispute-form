@@ -81,9 +81,11 @@ if (
     RUNNING_DEVSERVER
     and sys.argv[2] != "8080"
     and os.getenv("OIDC_RP_AUTHENTICATION_REDIRECT_URI", "/") == "/"
+    or os.getenv("OIDC_RP_AUTHENTICATION_FAILURE_REDIRECT_URI", "/") == "/"
 ):
     LOGGER.warning(
         "DEVSERVER not matching webserver on port 8080 - Ensure "
-        "OIDC_RP_AUTHENTICATION_REDIRECT_URI environment variable "
-        "is set or login will only redirect to API."
+        "OIDC_RP_AUTHENTICATION_REDIRECT_URI && "
+        "OIDC_RP_AUTHENTICATION_FAILURE_REDIRECT_URI "
+        "environment variables are set or login will only redirect to API."
     )

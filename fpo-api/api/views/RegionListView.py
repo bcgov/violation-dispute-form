@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework import generics
 from api.models import Region
 from api.serializers import RegionLookupSerializer
+from api.auth import IsActiveAndAdminUser
 
 from rest_framework.permissions import (
     IsAdminUser
@@ -11,7 +12,7 @@ from rest_framework.permissions import (
 
 class RegionListView(generics.ListAPIView):
     queryset = ""
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsActiveAndAdminUser]
 
     def get(self, request: Request, *args, **kwargs):
         queryset = Region.objects.all()
