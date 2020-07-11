@@ -112,7 +112,8 @@ class SubmitTicketResponseView(APIView):
                 request.session["file_guid"] = str(response.file_guid)
 
             if email and pdf_content:
-                send_email(email, pdf_content)
+                pdf_name = name
+                send_email(email, pdf_content, pdf_name)
                 response.emailed_date = timezone.now()
                 email_sent = True
                 response.save()
