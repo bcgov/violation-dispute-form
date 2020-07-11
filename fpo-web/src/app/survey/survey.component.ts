@@ -9,6 +9,8 @@ import { InsertService } from "../insert/insert.service";
 import { addQuestionTypes } from "./question-types";
 import { RecaptchaModule, RecaptchaFormsModule } from "ng-recaptcha";
 import { HttpClient } from "@angular/common/http";
+import Inputmask from 'inputmask';
+import * as widgets from 'surveyjs-widgets';
 @Component({
   selector: "app-survey-view",
   templateUrl: "./survey.component.html",
@@ -94,6 +96,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
     Survey.defaultBootstrapCss.radiogroup.controlLabel = "sv-checkbox-label";
     Survey.defaultBootstrapCss.radiogroup.materialDecorator = "";
     Survey.StylesManager.applyTheme("bootstrap");
+    widgets.inputmask(Survey);
   }
 
   ngOnDestroy() {
@@ -200,6 +203,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
 
     this.surveyModel = surveyModel;
     Survey.SurveyNG.render("surveyElement", { model: surveyModel });
+
 
     // update sidebar
     this.onPageUpdate.next(surveyModel);
