@@ -45,12 +45,6 @@ def transform_data_for_pdf(original_data):
     #######################
     # Notice To Disputant - Response
     #
-    # Make the Violation Ticket Number all upper case
-    try:
-        x = data["ticketNumber"]["prefix"]
-        data["ticketNumber"]["prefix"] = x.upper()
-    except KeyError:
-        pass
 
     # Format the date to be more user friendly
     try:
