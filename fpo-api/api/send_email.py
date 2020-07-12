@@ -14,7 +14,7 @@ from smtplib import SMTP, SMTPException
 LOGGER = logging.getLogger(__name__)
 
 
-def send_email(recipient_email: str, pdf_data: bytes,pdf_name: str):
+def send_email(recipient_email: str, pdf_data: bytes, pdf_name: str):
     server_addr = settings.SMTP_SERVER_ADDRESS
     sender_email = settings.SMTP_SENDER_EMAIL
     sender_name = settings.SMTP_SENDER_NAME
@@ -47,9 +47,9 @@ def send_email(recipient_email: str, pdf_data: bytes,pdf_name: str):
 
     LOGGER.info("Recipient email address: %s", recipient_email)
 
-    if (pdf_name == "violation-ticket-statement-and-written-reasons"):
+    if pdf_name == "violation-ticket-statement-and-written-reasons":
         filename = "Violation Ticket Statement and Written Reasons.pdf"
-    elif (pdf_name == "notice-to-disputant-response"):
+    elif pdf_name == "notice-to-disputant-response":
         filename = "Notice to Disputant Response.pdf"
     else:
         filename = "Response.pdf"
