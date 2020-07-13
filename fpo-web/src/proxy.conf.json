@@ -3,8 +3,7 @@
 		"context": [
 			"/choose-how-to-attend-your-traffic-hearing/api",
 			"/api",
-			"/choose-how-to-attend-your-traffic-hearing/admin",
-			"/choose-how-to-attend-your-traffic-hearing/static"
+			"/choose-how-to-attend-your-traffic-hearing/admin"
 		],
 		"target": "http://localhost:8081",
 		"pathRewrite": {
