@@ -146,7 +146,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
-STATIC_URL = os.getenv("WEB_BASE_HREF", "/choose-how-to-attend-your-traffic-hearing/") + "/static/"
+STATIC_URL = os.getenv("WEB_BASE_HREF", "/choose-how-to-attend-your-traffic-hearing/")  + "/api/static/"
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
