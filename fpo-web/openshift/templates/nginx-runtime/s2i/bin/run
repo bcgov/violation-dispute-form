@@ -10,6 +10,8 @@ getApiProxyConfigSection (){
 #  - The URL for the API endpoint.
 # ================================================================================
 apiUrl=${1%/}
+apiBaseUrl=$(echo ${apiUrl} | sed -r 's~(.*//[^ /]+).*~\1~g')
+apiPath=$(echo ${apiUrl} | sed -r 's~.*//[^ /]+(.*)~\1~g')
 
 read -r -d '' _FORWARDED_HEADERS << EOF
 
@@ -37,12 +39,12 @@ read -r -d '' _CONFIG_SECTION << EOF
             ${_FORWARDED_HEADERS}
             proxy_pass ${apiUrl};
         }
+
         location /api/static/ {
             ${API_RATE_LIMIT}
             ${_FORWARDED_HEADERS}
-            proxy_pass ${apiUrl}/static/;
+            proxy_pass ${apiBaseUrl}${WEB_BASE_HREF%/}${apiPath}/static/;
         }
-
 EOF
 
 echo "${_CONFIG_SECTION}"
