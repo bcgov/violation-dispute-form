@@ -10,9 +10,9 @@ class UserAdmin(admin.ModelAdmin):
         "authorization_email",
         "groups",
         "user_permissions",
-        "username",
         "password",
-        "display_name"
+        "display_name",
+        "accepted_terms"
     ]
     list_display = [
         "first_name",
