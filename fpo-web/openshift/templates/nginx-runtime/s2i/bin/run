@@ -37,6 +37,12 @@ read -r -d '' _CONFIG_SECTION << EOF
             ${_FORWARDED_HEADERS}
             proxy_pass ${apiUrl};
         }
+        location /api/static/ {
+            ${API_RATE_LIMIT}
+            ${_FORWARDED_HEADERS}
+            proxy_pass ${apiUrl}/static/;
+        }
+
 EOF
 
 echo "${_CONFIG_SECTION}"
