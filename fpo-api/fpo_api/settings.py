@@ -148,7 +148,7 @@ USE_TZ = True
 
 STATIC_URL = os.getenv("WEB_BASE_HREF", "/choose-how-to-attend-your-traffic-hearing/") + "/static/"
 
-STATIC_ROOT = posixpath.join(*(BASE_DIR.split(os.path.sep) + ["static"]))
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 

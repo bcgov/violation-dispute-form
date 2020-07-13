@@ -55,15 +55,30 @@ http {
     # HTTP Basic rules
     auth_basic_user_file /tmp/.htpasswd;
 
-    # Set variable for API proxy
+    # ======================================================
+    # Set variables for API proxy
+    # ------------------------------------------------------
+    # Ensure the original scheme is forwarded correctly
     map $http_x_forwarded_proto $proxy_scheme {
         default $scheme;
         https "https";
     }
+    # Ensure the original port is forwarded correctly
     map $http_x_forwarded_port $proxy_port {
         default $http_x_forwarded_port;
         '' $server_port;
     }
+    # Ensure the original host is forwarded correctly:
+    # - When the application is hosted on OpenShift and sitting behind 
+    #   a second proxy layer such as a jag of justice proxy
+    #   X-Forwarded-Host gets overwritten with the Hostname defined by the route 
+    #   at the OpenShift layer.  X-Forwarded-Server contains the original Hostname
+    #   that needs to be passed along to the various application components.
+    map $http_x_forwarded_server $proxy_host {
+        default $http_x_forwarded_server;
+        '' $host;
+    }
+    # ======================================================
 
     server {
         listen       8080;
@@ -84,7 +99,7 @@ http {
         location / {
             root   /tmp/app/dist;
             index  index.html index.htm;
-            try_files $uri /index.html;
+            try_files $uri $uri/ /index.html =404;
             gzip            on;
             gzip_min_length 1000;
             gzip_types      *;

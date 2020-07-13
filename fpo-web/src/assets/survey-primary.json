@@ -86,26 +86,12 @@
      "name": "ticketInfoPanel",
      "elements": [
       {
-       "type": "multipletext",
+       "type": "text",
+       "inputMask": "AA99999999",
+       "description":"A Violation Ticket Number is 2 letters and 8 numbers. For example, AB12345678",
        "name": "ticketNumber",
        "title": "Violation Ticket Number",
-       "isRequired": true,
-       "items": [
-        {
-         "name": "prefix",
-         "title": "First 2 Letters",
-         "maxLength": 2,
-         "requiredErrorText": "This must be the first 2 letters"
-        },
-        {
-         "name": "suffix",
-         "inputType": "number",
-         "title": "Last 8 Numbers",
-         "maxLength": 8,
-         "requiredErrorText": "This must be the last 8 numbers"
-        }
-       ],
-       "colCount": 2
+       "isRequired": true
       },
       {
        "type": "text",
@@ -121,9 +107,9 @@
        "title": "Hearing Location",
        "isRequired": true,
        "choicesByUrl": {
-        "url": "./api/v1/locations/",
-        "valueName": "id",
-        "titleName": "name"
+       "url": "./api/v1/locations/",
+       "valueName": "id",
+       "titleName": "name"
        }
       },
       {
@@ -146,7 +132,7 @@
       {
        "type": "yesno",
        "name": "continueDispute",
-       "title": "Do you still want to continue with your dispute for Violation Ticket #{ticketNumber.prefix}{ticketNumber.suffix}? ",
+       "title": "Do you still want to continue with your dispute for Violation Ticket #{ticketNumber}? ",
        "isRequired": true
       },
       {
@@ -314,7 +300,7 @@
       {
        "type": "radiogroup",
        "name": "hearingAttendance",
-       "title": "How do you want to attend your Traffic Hearing for Violation Ticket #{ticketNumber.prefix}{ticketNumber.suffix}?",
+       "title": "How do you want to attend your Traffic Hearing for Violation Ticket #{ticketNumber}?",
        "description": "In-Person Traffic Hearings may be held on evenings or Saturdays. The Court will decide the date and time for your Traffic Hearing.",
        "isRequired": true,
        "choices": [
@@ -430,7 +416,7 @@
        "type": "yesno",
        "name": "charter",
        "visible": false,
-       "title": "Will you be making an application under the Charter of Rights and Freedom for this Violation Ticket #{ticketNumber.prefix}{ticketNumber.suffix}?"
+       "title": "Will you be making an application under the Charter of Rights and Freedom for this Violation Ticket #{ticketNumber}?"
       },
       {
        "type": "infotext",

@@ -28,6 +28,7 @@
     "ace-builds": "~1.2.2",
     "bootstrap": "~4.3.1",
     "core-js": "^3.6.4",
+    "inputmask": "^5.0.3",
     "ng-recaptcha": "^5.0.0",
     "ngx-toastr": "^11.3.3",
     "node-sass": "^4.13.1",
@@ -36,6 +37,7 @@
     "survey-angular": "1.5.5",
     "survey-creator": "1.5.5",
     "survey-knockout": "1.5.5",
+    "surveyjs-widgets": "^1.5.5",
     "tslib": "^2.0.0",
     "typescript": "~3.5.3",
     "zone.js": "^0.9.1"

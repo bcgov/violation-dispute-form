@@ -60,8 +60,6 @@ class SubmitTicketResponseView(APIView):
 
         disputant = data.get("disputantName", {})
         email = data.get("disputantEmail")
-        ticketNumber = data.get("ticketNumber", {})
-        ticketNumber = str(ticketNumber.get("prefix")) + str(ticketNumber.get("suffix"))
 
         result_bin = json.dumps(data).encode("ascii")
         (key_id, result_enc) = settings.ENCRYPTOR.encrypt(result_bin)
@@ -72,7 +70,7 @@ class SubmitTicketResponseView(APIView):
             last_name=disputant.get("last"),
             result=result_enc,
             key_id=key_id,
-            ticket_number=ticketNumber.upper(),
+            ticket_number=data.get("ticketNumber"),
             ticket_date=data.get("ticketDate"),
             hearing_location_id=data.get("hearingLocation"),
             hearing_attendance=data.get("hearingAttendance"),
@@ -112,7 +110,7 @@ class SubmitTicketResponseView(APIView):
                 request.session["file_guid"] = str(response.file_guid)
 
             if email and pdf_content:
-                send_email(email, pdf_content)
+                send_email(email, pdf_content, name)
                 response.emailed_date = timezone.now()
                 email_sent = True
                 response.save()
