@@ -27,6 +27,22 @@ read -r -d '' _FORWARDED_HEADERS << EOF
 EOF
 
 read -r -d '' _CONFIG_SECTION << EOF
+		location /static {
+            limit_except OPTIONS {
+                ${HTTP_BASIC}
+            }
+            ${_FORWARDED_HEADERS}
+            proxy_pass ${apiUrl/api/static};
+        }
+		
+		location /admin {
+            limit_except OPTIONS {
+                ${HTTP_BASIC}
+            }
+            ${_FORWARDED_HEADERS}
+            proxy_pass ${apiUrl/api/admin};
+        }
+		
         location /api {
             ${API_RATE_LIMIT}
             limit_except OPTIONS {

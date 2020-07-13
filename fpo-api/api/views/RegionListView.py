@@ -5,10 +5,6 @@ from api.models import Region
 from api.serializers import RegionLookupSerializer
 from api.auth import IsActiveAndAdminUser
 
-from rest_framework.permissions import (
-    IsAdminUser
-)
-
 
 class RegionListView(generics.ListAPIView):
     queryset = ""
