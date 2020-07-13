@@ -32,7 +32,7 @@ read -r -d '' _CONFIG_SECTION << EOF
                 ${HTTP_BASIC}
             }
             ${_FORWARDED_HEADERS}
-            proxy_pass ${apiUrl/api/static};
+            proxy_pass ${apiUrl/\/api/\/static};
         }
 		
 		location /admin {
@@ -40,7 +40,7 @@ read -r -d '' _CONFIG_SECTION << EOF
                 ${HTTP_BASIC}
             }
             ${_FORWARDED_HEADERS}
-            proxy_pass ${apiUrl/api/admin};
+            proxy_pass ${apiUrl/\/api/\/admin};
         }
 		
         location /api {

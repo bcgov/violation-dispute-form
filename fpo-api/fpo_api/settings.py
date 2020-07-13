@@ -259,3 +259,4 @@ SMTP_SENDER_NAME = os.environ.get("SENDER_NAME", "")
 ENCRYPTOR = Encryptor("DATA_SECURITY_KEY")
 
 FORCE_SCRIPT_NAME = os.getenv("WEB_BASE_HREF", "/choose-how-to-attend-your-traffic-hearing/")
+LOGOUT_REDIRECT_URL = os.getenv("LOGOUT_REDIRECT_URL", "/choose-how-to-attend-your-traffic-hearing/")

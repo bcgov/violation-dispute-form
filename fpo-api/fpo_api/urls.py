@@ -11,6 +11,8 @@ urlpatterns = [
     path("", RedirectView.as_view(url="api/v1/user-info/")),
     path("api/v1/", include("api.urls")),
     path("health/", views.health),
+    path("admin/login/", views.login),
+    path("admin/logout/", views.logout),
     path("admin/", admin.site.urls)
 ]
 

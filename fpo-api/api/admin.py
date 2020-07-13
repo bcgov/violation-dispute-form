@@ -4,6 +4,16 @@ from django.apps import apps
 
 
 class UserAdmin(admin.ModelAdmin):
+    exclude = [
+        "authorization_guid",
+        "authorization_directory",
+        "authorization_email",
+        "groups",
+        "user_permissions",
+        "username",
+        "password",
+        "display_name"
+    ]
     list_display = [
         "first_name",
         "last_name",
@@ -14,7 +24,6 @@ class UserAdmin(admin.ModelAdmin):
     ]
 
     # Disable adding, because logging in should seed the user.
-
     def has_add_permission(self, request):
         return False
 
