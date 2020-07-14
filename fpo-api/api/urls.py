@@ -58,7 +58,7 @@ urlpatterns = [
     path("pdf/", views.PdfFileView.as_view()),
     path("archived/", views.ArchivedView.as_view()),
     path("user-info/", views.UserStatusView.as_view()),
-    path("test/headers/", views.TestHeadersView.as_view())
+    path("test/headers/", views.TestHeadersView.as_view()),
 ]
 
 if settings.OIDC_ENABLED:
@@ -74,16 +74,18 @@ be set. EX. OIDC_RP_AUTHENTICATION_REDIRECT_URI =
 http://localhost:8080/choose-how-to-attend-your-traffic-hearing/admin
 """
 LOGGER = logging.getLogger(__name__)
-RUNNING_DEVSERVER = (
-    len(sys.argv) > 1 and sys.argv[1] == "runserver"
-)
+RUNNING_DEVSERVER = len(sys.argv) > 1 and sys.argv[1] == "runserver"
 if (
     RUNNING_DEVSERVER
     and sys.argv[2] != "8080"
-    and os.getenv("OIDC_RP_AUTHENTICATION_REDIRECT_URI", "/") == "/"
+    and (
+        os.getenv("OIDC_RP_AUTHENTICATION_REDIRECT_URI", "/") == "/"
+        or os.getenv("OIDC_RP_AUTHENTICATION_FAILURE_REDIRECT_URI", "/") == "/"
+    )
 ):
     LOGGER.warning(
         "DEVSERVER not matching webserver on port 8080 - Ensure "
-        "OIDC_RP_AUTHENTICATION_REDIRECT_URI environment variable "
-        "is set or login will only redirect to API."
+        "OIDC_RP_AUTHENTICATION_REDIRECT_URI && "
+        "OIDC_RP_AUTHENTICATION_FAILURE_REDIRECT_URI "
+        "environment variables are set or login will only redirect to API."
     )

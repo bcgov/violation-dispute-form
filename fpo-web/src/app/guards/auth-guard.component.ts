@@ -19,9 +19,7 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (
-      this.generalDataService.isAdmin()
-    ) {
+    if (this.generalDataService.isAdmin()) {
       return true;
     }
 
@@ -30,19 +28,19 @@ export class AuthGuard implements CanActivate {
     } catch (error) {
       console.error(error);
       this.toastr.error(this.generalDataService.GenericErrorMessage, "Error");
-      return this.router.createUrlTree(['/']);
+      return this.router.createUrlTree(["/"]);
     }
     if (!userInfo || !userInfo.user_id) {
-      const extUri =
-        window.location.origin + this.location.prepareExternalUrl("/admin");
+      let extUri =
+        window.location.origin + this.location.prepareExternalUrl(state.url);
+      if (extUri.substr(-1) != "/") extUri += "/";
       window.location.replace(
         userInfo.login_uri + "?next=" + encodeURIComponent(extUri)
       );
     } else if (userInfo.is_staff) {
       return true;
-    }
-    else {
-      return this.router.createUrlTree(['/']);
+    } else {
+      return this.router.createUrlTree(["/"]);
     }
   }
 }

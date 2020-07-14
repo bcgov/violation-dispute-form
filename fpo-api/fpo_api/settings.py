@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     "api",
     "corsheaders",
     "django_filters",
-    "oidc_rp",
+    "oidc_rp"
 ]
 
 MIDDLEWARE = [
@@ -146,7 +146,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
-STATIC_URL = "/choose-how-to-attend-your-traffic-hearing/api/static/"
+STATIC_URL = os.getenv("WEB_BASE_HREF", "/choose-how-to-attend-your-traffic-hearing/")  + "/api/static/"
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
@@ -222,10 +222,10 @@ if OIDC_RP_PROVIDER_ENDPOINT:
     OIDC_RP_PROVIDER_SIGNATURE_ALG = "RS256"
     OIDC_RP_SCOPES = "openid profile email"  # address phone
     OIDC_RP_ID_TOKEN_INCLUDE_USERINFO = True
-    OIDC_RP_AUTHENTICATION_FAILURE_REDIRECT_URI = os.getenv("OIDC_RP_FAILURE_URI", "/")
+    OIDC_RP_AUTHENTICATION_FAILURE_REDIRECT_URI = os.getenv("OIDC_RP_FAILURE_URI", "/choose-how-to-attend-your-traffic-hearing/")
     OIDC_RP_USER_DETAILS_HANDLER = "api.auth.sync_keycloak_user"
     OIDC_RP_AUTHENTICATION_REDIRECT_URI = (
-        os.getenv("OIDC_RP_AUTHENTICATION_REDIRECT_URI", "/")
+        os.getenv("OIDC_RP_AUTHENTICATION_REDIRECT_URI", "/choose-how-to-attend-your-traffic-hearing/")
     )
 
     DRF_AUTH_CLASS = (
@@ -255,4 +255,5 @@ SMTP_SENDER_NAME = os.environ.get("SENDER_NAME", "")
 
 ENCRYPTOR = Encryptor("DATA_SECURITY_KEY")
 
-WEB_BASE_HREF = os.getenv("WEB_BASE_HREF", "/choose-how-to-attend-your-traffic-hearing/")
+FORCE_SCRIPT_NAME = os.getenv("WEB_BASE_HREF", "/choose-how-to-attend-your-traffic-hearing/")
+LOGOUT_REDIRECT_URL = os.getenv("LOGOUT_REDIRECT_URL", "/choose-how-to-attend-your-traffic-hearing/")

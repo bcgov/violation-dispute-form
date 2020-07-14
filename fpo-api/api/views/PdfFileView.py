@@ -11,7 +11,7 @@ from django.http import (
 )
 from rest_framework.request import Request
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAdminUser
+from api.auth import IsActiveAndAdminUser
 from api.utils import merge_pdf
 from api.auth import method_permission_classes
 from api.models import TicketResponse, PreparedPdf
@@ -60,7 +60,7 @@ class PdfFileView(APIView):
     """ This route is used for printing by the staff on the admin page
         it can handle multiple files. """
 
-    @method_permission_classes((IsAdminUser,))
+    @method_permission_classes((IsActiveAndAdminUser,))
     def post(self, request: Request):
         ids = request.data.get("id")
         if len(ids) > 50:
