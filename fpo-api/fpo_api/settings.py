@@ -222,13 +222,10 @@ if OIDC_RP_PROVIDER_ENDPOINT:
     OIDC_RP_PROVIDER_SIGNATURE_ALG = "RS256"
     OIDC_RP_SCOPES = "openid profile email"  # address phone
     OIDC_RP_ID_TOKEN_INCLUDE_USERINFO = True
-    OIDC_RP_AUTHENTICATION_FAILURE_REDIRECT_URI = os.getenv("OIDC_RP_FAILURE_URI", "/")
+    OIDC_RP_AUTHENTICATION_FAILURE_REDIRECT_URI = os.getenv("OIDC_RP_FAILURE_URI", "/choose-how-to-attend-your-traffic-hearing/")
     OIDC_RP_USER_DETAILS_HANDLER = "api.auth.sync_keycloak_user"
     OIDC_RP_AUTHENTICATION_REDIRECT_URI = (
-        os.getenv("OIDC_RP_AUTHENTICATION_REDIRECT_URI", "/")
-    )
-    OIDC_RP_AUTHENTICATION_FAILURE_REDIRECT_URI = (
-        os.getenv("OIDC_RP_AUTHENTICATION_FAILURE_REDIRECT_URI", "/")
+        os.getenv("OIDC_RP_AUTHENTICATION_REDIRECT_URI", "/choose-how-to-attend-your-traffic-hearing/")
     )
 
     DRF_AUTH_CLASS = (

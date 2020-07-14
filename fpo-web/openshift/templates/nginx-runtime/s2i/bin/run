@@ -32,12 +32,19 @@ EOF
 
 read -r -d '' _CONFIG_SECTION << EOF
 		
+		location /api/static/ {
+            ${API_RATE_LIMIT}
+            ${_FORWARDED_HEADERS}
+            proxy_pass ${apiBaseUrl}${apiPath}/static/;
+        }
+		
 		location /admin {
+            ${API_RATE_LIMIT}
             limit_except OPTIONS {
                 ${HTTP_BASIC}
             }
             ${_FORWARDED_HEADERS}
-            proxy_pass ${apiUrl/\/api/\/admin};
+            proxy_pass ${apiBaseUrl}/admin;
         }
 		
         location /api {
@@ -47,12 +54,6 @@ read -r -d '' _CONFIG_SECTION << EOF
             }
             ${_FORWARDED_HEADERS}
             proxy_pass ${apiUrl};
-        }
-
-        location /api/static/ {
-            ${API_RATE_LIMIT}
-            ${_FORWARDED_HEADERS}
-            proxy_pass ${apiBaseUrl}${WEB_BASE_HREF%/}${apiPath}/static/;
         }
 EOF
 
