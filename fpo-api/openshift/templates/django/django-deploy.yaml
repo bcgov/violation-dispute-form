@@ -140,13 +140,13 @@ objects:
                 initialDelaySeconds: 3
                 timeoutSeconds: 30
                 httpGet:
-                  path: "/health"
+                  path: "/health/"
                   port: 8080
               livenessProbe:
                 initialDelaySeconds: 120
                 timeoutSeconds: 30
                 httpGet:
-                  path: "/health"
+                  path: "/health/"
                   port: 8080
               env:
                 - name: DATABASE_SERVICE_NAME
