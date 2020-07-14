@@ -46,6 +46,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
   private showMissingTerms = true;
   private missingRequired = true;
   private prevPageIndex = null;
+  public hasErrors = true;
   private surveyCollection = "default";
 
   constructor(
@@ -231,7 +232,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
   changeMode(mode: string) {
     this.surveyMode = mode;
     if (mode === "print") {
-      this.complete();
+      this.submit();
     } else {
       if (this.onComplete) this.onComplete(null);
     }
@@ -249,13 +250,12 @@ export class SurveyComponent implements OnInit, OnDestroy {
     return !!this.recaptchaKey;
   }
 
-  get canComplete(): boolean {
-    // FIXME include status of survey completion
-    return !this.recaptchaRequired || !!this.recaptchaResponse && !this.missingRequired ;
+  get canSubmit(): boolean{
+    return !this.recaptchaRequired || !!this.recaptchaResponse;
   }
 
   get displayRecaptcha(): boolean {
-    return !this.missingRequired;
+    return !this.missingRequired && !this.hasErrors;
   }
 
   fetchRecaptchaKey() {
@@ -310,8 +310,11 @@ export class SurveyComponent implements OnInit, OnDestroy {
         }
       );
   }
+   hasFieldErrors(){
+    this.hasErrors = this.surveyModel.isCurrentPageHasErrors
+  }
 
-  complete() {
+  submit(){
     this.surveyModel.completeLastPage();
   }
 
@@ -361,7 +364,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
         this.cacheLoadTime = cache.time;
         this.cacheKey = response.id || response.key;
         if (this.surveyMode === "print" && this.surveyCompleted)
-          this.complete();
+          this.submit();
         else if (prevPg === this.surveyModel.currentPageNo)
           this.onPageUpdate.next(this.surveyModel);
       }
