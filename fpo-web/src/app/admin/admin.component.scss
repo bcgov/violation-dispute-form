@@ -4,6 +4,7 @@
 @import '~@swimlane/ngx-datatable/themes/material.scss';
 @import '~@swimlane/ngx-datatable/assets/icons.css';
 
+
 //Note I cannot seem to make CSS work witout changing ViewEncapsulation.
 //Instead I used ::ng-deep which is depreciated.
 //Alternatively this could be moved to the style.css at the root. 
@@ -11,6 +12,7 @@
     padding: 15px 15px 0px 15px !important;
     max-width:100%;
 }
+
 
 :host ::ng-deep {
 
@@ -249,7 +251,7 @@
     }
      
     .datatable-icon-down:before {
-        content: '\66';
+        content: '\25BC';
         font-family: 'data-table' !important;
         font-style: normal !important;
         font-weight: normal !important;
@@ -260,7 +262,7 @@
     }
 
     .datatable-icon-up:before {
-        content: '\65';
+        content: '\25B2';
         font-family: 'data-table' !important;
         font-style: normal !important;
         font-weight: normal !important;
