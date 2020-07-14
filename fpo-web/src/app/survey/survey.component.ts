@@ -46,7 +46,6 @@ export class SurveyComponent implements OnInit, OnDestroy {
   private showMissingTerms = true;
   private missingRequired = true;
   private prevPageIndex = null;
-  public hasErrors = true;
   private surveyCollection = "default";
 
   constructor(
@@ -255,7 +254,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
   }
 
   get displayRecaptcha(): boolean {
-    return !this.missingRequired && !this.hasErrors;
+    return !this.missingRequired;
   }
 
   fetchRecaptchaKey() {
@@ -311,7 +310,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
       );
   }
    hasFieldErrors(){
-    this.hasErrors = this.surveyModel.isCurrentPageHasErrors
+    this.surveyModel.isCurrentPageHasErrors
   }
 
   submit(){
