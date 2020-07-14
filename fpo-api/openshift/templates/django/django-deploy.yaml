@@ -89,8 +89,10 @@ objects:
       recaptcha-secret-key: ${RECAPTCHA_SECRET_KEY}
       smtp-host: ${SMTP_SERVER_ADDRESS}
       sender-email: ${SENDER_EMAIL}
-      sender-name: ${SENDER_NAME}"
+      sender-name: ${SENDER_NAME}
       encryption-key: ${DATA_SECURITY_KEY}
+      oidc-rp-provider-endpoint: ${OIDC_RP_PROVIDER_ENDPOINT}
+      oidc-rp-client-secret: ${OIDC_RP_CLIENT_SECRET}
     type: Opaque
 
   - kind: DeploymentConfig
@@ -200,11 +202,24 @@ objects:
                     secretKeyRef:
                       name: ${NAME}
                       key: sender-name
+
                 - name: DATA_SECURITY_KEY
                   valueFrom:
                     secretKeyRef:
                       name: ${NAME}
                       key: encryption-key
+
+                - name: OIDC_RP_PROVIDER_ENDPOINT
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${NAME}
+                      key: oidc-rp-provider-endpoint
+                - name: OIDC_RP_CLIENT_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${NAME}
+                      key: oidc-rp-client-secret
+
               resources:
                 requests:
                   cpu: "${CPU_REQUEST}"
@@ -312,6 +327,17 @@ parameters:
     description: The Encryption Key for the environment.
     generate: expression
     from: '[a-zA-Z0-9]{32}'
+
+  - name: OIDC_RP_PROVIDER_ENDPOINT
+    displayName: OIDC RP Provider Endpoint
+    description: OIDC RP Provider Endpoint.
+    required: false
+    value:
+  - name: OIDC_RP_CLIENT_SECRET
+    displayName: OIDC RP Client Secret
+    description: OIDC RP Client Secret
+    required: false
+    value:
 
   - name: CPU_REQUEST
     displayName: Resources CPU Request
