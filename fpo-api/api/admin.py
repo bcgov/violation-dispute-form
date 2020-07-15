@@ -1,5 +1,8 @@
 from django.contrib import admin
 from api.models.User import User
+from api.models.Location import Location
+from api.models.Region import Region
+
 from django.apps import apps
 
 
@@ -43,4 +46,6 @@ for app_config in apps.get_app_configs():
 
 # Only register user
 admin.site.register(User, UserAdmin)
+admin.site.register(Location)
+admin.site.register(Region)
 admin.site.site_header = "VTC Administration"
