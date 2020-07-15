@@ -28,7 +28,8 @@
 /** Evergreen browsers require these. **/
 import 'core-js/es/reflect';
 
-/* Needed for url-search-params. Used in route-guard. */
+/** Needed for url-search-params. Used in route-guard. **/
+import 'core-js/features/url';
 import 'core-js/features/url-search-params';
 
 /** ALL Firefox browsers require the following to support `@angular/animation`. **/
