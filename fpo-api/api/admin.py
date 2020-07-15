@@ -13,6 +13,8 @@ class LocationAdmin(admin.ModelAdmin):
 
     list_select_related = ["region"]
 
+    def has_add_permission(self, request):
+        return False
 
 class RegionAdmin(admin.ModelAdmin):
     ordering = ("name",)
