@@ -34,8 +34,11 @@ export class AuthGuard implements CanActivate {
       let extUri =
         window.location.origin + this.location.prepareExternalUrl(state.url);
       if (extUri.substr(-1) != "/") extUri += "/";
+
+      let url = new URL(userInfo.login_uri);
+      url.searchParams.append("next", extUri); 
       window.location.replace(
-        userInfo.login_uri + "?next=" + encodeURIComponent(extUri)
+        url.toString()
       );
     } else if (userInfo.is_staff) {
       return true;
