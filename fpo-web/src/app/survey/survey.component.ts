@@ -135,6 +135,17 @@ export class SurveyComponent implements OnInit, OnDestroy {
     // else this.error = 'Missing survey definition';
   }
 
+  //Validate questions for address custom widget
+  surveyValidateAddressQuestions(s, options) {
+    if (options.name == 'disputantAddress') {
+      if (options.value.state == "" || options.value.city == "" || 
+          options.value.country == "" || options.value.postcode == "" || 
+          options.value.street == "") {
+        options.error = "Please answer all the required mailing address questions";
+      }
+    }
+  }
+
   async renderSurvey() {
     const surveyModel = new Survey.Model(this._jsonData);
     surveyModel.commentPrefix = "Comment";
@@ -201,7 +212,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
     });
 
     this.surveyModel = surveyModel;
-    Survey.SurveyNG.render("surveyElement", { model: surveyModel });
+    Survey.SurveyNG.render("surveyElement", { model: surveyModel, onValidateQuestion: this.surveyValidateAddressQuestions });
 
 
     // update sidebar
@@ -249,7 +260,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
     return !!this.recaptchaKey;
   }
 
-  get canSubmit(): boolean{
+  get canSubmit(): boolean {
     return !this.recaptchaRequired || !!this.recaptchaResponse;
   }
 
@@ -277,14 +288,14 @@ export class SurveyComponent implements OnInit, OnDestroy {
     let form
     if (
       (data.continueDispute == 'y' &&
-      data.disputeType == 'fineAmount' &&
-      data.disputeInWriting == 'y')
-        ||
+        data.disputeType == 'fineAmount' &&
+        data.disputeInWriting == 'y')
+      ||
       (data.continueDispute == 'n' &&
-      data.moreTimeToPay1 == 'y'
+        data.moreTimeToPay1 == 'y'
       )
     ) {
-      form = "violation-ticket-statement-and-written-reasons"; 
+      form = "violation-ticket-statement-and-written-reasons";
     } else {
       form = "notice-to-disputant-response";
     }
@@ -299,7 +310,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
       .then(
         (rs) => {
           console.log("submitted form successfully", rs);
-          if(rs && "pdf-id" in rs) {
+          if (rs && "pdf-id" in rs) {
             this.pdfId = rs["pdf-id"];
             this.dataService.changePdfId(this.pdfId)
           }
@@ -310,11 +321,11 @@ export class SurveyComponent implements OnInit, OnDestroy {
       );
   }
 
-  hasFieldErrors(){
-   return this.surveyModel.isCurrentPageHasErrors;
+  hasFieldErrors() {
+    return this.surveyModel.isCurrentPageHasErrors;
   }
 
-  submit(){
+  submit() {
     this.surveyModel.completeLastPage();
   }
 
