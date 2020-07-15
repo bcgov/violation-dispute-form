@@ -219,6 +219,8 @@ objects:
                     secretKeyRef:
                       name: ${NAME}
                       key: oidc-rp-client-secret
+                - name: OIDC_RP_KC_IDP_HINT
+                  value: ${OIDC_RP_KC_IDP_HINT}
 
               resources:
                 requests:
@@ -338,6 +340,11 @@ parameters:
     description: OIDC RP Client Secret
     required: false
     value:
+  - name: OIDC_RP_KC_IDP_HINT
+    displayName: OIDC RP KeyCloak IDP Hint
+    description: OIDC RP KeyCloak IDP Hint
+    required: false
+    value: idir
 
   - name: CPU_REQUEST
     displayName: Resources CPU Request
