@@ -1,5 +1,8 @@
 from django.contrib import admin
-from api.models import User, Region, Location
+from api.models.User import User
+from api.models.Location import Location
+from api.models.Region import Region
+
 from django.apps import apps
 
 

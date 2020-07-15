@@ -309,8 +309,9 @@ export class SurveyComponent implements OnInit, OnDestroy {
         }
       );
   }
-   hasFieldErrors(){
-    this.surveyModel.isCurrentPageHasErrors
+
+  hasFieldErrors(){
+   return this.surveyModel.isCurrentPageHasErrors;
   }
 
   submit(){
