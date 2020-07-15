@@ -4,69 +4,23 @@ from django.apps import apps
 
 
 class LocationAdmin(admin.ModelAdmin):
-    '''exclude = [
-        "authorization_guid",
-        "authorization_directory",
-        "authorization_email",
-        "groups",
-        "user_permissions",
-        "password",
-        "display_name",
-        "accepted_terms"
-    ]
-    list_display = [
-        "first_name",
-        "last_name",
-        "email",
-        "is_superuser",
-        "is_staff",
-        "is_active",
-        "date_joined",
-    ]'''
+    ordering = ("name",)
 
-    # Disable adding, because logging in should seed the user.
+    list_display = ["name", "region"]
+
+    list_select_related = ["region"]
+
     def has_add_permission(self, request):
         return False
-
-    """ Disable deleting, setting to inactive is better
-    otherwise next time the user uses SSO,
-    they will repopulate. """
 
     def has_delete_permission(self, request, obj=None):
         return False
 
 
 class RegionAdmin(admin.ModelAdmin):
-    '''exclude = [
-        "authorization_guid",
-        "authorization_directory",
-        "authorization_email",
-        "groups",
-        "user_permissions",
-        "password",
-        "display_name",
-        "accepted_terms"
-    ]
-    list_display = [
-        "first_name",
-        "last_name",
-        "email",
-        "is_superuser",
-        "is_staff",
-        "is_active",
-        "date_joined",
-    ]'''
+    ordering = ("name",)
 
-    # Disable adding, because logging in should seed the user.
-    def has_add_permission(self, request):
-        return False
-
-    """ Disable deleting, setting to inactive is better
-    otherwise next time the user uses SSO,
-    they will repopulate. """
-
-    def has_delete_permission(self, request, obj=None):
-        return False
+    list_display = ["name"]
 
 
 class UserAdmin(admin.ModelAdmin):
@@ -78,7 +32,7 @@ class UserAdmin(admin.ModelAdmin):
         "user_permissions",
         "password",
         "display_name",
-        "accepted_terms"
+        "accepted_terms",
     ]
     list_display = [
         "first_name",
