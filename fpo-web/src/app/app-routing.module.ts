@@ -4,6 +4,7 @@ import { GlossaryEditorComponent } from "app/glossary/editor.component";
 import { SurveyPrimaryComponent } from "app/survey/primary.component";
 import { SurveyResolver } from "app/survey/survey-resolver.service";
 import { SurveyEditorComponent } from "app/survey/editor.component";
+import { ContactComponent } from './contact/contact.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,13 @@ const routes: Routes = [
   
     }
   },
+  {
+      path: "connect",
+      component: ContactComponent,
+      data: {
+        breadcrumb: "Feedback"
+      }
+    },
 
  
   // {
