@@ -3,6 +3,9 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
+    def __str__(self):
+        return self.last_name + ", " + self.first_name
+
     accepted_terms_at = models.DateTimeField(blank=True, null=True)
 
     # Siteminder headers

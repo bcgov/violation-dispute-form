@@ -4,7 +4,7 @@ from rest_framework import filters as default_filters, generics
 from django_filters.rest_framework import DjangoFilterBackend
 from api.models import TicketResponse, PreparedPdf
 from api.serializers import TicketResponseSerializer
-from rest_framework.permissions import IsAdminUser
+from api.auth import IsActiveAndAdminUser
 from django.db import transaction, DatabaseError
 
 from django.http import (
@@ -65,7 +65,7 @@ class TicketResponseListFilter(filters.FilterSet):
 class TicketResponseView(generics.ListAPIView):
     """Used for the admin table, sorting, filtering, ordering. """
 
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsActiveAndAdminUser]
     queryset = TicketResponse.objects.all()
     serializer_class = TicketResponseSerializer
     filter_backends = [

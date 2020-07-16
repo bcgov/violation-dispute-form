@@ -135,6 +135,17 @@ export class SurveyComponent implements OnInit, OnDestroy {
     // else this.error = 'Missing survey definition';
   }
 
+  //Validate questions for address custom widget
+  surveyValidateAddressQuestions(s, options) {
+    if (options.name == 'disputantAddress') {
+      if (options.value.state == "" || options.value.city == "" || 
+          options.value.country == "" || options.value.postcode == "" || 
+          options.value.street == "") {
+        options.error = "Please answer all the required mailing address questions";
+      }
+    }
+  }
+
   async renderSurvey() {
     const surveyModel = new Survey.Model(this._jsonData);
     surveyModel.commentPrefix = "Comment";
@@ -201,7 +212,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
     });
 
     this.surveyModel = surveyModel;
-    Survey.SurveyNG.render("surveyElement", { model: surveyModel });
+    Survey.SurveyNG.render("surveyElement", { model: surveyModel, onValidateQuestion: this.surveyValidateAddressQuestions });
 
 
     // update sidebar
@@ -231,7 +242,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
   changeMode(mode: string) {
     this.surveyMode = mode;
     if (mode === "print") {
-      this.complete();
+      this.submit();
     } else {
       if (this.onComplete) this.onComplete(null);
     }
@@ -249,9 +260,8 @@ export class SurveyComponent implements OnInit, OnDestroy {
     return !!this.recaptchaKey;
   }
 
-  get canComplete(): boolean {
-    // FIXME include status of survey completion
-    return !this.recaptchaRequired || !!this.recaptchaResponse && !this.missingRequired ;
+  get canSubmit(): boolean {
+    return !this.recaptchaRequired || !!this.recaptchaResponse;
   }
 
   get displayRecaptcha(): boolean {
@@ -278,14 +288,14 @@ export class SurveyComponent implements OnInit, OnDestroy {
     let form
     if (
       (data.continueDispute == 'y' &&
-      data.disputeType == 'fineAmount' &&
-      data.disputeInWriting == 'y')
-        ||
+        data.disputeType == 'fineAmount' &&
+        data.disputeInWriting == 'y')
+      ||
       (data.continueDispute == 'n' &&
-      data.moreTimeToPay1 == 'y'
+        data.moreTimeToPay1 == 'y'
       )
     ) {
-      form = "violation-ticket-statement-and-written-reasons"; 
+      form = "violation-ticket-statement-and-written-reasons";
     } else {
       form = "notice-to-disputant-response";
     }
@@ -300,7 +310,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
       .then(
         (rs) => {
           console.log("submitted form successfully", rs);
-          if(rs && "pdf-id" in rs) {
+          if (rs && "pdf-id" in rs) {
             this.pdfId = rs["pdf-id"];
             this.dataService.changePdfId(this.pdfId)
           }
@@ -311,7 +321,11 @@ export class SurveyComponent implements OnInit, OnDestroy {
       );
   }
 
-  complete() {
+  hasFieldErrors() {
+    return this.surveyModel.isCurrentPageHasErrors;
+  }
+
+  submit() {
     this.surveyModel.completeLastPage();
   }
 
@@ -361,7 +375,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
         this.cacheLoadTime = cache.time;
         this.cacheKey = response.id || response.key;
         if (this.surveyMode === "print" && this.surveyCompleted)
-          this.complete();
+          this.submit();
         else if (prevPg === this.surveyModel.currentPageNo)
           this.onPageUpdate.next(this.surveyModel);
       }
