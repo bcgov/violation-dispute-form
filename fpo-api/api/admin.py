@@ -6,6 +6,23 @@ from api.models.Region import Region
 from django.apps import apps
 
 
+class LocationAdmin(admin.ModelAdmin):
+    ordering = ("name",)
+
+    list_display = ["name", "region"]
+
+    list_select_related = ["region"]
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
+class RegionAdmin(admin.ModelAdmin):
+    ordering = ("name",)
+
+    list_display = ["name"]
+
+
 class UserAdmin(admin.ModelAdmin):
     exclude = [
         "authorization_guid",
@@ -15,12 +32,13 @@ class UserAdmin(admin.ModelAdmin):
         "user_permissions",
         "password",
         "display_name",
-        "accepted_terms"
+        "accepted_terms",
     ]
     list_display = [
         "first_name",
         "last_name",
         "email",
+        "is_superuser",
         "is_staff",
         "is_active",
         "date_joined",
@@ -44,8 +62,8 @@ for app_config in apps.get_app_configs():
         if admin.site.is_registered(model):
             admin.site.unregister(model)
 
-# Only register user
+# Only register needed.
 admin.site.register(User, UserAdmin)
-admin.site.register(Location)
-admin.site.register(Region)
+admin.site.register(Location, LocationAdmin)
+admin.site.register(Region, RegionAdmin)
 admin.site.site_header = "VTC Administration"
