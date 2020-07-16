@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, HostListener } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { ColumnMode, SelectionType, SortType, DatatableComponent } from "@swimlane/ngx-datatable";
 import { AdminDataService } from "./admin-data.service";
 import { ActivatedRoute } from "@angular/router";
@@ -12,7 +12,7 @@ import {
 } from "app/interfaces/admin_interfaces";
 import { ModalDelete } from "./modal-delete";
 import { ToastrService } from "ngx-toastr";
-import { Directive, AfterContentChecked, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: "app-admin",
