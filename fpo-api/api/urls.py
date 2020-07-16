@@ -58,6 +58,7 @@ urlpatterns = [
     path("pdf/", views.PdfFileView.as_view()),
     path("archived/", views.ArchivedView.as_view()),
     path("user-info/", views.UserStatusView.as_view()),
+    path("feedback/", views.FeedbackView.as_view()),
     path("test/headers/", views.TestHeadersView.as_view()),
 ]
 
