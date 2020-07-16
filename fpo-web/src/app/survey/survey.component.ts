@@ -265,7 +265,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
   }
 
   get displayRecaptcha(): boolean {
-    return !this.missingRequired;
+    return !this.missingRequired && !this.surveyModel.hasErrors();
   }
 
   fetchRecaptchaKey() {
