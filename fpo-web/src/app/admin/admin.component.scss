@@ -200,6 +200,10 @@
     .datatable-footer {
         overflow: hidden;
     }
+
+    .ngx-datatable .datatable-footer .datatable-footer-inner {
+        overflow: hidden;
+    }
     /**
     * Progress bar animations
     */
@@ -287,7 +291,8 @@
         -webkit-user-select: none;
         -ms-user-select: none;
         -o-user-select: none;
-        user-select: none;   
+        user-select: none; 
+        cursor: pointer;   
     }
 
     #hearingLocationButton {
@@ -295,5 +300,9 @@
         max-width:300px;
         overflow-x: hidden;
         text-overflow: ellipsis;
+    }
+
+    #search {
+        min-width: 100px;
     }
 } 

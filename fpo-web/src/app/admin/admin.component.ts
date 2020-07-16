@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { ColumnMode, SelectionType, SortType } from "@swimlane/ngx-datatable";
+import { Component, OnInit, ViewChild, HostListener } from "@angular/core";
+import { ColumnMode, SelectionType, SortType, DatatableComponent } from "@swimlane/ngx-datatable";
 import { AdminDataService } from "./admin-data.service";
 import { ActivatedRoute } from "@angular/router";
 import {
@@ -12,6 +12,7 @@ import {
 } from "app/interfaces/admin_interfaces";
 import { ModalDelete } from "./modal-delete";
 import { ToastrService } from "ngx-toastr";
+import { Directive, AfterContentChecked, ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: "app-admin",
@@ -21,6 +22,12 @@ import { ToastrService } from "ngx-toastr";
 export class AdminComponent implements OnInit {
   //#region Variables & Constructor
 
+  @ViewChild('tableWrapper', {static: false}) tableWrapper;
+  private currentComponentWidth;
+
+  @ViewChild(DatatableComponent, {static: false}) 
+  private table: DatatableComponent;
+  
   @ViewChild(ModalDelete, { static: false })
   private modalDelete: ModalDelete;
 
@@ -64,6 +71,18 @@ export class AdminComponent implements OnInit {
   searchCount = 0;
   outdatedBrowser = false;
 
+  //https://github.com/swimlane/ngx-datatable/issues/193
+  ngAfterViewChecked() {
+    // Check if the table size has changed,
+    if (this.table && this.table.recalculate && (this.tableWrapper.nativeElement.clientWidth !== this.currentComponentWidth)) {
+      this.currentComponentWidth = this.tableWrapper.nativeElement.clientWidth;
+      this.table.recalculate();
+      this.ref.detectChanges();
+    }
+  }
+
+
+
   ngOnInit() {
     this.loadPage();
     this.outdatedBrowser = this.checkForIE();
@@ -72,7 +91,8 @@ export class AdminComponent implements OnInit {
   constructor(
     private adminService: AdminDataService,
     private activatedRoute: ActivatedRoute,
-    private toastr: ToastrService
+    private toastr: ToastrService, 
+    public ref: ChangeDetectorRef
   ) {
     this.AdminService = adminService;
     this.populateRegions();
@@ -246,18 +266,26 @@ export class AdminComponent implements OnInit {
 
   async print(targetIds: Array<number>) {
     var response = await this.adminService.getPdf(targetIds, this.mode);
-    if (
-      response instanceof ArrayBuffer == false &&
-      (response as string).includes(
-        "PDFs selected for print have already been archived."
-      )
-    ) {
-      this.showAbortedMessage(
-        "Someone else has recently archived these file(s)."
-      );
+    if (response instanceof ArrayBuffer == false) {
+      if (        
+        (response as string).includes(
+          "PDFs selected for print have already been archived."
+        )
+      ) 
+      {
+        this.showAbortedMessage(
+          "Someone else has recently archived these file(s)."
+        );
 
-      this.reloadAndResetToFirstPage();
-      return;
+        this.reloadAndResetToFirstPage();
+        return;
+      }
+      else {
+        this.showErrorMessage(
+          "An error has occured while printing."
+        );
+        return;
+      }
     }
 
     var file = new Blob([response], { type: "application/pdf" });
@@ -355,6 +383,12 @@ export class AdminComponent implements OnInit {
 
   totalPages(rowCount: number, pageSize: number) {
     return Math.ceil(rowCount / pageSize);
+  }
+
+  clearSort() {
+    this.table.sorts = [];
+    this.searchParameters.sortParameters = [];
+    this.reloadAndResetToFirstPage();
   }
 
   checkForIE() {
