@@ -16,6 +16,8 @@ export class GeneralDataService {
   private onUserInfo: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   private PdfId: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   public currentValue= this.PdfId.asObservable();
+  private RecaptchaKey: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  public key= this.RecaptchaKey.asObservable();
   private userInfo: any = null;
   // restrict to browser cache - not database
   private browserOnly = false;
@@ -28,6 +30,7 @@ export class GeneralDataService {
   getBaseHref(): string {
     return this.platformLocation.getBaseHrefFromDOM() || "/";
   }
+
 
   /* Note be extremely careful about this. If you don't end the 
   url with a ending slash, you may not get a relative url. 
@@ -155,6 +158,10 @@ export class GeneralDataService {
   changePdfId(pdfId: number) {
     console.log("PDF id:", pdfId);
     this.PdfId.next(pdfId);
+  }
+
+  changeRecaptchaKey(recaptchaKey: string) {
+    this.RecaptchaKey.next(recaptchaKey);
   }
 
   returnUserInfo(result) {

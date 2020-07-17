@@ -274,6 +274,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
       console.log(rs);
       if (rs && "key" in rs) {
         this.recaptchaKey = (rs as any).key;
+        this.dataService.changeRecaptchaKey(this.recaptchaKey)
       }
     });
   }

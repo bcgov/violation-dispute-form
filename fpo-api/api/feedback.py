@@ -1,5 +1,5 @@
 import logging
-import os
+from django.conf import settings
 from email.header import Header
 from email.mime.text import MIMEText
 from email.utils import formataddr
@@ -9,12 +9,11 @@ LOGGER = logging.getLogger(__name__)
 
 
 def email_feedback(ip_addr, reply_name, reply_email, reason, comments):
-    server_addr = os.getenv("SMTP_SERVER_ADDRESS")
-    #recip_email = os.getenv("FEEDBACK_TARGET_EMAIL")
-    recip_email = "testemailing510@gmail.com"
-    app_url = os.getenv("APPLICATION_URL")
-    from_name = "Virtual Traffic Hearing"
-    from_email = "no.reply@choose-how-to-attend-your-traffic-hearing.gov.bc.ca"
+    server_addr = settings.SMTP_SERVER_ADDRESS
+    recip_email = settings.FEEDBACK_TARGET_EMAIL
+    app_url = settings.APPLICATION_URL
+    from_email = settings.SMTP_SENDER_EMAIL
+    from_name = settings.SMTP_SENDER_NAME
 
     reason_map = {
         "incorrect": "Reporting incorrect information",

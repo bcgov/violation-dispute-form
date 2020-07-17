@@ -201,6 +201,8 @@ configureEnvironment () {
   export SMTP_SERVER_ADDRESS=${SMTP_SERVER_ADDRESS}
   export SENDER_EMAIL=${SENDER_EMAIL-noreply@TrafficForm.gov.bc.ca}
   export SENDER_NAME=${SENDER_NAME-Traffic-Hearing}
+  export APPLICATION_URL=${APPLICATION_URL}
+  export FEEDBACK_TARGET_EMAIL=${FEEDBACK_TARGET_EMAIL}
   export DATA_SECURITY_KEY=${DATA_SECURITY_KEY} 
 
   # fpo-web
