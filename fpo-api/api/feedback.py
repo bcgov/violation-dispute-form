@@ -18,8 +18,7 @@ def email_feedback(ip_addr, reply_name, reply_email, reason, comments):
     reason_map = {
         "incorrect": "Reporting incorrect information",
         "additional": "Requesting additional information on BC organizations",
-        "signup": "Looking to sign up my government organization",
-        "developer": "Developer request",
+        "signup": "Looking to sign up my government organization"
     }
     reason_text = reason_map.get(reason) or ""
 

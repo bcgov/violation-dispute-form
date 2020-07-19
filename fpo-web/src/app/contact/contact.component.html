@@ -49,11 +49,6 @@
             [(ngModel)]="feedback.reason">
           <label class="form-check-label" for="reason_signup">Find out how my government organization can use this</label>
         </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="reason" value="developer" id="reason_developer" required
-            [(ngModel)]="feedback.reason">
-          <label class="form-check-label" for="reason_developer">Explore clicky things as a software developer</label>
-        </div>
       </div>
     </div>
 
@@ -79,9 +74,14 @@
     </div>
 
     <div class="row form-group">
-      <div class="col text-right">
-        <re-captcha *ngIf="recaptchaKey" (resolved)="resolvedCaptcha($event)"
+      <div class="col">
+        <re-captcha *ngIf="recaptchaKey" name="captcha" (resolved)="resolvedCaptcha($event)"
           [siteKey]="recaptchaKey"></re-captcha>
+      </div>
+    </div>
+
+    <div class="row form-group">
+      <div class="col text-right">
         <button type="submit" class="btn btn-bcgold" (click)="sendFeedback($event)" [ngClass]="{loading: sending}"
           [disabled]="sending || !canSend">
           <span class="fa fa-paper-plane left"></span> Send Feedback

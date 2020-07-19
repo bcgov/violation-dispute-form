@@ -82,6 +82,7 @@ export class ContactComponent implements OnInit {
           this.focusAlert('alert-success');
           this.feedback = { reason: '', from_name: '', from_email: '', comments: '', invalid: null };
           grecaptcha.reset();
+          this.recaptchaResponse ="";
         },
         (err) => {
           console.log("feedback submission failed", err);
