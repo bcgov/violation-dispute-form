@@ -8,10 +8,9 @@ from smtplib import SMTP, SMTPException
 LOGGER = logging.getLogger(__name__)
 
 
-def email_feedback(ip_addr, reply_name, reply_email, reason, comments):
+def email_feedback(ip_addr, app_url, reply_name, reply_email, reason, comments):
     server_addr = settings.SMTP_SERVER_ADDRESS
     recip_email = settings.FEEDBACK_TARGET_EMAIL
-    app_url = settings.APPLICATION_URL
     from_email = settings.SMTP_SENDER_EMAIL
     from_name = settings.SMTP_SENDER_NAME
 
@@ -25,6 +24,7 @@ def email_feedback(ip_addr, reply_name, reply_email, reason, comments):
     subject = "Virtual Traffic Hearing Feedback: {}".format(reason_text)
 
     LOGGER.info("Received feedback from %s <%s>", reply_name, reply_email)
+    LOGGER.info("Site: %s", app_url)
     LOGGER.info("Feedback content: %s\n%s", subject, comments)
 
     if not reason or not reply_email:
