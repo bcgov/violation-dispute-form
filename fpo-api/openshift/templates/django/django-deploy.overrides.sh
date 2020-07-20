@@ -19,11 +19,12 @@ if createOperation; then
 
   # Get the email settings
   readParameter "SMTP_SERVER_ADDRESS - Please provide the address of the outgoing smtp server.  The default is a blank string." SMTP_SERVER_ADDRESS "false"
+  readParameter "FEEDBACK_TARGET_EMAIL - Please provide the email address used for recieving application feedback.  The default is a blank string." FEEDBACK_TARGET_EMAIL "false"
   readParameter "SENDER_EMAIL - Please provide the email address used for sending confirmation emails.  The default is a blank string." SENDER_EMAIL "false"
   readParameter "SENDER_NAME - Please provide the name to use with the above email address.  The default is a blank string." SENDER_NAME "false"
 else
   # Secrets are removed from the configurations during update operations ...
-  printStatusMsg "Update operation detected ...\nSkipping the prompts for DATA_SECURITY_KEY, RECAPTCHA_SITE_KEY, RECAPTCHA_SECRET_KEY, OIDC_RP_PROVIDER_ENDPOINT, OIDC_RP_CLIENT_SECRET, SMTP_SERVER_ADDRESS, SENDER_EMAIL, and SENDER_NAME secrets ... \n"
+  printStatusMsg "Update operation detected ...\nSkipping the prompts for DATA_SECURITY_KEY, RECAPTCHA_SITE_KEY, RECAPTCHA_SECRET_KEY, OIDC_RP_PROVIDER_ENDPOINT, OIDC_RP_CLIENT_SECRET, SMTP_SERVER_ADDRESS, FEEDBACK_TARGET_EMAIL, SENDER_EMAIL, and SENDER_NAME secrets ... \n"
   writeParameter "DATA_SECURITY_KEY" "prompt_skipped" "false"
   writeParameter "RECAPTCHA_SITE_KEY" "prompt_skipped" "false"
   writeParameter "RECAPTCHA_SECRET_KEY" "prompt_skipped" "false"
@@ -31,6 +32,7 @@ else
   writeParameter "OIDC_RP_CLIENT_SECRET" "prompt_skipped" "false"
 
   writeParameter "SMTP_SERVER_ADDRESS" "prompt_skipped" "false"
+  writeParameter "FEEDBACK_TARGET_EMAIL" "prompt_skipped" "false"
   writeParameter "SENDER_EMAIL" "prompt_skipped" "false"
   writeParameter "SENDER_NAME" "prompt_skipped" "false"
 fi

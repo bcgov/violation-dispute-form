@@ -26,6 +26,7 @@ from .LocationListView import LocationListView
 from .RegionListView import RegionListView
 from .PdfFileView import PdfFileView
 from .UserStatusView import UserStatusView
+from .FeedbackView import FeedbackView
 from .AcceptTermsView import AcceptTermsView
 from .SubmitTicketResponseView import SubmitTicketResponseView
 from .TestHeadersView import TestHeadersView

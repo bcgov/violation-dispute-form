@@ -15,6 +15,14 @@
   padding-bottom: 0;
 }
 
+.footer-detail {
+  padding: 2px 0; // prevent margin collapse
+
+  background: theme-color(primary);
+  color: #fff;
+
+}
+
 .app-main {
   flex: auto;
   padding: 0 15px 80px;
