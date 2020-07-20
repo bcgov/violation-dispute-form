@@ -14,7 +14,10 @@ class FeedbackView(APIView):
     def post(self, request: Request, name=None):
         check_captcha = grecaptcha_verify(request)
         if not check_captcha["status"]:
-            return HttpResponseForbidden(text=check_captcha["message"])
+            return HttpResponseForbidden(
+                content_type="text/plain",
+                content=check_captcha["message"])
+
         data = request.data
         x_forwarded_for = request.META.get("HTTP_X_FORWARDED_FOR")
         if x_forwarded_for:
