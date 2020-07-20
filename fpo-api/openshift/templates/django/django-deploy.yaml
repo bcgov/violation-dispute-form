@@ -90,6 +90,7 @@ objects:
       smtp-host: ${SMTP_SERVER_ADDRESS}
       sender-email: ${SENDER_EMAIL}
       sender-name: ${SENDER_NAME}
+      feedback-email: ${FEEDBACK_TARGET_EMAIL}
       encryption-key: ${DATA_SECURITY_KEY}
       oidc-rp-provider-endpoint: ${OIDC_RP_PROVIDER_ENDPOINT}
       oidc-rp-client-secret: ${OIDC_RP_CLIENT_SECRET}
@@ -192,6 +193,11 @@ objects:
                     secretKeyRef:
                       name: ${NAME}
                       key: smtp-host
+                - name: FEEDBACK_TARGET_EMAIL
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${NAME}
+                      key: feedback-email
                 - name: SENDER_EMAIL
                   valueFrom:
                     secretKeyRef:
@@ -312,6 +318,11 @@ parameters:
     displayName: SMTP Server Address
     description: SMTP Server Address
     required: true
+    value:
+  - name: FEEDBACK_TARGET_EMAIL
+    displayName: Feedback target email address
+    description: Feedback target email address
+    required: false
     value:
   - name: SENDER_EMAIL
     displayName: Sender email address
