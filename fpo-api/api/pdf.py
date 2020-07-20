@@ -61,7 +61,7 @@ def transform_data_for_pdf(original_data):
         pass
 
     try:
-        data["hearingLocationPDF"] = Location.objects.get(id=hearingLocationId).name
+        data["hearingLocation"] = Location.objects.get(id=hearingLocationId).name
     except Location.DoesNotExist:
         pass
 
