@@ -15,6 +15,7 @@ import { environment } from "../environments/environment";
 export class AppComponent implements AfterViewInit {
   title = "";
   _isPrv = false;
+  public recaptchaKey: string;
 
   constructor(
     private renderer: Renderer2,
@@ -24,11 +25,23 @@ export class AppComponent implements AfterViewInit {
     private matomoInjector: MatomoInjector
   ) {}
 
+  fetchRecaptchaKey() {
+    const url = this.dataService.getApiUrl("submit-form/");
+    this.dataService.loadJson(url).then((rs) => {
+      console.log(rs);
+      if (rs && "key" in rs) {
+        this.recaptchaKey = (rs as any).key;
+        this.dataService.changeRecaptchaKey(this.recaptchaKey)
+      }
+    });
+  }
+
   ngAfterViewInit(): void {
     let isPopState = false;
     let prevSlug: string;
     let prevUrl: string;
     let matomoEnabled: boolean;
+    this.fetchRecaptchaKey();
 
     this.locStrat.onPopState(() => {
       isPopState = true;

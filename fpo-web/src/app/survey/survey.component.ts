@@ -70,7 +70,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
     });
     this._active = true;
     // FIXME - disabled: this.autoSave(true);
-    this.fetchRecaptchaKey();
+    this.dataService.key.subscribe(recaptchaKey => this.recaptchaKey = recaptchaKey)
     this.dataService.currentValue.subscribe(pdfId => this.pdfId = pdfId)
   }
 
@@ -268,18 +268,6 @@ export class SurveyComponent implements OnInit, OnDestroy {
     return !this.missingRequired && !this.surveyModel.hasErrors();
   }
 
-  fetchRecaptchaKey() {
-    const url = this.dataService.getApiUrl("submit-form/");
-    this.dataService.loadJson(url).then((rs) => {
-      console.log(rs);
-      if (rs && "key" in rs) {
-        this.recaptchaKey = (rs as any).key;
-        this.dataService.changeRecaptchaKey(this.recaptchaKey)
-      }
-    });
-  }
-
-  // getting captchaResponse and enabling Complete button when captchaResponse is not blank
   resolvedCaptcha(captchaResponse: string) {
     this.recaptchaResponse = captchaResponse;
   }
