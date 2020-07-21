@@ -44,10 +44,12 @@ const routes: Routes = [
   {
     path: "sandbox",
     component: SurveyPrimaryComponent,
+    canActivate: [AuthGuard],
     resolve: {
       // survey: SurveyResolver,
     },
     data: {
+      role: "superuser",
       breadcrumb: "Survey Sandbox",
       survey_path: "assets/survey-sandbox.json"
     }
@@ -55,10 +57,12 @@ const routes: Routes = [
   {
     path: "sandbox2",
     component: SurveyPrimaryComponent,
+    canActivate: [AuthGuard],
     resolve: {
       // survey: SurveyResolver,
     },
     data: {
+      role: "superuser",
       breadcrumb: "Survey Sandbox 2",
       survey_path: "assets/survey-sandbox-2.json"
     }
@@ -66,10 +70,12 @@ const routes: Routes = [
   {
     path: "sandbox3",
     component: SurveyPrimaryComponent,
+    canActivate: [AuthGuard],
     resolve: {
       // survey: SurveyResolver,
     },
     data: {
+      role: "superuser",
       breadcrumb: "Survey Sandbox 3",
       survey_path: "assets/survey-sandbox-3.json"
     }
