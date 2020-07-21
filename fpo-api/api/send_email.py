@@ -31,7 +31,7 @@ def send_email(recipient_email: str, pdf_data: bytes, pdf_name: str):
         LOGGER.error("No recipient email address provided")
         return
 
-    subject = "Responded to attend your Traffic Hearing"
+    subject = "Traffic Hearing Choice"
     body = """\
     <html>
     <body>
