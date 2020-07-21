@@ -182,6 +182,10 @@ export class GeneralDataService {
     return !!(this.userInfo && this.userInfo.is_staff);
   }
 
+  isSuperUser(): boolean {
+    return !!(this.userInfo && this.userInfo.is_superuser);
+  }
+
   loginUri(): string {
     return this.userInfo && this.userInfo.login_uri;
   }

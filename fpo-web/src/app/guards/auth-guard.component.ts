@@ -19,7 +19,11 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (this.generalDataService.isAdmin()) {
+    let routeRequiresSuperUser = route.data.role === "superuser";
+    if (
+      (routeRequiresSuperUser && this.generalDataService.isSuperUser()) ||
+      (!routeRequiresSuperUser && this.generalDataService.isAdmin())
+    ) {
       return true;
     }
 
@@ -36,11 +40,12 @@ export class AuthGuard implements CanActivate {
       if (extUri.substr(-1) != "/") extUri += "/";
 
       let url = new URL(userInfo.login_uri);
-      url.searchParams.append("next", extUri); 
-      window.location.replace(
-        url.toString()
-      );
-    } else if (userInfo.is_staff) {
+      url.searchParams.append("next", extUri);
+      window.location.replace(url.toString());
+    } else if (
+      (routeRequiresSuperUser && userInfo.is_superuser) ||
+      (!routeRequiresSuperUser && userInfo.is_staff)
+    ) {
       return true;
     } else {
       return this.router.createUrlTree(["/"]);

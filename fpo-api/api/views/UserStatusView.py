@@ -20,6 +20,7 @@ class UserStatusView(APIView):
             "first_name": logged_in and request.user.first_name or None,
             "last_name": logged_in and request.user.last_name or None,
             "is_staff": logged_in and request.user.is_staff,
+            "is_superuser": logged_in and request.user.is_superuser,
             "login_uri": get_login_uri(request),
             "logout_uri": get_logout_uri(request),
             "surveys": [],
