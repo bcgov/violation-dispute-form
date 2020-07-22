@@ -96,15 +96,19 @@
           <ng-template [ngIf]="column.name!=='Action'">
             {{value}}
           </ng-template>
-          <div class="d-flex float-right">
-            <span [ngClass]="{disabled: value===''}" (click)="openPdf($event,value);" *ngIf="column.name==='Action'" class="w-100 unselectable mr-4">
-              <img [class.invert-color]="this.selected.indexOf(row) !== -1" width="24" height="24" src="assets/open-pdf.svg"/>
-              View 
-            </span>
-            <span (click)="deleteResponse($event,row);" *ngIf="column.name==='Action'" class="w-100 unselectable ml-4">
-              <img [class.invert-color]="this.selected.indexOf(row) !== -1" width="24" height="24" src="assets/trash.svg"/>
-              Delete 
-            </span>
+          <div class="row float-right">
+            <div class="col col-md-auto pr-3">
+              <span [ngClass]="{disabled: value===''}" (click)="openPdf($event,value);" *ngIf="column.name==='Action'" class="unselectable float-left">
+                <img [class.invert-color]="this.selected.indexOf(row) !== -1" width="24" height="24" src="assets/open-pdf.svg"/>
+                View 
+              </span>
+            </div>
+            <div class="col col-md-auto pl-3">
+              <span (click)="deleteResponse($event,row);" *ngIf="column.name==='Action'" class="unselectable float-right">
+                <img [class.invert-color]="this.selected.indexOf(row) !== -1" width="24" height="24" src="assets/trash.svg"/>
+                Delete 
+              </span>
+            </div>
           </div>
         </ng-template>
       </ngx-datatable-column>
