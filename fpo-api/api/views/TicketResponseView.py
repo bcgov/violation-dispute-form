@@ -85,8 +85,8 @@ class TicketResponseView(generics.ListAPIView):
         "archived_by__first_name",
     ]
     ordering_fields = [
-        "created_date",
-        "archived_date",
+        "created_date__date",
+        "archived_date__date",
         "hearing_location__name",
         "ticket_number",
         "last_name",

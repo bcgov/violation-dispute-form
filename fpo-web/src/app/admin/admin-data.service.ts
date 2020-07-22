@@ -55,6 +55,7 @@ export class AdminDataService {
     serverSortParameters.forEach((order) => {
       var orderName = order.prop;
       if (order.dir === "desc") orderingString += "-";
+      if (orderName === "created_date" || orderName === "archived_date") orderName += "__date";
       orderingString += `${orderName},`;
       //Remove trailing comma.
       if (serverSortParameters[serverSortParameters.length - 1] === order) {
