@@ -327,7 +327,6 @@ export class AdminComponent implements OnInit {
         if (document.activeElement instanceof HTMLElement)
           document.activeElement.blur();
 
-     
         var message = `The requested files have been ${
           this.mode === this.AdminMode.NewResponse
             ? "printed and archived."
@@ -335,8 +334,7 @@ export class AdminComponent implements OnInit {
         }`;
 
         if (window.navigator && window.navigator.msSaveOrOpenBlob)
-        message += " (check the Downloads bar for Edge)";
-
+          message += " (check Downloads for Edge Browser)";
 
         this.showSuccessMessage(message);
         window.onfocus = null;
