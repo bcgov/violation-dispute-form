@@ -11,7 +11,7 @@
       {
        "type": "infotext",
        "name": "disclaimer",
-       "title": "\"Choose how to attend your Traffic Hearing\" is a service provided by the Government of British Columbia. \n<br><br>\nThe Government of British Columbia has the right to change this service at any time. \n<ul>\n<li>\nLearn more about <a href=\"https://www2.gov.bc.ca/gov/content/home/disclaimer\" target=\"_blank\">the disclaimer and liability here.</a> (This link opens in a new tab)\n</li>\n<li>\nLearn more about <a href=\"https://www2.gov.bc.ca/gov/content/home/privacy\" target=\"_blank\">privacy and security  here.</a> (This link opens in a new tab)\n</li>\n</ul>\nThe Provincial Court of British Columbia will look at your choice. The Court will decide how you will attend your Traffic Hearing.\n<br><br>\nBy pressing \"Continue,\" you are agreeing to these terms. ",
+       "title": "\"Choose How to Attend Your Traffic Hearing\" is a service provided by the Government of British Columbia. \n<br><br>\nThe Government of British Columbia has the right to change this service at any time. \n<ul>\n<li>\nLearn more about <a href=\"https://www2.gov.bc.ca/gov/content/home/disclaimer\" target=\"_blank\">the disclaimer and liability here.</a> (This link opens in a new tab)\n</li>\n<li>\nLearn more about <a href=\"https://www2.gov.bc.ca/gov/content/home/privacy\" target=\"_blank\">privacy and security  here.</a> (This link opens in a new tab)\n</li>\n</ul>\nThe Provincial Court of British Columbia will look at your choice. The Court will decide how you will attend your Traffic Hearing.\n<br><br>\nBy pressing \"Continue,\" you are agreeing to these terms. ",
        "isRequired": true,
        "titleLocation": "hidden"
       }
@@ -87,7 +87,7 @@
      "elements": [
       {
        "type": "text",
-       "inputMask": "AA99999999",
+       "inputMask": "AA99999999",       
        "name": "ticketNumber",
        "title": "Violation Ticket Number",
        "description": "A Violation Ticket Number is 2 letters and 8 numbers. For example, AB12345678",
@@ -280,7 +280,7 @@
       {
        "type": "checkbox",
        "name": "disputantWritingAgreement",
-       "title": "I, {disputantName}, agree that I committed this offence and I do not want to appear in person for a Traffic hearing. I want to request a reduction in the fine portion of the ticketed amount(s) and/or time to pay the ticketed amount(s).",
+       "title": "I, {disputantName}, agree that I committed this offence and I do not want to appear in person for a Traffic hearing.\n<br><br>\nI want to request a reduction in the fine portion of the ticketed amount(s) and/or time to pay the ticketed amount(s).",
        "isRequired": true,
        "choices": [
         {
@@ -301,7 +301,7 @@
        "type": "radiogroup",
        "name": "hearingAttendance",
        "title": "How do you want to attend your Traffic Hearing for Violation Ticket #{ticketNumber}?",
-       "description": "In-Person Traffic Hearings may be held on evenings or Saturdays. The Court will decide the date and time for your Traffic Hearing.",
+       "description": "In-Person Traffic Hearings may be scheduled on evenings or Saturdays in some locations. The Court will decide the date and time for your Traffic Hearing.",
        "isRequired": true,
        "choices": [
         {
@@ -413,15 +413,52 @@
        "name": "exhibits",
        "visible": false,
        "visibleIf": "{schedulingInfoExplanation} > 0",
-       "title": "Will you be bringing Exhibits to your Traffic Hearing?",
+       "title": "Will you be showing Exhibits to your Traffic Hearing?",
        "description": "Examples of Exhibits are a doctor's note, police report, photograph, video (dash cam), or other documents.",
        "isRequired": true
+      },
+      {
+       "type": "infotext",
+       "name": "exhibitsYesExplanation",
+       "visible": false,
+       "title": "For now, the Court cannot review Exhibits video. If you have Exhibits to show/present/bring, you may have to attend Traffic Hearing in person.",
+       "titleLocation": "hidden"
+      },
+      {
+       "type": "checkbox",
+       "name": "exhibitTypes",
+       "visible": false,
+       "title": "List the Exhibits you plan to present/show/bring?",
+       "description": "Lots to discuss here about what to show the disputant, what information they need, and what appears on the form for the VTC.",
+       "hasOther": true,
+       "choices": [
+        {
+         "value": "item1",
+         "text": "Documents"
+        },
+        {
+         "value": "item2",
+         "text": "Photos"
+        },
+        {
+         "value": "item3",
+         "text": "Videos"
+        }
+       ]
       },
       {
        "type": "helptext",
        "name": "exhibitsFAQ",
        "visible": false,
        "visibleIf": "{hearingAttendance} = \"remote\" and {hearingAttendanceVideo} = \"y\" and {schedulingInfoExplanation} > 0",
+       "title": "Can I show Exhibits by video?",
+       "titleLocation": "hidden",
+       "body": "You can share your screen using Microsoft Teams to show documents during your Traffic Hearing. You may only share your screen if directed to do so by the Court.\n<br><br>\nYou will get instructions on how to share you screen.\n<br><br>\nIf you have a large number of documents to show during your Traffic Hearing, you may provide advance copies to the Court by email. \n<br><br>\nPlease contact the Violation Ticket Centre at 1-877-661-8026 for more information."
+      },
+      {
+       "type": "helptext",
+       "name": "exhibitsFAQFuture",
+       "visible": false,
        "title": "Can I show Exhibits by video?",
        "titleLocation": "hidden",
        "body": "You can share your screen using Microsoft Teams to show documents during your Traffic Hearing. You may only share your screen if directed to do so by the Court.\n<br><br>\nYou will get instructions on how to share you screen.\n<br><br>\nIf you have a large number of documents to show during your Traffic Hearing, you may provide advance copies to the Court by email. \n<br><br>\nPlease contact the Violation Ticket Centre at 1-877-661-8026 for more information."
@@ -446,7 +483,7 @@
        "name": "disputantRemoteAcknowledgement",
        "visible": false,
        "visibleIf": "{hearingAttendance} = \"remote\" and ({hearingAttendancePhone} = \"y\" or {hearingAttendanceVideo} = \"y\") and {schedulingInfoExplanation} > 0",
-       "title": "I am preferring to attend my Traffic Hearing remotely. I understand that the Court may not be able to schedule my hearing remotely, and that I will be informed if the hearing must proceed In-Person. I understand that if the hearing will be held by telephone or video, the hearing may be scheduled on a weekday during regular business hours.",
+       "title": "I am preferring to attend my Traffic Hearing remotely.\n<br><br>\nI understand that the Court may not be able to schedule my hearing remotely, and that I will be informed if the hearing must proceed In-Person. \n<br>\n<br>\nI understand that if the hearing will be held by telephone or video, the hearing may be scheduled on a weekday during regular business hours.",
        "isRequired": true,
        "choices": [
         {
@@ -460,7 +497,7 @@
        "name": "disputantInPersonAcknowledgement",
        "visible": false,
        "visibleIf": "({hearingAttendance} = \"in-person\" or ({hearingAttendance} = \"remote\" and {hearingAttendancePhone} = \"n\" and {hearingAttendanceVideo} = \"n\")) and {schedulingInfoExplanation} > 0",
-       "title": "I am choosing to attend my Traffic Hearing In-Person. I understand that the Court will schedule my hearing In-Person and that the hearing may be scheduled in the evening or on a Saturday.",
+       "title": "I am choosing to attend my Traffic Hearing In-Person.\n<br><br>\nI understand that the Court will schedule my hearing In-Person and that the hearing may be scheduled in the evening or on a Saturday in some locations.",
        "isRequired": true,
        "choices": [
         {
@@ -472,9 +509,16 @@
      ],
      "visible": false,
      "visibleIf": "{continueDispute} = \"y\" and ({disputeType} = \"allegation\" or ({disputeType} = \"fineAmount\" and {disputeInWriting} = \"n\")) and ({hearingAttendance} = \"in-person\"\nor ({hearingAttendance} = \"remote\" and (({hearingAttendancePhone} = \"y\" or {hearingAttendanceVideo} = \"y\")\nor ({hearingAttendancePhone} = \"n\" and {hearingAttendanceVideo} = \"n\" and {hearingAttendanceRemotelyError} >0))))"
+    },
+    {
+     "type": "infotext",
+     "name": "question1",
+     "visible": false,
+     "title": "By clicking Submit, you are sending your choice to the provincial court. NO going back. Scroll up and review your answers before clicking submit.\n\nBefore you click Submit, please review all your answers.",
+     "titleLocation": "hidden"
     }
    ],
-   "title": "Choose how to attend your Traffic Hearing"
+   "title": "Choose How to Attend Your Traffic Hearing"
   }
  ],
  "showQuestionNumbers": "off",
