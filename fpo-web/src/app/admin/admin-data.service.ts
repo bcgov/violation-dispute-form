@@ -94,9 +94,10 @@ export class AdminDataService {
     var dateRegex = /([0123]?[0-9])-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-(\d{4})/ig;
     var match = searchParam.filterParameters.search.match(dateRegex);
     if (match != null && match.length === 1) {
-      searchParam.filterParameters.createdDate = new Date(match[0]).toISOString();
+      let targetDate = new Date(match[0].replace(/-/g," ")).toISOString();
+      searchParam.filterParameters.createdDate = targetDate;
       if (searchParam.filterParameters.isArchived)
-        searchParam.filterParameters.archivedDate = new Date(match[0]).toISOString();
+        searchParam.filterParameters.archivedDate = targetDate;
       searchParam.filterParameters.search = searchParam.filterParameters.search.replace(dateRegex,"").trim();
     }
 

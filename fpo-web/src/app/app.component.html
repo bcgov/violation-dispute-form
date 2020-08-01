@@ -25,32 +25,14 @@
       </div>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          <li *ngIf="this.dataService.isAdmin()" class="nav-item">
-            <a class="nav-link" routerLink="/inbox/">Inbox</a>
-          </li>
-          <li *ngIf="this.dataService.isAdmin()" class="nav-item">
-            <a class="nav-link" routerLink="/contact/">Contact</a>
-          </li>
-          <li *ngIf="this.dataService.isAdmin()" class="nav-item">
-            <a class="nav-link" href="./admin/logout/">Logout</a>
-          </li>
         </ul>
       </div>
-      <!-- <div class="navbar-extra">
-        <div id="app-profile">
-          <a routerLink="/prv/status" class="btn btn-primary" *ngIf="isPrv"
-            ><span class="fa fa-user"></span> Profile</a
-          >
-        </div>
-      </div> -->
     </nav>
   </header>
 
   <main role="main" class="app-content">
 
     <div class="app-main">
-      <!--<breadcrumb></breadcrumb>-->
-
       <router-outlet></router-outlet>
     </div>
 

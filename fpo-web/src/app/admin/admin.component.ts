@@ -93,6 +93,9 @@ export class AdminComponent implements OnInit {
   ngOnInit() {
     this.loadPage();
     this.outdatedBrowser = this.checkForIE();
+    //Hide footer detail.
+    let footerDetail = <HTMLElement>document.querySelector(".footer-detail");
+    footerDetail.style.display = "none";
   }
 
   constructor(
@@ -290,16 +293,22 @@ export class AdminComponent implements OnInit {
       return;
     }
 
-    var file = new Blob([response], { type: "application/pdf" });
-    var fileURL = URL.createObjectURL(file);
-    var oWindow = window.open(fileURL);
     let popupBlocked = false;
-    try {
-      //Check for popup blocker.
-      oWindow.print();
-    } catch {
-      popupBlocked = true;
+    var file = new Blob([response], { type: "application/pdf" });
+    //Nasty IE + Edge workaround.
+    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+      window.navigator.msSaveOrOpenBlob(file, "response_inbox.pdf");
+    } else {
+      var fileURL = URL.createObjectURL(file);
+      let oWindow = window.open(fileURL);
+      try {
+        //Check for popup blocker.
+        oWindow.print();
+      } catch {
+        popupBlocked = true;
+      }
     }
+
     window.URL.revokeObjectURL(fileURL);
     if (!popupBlocked) {
       //If successful, hit the API again and mark files as printed.
@@ -323,10 +332,13 @@ export class AdminComponent implements OnInit {
             ? "printed and archived."
             : "printed."
         }`;
+
+        if (window.navigator && window.navigator.msSaveOrOpenBlob)
+          message += " (check Downloads for Edge Browser)";
+
         this.showSuccessMessage(message);
         window.onfocus = null;
       };
-
       this.reloadAndResetToFirstPage();
     }
   }
