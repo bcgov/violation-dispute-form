@@ -11,6 +11,7 @@ from django.http import (
     HttpResponse,
     HttpResponseNotFound,
     HttpResponseServerError,
+    HttpResponseForbidden
 )
 from rest_framework.request import Request
 
@@ -39,11 +40,11 @@ class TicketResponseListFilter(filters.FilterSet):
         is_archived = self.data.get("is_archived")
         start = value
         end = value + timedelta(hours=24) - timedelta(seconds=1)
-        if is_archived and field_name == "archived_date__date":
+        if is_archived == 'true' and field_name == "archived_date__date":
             return queryset.filter(created_date__range=(start, end)) | queryset.filter(
                 archived_date__range=(start, end)
             )
-        elif not is_archived and field_name == "created_date__date":
+        elif is_archived == 'false' and field_name == "created_date__date":
             return queryset.filter(created_date__range=(start, end))
         else:
             return queryset
@@ -85,8 +86,8 @@ class TicketResponseView(generics.ListAPIView):
         "archived_by__first_name",
     ]
     ordering_fields = [
-        "created_date__date",
-        "archived_date__date",
+        "created_date",
+        "archived_date",
         "hearing_location__name",
         "ticket_number",
         "last_name",
@@ -94,6 +95,8 @@ class TicketResponseView(generics.ListAPIView):
     ]
 
     def delete(self, request: Request, id=None):
+        if not request.user.is_superuser:
+            return HttpResponseForbidden()
         try:
             ticket_response = TicketResponse.objects.get(id=id)
             prepared_pdf = PreparedPdf.objects.get(

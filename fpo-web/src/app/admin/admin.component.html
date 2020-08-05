@@ -5,7 +5,7 @@
       <div id="tableHeader">
         <modal-delete> </modal-delete>
         <ngb-alert type="danger" *ngIf="outdatedBrowser" [dismissible]="false">
-          Internet Explorer is unsupported. Please use a newer browser such as Microsoft Edge or Google Chrome.
+          Internet Explorer and older versions of Microsoft Edge are unsupported. Please use a newer browser such as Microsoft Edge (version 79 or higher) or Google Chrome.
         </ngb-alert>
         <ul ngbNav #nav="ngbNav" class="nav-tabs">
           <li [ngbNavItem]="1" id="newResponseTab">
@@ -104,7 +104,7 @@
               </span>
             </div>
             <div class="col col-md-auto pl-3">
-              <span (click)="deleteResponse($event,row);" *ngIf="column.name==='Action'" class="unselectable float-right">
+              <span (click)="deleteResponse($event,row);" *ngIf="column.name==='Action' && isSuperUser()" class="unselectable float-right">
                 <img [class.invert-color]="this.selected.indexOf(row) !== -1" width="24" height="24" src="assets/trash.svg"/>
                 Delete 
               </span>

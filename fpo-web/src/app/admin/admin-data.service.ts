@@ -55,7 +55,6 @@ export class AdminDataService {
     serverSortParameters.forEach((order) => {
       var orderName = order.prop;
       if (order.dir === "desc") orderingString += "-";
-      if (orderName === "created_date" || orderName === "archived_date") orderName += "__date";
       orderingString += `${orderName},`;
       //Remove trailing comma.
       if (serverSortParameters[serverSortParameters.length - 1] === order) {
@@ -129,9 +128,8 @@ export class AdminDataService {
     var searchResponse = await this.getData(searchParameters);
     searchResponse.results = searchResponse.results.map((r) => ({
       ...r,
-      deadline_date: this.buildDayMonthWordYearDateString(r.deadline_date as Date),
-      created_date: this.buildDayMonthWordYearDateString(r.created_date as Date),
-      archived_date: this.buildDayMonthWordYearDateString(r.archived_date as Date),
+      created_date: this.buildDayMonthWordYearDateString(r.created_date as Date) + " " + this.buildTimeString(r.created_date as Date),
+      archived_date: this.buildDayMonthWordYearDateString(r.archived_date as Date) + " " + this.buildTimeString(r.archived_date as Date),
       name: `${r.last_name}, ${r.first_name} ${r.middle_name || ""}`,
       hearing_location__name: r.hearing_location != null ? `${r.hearing_location.name}` : null,
       archived_by__name: r.archived_by !== null ? `${r.archived_by.last_name}, ${r.archived_by.first_name}` : null
@@ -184,5 +182,9 @@ export class AdminDataService {
         return "not found"
       return "error"
     }
+  }
+
+  isSuperUser() {
+    return this.generalDataService.isSuperUser();
   }
 }

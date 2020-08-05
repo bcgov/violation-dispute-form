@@ -92,7 +92,7 @@ export class AdminComponent implements OnInit {
 
   ngOnInit() {
     this.loadPage();
-    this.outdatedBrowser = this.checkForIE();
+    this.outdatedBrowser = this.checkForIEOrOldEdge();
     //Hide footer detail.
     let footerDetail = <HTMLElement>document.querySelector(".footer-detail");
     footerDetail.style.display = "none";
@@ -334,7 +334,7 @@ export class AdminComponent implements OnInit {
         }`;
 
         if (window.navigator && window.navigator.msSaveOrOpenBlob)
-          message += " (check Downloads for Edge Browser)";
+          message += " (check Downloads for Old Edge Browser)";
 
         this.showSuccessMessage(message);
         window.onfocus = null;
@@ -405,9 +405,11 @@ export class AdminComponent implements OnInit {
     this.reloadAndResetToFirstPage();
   }
 
-  checkForIE() {
-    var ua = window.navigator.userAgent;
-    var msie = ua.indexOf("MSIE ");
-    return msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./);
+  checkForIEOrOldEdge(): boolean {
+    return !!(window.navigator && window.navigator.msSaveOrOpenBlob);
+  }
+
+  isSuperUser(): boolean {
+    return this.adminService.isSuperUser();
   }
 }
