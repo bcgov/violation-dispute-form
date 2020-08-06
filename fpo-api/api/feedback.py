@@ -15,9 +15,8 @@ def email_feedback(ip_addr, app_url, reply_name, reply_email, reason, comments):
     from_name = settings.SMTP_SENDER_NAME
 
     reason_map = {
-        "incorrect": "Reporting incorrect information",
-        "additional": "Requesting additional information on BC organizations",
-        "signup": "Looking to sign up my government organization"
+        "problem": "Report a problem with this service",
+        "positive": "Positive feedback for this service"
     }
     reason_text = reason_map.get(reason) or ""
 
