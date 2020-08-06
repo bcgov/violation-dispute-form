@@ -7,6 +7,8 @@ class TicketResponse(models.Model):
     updated_date = models.DateTimeField(auto_now=True)
     emailed_date = models.DateTimeField(blank=True, null=True)
 
+    email_message_id = models.CharField(max_length=255, blank=True, null=True)
+
     # stored encrypted when key_id is set
     result = models.BinaryField(blank=True, null=True)
 
