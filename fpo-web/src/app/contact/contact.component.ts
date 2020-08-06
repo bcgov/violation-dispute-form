@@ -23,6 +23,10 @@ export class ContactComponent implements OnInit {
   constructor(private dataService: GeneralDataService, private http: HttpClient,) { }
 
   ngOnInit() {
+     //Hide footer detail.
+    let footerDetail = <HTMLElement>document.querySelector(".footer-detail");
+    footerDetail.style.display = "none";
+    
     this.dataService.key.subscribe(recaptchaKey => this.recaptchaKey = recaptchaKey)
   }
 
