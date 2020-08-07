@@ -1,9 +1,9 @@
 <div class="row mt-4 mt-md-5">
   <div class="col-lg-8" id="feedback">
 
-    <h2 tabindex="-1">Submit Feedback</h2>
+    <h2 tabindex="-1">Give Feedback for "Choose How to Attend Your Traffic Hearing</h2>
 
-    <p>Comments and suggestions may be sent using the form below.</p>
+    <p>If you have already submitted your Traffic Hearing choice and you want to change it, call the Violation Ticket Center at 1-877-661-8026.</p>
 
     <div class="alert alert-success alert-dismissible" id="alert-success" role="alert" tabindex="0" *ngIf="sent">
       <h3 class="h5 my-0">Feedback Sent</h3>
@@ -32,22 +32,16 @@
 
     <div class="row form-group mt-2">
       <div class="col">
-        <label class="control-label mb-0">Contact Reason</label>
+        <label class="control-label mb-0">Type of Feedback</label>
         <div class="form-check">
-          <input class="form-check-input" type="radio" name="reason" value="incorrect" id="reason_incorrect" required
+          <input class="form-check-input" type="radio" name="reason" value="problem" id="reason_problem" required
             [(ngModel)]="feedback.reason">
-          <label class="form-check-label" for="reason_incorrect">Report incorrect information</label>
+          <label class="form-check-label" for="reason_problem">Report a problem with this service</label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="radio" name="reason" value="additional" id="reason_additional" required
+          <input class="form-check-input" type="radio" name="reason" value="positive" id="reason_positive" required
             [(ngModel)]="feedback.reason">
-          <label class="form-check-label" for="reason_additional">Request additional information on BC
-            organizations</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="reason" value="signup" id="reason_signup" required
-            [(ngModel)]="feedback.reason">
-          <label class="form-check-label" for="reason_signup">Find out how my government organization can use this</label>
+          <label class="form-check-label" for="reason_positive">Positive feedback for this service</label>
         </div>
       </div>
     </div>
@@ -68,7 +62,7 @@
 
     <div class="row form-group">
       <div class="col">
-        <label class="control-label mb-0">Question <span class="text-help">(optional)</span></label>
+        <label class="control-label mb-0">Feedback</label>
         <textarea class="form-control" name="comments" rows="6" cols="40" [(ngModel)]="feedback.comments"></textarea>
       </div>
     </div>
@@ -81,7 +75,7 @@
     </div>
 
     <div class="row form-group">
-      <div class="col text-right">
+      <div class="col text-left">
         <button type="submit" class="btn btn-bcgold" (click)="sendFeedback($event)" [ngClass]="{loading: sending}"
           [disabled]="sending || !canSend">
           <span class="fa fa-paper-plane left"></span> Send Feedback
