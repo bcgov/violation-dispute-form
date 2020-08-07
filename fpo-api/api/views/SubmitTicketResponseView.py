@@ -41,6 +41,7 @@ class SubmitTicketResponseView(APIView):
         #  Adding different pdf form logic: Jul 3, 2020
         data = request.data
         name = request.query_params.get("name")
+        request.session['name'] = name
 
         template = "{}.html".format(name)
 
