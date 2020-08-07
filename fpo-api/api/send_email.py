@@ -48,11 +48,11 @@ def send_email(recipient_email: str, pdf_data: bytes, pdf_name: str):
     LOGGER.info("Recipient email address: %s", recipient_email)
 
     if pdf_name == "violation-ticket-statement-and-written-reasons":
-        filename = "Violation Ticket Statement and Written Reasons.pdf"
+        filename = "Reasons-to-Reduce-Traffic-Ticket.pdf"
     elif pdf_name == "notice-to-disputant-response":
-        filename = "Notice to Disputant Response.pdf"
+        filename = "Traffic-Hearing-Choice.pdf"
     else:
-        filename = "Response.pdf"
+        filename = "Ticket-Response.pdf"
 
     sender_info = formataddr((str(Header(sender_name, "utf-8")), sender_email))
 
