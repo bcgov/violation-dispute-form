@@ -52,8 +52,14 @@ class PdfFileView(APIView):
             pdf_result = PreparedPdf.objects.get(id=target_id)
         except (PreparedPdf.DoesNotExist, TicketResponse.DoesNotExist):
             return HttpResponseNotFound()
-
-        filename = "ticketResponse.pdf"
+            
+        name = request.session.get('name')
+        if name == "violation-ticket-statement-and-written-reasons":
+            filename = "Reasons-to-Reduce-Traffic-Ticket.pdf"
+        elif name == "notice-to-disputant-response":
+            filename = "Traffic-Hearing-Choice.pdf"
+        else:
+            filename = "Ticket-Response.pdf"
         pdf_data = settings.ENCRYPTOR.decrypt(pdf_result.key_id, pdf_result.data)
         return FileResponse(BytesIO(pdf_data), as_attachment=False, filename=filename)
 
