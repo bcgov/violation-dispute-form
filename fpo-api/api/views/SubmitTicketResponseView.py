@@ -13,6 +13,7 @@ from rest_framework.response import Response
 from api.auth import (
     grecaptcha_verify,
     grecaptcha_site_key,
+    get_email_service_token,
 )
 
 from api.models import TicketResponse, PreparedPdf
@@ -27,6 +28,8 @@ LOGGER = logging.getLogger(__name__)
 class SubmitTicketResponseView(APIView):
     def get(self, request: Request, name=None):
         key = grecaptcha_site_key()
+        token = get_email_service_token()
+        request.session['token'] = token['access_token']
         return Response({"key": key})
 
     def post(self, request: Request, name=None):
@@ -113,10 +116,15 @@ class SubmitTicketResponseView(APIView):
                 request.session["file_guid"] = str(response.file_guid)
 
             if email and pdf_content:
-                send_email(email, pdf_content, name)
-                response.emailed_date = timezone.now()
-                email_sent = True
-                response.save()
+                token = request.session.get('token')
+                email_res = send_email(email, pdf_content, name, token)
+                if email_res:
+                    email_msg_id = email_res['messages'][0]['msgId']
+                    print("msg id is ", email_msg_id)
+                    response.emailed_date = timezone.now()
+                    response.email_message_id = email_msg_id
+                    email_sent = True
+                    response.save()
 
         except Exception as exception:
             LOGGER.exception("Pdf / Email generation error", exception)

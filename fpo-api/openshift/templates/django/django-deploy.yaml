@@ -88,6 +88,8 @@ objects:
       recaptcha-site-key: ${RECAPTCHA_SITE_KEY}
       recaptcha-secret-key: ${RECAPTCHA_SECRET_KEY}
       smtp-host: ${SMTP_SERVER_ADDRESS}
+      email_service_client_id: ${EMAIL_SERVICE_CLIENT_ID}
+      email_service_client_secret: ${EMAIL_SERVICE_CLIENT_SECRET}
       sender-email: ${SENDER_EMAIL}
       sender-name: ${SENDER_NAME}
       feedback-email: ${FEEDBACK_TARGET_EMAIL}
@@ -193,6 +195,16 @@ objects:
                     secretKeyRef:
                       name: ${NAME}
                       key: smtp-host
+                - name: EMAIL_SERVICE_CLIENT_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${NAME}
+                      key: email_service_client_id
+                - name: EMAIL_SERVICE_CLIENT_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${NAME}
+                      key: email_service_client_secret
                 - name: FEEDBACK_TARGET_EMAIL
                   valueFrom:
                     secretKeyRef:
@@ -317,6 +329,16 @@ parameters:
   - name: SMTP_SERVER_ADDRESS
     displayName: SMTP Server Address
     description: SMTP Server Address
+    required: true
+    value:
+  - name: EMAIL_SERVICE_CLIENT_ID
+    displayName: Email Service Client Id
+    description: Email Service Client Id
+    required: true
+    value:
+  - name: EMAIL_SERVICE_CLIENT_SECRET
+    displayName: Email Service Client Secret
+    description: Email Service Client Secret
     required: true
     value:
   - name: FEEDBACK_TARGET_EMAIL

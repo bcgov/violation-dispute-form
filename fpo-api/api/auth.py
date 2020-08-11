@@ -2,6 +2,7 @@ import logging
 import random
 import re
 import urllib
+import json
 from string import ascii_lowercase, digits
 
 from rest_framework import permissions
@@ -10,6 +11,7 @@ from django.urls.exceptions import NoReverseMatch
 
 from rest_framework import authentication
 from rest_framework.request import Request
+from requests.auth import HTTPBasicAuth
 from rest_framework.reverse import reverse
 
 import requests
@@ -145,6 +147,17 @@ def grecaptcha_verify(request) -> dict:
         "status": verify_rs.get("success", False),
         "message": verify_rs.get("error-codes", None) or "Unspecified error.",
     }
+
+def get_email_service_token() -> {}:
+    client_id = settings.EMAIL_SERVICE_CLIENT_ID
+    client_secret = settings.EMAIL_SERVICE_CLIENT_SECRET
+    payload = {"grant_type":"client_credentials"}
+    header = {"content-type": "application/x-www-form-urlencoded"}
+    url = "https://sso-dev.pathfinder.gov.bc.ca/auth/realms/jbd6rnxw/protocol/openid-connect/token"
+    token_rs = requests.post(url,data=payload, auth=HTTPBasicAuth(client_id, client_secret),headers=header, verify=True)
+    token_rs = token_rs.json()
+    return token_rs
+
 
 
 def method_permission_classes(classes):
