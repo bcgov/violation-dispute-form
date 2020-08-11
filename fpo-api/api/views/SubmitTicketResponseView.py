@@ -29,7 +29,8 @@ class SubmitTicketResponseView(APIView):
     def get(self, request: Request, name=None):
         key = grecaptcha_site_key()
         token = get_email_service_token()
-        request.session['token'] = token['access_token']
+        if token:
+           request.session['token'] = token['access_token']
         return Response({"key": key})
 
     def post(self, request: Request, name=None):
@@ -44,7 +45,15 @@ class SubmitTicketResponseView(APIView):
         #  Adding different pdf form logic: Jul 3, 2020
         data = request.data
         name = request.query_params.get("name")
-        request.session['name'] = name
+
+        #Set pdf filename
+        if name == "violation-ticket-statement-and-written-reasons":
+            filename = "Reasons-to-Reduce-Traffic-Ticket.pdf"
+        elif name == "notice-to-disputant-response":
+            filename = "Traffic-Hearing-Choice.pdf"
+        else:
+            filename = "Ticket-Response.pdf"
+        request.session['filename'] = filename
 
         template = "{}.html".format(name)
 
@@ -81,6 +90,7 @@ class SubmitTicketResponseView(APIView):
             hearing_location_id=data.get("hearingLocation"),
             hearing_attendance=data.get("hearingAttendance"),
             dispute_type=data.get("disputeType"),
+            pdf_filename = filename
         )
 
         check_required = [
@@ -117,14 +127,14 @@ class SubmitTicketResponseView(APIView):
 
             if email and pdf_content:
                 token = request.session.get('token')
-                email_res = send_email(email, pdf_content, name, token)
-                if email_res:
-                    email_msg_id = email_res['messages'][0]['msgId']
-                    print("msg id is ", email_msg_id)
-                    response.emailed_date = timezone.now()
-                    response.email_message_id = email_msg_id
-                    email_sent = True
-                    response.save()
+                if token:
+                    email_res = send_email(email, pdf_content, filename, token)
+                    if email_res:
+                        email_msg_id = email_res['messages'][0]['msgId']
+                        response.emailed_date = timezone.now()
+                        response.email_message_id = email_msg_id
+                        email_sent = True
+                        response.save()
 
         except Exception as exception:
             LOGGER.exception("Pdf / Email generation error", exception)

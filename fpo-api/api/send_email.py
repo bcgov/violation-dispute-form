@@ -4,38 +4,36 @@ import json
 from django.conf import settings
 
 from email import encoders
-from email.mime.base import MIMEBase
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 from email.header import Header
 from email.utils import formataddr
 import requests
 import base64
 
-from smtplib import SMTP, SMTPException
-
 LOGGER = logging.getLogger(__name__)
 
 def send_email(recipient_email: str, pdf_data: bytes, pdf_name: str, auth_token: str)->{}:
     sender_email = settings.SMTP_SENDER_EMAIL
-    #sender_name = settings.SMTP_SENDER_NAME
+    sender_name = settings.SMTP_SENDER_NAME
+    url = settings.CHES_EMAIL_URL
 
     if not sender_email:
         LOGGER.error("Sender email address not configured")
         return
+    if not url:
+        LOGGER.error("CHES email url not configured")
+        return
+    if not sender_name:
+        LOGGER.error("Sender name not configured")
+        return
     if not recipient_email:
         LOGGER.error("No recipient email address provided")
         return
-
-    # Update filename 
-    if pdf_name == "violation-ticket-statement-and-written-reasons":
-        filename = "Reasons-to-Reduce-Traffic-Ticket.pdf"
-    elif pdf_name == "notice-to-disputant-response":
-        filename = "Traffic-Hearing-Choice.pdf"
-    else:
-        filename = "Ticket-Response.pdf"
+    if not auth_token:
+        LOGGER.error("No authentication token provided")
+        return
 
     encoded_string = base64.b64encode(pdf_data).decode('ascii')
+    sender_info = formataddr((str(Header(sender_name, "utf-8")), sender_email))
 
     body = """\
     <html>
@@ -57,7 +55,7 @@ def send_email(recipient_email: str, pdf_data: bytes, pdf_name: str, auth_token:
             "cc": [],
             "delayTS": 0,
             "encoding": "utf-8",
-            "from": sender_email,
+            "from": sender_info,
             "priority": "normal",
             "subject": "Traffic Hearing Choice",
             "to": [recipient_email],
@@ -67,7 +65,7 @@ def send_email(recipient_email: str, pdf_data: bytes, pdf_name: str, auth_token:
                 "content": encoded_string,             
                 "contentType": "application/pdf",
                 "encoding": "base64",
-                "filename": filename
+                "filename": pdf_name
                 }
             ]
            }
@@ -75,13 +73,15 @@ def send_email(recipient_email: str, pdf_data: bytes, pdf_name: str, auth_token:
     headers = {"Authorization":'Bearer ' + auth_token,
               "Content-Type": "application/json"
     }   
-    url = "https://ches-master-9f0fbe-dev.pathfinder.gov.bc.ca/api/v1/email"
-    
-    response = requests.post(url, data = json.dumps(data), headers = headers)
-    email_res = response.json()
-    if response.status_code == 201:
+    try:
+        response = requests.post(url, data = json.dumps(data), headers = headers)
+        if not response.status_code // 100 == 2:
+            LOGGER.error("Error: Email failed!", response.text.encode('utf8'))
+            return
+
+        email_res = response.json()
         LOGGER.debug("Email sent successfully!",email_res)
         return email_res
-    else:
-        LOGGER.exception("Email failed!", response.text.encode('utf8'))
-    
+    except requests.exceptions.RequestException as e:
+        LOGGER.error("Error: {}".format(e))
+        return

@@ -18,7 +18,7 @@ import requests
 
 from api.models.User import User
 from oidc_rp.models import OIDCUser
-
+LOGGER = logging.getLogger(__name__)
 
 def get_login_uri(request: Request = None, next: str = None) -> str:
     uri = None
@@ -151,14 +151,28 @@ def grecaptcha_verify(request) -> dict:
 def get_email_service_token() -> {}:
     client_id = settings.EMAIL_SERVICE_CLIENT_ID
     client_secret = settings.EMAIL_SERVICE_CLIENT_SECRET
+    url = settings.CHES_AUTH_URL
+    if not client_id:
+        LOGGER.error("Email service client id is not configured")
+        return
+    if not client_secret:
+        LOGGER.error("Email service client secret is not configured")
+        return
+    if not url:
+        LOGGER.error("Common hosted email service authentication url is not configured")
+        return
     payload = {"grant_type":"client_credentials"}
     header = {"content-type": "application/x-www-form-urlencoded"}
-    url = "https://sso-dev.pathfinder.gov.bc.ca/auth/realms/jbd6rnxw/protocol/openid-connect/token"
-    token_rs = requests.post(url,data=payload, auth=HTTPBasicAuth(client_id, client_secret),headers=header, verify=True)
-    token_rs = token_rs.json()
-    return token_rs
-
-
+    try:
+        token_rs = requests.post(url,data=payload, auth=HTTPBasicAuth(client_id, client_secret),headers=header, verify=True)
+        if not token_rs.status_code == 200:
+            LOGGER.error("Error: Unexpected response", token_rs.text.encode('utf8'))
+            return
+        json_obj = token_rs.json()
+        return json_obj
+    except requests.exceptions.RequestException as e:
+        LOGGER.error("Error: {}".format(e))
+        return
 
 def method_permission_classes(classes):
     """Note The permissions set through the decorator are the only

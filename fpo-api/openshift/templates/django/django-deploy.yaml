@@ -88,8 +88,10 @@ objects:
       recaptcha-site-key: ${RECAPTCHA_SITE_KEY}
       recaptcha-secret-key: ${RECAPTCHA_SECRET_KEY}
       smtp-host: ${SMTP_SERVER_ADDRESS}
-      email_service_client_id: ${EMAIL_SERVICE_CLIENT_ID}
-      email_service_client_secret: ${EMAIL_SERVICE_CLIENT_SECRET}
+      ches-auth-url: ${CHES_AUTH_URL}
+      ches-email-url: ${CHES_EMAIL_URL}
+      email-service-client-id: ${EMAIL_SERVICE_CLIENT_ID}
+      email-service-client-secret: ${EMAIL_SERVICE_CLIENT_SECRET}
       sender-email: ${SENDER_EMAIL}
       sender-name: ${SENDER_NAME}
       feedback-email: ${FEEDBACK_TARGET_EMAIL}
@@ -195,16 +197,26 @@ objects:
                     secretKeyRef:
                       name: ${NAME}
                       key: smtp-host
+                - name: CHES_AUTH_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${NAME}
+                      key: ches-auth-url
+                - name: CHES_EMAIL_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${NAME}
+                      key: ches-email-url
                 - name: EMAIL_SERVICE_CLIENT_ID
                   valueFrom:
                     secretKeyRef:
                       name: ${NAME}
-                      key: email_service_client_id
+                      key: email-service-client-id
                 - name: EMAIL_SERVICE_CLIENT_SECRET
                   valueFrom:
                     secretKeyRef:
                       name: ${NAME}
-                      key: email_service_client_secret
+                      key: email-service-client-secret
                 - name: FEEDBACK_TARGET_EMAIL
                   valueFrom:
                     secretKeyRef:
@@ -331,6 +343,16 @@ parameters:
     description: SMTP Server Address
     required: true
     value:
+  - name: CHES_AUTH_URL
+    displayName: CHES authentication url
+    description: CHES authentication url
+    required: true
+    value:  
+  - name: CHES_EMAIL_URL
+    displayName: CHES email url
+    description: CHES email url
+    required: true
+    value: 
   - name: EMAIL_SERVICE_CLIENT_ID
     displayName: Email Service Client Id
     description: Email Service Client Id
