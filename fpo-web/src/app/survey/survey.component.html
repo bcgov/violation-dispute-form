@@ -17,26 +17,34 @@
 </div>
 
 <div *ngIf="!loading">
-    <re-captcha
-      *ngIf="recaptchaKey && displayRecaptcha"
-      (resolved)="resolvedCaptcha($event)"
-      [siteKey]="recaptchaKey"
-    ></re-captcha>
-  <button
-    class="btn btn-success btn-lg mt-4"
-    id="completeBtn"
-    (click)="hasFieldErrors()"
-    [hidden] = "displayRecaptcha"
+  <re-captcha 
+  *ngIf="recaptchaKey && displayRecaptcha" 
+  (resolved)="resolvedCaptcha($event)" 
+  [siteKey]="recaptchaKey"
+  ></re-captcha>
+  <button 
+  class="btn btn-success btn-lg mt-4" 
+  id="completeBtn" 
+  (click)="hasFieldErrors()" 
+  [hidden] = "displayRecaptcha"
   >
     <span class="fa fa-check-circle btn-icon-left"></span> Complete
   </button>
-  <button
-    class="btn btn-success btn-lg mt-4"
-    id="submitBtn"
-    (click)="submit()"
-    [disabled]="!canSubmit"
-    [hidden] = "!displayRecaptcha"
-  >
-    <span class="fa fa-check-circle btn-icon-left"></span> Submit
-  </button>
+
+  <div class="row my-4" *ngIf="recaptchaKey && displayRecaptcha">
+    <div class="col-md-2">
+      <button 
+      class="btn btn-success btn-lg mt-2" 
+      id="submitBtn" 
+      (click)="submit()" 
+      [disabled]="!canSubmit"
+      [hidden] = "!displayRecaptcha"
+      >
+        <span class="fa fa-check-circle btn-icon-left"></span> Submit
+      </button>
+    </div>
+    <div class="col-md-10"><span>Please check your answers before you click "Submit." When you click "Submit," your
+        information will be sent to the Provincial Court of British Columbia</span>
+    </div>
+  </div>
 </div>
