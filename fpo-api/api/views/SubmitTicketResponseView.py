@@ -127,14 +127,13 @@ class SubmitTicketResponseView(APIView):
 
             if email and pdf_content:
                 token = request.session.get('token')
-                if token:
-                    email_res = send_email(email, pdf_content, filename, token)
-                    if email_res:
-                        email_msg_id = email_res['messages'][0]['msgId']
-                        response.emailed_date = timezone.now()
-                        response.email_message_id = email_msg_id
-                        email_sent = True
-                        response.save()
+                email_res = send_email(email, pdf_content, filename, token)
+                if email_res:
+                    email_msg_id = email_res['messages'][0]['msgId']
+                    response.emailed_date = timezone.now()
+                    response.email_message_id = email_msg_id
+                    email_sent = True
+                    response.save()
 
         except Exception as exception:
             LOGGER.exception("Pdf / Email generation error", exception)
