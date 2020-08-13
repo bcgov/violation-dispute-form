@@ -1,28 +1,26 @@
 import logging
+import json
 
 from django.conf import settings
 
 from email import encoders
-from email.mime.base import MIMEBase
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 from email.header import Header
 from email.utils import formataddr
-
-from smtplib import SMTP, SMTPException
+import requests
+import base64
 
 LOGGER = logging.getLogger(__name__)
 
-
-def send_email(recipient_email: str, pdf_data: bytes, pdf_name: str):
-    server_addr = settings.SMTP_SERVER_ADDRESS
+def send_email(recipient_email: str, pdf_data: bytes, pdf_name: str, auth_token: str)->{}:
     sender_email = settings.SMTP_SENDER_EMAIL
     sender_name = settings.SMTP_SENDER_NAME
-    if not server_addr:
-        LOGGER.debug("SMTP server address not configured")
-        return
+    url = settings.CHES_EMAIL_URL
+
     if not sender_email:
         LOGGER.error("Sender email address not configured")
+        return
+    if not url:
+        LOGGER.error("CHES email url not configured")
         return
     if not sender_name:
         LOGGER.error("Sender name not configured")
@@ -30,8 +28,13 @@ def send_email(recipient_email: str, pdf_data: bytes, pdf_name: str):
     if not recipient_email:
         LOGGER.error("No recipient email address provided")
         return
+    if not auth_token:
+        LOGGER.error("No authentication token provided")
+        return
 
-    subject = "Traffic Hearing Choice"
+    encoded_string = base64.b64encode(pdf_data).decode('ascii')
+    sender_info = formataddr((str(Header(sender_name, "utf-8")), sender_email))
+
     body = """\
     <html>
     <body>
@@ -44,40 +47,41 @@ def send_email(recipient_email: str, pdf_data: bytes, pdf_name: str):
     </body>
     </html>
     """
+    
+    data = {
+            "bcc": [],
+            "bodyType": "html",
+            "body": body,
+            "cc": [],
+            "delayTS": 0,
+            "encoding": "utf-8",
+            "from": sender_info,
+            "priority": "normal",
+            "subject": "Traffic Hearing Choice",
+            "to": [recipient_email],
+            "tag": "email_1",
+            "attachments": [
+                {
+                "content": encoded_string,             
+                "contentType": "application/pdf",
+                "encoding": "base64",
+                "filename": pdf_name
+                }
+            ]
+           }
 
-    LOGGER.info("Recipient email address: %s", recipient_email)
+    headers = {"Authorization":'Bearer ' + auth_token,
+              "Content-Type": "application/json"
+    }   
+    try:
+        response = requests.post(url, data = json.dumps(data), headers = headers)
+        if not response.status_code // 100 == 2:
+            LOGGER.error("Error: Email failed!", response.text.encode('utf8'))
+            return
 
-    if pdf_name == "violation-ticket-statement-and-written-reasons":
-        filename = "Reasons-to-Reduce-Traffic-Ticket.pdf"
-    elif pdf_name == "notice-to-disputant-response":
-        filename = "Traffic-Hearing-Choice.pdf"
-    else:
-        filename = "Ticket-Response.pdf"
-
-    sender_info = formataddr((str(Header(sender_name, "utf-8")), sender_email))
-
-    msg = MIMEMultipart()
-    msg["From"] = sender_email
-    msg["To"] = recipient_email
-    msg["Subject"] = subject
-
-    msg.attach(MIMEText(body, "html"))
-
-    # # Add file as application/octet-stream
-    # # Email client can usually download this automatically as attachment
-    base = MIMEBase("application", "octet-stream")
-    base.set_payload(pdf_data)
-    encoders.encode_base64(base)
-
-    # # Add header as key/value pair to attachment part
-    base.add_header("Content-Disposition", 'attachment', filename=filename)
-    # # Add attachment to message and convert message to string
-    msg.attach(base)
-    text = msg.as_string()
-
-    with SMTP(server_addr) as smtp:
-        try:
-            smtp.sendmail(sender_info, (recipient_email,), text)
-            LOGGER.debug("Email sent successfully!")
-        except SMTPException as err:
-            LOGGER.exception("Email failed!", err)
+        email_res = response.json()
+        LOGGER.debug("Email sent successfully!",email_res)
+        return email_res
+    except requests.exceptions.RequestException as e:
+        LOGGER.error("Error: {}".format(e))
+        return
