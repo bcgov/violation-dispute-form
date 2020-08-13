@@ -14,18 +14,18 @@ if createOperation; then
   readParameter "DATA_SECURITY_KEY - Please provide the encryption key for the application environment.  If left blank, a 32 character long base64 encoded value will be randomly generated using openssl:" DATA_SECURITY_KEY $(generateKey 32) "false"
   readParameter "RECAPTCHA_SITE_KEY - Please provide reCAPTHCA site key for the application environment.  If left blank, a 48 character long base64 encoded value will be randomly generated using openssl:" RECAPTCHA_SITE_KEY $(generateKey) "false"
   readParameter "RECAPTCHA_SECRET_KEY - Please provide reCAPTHCA secret key for the application environment.  If left blank, a 48 character long base64 encoded value will be randomly generated using openssl:" RECAPTCHA_SECRET_KEY $(generateKey) "false"
-  readParameter "OIDC_RP_PROVIDER_ENDPOINT - Please provide the url for the OIDC RP Provider.  The default is a blank string." OIDC_RP_PROVIDER_ENDPOINT "false"
-  readParameter "OIDC_RP_CLIENT_SECRET - Please provide the OIDC RP Client Secret.  The default is a blank string." OIDC_RP_CLIENT_SECRET "false"
+  readParameter "OIDC_RP_PROVIDER_ENDPOINT - Please provide the url for the OIDC RP Provider.  The default is a blank string." OIDC_RP_PROVIDER_ENDPOINT "" "false"
+  readParameter "OIDC_RP_CLIENT_SECRET - Please provide the OIDC RP Client Secret.  The default is a blank string." OIDC_RP_CLIENT_SECRET "" "false"
 
   # Get the email settings
-  readParameter "SMTP_SERVER_ADDRESS - Please provide the address of the outgoing smtp server.  The default is a blank string." SMTP_SERVER_ADDRESS "false"
-  readParameter "CHES_AUTH_URL - Please provide the url for the CHES authentication.  The default is a blank string." CHES_AUTH_URL "false"
-  readParameter "CHES_EMAIL_URL - Please provide the url for the CHES email api.  The default is a blank string." CHES_EMAIL_URL "false"  
-  readParameter "EMAIL_SERVICE_CLIENT_ID - Please provide the service client id for sending confirmation email.  The default is a blank string." EMAIL_SERVICE_CLIENT_ID "false"
-  readParameter "EMAIL_SERVICE_CLIENT_SECRET - Please provide the service client secret to use with above id.  The default is a blank string." EMAIL_SERVICE_CLIENT_SECRET "false"
-  readParameter "FEEDBACK_TARGET_EMAIL - Please provide the email address used for recieving application feedback.  The default is a blank string." FEEDBACK_TARGET_EMAIL "false"
-  readParameter "SENDER_EMAIL - Please provide the email address used for sending confirmation emails.  The default is a blank string." SENDER_EMAIL "false"
-  readParameter "SENDER_NAME - Please provide the name to use with the above email address.  The default is a blank string." SENDER_NAME "false"
+  readParameter "SMTP_SERVER_ADDRESS - Please provide the address of the outgoing smtp server.  The default is a blank string." SMTP_SERVER_ADDRESS "" "false"
+  readParameter "CHES_AUTH_URL - Please provide the url for the CHES authentication.  The default is a blank string." CHES_AUTH_URL "" "false"
+  readParameter "CHES_EMAIL_URL - Please provide the url for the CHES email api.  The default is a blank string." CHES_EMAIL_URL "" "false"  
+  readParameter "EMAIL_SERVICE_CLIENT_ID - Please provide the service client id for sending confirmation email.  The default is a blank string." EMAIL_SERVICE_CLIENT_ID "" "false"
+  readParameter "EMAIL_SERVICE_CLIENT_SECRET - Please provide the service client secret to use with above id.  The default is a blank string." EMAIL_SERVICE_CLIENT_SECRET "" "false"
+  readParameter "FEEDBACK_TARGET_EMAIL - Please provide the email address used for recieving application feedback.  The default is a blank string." FEEDBACK_TARGET_EMAIL "" "false"
+  readParameter "SENDER_EMAIL - Please provide the email address used for sending confirmation emails.  The default is a blank string." SENDER_EMAIL "" "false"
+  readParameter "SENDER_NAME - Please provide the name to use with the above email address.  The default is a blank string." SENDER_NAME "" "false"
 else
   # Secrets are removed from the configurations during update operations ...
   printStatusMsg "Update operation detected ...\nSkipping the prompts for DATA_SECURITY_KEY, RECAPTCHA_SITE_KEY, RECAPTCHA_SECRET_KEY, OIDC_RP_PROVIDER_ENDPOINT, OIDC_RP_CLIENT_SECRET, SMTP_SERVER_ADDRESS, CHES_AUTH_URL, CHES_EMAIL_URL, EMAIL_SERVICE_CLIENT_ID, EMAIL_SERVICE_CLIENT_SECRET, FEEDBACK_TARGET_EMAIL, SENDER_EMAIL, and SENDER_NAME secrets ... \n"
