@@ -29,5 +29,8 @@ class FeedbackView(APIView):
         from_email = data.get("from_email")
         reason = data.get("reason")
         comments = data.get("comments")
-        email_feedback(ip_addr, app_url, from_name, from_email, reason, comments)
-        return Response({"status": "ok"})
+        auth_token = request.session.get('token')
+        feedback_sent = email_feedback(ip_addr, app_url, from_name, from_email, reason, comments, auth_token)
+        if feedback_sent:
+            return Response({"status": "sent"})
+        return Response({"status": "failed"})

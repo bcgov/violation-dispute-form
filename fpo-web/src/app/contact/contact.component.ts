@@ -80,22 +80,27 @@ export class ContactComponent implements OnInit {
       .toPromise()
       .then(
         (rs) => {
-          console.log(" feedback success", rs);
-          this.sent = true;
-          this.sending = false;
-          this.focusAlert('alert-success');
-          this.feedback = { reason: '', from_name: '', from_email: '', comments: '', invalid: null };
-          grecaptcha.reset();
-          this.recaptchaResponse ="";
+          if (rs && rs["status"] == "sent") {
+            console.log(" feedback sent successfully", rs);
+            this.focusAlert('alert-success');
+            this.sent = true;
+            this.feedback = { reason: '', from_name: '', from_email: '', comments: '', invalid: null };
+          }
+          else {
+            console.log("feedback submission failed", rs);
+            this.focusAlert('alert-error');
+            this.failed = true;
+          }
         },
         (err) => {
-          console.log("feedback submission failed", err);
+          console.log("Error: feedback not submitted", err);
           this.failed = true;
-          this.sending = false;
           this.focusAlert('alert-error');
         }
       );
-
+      this.sending = false;
+      grecaptcha.reset();
+      this.recaptchaResponse ="";
   }
 
 }

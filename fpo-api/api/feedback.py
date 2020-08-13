@@ -1,18 +1,33 @@
 import logging
+import json
+import requests
 from django.conf import settings
 from email.header import Header
-from email.mime.text import MIMEText
 from email.utils import formataddr
-from smtplib import SMTP, SMTPException
 
 LOGGER = logging.getLogger(__name__)
 
-
-def email_feedback(ip_addr, app_url, reply_name, reply_email, reason, comments):
-    server_addr = settings.SMTP_SERVER_ADDRESS
+def email_feedback(ip_addr, app_url, reply_name, reply_email, reason, comments, auth_token):
+    sender_email = settings.SENDER_EMAIL
+    sender_name = settings.SENDER_NAME
     recip_email = settings.FEEDBACK_TARGET_EMAIL
-    from_email = settings.SMTP_SENDER_EMAIL
-    from_name = settings.SMTP_SENDER_NAME
+    url = settings.CHES_EMAIL_URL
+
+    if not sender_email:
+        LOGGER.error("Sender email address not configured")
+        return
+    if not url:
+        LOGGER.error("CHES email url not configured")
+        return
+    if not sender_name:
+        LOGGER.error("Sender name not configured")
+        return
+    if not recip_email:
+        LOGGER.error("No recipient email address provided")
+        return
+    if not auth_token:
+        LOGGER.error("No authentication token provided")
+        return
 
     reason_map = {
         "problem": "Report a problem with this service",
@@ -30,7 +45,7 @@ def email_feedback(ip_addr, app_url, reply_name, reply_email, reason, comments):
         LOGGER.info("Skipped blank feedback")
         return False
 
-    if server_addr and recip_email:
+    if auth_token and recip_email:
         body = ""
         if app_url:
             body = "{}Application URL: {}\n".format(body, app_url)
@@ -43,22 +58,37 @@ def email_feedback(ip_addr, app_url, reply_name, reply_email, reason, comments):
         if reason_text:
             body = "{}Contact reason: {}\n".format(body, reason_text)
         if comments:
-            body = "{}Comments:\n{}\n".format(body, comments)
-        msg = MIMEText(body, "plain")
+            body = "{}Feedback:{}\n".format(body, comments)
+        sender_info = formataddr((str(Header(sender_name, "utf-8")), sender_email))
         recipients = ",".join(recip_email)
-        from_line = formataddr((str(Header(from_name, "utf-8")), from_email))
-        reply_line = formataddr((str(Header(reply_name, "utf-8")), reply_email))
-        msg["Subject"] = subject
-        msg["From"] = from_line
-        msg["Reply-To"] = reply_line
-        msg["To"] = recip_email
-        # LOGGER.info("encoded:\n%s", msg.as_string())
 
-        with SMTP(server_addr) as smtp:
-            try:
-                smtp.sendmail(from_line, (recip_email,), msg.as_string())
-                LOGGER.debug("Feedback email sent")
-            except SMTPException:
-                LOGGER.exception("Exception when emailing feedback results")
+        data = {
+                "bcc": [],
+                "bodyType": "text",
+                "body": body,
+                "cc": [],
+                "delayTS": 0,
+                "encoding": "utf-8",
+                "from": sender_info,
+                "priority": "normal",
+                "subject": subject,
+                "to": [recip_email],
+                "tag": "email_1",
+                "attachments": []
+            }
 
-    return True
+        headers = {"Authorization":'Bearer ' + auth_token,
+                "Content-Type": "application/json"
+        }   
+        try:
+            response = requests.post(url, data = json.dumps(data), headers = headers)
+            if not response.status_code // 100 == 2:
+                LOGGER.error("Error: Feedback email failed!", response.text.encode('utf8'))
+
+            email_res = response.json()
+            LOGGER.debug("Feedback sent successfully!",email_res)
+            return True
+        except requests.exceptions.RequestException as e:
+            LOGGER.error("Feedback Error: {}".format(e))
+
+    return False

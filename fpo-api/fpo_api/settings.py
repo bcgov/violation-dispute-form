@@ -250,9 +250,8 @@ REST_FRAMEWORK = {
 RECAPTCHA_SITE_KEY = os.getenv("RECAPTCHA_SITE_KEY", "")
 RECAPTCHA_SECRET_KEY = os.getenv("RECAPTCHA_SECRET_KEY", "")
 
-SMTP_SERVER_ADDRESS = os.environ.get("SMTP_SERVER_ADDRESS", "")
-SMTP_SENDER_EMAIL = os.environ.get("SENDER_EMAIL", "")
-SMTP_SENDER_NAME = os.environ.get("SENDER_NAME", "")
+SENDER_EMAIL = os.environ.get("SENDER_EMAIL", "")
+SENDER_NAME = os.environ.get("SENDER_NAME", "")
 CHES_AUTH_URL = os.environ.get("CHES_AUTH_URL", "")
 CHES_EMAIL_URL = os.environ.get("CHES_EMAIL_URL", "")
 EMAIL_SERVICE_CLIENT_ID = os.environ.get("EMAIL_SERVICE_CLIENT_ID", "")
