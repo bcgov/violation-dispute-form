@@ -43,7 +43,6 @@ class PdfFileView(APIView):
                 file_guid = request.session.get("file_guid")
                 ticket_response = TicketResponse.objects.get(file_guid=file_guid)
                 target_id = ticket_response.prepared_pdf_id
-                filename = ticket_response.pdf_filename
                 if self._timestamp_older_than_one_hour(ticket_response.created_date):
                     return HttpResponseNotFound(
                         "This link has expired.", content_type="text/plain"
