@@ -16,7 +16,7 @@ export class SurveyPrimaryComponent implements OnInit {
   public resultJson: any;
   public surveyPath: string;
   public submitted: boolean;
-  public pdfId: number;
+  public emailStatus: boolean;
   public surveyJson: any;
   public complete: Function;
   public data: any;
@@ -35,7 +35,7 @@ export class SurveyPrimaryComponent implements OnInit {
     this.surveyPath = routeData.survey_path;
     this.surveyJson = routeData.survey;
     this.cacheName = routeData.cache_name;
-    this.dataService.currentValue.subscribe(pdfId => this.pdfId = pdfId)
+    this.dataService.emailStatus.subscribe(emailStatus => this.emailStatus = emailStatus)
     this.complete = data => this.onComplete(data);
     const hash = this.route.snapshot.fragment;
     if (hash === "print") this.initialMode = "print";

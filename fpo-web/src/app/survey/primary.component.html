@@ -9,10 +9,15 @@
         [initialMode]="initialMode"
       ></app-survey-view>
     </div>
-    <div class="col-md-12" *ngIf="submitted">
+    <div class="col-md-12 mt-4" *ngIf="submitted">
       <p><b>Thank-you for choosing how you wish to attend your traffic hearing.</b></p>
-    
-      <p>A copy of your completed form is attached for your records.</p>
+       
+      <div id="emailSent" *ngIf="emailStatus; else emailFailed">
+        <p>A copy of your completed form has been sent to you by email.</p>
+      </div>
+      <ng-template #emailFailed>
+        <p>Sorry, we were unable to send you a copy of your completed form by email.  Please save your completed form by clicking at "View Your Document".</p>
+      </ng-template>
       <p>
         Your preference will be reviewed, and a Notice of Hearing will be sent in the mail telling you of the date and time of your hearing. 
         The notice will also tell you whether you will be attending your hearing in-person, by telephone or by video and will provide you with important information about attending your hearing.
