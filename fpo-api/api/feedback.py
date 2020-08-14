@@ -60,7 +60,7 @@ def email_feedback(ip_addr, app_url, reply_name, reply_email, reason, comments, 
         if comments:
             body = "{}Feedback:{}\n".format(body, comments)
         sender_info = formataddr((str(Header(sender_name, "utf-8")), sender_email))
-        recipients = ",".join(recip_email)
+        recipients = recip_email.split(",")
 
         data = {
                 "bcc": [],
@@ -72,7 +72,7 @@ def email_feedback(ip_addr, app_url, reply_name, reply_email, reason, comments, 
                 "from": sender_info,
                 "priority": "normal",
                 "subject": subject,
-                "to": [recip_email],
+                "to": recipients,
                 "tag": "email_1",
                 "attachments": []
             }
