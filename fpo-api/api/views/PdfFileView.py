@@ -53,7 +53,7 @@ class PdfFileView(APIView):
         except (PreparedPdf.DoesNotExist, TicketResponse.DoesNotExist):
             return HttpResponseNotFound()
             
-        filename = request.session.get('filename')
+        filename = ticket_response.pdf_filename
         pdf_data = settings.ENCRYPTOR.decrypt(pdf_result.key_id, pdf_result.data)
         return FileResponse(BytesIO(pdf_data), as_attachment=False, filename=filename)
 

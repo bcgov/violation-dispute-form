@@ -53,7 +53,6 @@ class SubmitTicketResponseView(APIView):
             filename = "Traffic-Hearing-Choice.pdf"
         else:
             filename = "Ticket-Response.pdf"
-        request.session['filename'] = filename
 
         template = "{}.html".format(name)
 
