@@ -18,7 +18,6 @@ if createOperation; then
   readParameter "OIDC_RP_CLIENT_SECRET - Please provide the OIDC RP Client Secret.  The default is a blank string." OIDC_RP_CLIENT_SECRET "" "false"
 
   # Get the email settings
-  readParameter "SMTP_SERVER_ADDRESS - Please provide the address of the outgoing smtp server.  The default is a blank string." SMTP_SERVER_ADDRESS "" "false"
   readParameter "CHES_AUTH_URL - Please provide the url for the CHES authentication.  The default is a blank string." CHES_AUTH_URL "" "false"
   readParameter "CHES_EMAIL_URL - Please provide the url for the CHES email api.  The default is a blank string." CHES_EMAIL_URL "" "false"  
   readParameter "EMAIL_SERVICE_CLIENT_ID - Please provide the service client id for sending confirmation email.  The default is a blank string." EMAIL_SERVICE_CLIENT_ID "" "false"
@@ -28,14 +27,13 @@ if createOperation; then
   readParameter "SENDER_NAME - Please provide the name to use with the above email address.  The default is a blank string." SENDER_NAME "" "false"
 else
   # Secrets are removed from the configurations during update operations ...
-  printStatusMsg "Update operation detected ...\nSkipping the prompts for DATA_SECURITY_KEY, RECAPTCHA_SITE_KEY, RECAPTCHA_SECRET_KEY, OIDC_RP_PROVIDER_ENDPOINT, OIDC_RP_CLIENT_SECRET, SMTP_SERVER_ADDRESS, CHES_AUTH_URL, CHES_EMAIL_URL, EMAIL_SERVICE_CLIENT_ID, EMAIL_SERVICE_CLIENT_SECRET, FEEDBACK_TARGET_EMAIL, SENDER_EMAIL, and SENDER_NAME secrets ... \n"
+  printStatusMsg "Update operation detected ...\nSkipping the prompts for DATA_SECURITY_KEY, RECAPTCHA_SITE_KEY, RECAPTCHA_SECRET_KEY, OIDC_RP_PROVIDER_ENDPOINT, OIDC_RP_CLIENT_SECRET, CHES_AUTH_URL, CHES_EMAIL_URL, EMAIL_SERVICE_CLIENT_ID, EMAIL_SERVICE_CLIENT_SECRET, FEEDBACK_TARGET_EMAIL, SENDER_EMAIL, and SENDER_NAME secrets ... \n"
   writeParameter "DATA_SECURITY_KEY" "prompt_skipped" "false"
   writeParameter "RECAPTCHA_SITE_KEY" "prompt_skipped" "false"
   writeParameter "RECAPTCHA_SECRET_KEY" "prompt_skipped" "false"
   writeParameter "OIDC_RP_PROVIDER_ENDPOINT" "prompt_skipped" "false"
   writeParameter "OIDC_RP_CLIENT_SECRET" "prompt_skipped" "false"
 
-  writeParameter "SMTP_SERVER_ADDRESS" "prompt_skipped" "false"
   writeParameter "CHES_AUTH_URL" "prompt_skipped" "false"
   writeParameter "CHES_EMAIL_URL" "prompt_skipped" "false"
   writeParameter "EMAIL_SERVICE_CLIENT_ID" "prompt_skipped" "false"

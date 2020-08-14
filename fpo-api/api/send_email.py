@@ -12,8 +12,8 @@ import base64
 LOGGER = logging.getLogger(__name__)
 
 def send_email(recipient_email: str, pdf_data: bytes, pdf_name: str, auth_token: str)->{}:
-    sender_email = settings.SMTP_SENDER_EMAIL
-    sender_name = settings.SMTP_SENDER_NAME
+    sender_email = settings.SENDER_EMAIL
+    sender_name = settings.SENDER_NAME
     url = settings.CHES_EMAIL_URL
 
     if not sender_email:

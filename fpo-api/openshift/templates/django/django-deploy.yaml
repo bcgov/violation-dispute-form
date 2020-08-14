@@ -87,7 +87,6 @@ objects:
     stringData:
       recaptcha-site-key: ${RECAPTCHA_SITE_KEY}
       recaptcha-secret-key: ${RECAPTCHA_SECRET_KEY}
-      smtp-host: ${SMTP_SERVER_ADDRESS}
       ches-auth-url: ${CHES_AUTH_URL}
       ches-email-url: ${CHES_EMAIL_URL}
       email-service-client-id: ${EMAIL_SERVICE_CLIENT_ID}
@@ -192,11 +191,6 @@ objects:
                       name: ${NAME}
                       key: recaptcha-secret-key
 
-                - name: SMTP_SERVER_ADDRESS
-                  valueFrom:
-                    secretKeyRef:
-                      name: ${NAME}
-                      key: smtp-host
                 - name: CHES_AUTH_URL
                   valueFrom:
                     secretKeyRef:
@@ -337,12 +331,7 @@ parameters:
     description: reCAPTCHA Secret Key.
     required: false
     value:
-
-  - name: SMTP_SERVER_ADDRESS
-    displayName: SMTP Server Address
-    description: SMTP Server Address
-    required: true
-    value:
+      
   - name: CHES_AUTH_URL
     displayName: CHES authentication url
     description: CHES authentication url
