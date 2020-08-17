@@ -60,13 +60,13 @@ class FeedbackView(APIView):
         if reason_text:
             body = "{}Contact reason: {}\n".format(body, reason_text)
         if comments:
-            body = "{}Feedback:{}\n".format(body, comments)
+            body = "{}Feedback: {}\n".format(body, comments)
         recip_email = settings.FEEDBACK_TARGET_EMAIL
         bodyType = "text"
         attachment = ""
         feedback_sent = send_email(body, bodyType, subject, recip_email, attachment)
         if feedback_sent:
             msg_id = feedback_sent['messages'][0]['msgId']
-            LOGGER.debug("Feedback Sent, Message Id is", msg_id)
+            LOGGER.debug("Feedback Sent, Message Id is %s", msg_id)
             return Response({"status": "sent"})
         return Response({"status": "failed"})
