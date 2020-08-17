@@ -11,7 +11,6 @@ from django.urls.exceptions import NoReverseMatch
 
 from rest_framework import authentication
 from rest_framework.request import Request
-from requests.auth import HTTPBasicAuth
 from rest_framework.reverse import reverse
 
 import requests
@@ -148,31 +147,6 @@ def grecaptcha_verify(request) -> dict:
         "message": verify_rs.get("error-codes", None) or "Unspecified error.",
     }
 
-def get_email_service_token() -> {}:
-    client_id = settings.EMAIL_SERVICE_CLIENT_ID
-    client_secret = settings.EMAIL_SERVICE_CLIENT_SECRET
-    url = settings.CHES_AUTH_URL
-    if not client_id:
-        LOGGER.error("Email service client id is not configured")
-        return
-    if not client_secret:
-        LOGGER.error("Email service client secret is not configured")
-        return
-    if not url:
-        LOGGER.error("Common hosted email service authentication url is not configured")
-        return
-    payload = {"grant_type":"client_credentials"}
-    header = {"content-type": "application/x-www-form-urlencoded"}
-    try:
-        token_rs = requests.post(url,data=payload, auth=HTTPBasicAuth(client_id, client_secret),headers=header, verify=True)
-        if not token_rs.status_code == 200:
-            LOGGER.error("Error: Unexpected response", token_rs.text.encode('utf8'))
-            return
-        json_obj = token_rs.json()
-        return json_obj
-    except requests.exceptions.RequestException as e:
-        LOGGER.error("Error: {}".format(e))
-        return
 
 def method_permission_classes(classes):
     """Note The permissions set through the decorator are the only
