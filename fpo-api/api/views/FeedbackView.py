@@ -65,8 +65,8 @@ class FeedbackView(APIView):
         bodyType = "text"
         attachment = ""
         feedback_sent = send_email(body, bodyType, subject, recip_email, attachment)
-        msg_id = feedback_sent['messages'][0]['msgId']
         if feedback_sent:
+            msg_id = feedback_sent['messages'][0]['msgId']
             LOGGER.debug("Feedback Sent, Message Id is", msg_id)
             return Response({"status": "sent"})
         return Response({"status": "failed"})

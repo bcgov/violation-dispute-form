@@ -24,7 +24,7 @@ def get_email_service_token() -> {}:
     if not url:
         LOGGER.error("Common hosted email service authentication url is not configured")
         return
-    payload = {"grant_type":"client_credentials"}
+    payload = {"grant_type": "client_credentials"}
     header = {"content-type": "application/x-www-form-urlencoded"}
     try:
         token_rs = requests.post(url, data=payload, auth=HTTPBasicAuth(client_id, client_secret), headers=header, verify=True)
@@ -42,8 +42,6 @@ def send_email(body: any, bodyType: str, subject: str, recipient_email: str, att
     sender_email = settings.SENDER_EMAIL
     sender_name = settings.SENDER_NAME
     url = settings.CHES_EMAIL_URL
-    token = get_email_service_token()
-    auth_token = token['access_token']
 
     if not sender_email:
         LOGGER.error("Sender email address not configured")
@@ -57,12 +55,15 @@ def send_email(body: any, bodyType: str, subject: str, recipient_email: str, att
     if not recipient_email:
         LOGGER.error("No recipient email address provided")
         return
-    if not auth_token:
-        LOGGER.error("No authentication token provided")
-        return
     if not body:
         LOGGER.error("No email body provided")
         return
+    
+    token = get_email_service_token()
+    if not token or 'access_token' not in token:
+        LOGGER.error("No email service token provided", token)
+        return
+    auth_token = token['access_token']
 
     sender_info = formataddr((str(Header(sender_name, "utf-8")), sender_email))
     recipients = recipient_email.split(",")
