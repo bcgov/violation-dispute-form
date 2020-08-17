@@ -3,15 +3,42 @@ import json
 
 from django.conf import settings
 
-from email import encoders
+from requests.auth import HTTPBasicAuth
 from email.header import Header
 from email.utils import formataddr
 import requests
-import base64
 
 LOGGER = logging.getLogger(__name__)
 
-def send_email(recipient_email: str, pdf_data: bytes, pdf_name: str, auth_token: str)->{}:
+
+def get_email_service_token() -> {}:
+    client_id = settings.EMAIL_SERVICE_CLIENT_ID
+    client_secret = settings.EMAIL_SERVICE_CLIENT_SECRET
+    url = settings.CHES_AUTH_URL
+    if not client_id:
+        LOGGER.error("Email service client id is not configured")
+        return
+    if not client_secret:
+        LOGGER.error("Email service client secret is not configured")
+        return
+    if not url:
+        LOGGER.error("Common hosted email service authentication url is not configured")
+        return
+    payload = {"grant_type": "client_credentials"}
+    header = {"content-type": "application/x-www-form-urlencoded"}
+    try:
+        token_rs = requests.post(url, data=payload, auth=HTTPBasicAuth(client_id, client_secret), headers=header, verify=True)
+        if not token_rs.status_code == 200:
+            LOGGER.error("Error: Unexpected response", token_rs.text.encode('utf8'))
+            return
+        json_obj = token_rs.json()
+        return json_obj
+    except requests.exceptions.RequestException as e:
+        LOGGER.error("Error: {}".format(e))
+        return
+
+
+def send_email(body: any, bodyType: str, subject: str, recipient_email: str, attachment: any) -> {}:
     sender_email = settings.SENDER_EMAIL
     sender_name = settings.SENDER_NAME
     url = settings.CHES_EMAIL_URL
@@ -28,60 +55,46 @@ def send_email(recipient_email: str, pdf_data: bytes, pdf_name: str, auth_token:
     if not recipient_email:
         LOGGER.error("No recipient email address provided")
         return
-    if not auth_token:
-        LOGGER.error("No authentication token provided")
+    if not body:
+        LOGGER.error("No email body provided")
         return
-
-    encoded_string = base64.b64encode(pdf_data).decode('ascii')
-    sender_info = formataddr((str(Header(sender_name, "utf-8")), sender_email))
-
-    body = """\
-    <html>
-    <body>
-    <p>Hi,<br></p>
-       <b>Thank-you for choosing how you wish to attend your traffic hearing.<b>
-       <p>A copy of your completed form is attached for your records.</p>
-       <p>Your preference will be reviewed, and a Notice of Hearing will be sent in the mail telling you of the date and time of your hearing. The notice will also tell you whether you will be attending your hearing in-person, by telephone or by video and will provide you with important information about attending your hearing.</p>
-       <p>If you want to learn more about the hearing process, please visit the Provincial Court of British Columbia's website and read their <a href ="https://www.provincialcourt.bc.ca/downloads/Traffic/Traffic Court Guide.pdf">Guide to Disputing a Ticket</a>.
-          If you have any questions, please contact the Violation Ticket Centre at: 1-877-661-8026</p>
-    </body>
-    </html>
-    """
     
+    token = get_email_service_token()
+    if not token or 'access_token' not in token:
+        LOGGER.error("No email service token provided", token)
+        return
+    auth_token = token['access_token']
+
+    sender_info = formataddr((str(Header(sender_name, "utf-8")), sender_email))
+    recipients = recipient_email.split(",")
+    attachments = [attachment] if attachment else []
+ 
     data = {
             "bcc": [],
-            "bodyType": "html",
+            "bodyType": bodyType,
             "body": body,
             "cc": [],
             "delayTS": 0,
             "encoding": "utf-8",
             "from": sender_info,
             "priority": "normal",
-            "subject": "Traffic Hearing Choice",
-            "to": [recipient_email],
+            "subject": subject,
+            "to": recipients,
             "tag": "email_1",
-            "attachments": [
-                {
-                "content": encoded_string,             
-                "contentType": "application/pdf",
-                "encoding": "base64",
-                "filename": pdf_name
-                }
-            ]
+            "attachments": attachments
            }
 
-    headers = {"Authorization":'Bearer ' + auth_token,
-              "Content-Type": "application/json"
-    }   
+    headers = {"Authorization": 'Bearer ' + auth_token,
+               "Content-Type": "application/json"}  
     try:
-        response = requests.post(url, data = json.dumps(data), headers = headers)
+        response = requests.post(url, data=json.dumps(data), headers=headers)
         if not response.status_code // 100 == 2:
             LOGGER.error("Error: Email failed!", response.text.encode('utf8'))
             return
 
         email_res = response.json()
-        LOGGER.debug("Email sent successfully!",email_res)
+        LOGGER.debug("Email sent successfully!", email_res)
         return email_res
     except requests.exceptions.RequestException as e:
         LOGGER.error("Error: {}".format(e))
-        return
+        return    
