@@ -26,7 +26,7 @@
     class="btn btn-success btn-lg mt-4" 
     id="completeBtn" 
     (click)="hasFieldErrors()" 
-    [hidden]="displayRecaptcha"
+    [hidden]="displayRecaptcha || !disclaimerAccepted"
   >
     <span class="fa fa-check-circle btn-icon-left"></span> Complete
   </button>
