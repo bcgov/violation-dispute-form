@@ -86,7 +86,7 @@ class SubmitTicketResponseView(APIView):
             hearing_location_id=data.get("hearingLocation"),
             hearing_attendance=data.get("hearingAttendance"),
             dispute_type=data.get("disputeType"),
-            pdf_filename = filename
+            pdf_filename=filename
         )
 
         check_required = [

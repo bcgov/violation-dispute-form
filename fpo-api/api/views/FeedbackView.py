@@ -1,4 +1,5 @@
 import logging
+from django.conf import settings
 from rest_framework.request import Request
 from rest_framework.views import APIView
 from api.send_email import send_email
@@ -8,6 +9,7 @@ from api.auth import (
     grecaptcha_verify
 )
 LOGGER = logging.getLogger(__name__)
+
 
 class FeedbackView(APIView):
 
@@ -59,12 +61,12 @@ class FeedbackView(APIView):
             body = "{}Contact reason: {}\n".format(body, reason_text)
         if comments:
             body = "{}Feedback:{}\n".format(body, comments)
-        recip_email = "testemailing510@gmail.com"
-        #recip_email = settings.FEEDBACK_TARGET_EMAIL
+        recip_email = settings.FEEDBACK_TARGET_EMAIL
         bodyType = "text"
         attachment = ""
         feedback_sent = send_email(body, bodyType, subject, recip_email, attachment)
+        msg_id = feedback_sent['messages'][0]['msgId']
         if feedback_sent:
-            LOGGER.debug("Feedback Sent, Message Id is ", feedback_sent['messages'][0]['msgId'])
+            LOGGER.debug("Feedback Sent, Message Id is", msg_id)
             return Response({"status": "sent"})
         return Response({"status": "failed"})

@@ -2,7 +2,6 @@ import logging
 import random
 import re
 import urllib
-import json
 from string import ascii_lowercase, digits
 
 from rest_framework import permissions

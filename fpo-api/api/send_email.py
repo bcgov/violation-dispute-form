@@ -64,15 +64,10 @@ def send_email(body: any, bodyType: str, subject: str, recipient_email: str, att
         LOGGER.error("No email body provided")
         return
 
-    # encoded_string = base64.b64encode(pdf_data).decode('ascii')
     sender_info = formataddr((str(Header(sender_name, "utf-8")), sender_email))
     recipients = recipient_email.split(",")
-
-    if not attachment:
-        attachments = []
-    else:    
-        attachments = [attachment]
-  
+    attachments = [attachment] if attachment else []
+ 
     data = {
             "bcc": [],
             "bodyType": bodyType,
@@ -101,5 +96,4 @@ def send_email(body: any, bodyType: str, subject: str, recipient_email: str, att
         return email_res
     except requests.exceptions.RequestException as e:
         LOGGER.error("Error: {}".format(e))
-        return
-      
+        return    
