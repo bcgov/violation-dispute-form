@@ -36,21 +36,13 @@ export class SurveyPrimaryComponent implements OnInit {
     this.surveyJson = routeData.survey;
     this.cacheName = routeData.cache_name;
     this.dataService.emailStatus.subscribe(emailStatus => this.emailStatus = emailStatus)
-    this.complete = data => this.onComplete(data);
     const hash = this.route.snapshot.fragment;
     if (hash === "print") this.initialMode = "print";
   }
 
-  onComplete(data) {
-    if (this.cacheName) {
-      if (data) {
-        this.submitted = true;
-        //this.showPrintable(data);
-      } else {
-        this.submitted = false;
-        this.initialMode = "";
-      }
-    }
+  onSubmit(submitted: boolean) {
+    console.log("Summited the form?", submitted)
+    this.submitted = submitted
   }
 
   showPrintable(data) {
