@@ -1,5 +1,6 @@
 import json
 import logging
+import base64
 
 from django.conf import settings
 from django.http import HttpResponseBadRequest, HttpResponseForbidden
@@ -13,7 +14,6 @@ from rest_framework.response import Response
 from api.auth import (
     grecaptcha_verify,
     grecaptcha_site_key,
-    get_email_service_token,
 )
 
 from api.models import TicketResponse, PreparedPdf
@@ -28,9 +28,6 @@ LOGGER = logging.getLogger(__name__)
 class SubmitTicketResponseView(APIView):
     def get(self, request: Request, name=None):
         key = grecaptcha_site_key()
-        token = get_email_service_token()
-        if token:
-           request.session['token'] = token['access_token']
         return Response({"key": key})
 
     def post(self, request: Request, name=None):
@@ -89,7 +86,7 @@ class SubmitTicketResponseView(APIView):
             hearing_location_id=data.get("hearingLocation"),
             hearing_attendance=data.get("hearingAttendance"),
             dispute_type=data.get("disputeType"),
-            pdf_filename = filename
+            pdf_filename=filename
         )
 
         check_required = [
@@ -125,8 +122,7 @@ class SubmitTicketResponseView(APIView):
                 request.session["file_guid"] = str(response.file_guid)
 
             if email and pdf_content:
-                token = request.session.get('token')
-                email_res = send_email(email, pdf_content, filename, token)
+                email_res = self.prepared_email(email, pdf_content, filename)
                 if email_res:
                     email_msg_id = email_res['messages'][0]['msgId']
                     response.emailed_date = timezone.now()
@@ -138,3 +134,28 @@ class SubmitTicketResponseView(APIView):
             LOGGER.exception("Pdf / Email generation error", exception)
 
         return Response({"id": response.pk, "email-sent": email_sent})
+
+    def prepared_email(self, email, pdf_content, filename):
+        encoded_string = base64.b64encode(pdf_content).decode('ascii')
+        body = """\
+                <html>
+                <body>
+                <p>Hi,<br></p>
+                <b>Thank-you for choosing how you wish to attend your traffic hearing.<b>
+                <p>A copy of your completed form is attached for your records.</p>
+                <p>Your preference will be reviewed, and a Notice of Hearing will be sent in the mail telling you of the date and time of your hearing. The notice will also tell you whether you will be attending your hearing in-person, by telephone or by video and will provide you with important information about attending your hearing.</p>
+                <p>If you want to learn more about the hearing process, please visit the Provincial Court of British Columbia's website and read their <a href ="https://www.provincialcourt.bc.ca/downloads/Traffic/Traffic Court Guide.pdf">Guide to Disputing a Ticket</a>.
+                If you have any questions, please contact the Violation Ticket Centre at: 1-877-661-8026</p>
+                </body>
+                </html>
+                """
+        attachment = {
+                        "content": encoded_string,             
+                        "contentType": "application/pdf",
+                        "encoding": "base64",
+                        "filename": filename
+                    }        
+        subject = "Traffic Hearing Choice"
+        bodyType = "html"
+        email_res = send_email(body, bodyType, subject, email, attachment)
+        return email_res

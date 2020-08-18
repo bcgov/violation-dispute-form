@@ -56,6 +56,12 @@ export class ContactComponent implements OnInit {
     this.recaptchaResponse = captchaResponse;
   }
 
+  sendingComplete() {
+    this.sending = false;
+    grecaptcha.reset();
+    this.recaptchaResponse ="";
+  }
+
   sendFeedback(evt) {
     if (evt) evt.preventDefault();
     if (this.sending) return;
@@ -91,16 +97,15 @@ export class ContactComponent implements OnInit {
             this.focusAlert('alert-error');
             this.failed = true;
           }
+          this.sendingComplete();
         },
         (err) => {
           console.log("Error: feedback not submitted", err);
           this.failed = true;
+          this.sendingComplete();
           this.focusAlert('alert-error');
         }
       );
-      this.sending = false;
-      grecaptcha.reset();
-      this.recaptchaResponse ="";
   }
 
 }

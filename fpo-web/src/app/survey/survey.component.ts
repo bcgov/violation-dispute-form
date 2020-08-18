@@ -24,8 +24,8 @@ export class SurveyComponent implements OnInit, OnDestroy {
   @Input() onComplete: Function;
   @Input() surveyPath: string;
   @Input() initialMode: string;
+  public emailStatus: boolean;
   public disclaimerAccepted: boolean;
-  public pdfId: number;
   public cacheLoadTime: any;
   public cacheKey: string;
   public recaptchaKey: string;
@@ -72,7 +72,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
     this._active = true;
     // FIXME - disabled: this.autoSave(true);
     this.dataService.key.subscribe(recaptchaKey => this.recaptchaKey = recaptchaKey)
-    this.dataService.currentValue.subscribe(pdfId => this.pdfId = pdfId)
+    this.dataService.emailStatus.subscribe(emailStatus => this.emailStatus = emailStatus)
   }
 
   initSurvey() {
@@ -307,9 +307,9 @@ export class SurveyComponent implements OnInit, OnDestroy {
       .then(
         (rs) => {
           console.log("submitted form successfully", rs);
-          if (rs && "pdf-id" in rs) {
-            this.pdfId = rs["pdf-id"];
-            this.dataService.changePdfId(this.pdfId)
+          if (rs && "email-sent" in rs) {
+            this.emailStatus = rs["email-sent"];
+            this.dataService.returnEmailStatus(this.emailStatus)
           }
         },
         (err) => {

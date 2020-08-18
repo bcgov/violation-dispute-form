@@ -14,8 +14,8 @@ export interface UserInfo {
 export class GeneralDataService {
   public GenericErrorMessage = "An unexpected error occured. If this persists please contact an administrator.";
   private onUserInfo: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  private PdfId: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  public currentValue= this.PdfId.asObservable();
+  private onEmailStatus: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+  public emailStatus= this.onEmailStatus.asObservable();
   private RecaptchaKey: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   public key= this.RecaptchaKey.asObservable();
   private userInfo: any = null;
@@ -155,9 +155,8 @@ export class GeneralDataService {
     }
   }
 
-  changePdfId(pdfId: number) {
-    console.log("PDF id:", pdfId);
-    this.PdfId.next(pdfId);
+  returnEmailStatus(emailStatus: boolean) {
+    this.onEmailStatus.next(emailStatus);
   }
 
   changeRecaptchaKey(recaptchaKey: string) {
