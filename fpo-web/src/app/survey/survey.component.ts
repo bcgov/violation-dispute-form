@@ -25,6 +25,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
   @Input() surveyPath: string;
   @Input() initialMode: string;
   public emailStatus: boolean;
+  public disclaimerAccepted: boolean;
   public cacheLoadTime: any;
   public cacheKey: string;
   public recaptchaKey: string;
@@ -135,6 +136,12 @@ export class SurveyComponent implements OnInit, OnDestroy {
     // else this.error = 'Missing survey definition';
   }
 
+  checkIfDisclaimerAccepted(options) {
+    if (options.name == 'disclaimer') {
+      this.disclaimerAccepted = true;
+    }
+  }
+
   //Validate questions for address custom widget
   surveyValidateAddressQuestions(s, options) {
     if (options.name == 'disputantAddress') {
@@ -208,6 +215,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
       this.glossaryService.registerTargets(options.htmlElement);
     });
     surveyModel.onValueChanged.add((sender, options) => {
+      this.checkIfDisclaimerAccepted(options);
       this.evalProgress();
     });
 
