@@ -5,6 +5,7 @@ import { SurveyResolver } from "app/survey/survey-resolver.service";
 import { SurveyEditorComponent } from "app/survey/editor.component";
 import { ContactComponent } from './contact/contact.component';
 import { AuthGuard } from './guards/auth-guard.component';
+import { ErrorComponent } from './error/error.component';
 
 const routes: Routes = [
   {
@@ -21,12 +22,19 @@ const routes: Routes = [
     }
   },
   {
-      path: "connect",
-      component: ContactComponent,
-      data: {
-        breadcrumb: "Feedback"
-      }
-    },
+    path: "connect",
+    component: ContactComponent,
+    data: {
+      breadcrumb: "Feedback"
+    }
+  },
+  {
+    path: "error",
+    component: ErrorComponent,
+    data: {
+      breadcrumb: "Error"
+    }
+  },
   {
     path: "survey-editor",
     component: SurveyEditorComponent,
