@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from "@angular/core";
+import { Component, Input, OnInit, OnDestroy, Output, EventEmitter } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { BehaviorSubject } from "rxjs";
 import * as Survey from "survey-angular";
@@ -30,8 +30,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
   public cacheKey: string;
   public recaptchaKey: string;
   public recaptchaResponse: string;
-  public submitError: string;
-  public submitSuccess: string;
+  @Output() submitted = new EventEmitter<boolean>();
   public surveyCompleted = false;
   public surveyMode = "edit";
   public surveyModel: Survey.SurveyModel;
@@ -198,6 +197,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
       //sif (!this.disableCache) this.saveCache();
       if (this.onComplete) this.onComplete(sender.data);
       this.onPageUpdate.next(sender);
+      this.loading = true
       this.submitForm(sender.data);
 
     });
@@ -307,6 +307,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
       .then(
         (rs) => {
           console.log("submitted form successfully", rs);
+          this.submitted.emit(true);
           if (rs && "email-sent" in rs) {
             this.emailStatus = rs["email-sent"];
             this.dataService.returnEmailStatus(this.emailStatus)
@@ -314,6 +315,8 @@ export class SurveyComponent implements OnInit, OnDestroy {
         },
         (err) => {
           console.log("form submission failed", err);
+          this.submitted.emit(false);
+          this.error = "Sorry, we were unable to submit your form at this time, please try again later. To report this issue, you can use the feedback service below.";
         }
       );
   }

@@ -7,6 +7,7 @@
         [cacheName]="cacheName"
         [onComplete]="complete"
         [initialMode]="initialMode"
+        (submitted)="onSubmit($event)"
       ></app-survey-view>
     </div>
     <div class="col-md-12 mt-4" *ngIf="submitted">
