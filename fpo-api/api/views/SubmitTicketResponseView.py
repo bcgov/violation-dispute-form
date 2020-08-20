@@ -43,7 +43,7 @@ class SubmitTicketResponseView(APIView):
         data = request.data
         name = request.query_params.get("name")
 
-        #Set pdf filename
+        # Set pdf filename
         if name == "violation-ticket-statement-and-written-reasons":
             filename = "Reasons-to-Reduce-Traffic-Ticket.pdf"
         elif name == "notice-to-disputant-response":
@@ -107,17 +107,12 @@ class SubmitTicketResponseView(APIView):
 
         try:
             pdf_content = render_pdf(html_content)
-
-            pdf_response = PreparedPdf(data=pdf_content)
-            pdf_response.save()
-            response.prepared_pdf_id = pdf_response.pk
-            response.printed_date = timezone.now()
-
             if pdf_content:
                 (pdf_key_id, pdf_content_enc) = settings.ENCRYPTOR.encrypt(pdf_content)
                 pdf_response = PreparedPdf(data=pdf_content_enc, key_id=pdf_key_id)
                 pdf_response.save()
                 response.prepared_pdf_id = pdf_response.pk
+                response.printed_date = timezone.now()
                 response.save()
                 request.session["file_guid"] = str(response.file_guid)
 
@@ -129,9 +124,11 @@ class SubmitTicketResponseView(APIView):
                     response.email_message_id = email_msg_id
                     email_sent = True
                     response.save()
-
+                    
         except Exception as exception:
-            LOGGER.exception("Pdf / Email generation error", exception)
+            LOGGER.exception("Pdf / Email generation error %s", exception)
+            response.save()
+            raise
 
         return Response({"id": response.pk, "email-sent": email_sent})
 
