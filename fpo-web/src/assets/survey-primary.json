@@ -87,7 +87,7 @@
      "elements": [
       {
        "type": "text",
-       "inputMask": "AA99999999",       
+       "inputFormat": "AA99999999",       
        "name": "ticketNumber",
        "title": "Violation Ticket Number",
        "description": "A Violation Ticket Number is 2 letters and 8 numbers. For example, AB12345678",

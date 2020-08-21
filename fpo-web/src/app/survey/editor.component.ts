@@ -2,6 +2,7 @@ import { Component, Input, ViewEncapsulation, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import * as SurveyKO from "survey-knockout";
 import * as SurveyCreator from "survey-creator";
+import * as widgets from 'surveyjs-widgets';
 import { addQuestionTypes, addToolboxOptions } from "./question-types";
 import { GeneralDataService } from "../general-data.service";
 
@@ -118,6 +119,7 @@ export class SurveyEditorComponent implements OnInit {
 
   renderEditor() {
     if (!this.editor) {
+      widgets.inputmask(SurveyKO);
       addQuestionTypes(SurveyKO);
       const editorOptions = {
         isAutoSave: true,
