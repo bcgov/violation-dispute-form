@@ -19,6 +19,29 @@
     },
     {
      "type": "panel",
+     "name": "disputeStartedPanel",
+     "elements": [
+      {
+       "type": "yesno",
+       "name": "disputeStarted",
+       "title": "Have you already started a dispute for your Violation Ticket?",
+       "description": "Instructions on how to start your dispute can be found on your Violation Ticket or in the Provincial Court's <a href=\"https://www.provincialcourt.bc.ca/downloads/Traffic/Traffic%20Court%20Guide.pdf\" target=\"_blank\">Guide to Disputing a Ticket.</a> (This PDF opens in a new tab)",
+       "isRequired": true
+      },
+      {
+       "type": "infotext",
+       "name": "disputeStartedNoError",
+       "visible": false,
+       "visibleIf": "{disputeStarted} = \"n\"",
+       "title": "If you have not already started your dispute, you should not use this service.\n<br><br>\nInstructions on how to start your dispute can be found on your Violation Ticket or in the Provincial Court's <a href=\"https://www.provincialcourt.bc.ca/downloads/Traffic/Traffic%20Court%20Guide.pdf\" target=\"_blank\">Guide to Disputing a Ticket.</a> (This PDF opens in a new tab)",
+       "titleLocation": "hidden",
+       "messageStyle": "error"
+      }
+     ],
+     "visibleIf": "{disclaimer} > 0"
+    },
+    {
+     "type": "panel",
      "name": "disputantPanel",
      "elements": [
       {
@@ -79,7 +102,7 @@
       }
      ],
      "visible": false,
-     "visibleIf": "{disclaimer} > 0"
+     "visibleIf": "{disputeStarted} = \"y\""
     },
     {
      "type": "panel",
@@ -87,10 +110,10 @@
      "elements": [
       {
        "type": "text",
-       "inputMask": "AA99999999",       
+       "inputMask": "AA99999999",
        "name": "ticketNumber",
        "title": "Violation Ticket Number",
-       "description": "A Violation Ticket Number is 2 letters and 8 numbers. For example, AB12345678",
+       "description": "A Violation Ticket Number is 2 letters and 8 numbers. For example, AB12345678. You do not need to add any additional numbers such as \"-1\" or \"-2\". ",
        "isRequired": true
       },
       {
@@ -114,6 +137,19 @@
       },
       {
        "type": "text",
+       "name": "officerName",
+       "title": "Name of the police officer that gave you Violation Ticket #{ticketNumber}",
+       "description": "Include the officer's first initial only and their full last name. For example, write \"J. Peralta\"",
+       "isRequired": true
+      },
+      {
+       "type": "text",
+       "name": "detachment",
+       "title": "Name of the Police Detachment or Agency Location",
+       "isRequired": true
+      },
+      {
+       "type": "text",
        "name": "deadlineDate",
        "visible": false,
        "title": "What is the date on the \"NOTICE TO DISPUTANT\" that the Court gave you to choose how to attend your Traffic Court hearing? (optional)",
@@ -123,7 +159,7 @@
       }
      ],
      "visible": false,
-     "visibleIf": "{disclaimer} > 0"
+     "visibleIf": "{disputeStarted} = \"y\""
     },
     {
      "type": "panel",
@@ -188,7 +224,7 @@
       }
      ],
      "visible": false,
-     "visibleIf": "{disclaimer} > 0"
+     "visibleIf": "{disputeStarted} = \"y\""
     },
     {
      "type": "panel",
@@ -352,7 +388,7 @@
       {
        "type": "infotext",
        "name": "schedulingInfoExplanation",
-       "title": "The next few questions are about extra needs for your Traffic Hearing.\n<br><br>\nEnglish and French are the official languages. English is the language that is spoken in Traffic Hearings. \n<br><br>\nYou can ask for your Traffic Hearing to be in French.\n<br><br>\nYou can ask for an interpreter to help you with English at your Traffic Hearing. The government will pay for the interpreter.",
+       "title": "The next few questions are about extra needs for your Traffic Hearing.\n<br><br>\nEnglish and French are the official languages. English is the language that is spoken in Traffic Hearings. \n<br><br>\nYou can ask for your Traffic Hearing to be in French.\n<br><br>\nYou can ask for an interpreter to help you with English at your Traffic Hearing. The government will pay for the interpreter. You cannot bring your own interpreter. ",
        "isRequired": true,
        "titleLocation": "hidden"
       },
@@ -370,7 +406,7 @@
        "visible": false,
        "visibleIf": "{schedulingInfoExplanation} > 0",
        "title": "Do you need an interpreter for your Traffic Hearing?",
-       "description": "The government will pay for the interpreter.",
+       "description": "The government will pay for the interpreter. You cannot bring your own interpreter.",
        "isRequired": true
       },
       {
@@ -379,6 +415,7 @@
        "visible": false,
        "visibleIf": "{interpreter} = \"y\"",
        "title": "What language(s) are you comfortable speaking?",
+       "description": "Include any dialect(s) you are comfortable speaking. For example, instead of \"Chinese,\" write \"Cantonese,\" \"Mandarin,\" or another dialect. ",
        "isRequired": true
       },
       {
@@ -509,13 +546,6 @@
      ],
      "visible": false,
      "visibleIf": "{continueDispute} = \"y\" and ({disputeType} = \"allegation\" or ({disputeType} = \"fineAmount\" and {disputeInWriting} = \"n\")) and ({hearingAttendance} = \"in-person\"\nor ({hearingAttendance} = \"remote\" and (({hearingAttendancePhone} = \"y\" or {hearingAttendanceVideo} = \"y\")\nor ({hearingAttendancePhone} = \"n\" and {hearingAttendanceVideo} = \"n\" and {hearingAttendanceRemotelyError} >0))))"
-    },
-    {
-     "type": "infotext",
-     "name": "question1",
-     "visible": false,
-     "title": "By clicking Submit, you are sending your choice to the provincial court. NO going back. Scroll up and review your answers before clicking submit.\n\nBefore you click Submit, please review all your answers.",
-     "titleLocation": "hidden"
     }
    ],
    "title": "Choose How to Attend Your Traffic Hearing"
