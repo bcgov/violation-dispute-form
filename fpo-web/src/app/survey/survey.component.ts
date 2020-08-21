@@ -214,6 +214,11 @@ export class SurveyComponent implements OnInit, OnDestroy {
     surveyModel.onAfterRenderQuestion.add((sender, options) => {
       this.glossaryService.registerTargets(options.htmlElement);
     });
+    surveyModel.onLoadChoicesFromServer.add((sender, options) => {
+      if(!Array.isArray(options.serverResult)){
+        this._router.navigate(["error"]);
+      }
+    });
     surveyModel.onValueChanged.add((sender, options) => {
       this.checkIfDisclaimerAccepted(options);
       this.evalProgress();

@@ -35,6 +35,20 @@ usage () {
     resetDatabase
       - Drop and recreate the database.
 
+    scaleUp
+      - Scale up one or more pods.
+        For example;
+          $0 -e dev scaleUp api
+
+    scaleDown
+      - Scale down one or more pods.
+        For example;
+          $0 -e dev scaleDown api
+
+    recycle
+      - Recycle one or more pods.
+        For example;
+          $0 -e dev recycle api
 EOF
 }
 
@@ -163,6 +177,16 @@ case "${_cmd}" in
     ;;
   clean)
     cleanEnv
+    ;;
+
+  scaleup)
+    scaleUp -w ${@}
+    ;;
+  scaledown)
+    scaleDown -w ${@}
+    ;;
+  recycle)
+    recyclePods -w ${@}
     ;;
   *)
     echoWarning "Unrecognized command; ${_cmd}"
