@@ -9,7 +9,7 @@ import { InsertService } from "../insert/insert.service";
 import { addQuestionTypes } from "./question-types";
 import { RecaptchaModule, RecaptchaFormsModule } from "ng-recaptcha";
 import { HttpClient } from "@angular/common/http";
-import * as widgets from 'surveyjs-widgets';
+import * as widgets from "surveyjs-widgets";
 @Component({
   selector: "app-survey-view",
   templateUrl: "./survey.component.html",
