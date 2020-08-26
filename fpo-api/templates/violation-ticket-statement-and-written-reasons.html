@@ -15,10 +15,9 @@
           font-size: 6pt;
         }
         @bottom-left {
-            content:'Generated from "Choose how to attend your Traffic Hearing" \A Enforcement Officer: {{officerName}} | Detachment: {{detachment}}';
+            content:'Generated from "Choose how to attend your Traffic Hearing."';
             /* content:'Generated from "Choose how to attend your Traffic Hearing" on ' string(doctitle);*/
             font-size: 8pt;
-            white-space: pre-line;
         }
         @bottom-right {
             content:"Page " counter(page) " of " counter(pages);
@@ -262,9 +261,6 @@
         font-size: 8px;
         margin-top: 0;
         margin-left: 0.2rem;
-      }
-      .form-indent {
-        margin-left: 0.35rem;
       }
       .form-line.text-after-check {
         margin-left: 0.3rem;
@@ -635,7 +631,7 @@
     <div class="reg-box">
       <div>
         <div style="margin: 0.3rem 0 0.4rem 0">
-          <span style="display:inline-block;"><b>Written Reasons for Time to Pay the Ticketed Amount(s) </b></span><span style="display:inline-block; font-size:10px;">(Must not contain a defence of the allegation)</span>:
+          <span style="display:inline-block;"><b>Written Reasons for Time to Pay the Ticketed Amounts(s) </b></span><span style="display:inline-block; font-size:10px;">(Must not contain a defence of the allegation)</span>:
         </div>
         <div class="v-spacer-4 form-content">{{reasonForTimeToPay}}</div>
       </div>

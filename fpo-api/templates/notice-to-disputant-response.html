@@ -16,7 +16,7 @@
         }*/
         @bottom-left {
             counter-increment: page;
-            content: 'Generated from "Choose how to attend your Traffic Hearing" on ' string(doctitle) string(doctitle2) '.';
+            content: 'Generated from "Choose how to attend you Traffic Hearing" on ' string(doctitle) string(doctitle2) '.';
             font-size: 8pt;
         }
 
@@ -70,11 +70,6 @@
     .border-rows tr {
       border-bottom: 0.5px solid #000;
     }
-
-    .box-header td {
-      border-left: 0.5px solid #000;
-    }
-    
     .brdr-btm{
       border-bottom: 0.5px solid #000;
       margin-bottom: .5em;
@@ -147,19 +142,18 @@
         position: relative;
         top: 0;
         left: 0;
-        width: 50%;
+        width: 85%;
         display: inline-block;
     }
     .box-header{
         position: relative;
         top: 0;
-        right: 19.7rem;
+        right: 10rem;
         width: 70%;
+        height: 14em;
+        border: 0.5px solid #000;
         display: inline-block;
         z-index: 10;
-    }
-    .box-header table {
-      border: 0.5px solid #000;
     }
 
     /* Make bigger */
@@ -282,9 +276,6 @@
         font-size: 8px;
         margin-top: 0.1rem;
         margin-left: 0.2rem;
-      }
-      .form-indent {
-        margin-left: 0.35rem;
       }
       .form-line.text-after-check {
         margin-left: 0.3rem;
@@ -434,12 +425,12 @@
 
     <!-- correct positioning of repeated block -->
     <div class="container-head">
-      <div style="position: absolute; width: 550px; top: 0; left: 0; margin-left: -70px; margin-top: -60px;">
+      <div style="position: absolute; width: 320px; top: 0; left: 0; margin-left: -70px; margin-top: -60px;">
         <div class="box-header">
           <table>
             <tbody>
             <tr class="brdr-btm">
-              <td colspan="2">
+              <td>
                 <label>VIOLATION TICKET NUMBER</label>
                 <div class="form-content">&nbsp;{{ticketNumber}}</div>
               </td>
@@ -449,19 +440,11 @@
                 <label>VIOLATION DATE</label>
                 <div class="form-content">&nbsp;{{ticketDatePDF}}</div>
               </td>
-              <td class="brdr-left" style="vertical-align:top;">
-                <label style="vertical-align:top;">ENFORCEMENT OFFICER</label>
-                <div class="form-content form-indent" style="{% if officerName|length > 20 %} font-size: 11px; {% endif %}">{{officerName}}</div>
-              </td>
             </tr>
-            <tr class="brdr-btm">
-              <td style="vertical-align:top;">
-                <label style="vertical-align:top;">HEARING LOCATION</label>
-                <div class="form-content form-indent">{{hearingLocation}}</div>
-              </td>
-              <td style="vertical-align:top;">
-                <label style="vertical-align:top;">DETACHMENT</label>
-                <div class="form-content form-indent" style="{% if detachment|length > 20 %} font-size: 11px; {% endif %}" >{{detachment}}</div>
+            <tr>
+              <td>
+                <label>HEARING LOCATION</label>
+                <div class="form-content">&nbsp;{{hearingLocation}}</div>
               </td>
             </tr>
             </tbody>
@@ -472,7 +455,7 @@
 
     <div class="v-spacer-3"></div>
 
-    <div class="bordered" style="padding:1em 1em 1.5em 1em; margin-top:-0.7rem;">
+    <div class="bordered" style="padding:1em 1em 1.5em 1em; margin-top:1rem;">
       <h4 style="margin:3px 0">CONTACT INFORMATION:</h4>
       <!-- <i style="margin-left:1em">Please complete all fields</i> -->
 
