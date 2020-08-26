@@ -197,6 +197,8 @@ export class AdminComponent implements OnInit {
       { prop: "hearing_location__name", name: "Court Location" },
       { prop: "name", name: "Name" },
       { prop: "ticket_number", name: "Ticket #" },
+      { prop: "enforcement_officer", name: "Enforcement Officer"},
+      { prop: "detachment", name: "Detatchment"},
       { prop: "created_date", name: "Response Date" },
       { prop: "prepared_pdf", name: "Action" },
     ];

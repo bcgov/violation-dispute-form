@@ -85,6 +85,8 @@ class SubmitTicketResponseView(APIView):
             ticket_date=data.get("ticketDate"),
             hearing_location_id=data.get("hearingLocation"),
             hearing_attendance=data.get("hearingAttendance"),
+            enforcement_officer=data.get("officerName"),
+            detachment=data.get("detachment"),
             dispute_type=data.get("disputeType"),
             pdf_filename=filename
         )
