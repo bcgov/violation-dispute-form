@@ -235,6 +235,11 @@
         border-top:1px solid #bdc5cc;
     }
 
+    .datatable-body-cell-label {
+        overflow: hidden;
+        text-overflow: ellipsis; 
+    }
+
     .datatable-row-even {
         background-color: rgba(0, 0, 0, 0.05)
     }

@@ -92,6 +92,8 @@ class TicketResponseView(generics.ListAPIView):
         "ticket_number",
         "last_name",
         "first_name",
+        "enforcement_officer",
+        "detachment"
     ]
 
     def delete(self, request: Request, id=None):
