@@ -6,6 +6,7 @@ from api.models import TicketResponse, PreparedPdf
 from api.serializers import TicketResponseSerializer
 from api.auth import IsActiveAndAdminUser
 from django.db import transaction, DatabaseError
+from django.db.models.functions import Lower
 
 from django.http import (
     HttpResponse,
@@ -63,6 +64,22 @@ class TicketResponseListFilter(filters.FilterSet):
         ]
 
 
+class CaseInsensitiveOrderingFilter(default_filters.OrderingFilter):
+    def filter_queryset(self, request, queryset, view):
+        ordering = self.get_ordering(request, queryset, view)
+
+        if ordering:
+            new_ordering = []
+            for field in ordering:
+                if field.startswith('-'):
+                    new_ordering.append(Lower(field[1:]).desc())
+                else:
+                    new_ordering.append(Lower(field).asc())
+            return queryset.order_by(*new_ordering)
+
+        return queryset
+
+
 class TicketResponseView(generics.ListAPIView):
     """Used for the admin table, sorting, filtering, ordering. """
 
@@ -72,7 +89,7 @@ class TicketResponseView(generics.ListAPIView):
     filter_backends = [
         DjangoFilterBackend,
         default_filters.SearchFilter,
-        default_filters.OrderingFilter,
+        CaseInsensitiveOrderingFilter
     ]
     filterset_class = TicketResponseListFilter
 
@@ -86,7 +103,7 @@ class TicketResponseView(generics.ListAPIView):
         "archived_by__first_name",
     ]
     ordering_fields = [
-        "created_date",
+        "created_date__date",
         "archived_date",
         "hearing_location__name",
         "ticket_number",
@@ -114,3 +131,4 @@ class TicketResponseView(generics.ListAPIView):
             return HttpResponseServerError()
 
         return HttpResponse("success")
+
