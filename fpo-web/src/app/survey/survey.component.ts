@@ -141,8 +141,8 @@ export class SurveyComponent implements OnInit, OnDestroy {
   }
 
   checkDisputeStarted(options) {
-    if (options.name == "disputeStarted" && options.value === "y") {
-      this.disputeStarted = true;
+    if (options.name == "disputeStarted") {
+      this.disputeStarted = options.value === "y"
     }
   }
 
