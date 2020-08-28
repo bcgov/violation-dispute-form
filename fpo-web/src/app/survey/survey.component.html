@@ -26,7 +26,7 @@
     class="btn btn-success btn-lg mt-4" 
     id="completeBtn" 
     (click)="hasFieldErrors()" 
-    [hidden]="displayRecaptcha || !disclaimerAccepted"
+    [hidden]="displayRecaptcha || hideSubmitAndComplete"
   >
     <span class="fa fa-check-circle btn-icon-left"></span> Complete
   </button>
@@ -38,7 +38,7 @@
     id="submitBtn" 
     (click)="submit()" 
     [disabled]="!canSubmit"
-    [hidden] = "!displayRecaptcha"
+    [hidden] = "!displayRecaptcha || hideSubmitAndComplete"
   >
       <span class="fa fa-check-circle btn-icon-left"></span> Submit
   </button>

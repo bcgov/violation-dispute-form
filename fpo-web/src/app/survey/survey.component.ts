@@ -25,7 +25,8 @@ export class SurveyComponent implements OnInit, OnDestroy {
   @Input() surveyPath: string;
   @Input() initialMode: string;
   public emailStatus: boolean;
-  public disclaimerAccepted: boolean;
+  public disputeStarted: boolean;
+  public disputeFinished: boolean;
   public cacheLoadTime: any;
   public cacheKey: string;
   public recaptchaKey: string;
@@ -70,8 +71,12 @@ export class SurveyComponent implements OnInit, OnDestroy {
     });
     this._active = true;
     // FIXME - disabled: this.autoSave(true);
-    this.dataService.key.subscribe(recaptchaKey => this.recaptchaKey = recaptchaKey)
-    this.dataService.emailStatus.subscribe(emailStatus => this.emailStatus = emailStatus)
+    this.dataService.key.subscribe(
+      (recaptchaKey) => (this.recaptchaKey = recaptchaKey)
+    );
+    this.dataService.emailStatus.subscribe(
+      (emailStatus) => (this.emailStatus = emailStatus)
+    );
   }
 
   initSurvey() {
@@ -135,19 +140,38 @@ export class SurveyComponent implements OnInit, OnDestroy {
     // else this.error = 'Missing survey definition';
   }
 
-  checkIfDisclaimerAccepted(options) {
-    if (options.name == 'disclaimer') {
-      this.disclaimerAccepted = true;
+  checkDisputeStarted(options) {
+    if (options.name == "disputeStarted") {
+      this.disputeStarted = options.value === "y"
     }
+  }
+
+  /*
+    A better way of doing this in the future would be to create an 
+    invisible question inside of SurveyEditor. Inside the SurveyEditor, goto Survey Settings 
+    and build up a Trigger based on an expression to set a hidden question to yes or no
+  */
+  checkDisputeFinished(options) {
+    if (options.name != "continueDispute" && options.name != "moreTimeToPay1")
+      return;
+
+    let moreTimeToPay = this.surveyModel.getValue("moreTimeToPay1");
+    let continueDispute = this.surveyModel.getValue("continueDispute");
+    this.disputeFinished = moreTimeToPay == "n" && continueDispute == "n";
   }
 
   //Validate questions for address custom widget
   surveyValidateAddressQuestions(s, options) {
-    if (options.name == 'disputantAddress') {
-      if (options.value.state == "" || options.value.city == "" || 
-          options.value.country == "" || options.value.postcode == "" || 
-          options.value.street == "") {
-        options.error = "Please answer all the required mailing address questions";
+    if (options.name == "disputantAddress") {
+      if (
+        options.value.state == "" ||
+        options.value.city == "" ||
+        options.value.country == "" ||
+        options.value.postcode == "" ||
+        options.value.street == ""
+      ) {
+        options.error =
+          "Please answer all the required mailing address questions";
       }
     }
   }
@@ -197,9 +221,8 @@ export class SurveyComponent implements OnInit, OnDestroy {
       //sif (!this.disableCache) this.saveCache();
       if (this.onComplete) this.onComplete(sender.data);
       this.onPageUpdate.next(sender);
-      this.loading = true
+      this.loading = true;
       this.submitForm(sender.data);
-
     });
     surveyModel.onCurrentPageChanged.add((sender, options) => {
       this.onPageUpdate.next(sender);
@@ -215,18 +238,21 @@ export class SurveyComponent implements OnInit, OnDestroy {
       this.glossaryService.registerTargets(options.htmlElement);
     });
     surveyModel.onLoadChoicesFromServer.add((sender, options) => {
-      if(!Array.isArray(options.serverResult)){
+      if (!Array.isArray(options.serverResult)) {
         this._router.navigate(["error"]);
       }
     });
     surveyModel.onValueChanged.add((sender, options) => {
-      this.checkIfDisclaimerAccepted(options);
+      this.checkDisputeStarted(options);
+      this.checkDisputeFinished(options);
       this.evalProgress();
     });
 
     this.surveyModel = surveyModel;
-    Survey.SurveyNG.render("surveyElement", { model: surveyModel, onValidateQuestion: this.surveyValidateAddressQuestions });
-
+    Survey.SurveyNG.render("surveyElement", {
+      model: surveyModel,
+      onValidateQuestion: this.surveyValidateAddressQuestions,
+    });
 
     // update sidebar
     this.onPageUpdate.next(surveyModel);
@@ -277,8 +303,12 @@ export class SurveyComponent implements OnInit, OnDestroy {
     return !this.recaptchaRequired || !!this.recaptchaResponse;
   }
 
+  get hideSubmitAndComplete(): boolean {
+    return !this.disputeStarted || this.disputeFinished;
+  }
+
   get displayRecaptcha(): boolean {
-    return !this.missingRequired && !this.surveyModel.hasErrors();
+    return !this.hideSubmitAndComplete && !this.missingRequired && !this.surveyModel.hasErrors();
   }
 
   resolvedCaptcha(captchaResponse: string) {
@@ -287,15 +317,12 @@ export class SurveyComponent implements OnInit, OnDestroy {
 
   submitForm(data: any) {
     // This is horrendous.
-    let form
+    let form;
     if (
-      (data.continueDispute == 'y' &&
-        data.disputeType == 'fineAmount' &&
-        data.disputeInWriting == 'y')
-      ||
-      (data.continueDispute == 'n' &&
-        data.moreTimeToPay1 == 'y'
-      )
+      (data.continueDispute == "y" &&
+        data.disputeType == "fineAmount" &&
+        data.disputeInWriting == "y") ||
+      (data.continueDispute == "n" && data.moreTimeToPay1 == "y")
     ) {
       form = "violation-ticket-statement-and-written-reasons";
     } else {
@@ -315,13 +342,14 @@ export class SurveyComponent implements OnInit, OnDestroy {
           this.submitted.emit(true);
           if (rs && "email-sent" in rs) {
             this.emailStatus = rs["email-sent"];
-            this.dataService.returnEmailStatus(this.emailStatus)
+            this.dataService.returnEmailStatus(this.emailStatus);
           }
         },
         (err) => {
           console.log("form submission failed", err);
           this.submitted.emit(false);
-          this.error = "Sorry, we were unable to submit your form at this time, please try again later. To report this issue, you can use the feedback service below.";
+          this.error =
+            "Sorry, we were unable to submit your form at this time, please try again later. To report this issue, you can use the feedback service below.";
         }
       );
   }
@@ -379,8 +407,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
         this.surveyModel.data = cache.data;
         this.cacheLoadTime = cache.time;
         this.cacheKey = response.id || response.key;
-        if (this.surveyMode === "print" && this.surveyCompleted)
-          this.submit();
+        if (this.surveyMode === "print" && this.surveyCompleted) this.submit();
         else if (prevPg === this.surveyModel.currentPageNo)
           this.onPageUpdate.next(this.surveyModel);
       }
@@ -426,7 +453,11 @@ export class SurveyComponent implements OnInit, OnDestroy {
         for (const panel of page.elements) {
           if (panel.isVisible) {
             for (const question of panel.elements) {
-              if (question.isVisible && question.isRequired && question.isEmpty()) {
+              if (
+                question.isVisible &&
+                question.isRequired &&
+                question.isEmpty()
+              ) {
                 missing = true;
                 break;
               }

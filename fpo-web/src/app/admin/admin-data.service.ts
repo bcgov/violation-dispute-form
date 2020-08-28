@@ -54,6 +54,7 @@ export class AdminDataService {
     var orderingString = "&ordering=";
     serverSortParameters.forEach((order) => {
       var orderName = order.prop;
+      if (orderName === "created_date") orderName += "__date";
       if (order.dir === "desc") orderingString += "-";
       orderingString += `${orderName},`;
       //Remove trailing comma.
@@ -128,7 +129,7 @@ export class AdminDataService {
     var searchResponse = await this.getData(searchParameters);
     searchResponse.results = searchResponse.results.map((r) => ({
       ...r,
-      created_date: this.buildDayMonthWordYearDateString(r.created_date as Date) + " " + this.buildTimeString(r.created_date as Date),
+      created_date: this.buildDayMonthWordYearDateString(r.created_date as Date),
       archived_date: this.buildDayMonthWordYearDateString(r.archived_date as Date) + " " + this.buildTimeString(r.archived_date as Date),
       name: `${r.last_name}, ${r.first_name} ${r.middle_name || ""}`,
       hearing_location__name: r.hearing_location != null ? `${r.hearing_location.name}` : null,
