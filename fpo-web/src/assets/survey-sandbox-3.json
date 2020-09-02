@@ -242,7 +242,9 @@
        "type": "text",
        "name": "hearingDate",
        "title": "What date will the hearing take place?",
-       "inputType": "date"
+       "inputType": "date",
+       "dateYearsAhead": 1,
+       "dateYearsBehind": 0
       },
       {
        "type": "radiogroup",
