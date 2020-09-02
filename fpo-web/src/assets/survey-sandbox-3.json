@@ -48,7 +48,8 @@
        "type": "text",
        "name": "childDOB",
        "title": "{panel.childName}'s Date of Birth",
-       "inputType": "date"
+       "inputType": "date",
+       "dateYearsBehind": 18
       },
       {
        "type": "radiogroup",
@@ -103,7 +104,7 @@
        "name": "childPreviousProceedingsSameJurisdiction",
        "visible": false,
        "visibleIf": "{panel.childPreviousProceedings} = \"y\"",
-       "title": "Were the previous proceedings in a different jurisdiction?"
+       "title": "Were the previous proceedings in the same jurisdiction?"
       },
       {
        "type": "text",
@@ -132,6 +133,13 @@
          "text": "Court 3"
         }
        ]
+      },
+      {
+       "type": "comment",
+       "name": "childPreviousProceedingsDetails",
+       "visible": false,
+       "visibleIf": "{panel.childPreviousProceedings} = \"y\" and {panel.childPreviousProceedingsSameJurisdiction} notempty",
+       "title": "Details for the previous proceedings."
       }
      ],
      "panelCount": 1,
@@ -154,12 +162,8 @@
            "text": "s.29.1 - A supervision order"
           },
           {
-           "value": "s30health",
-           "text": "s.30 - The child(ren) were removed because their health or safety is in immediate danger"
-          },
-          {
-           "value": "s30adequatemeasure",
-           "text": "s.30 - The child(ren) were removed because less disruptive available measure is adequate to protect them"
+           "value": "s30",
+           "text": "s.30 - The child(ren) were removed"
           },
           {
            "value": "s36",
@@ -174,7 +178,7 @@
         {
          "name": "2",
          "cellType": "radiogroup",
-         "visibleIf": "{question2.Row 1.1} = \"s30\"",
+         "visibleIf": "{question2.orderSought.Choose only 1 option} = 's30'",
          "choices": [
           {
            "value": "item1",
@@ -303,11 +307,6 @@
        ]
       }
      ]
-    },
-    {
-     "type": "comment",
-     "name": "question27",
-     "title": "Details for previous preceedings. [figure out where this question lives - up top near the kids?]"
     }
    ]
   }
