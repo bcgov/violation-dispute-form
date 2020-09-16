@@ -68,7 +68,8 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "oidc_rp.middleware.OIDCRefreshIDTokenMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
-    "fpo_api.XForwardedForPortMiddleware"
+    "fpo_api.XForwardedForPortMiddleware",
+    "fpo_api.AdminTimezoneMiddleware"
 ]
 
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
