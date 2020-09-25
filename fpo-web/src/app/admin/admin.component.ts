@@ -91,6 +91,8 @@ export class AdminComponent implements OnInit {
   }
 
   ngOnInit() {
+    //Opt admin users out from Matomo stats.
+    (<any>window)._paq.push(['optUserOut']);
     this.loadPage();
     this.outdatedBrowser = this.checkForIEOrOldEdge();
     //Hide footer detail.
