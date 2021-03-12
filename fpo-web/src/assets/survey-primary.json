@@ -110,11 +110,11 @@
      "elements": [
       {
        "type": "text",
-       "inputFormat": "AA99999999",       
        "name": "ticketNumber",
        "title": "Violation Ticket Number",
        "description": "A Violation Ticket Number is 2 letters and 8 numbers. For example, AB12345678. You do not need to add any additional numbers such as \"-1\" or \"-2\". ",
-       "isRequired": true
+       "isRequired": true,
+       "inputFormat": "AA99999999"
       },
       {
        "type": "text",
@@ -359,6 +359,14 @@
        "isRequired": true
       },
       {
+       "type": "infotext",
+       "name": "hearingAttendancePhoneExplanation",
+       "visible": false,
+       "visibleIf": "{hearingAttendance} = \"remote\" and {hearingAttendancePhone} = \"y\"",
+       "title": "If the Court schedules your Traffic Hearing by phone, Officer {officerName} may call to discuss your ticket before the hearing. These are discussions that would normally happen before in-person hearings.",
+       "titleLocation": "hidden"
+      },
+      {
        "type": "yesno",
        "name": "hearingAttendanceVideo",
        "visible": false,
@@ -366,6 +374,14 @@
        "title": "Are you able to attend your Traffic Hearing by video?",
        "description": "The Court will use Microsoft Teams for video hearings. It is free to use. You do not need to download Microsoft Teams to use it. ",
        "isRequired": true
+      },
+      {
+       "type": "infotext",
+       "name": "hearingAttendanceVideoExplanation",
+       "visible": false,
+       "visibleIf": "{hearingAttendance} = \"remote\" and {hearingAttendanceVideo} = \"y\"",
+       "title": "If the Court schedules your Traffic Hearing by video, Officer {officerName} may call to discuss your ticket before the hearing. These are discussions that would normally happen before in-person hearings.",
+       "titleLocation": "hidden"
       },
       {
        "type": "infotext",
