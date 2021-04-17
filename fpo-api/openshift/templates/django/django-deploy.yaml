@@ -11,25 +11,8 @@ metadata:
     iconClass: icon-python
 objects:
 
-  - kind: NetworkSecurityPolicy
-    apiVersion: secops.pathfinder.gov.bc.ca/v1alpha1
-    metadata:
-      name: pods-to-api
-      labels:
-        name: pods-to-api
-        app: ${APP_NAME}
-        env: ${TAG_NAME}
-    spec:
-      description: |
-        Allow pods to talk to the internal api so deployments work.
-        This only needs to be specified once per environment.
-      source:
-        - - $namespace=tamjni-${TAG_NAME}
-      destination:
-        - - int:network=internal-cluster-api-endpoint
-
-  - kind: NetworkSecurityPolicy
-    apiVersion: secops.pathfinder.gov.bc.ca/v1alpha1
+  - kind: NetworkPolicy
+    apiVersion: networking.k8s.io/v1
     metadata:
       name: ${NAME}
       labels:
@@ -38,22 +21,26 @@ objects:
         env: ${TAG_NAME}
     spec:
       description: |
-        Allow the application's API to talk to either the database or pdf microservice.
-      source:
-        - - role=${ROLE}
-          - app=${APP_NAME}
-          - env=${TAG_NAME}
-          - $namespace=tamjni-${TAG_NAME}
-
-      destination:
-        - - role=db
-          - app=${APP_NAME}
-          - env=${TAG_NAME}
-          - $namespace=tamjni-${TAG_NAME}
-        - - role=pdf
-          - app=${APP_NAME}
-          - env=${TAG_NAME}
-          - $namespace=tamjni-${TAG_NAME}
+        Allow the front-end application to access the API.
+      ingress:
+        - from:
+            - podSelector:
+                matchLabels:
+                  role: web
+                  app: ${APP_NAME}
+                  env: ${TAG_NAME}
+              namespaceSelector:
+                matchLabels:
+                  name: ${NAMESPACE_NAME}
+                  environment: ${TAG_NAME}
+          ports:
+            - protocol: TCP
+              port: 8080
+      podSelector:
+        matchLabels:
+          role: ${ROLE}
+          app: ${APP_NAME}
+          env: ${TAG_NAME}
 
   - kind: Service
     apiVersion: v1
@@ -287,6 +274,12 @@ parameters:
     description: Role
     required: true
     value: api
+
+  - name: NAMESPACE_NAME
+    displayName: Namespace Name
+    description: The base namespace name for the project.
+    required: true
+    value: tamjni
 
   - name: IMAGE_NAMESPACE
     displayName: Image Namespace

@@ -7,27 +7,30 @@ metadata:
     tags: angular,nginx
   name: angular-on-nginx
 objects:
-  - kind: NetworkSecurityPolicy
-    apiVersion: secops.pathfinder.gov.bc.ca/v1alpha1
+
+  - kind: NetworkPolicy
+    apiVersion: networking.k8s.io/v1
     metadata:
-      name: ${NAME}
+      name: ${NAME}-allow-ingress
       labels:
-        name: ${NAME}
+        name: ${NAME}-allow-ingress
         app: ${APP_NAME}
         env: ${TAG_NAME}
     spec:
       description: |
-        Allow the frontend (web) to talk to the api pod.
-      source:
-        - - role=${ROLE}
-          - app=${APP_NAME}
-          - env=${TAG_NAME}
-          - $namespace=tamjni-${TAG_NAME}
-      destination:
-        - - role=api
-          - app=${APP_NAME}
-          - env=${TAG_NAME}
-          - $namespace=tamjni-${TAG_NAME}
+        Allow traffic from routes into the ${ROLE} container(s).
+      ingress:
+        - from:
+            - namespaceSelector:
+                matchLabels:
+                  network.openshift.io/policy-group: ingress
+      podSelector:
+        matchLabels:
+          role: ${ROLE}
+          app: ${APP_NAME}
+          env: ${TAG_NAME}
+      policyTypes:
+        - Ingress
 
   - kind: DeploymentConfig
     apiVersion: v1
