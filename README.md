@@ -24,7 +24,7 @@ A PostgreSQL database for storage, complete with a SchemaSpy instance for docume
 ## Prototype Instances
 
 A prototype instance of the application can be found here;
-* Prototype - https://virtual-hearing-form-dev.pathfinder.gov.bc.ca/choose-how-to-attend-your-traffic-hearing
+* Prototype - https://virtual-hearing-form-dev.apps.silver.devops.gov.bc.ca/choose-how-to-attend-your-traffic-hearing
 
 ## Running on OpenShift
 

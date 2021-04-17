@@ -1,7 +1,7 @@
 #=========================================================
 # OpenShift template parameters for:
-# Component: fpo-db
-# Template File: templates/postgresql-build.json
+# Component: .
+# Template File: ../fpo-db/openshift/templates/postgresql-build.yaml
 #=========================================================
 NAME=postgresql
 OUTPUT_IMAGE_TAG=latest

@@ -1,11 +1,12 @@
 #=========================================================
 # OpenShift template parameters for:
-# Component: fpo-api
-# Template File: templates/django/django-deploy.yaml
+# Component: .
+# Template File: ../fpo-api/openshift/templates/django/django-deploy.yaml
 #=========================================================
 # NAME=django
 # APP_NAME=virtual-hearing-form
 # ROLE=api
+# NAMESPACE_NAME=tamjni
 # IMAGE_NAMESPACE=tamjni-tools
 # DATABASE_SERVICE_NAME=postgresql
 # DATABASE_ENGINE=postgresql
@@ -24,7 +25,7 @@ TAG_NAME=dev
 # EMAIL_SERVICE_CLIENT_SECRET=
 # FEEDBACK_TARGET_EMAIL=
 # SENDER_EMAIL=
-# SENDER_NAME=
+# SENDER_NAME=Virtual Traffic Hearing Notification
 # DATA_SECURITY_KEY=
 # OIDC_RP_PROVIDER_ENDPOINT=
 # OIDC_RP_CLIENT_SECRET=

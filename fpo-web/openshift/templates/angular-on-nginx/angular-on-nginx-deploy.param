@@ -1,7 +1,7 @@
 #=========================================================
 # OpenShift template parameters for:
-# Component: fpo-web
-# Template File: templates/angular-on-nginx/angular-on-nginx-deploy.yaml
+# Component: .
+# Template File: ../fpo-web/openshift/templates/angular-on-nginx/angular-on-nginx-deploy.yaml
 #=========================================================
 NAME=angular-on-nginx
 APP_NAME=virtual-hearing-form

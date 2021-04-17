@@ -1,6 +1,6 @@
 #=========================================================
 # OpenShift template parameters for:
-# Component: fpo-api
+# Component: .
 # Template File: ../fpo-api/openshift/templates/django/django-build.yaml
 #=========================================================
 NAME=django

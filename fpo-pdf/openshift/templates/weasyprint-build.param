@@ -1,7 +1,7 @@
 #=========================================================
 # OpenShift template parameters for:
-# Component: fpo-pdf
-# Template File: templates/weasyprint-build.json
+# Component: .
+# Template File: ../fpo-pdf/openshift/templates/weasyprint-build.yaml
 #=========================================================
 NAME=weasyprint
 OUTPUT_IMAGE_TAG=latest

@@ -1,7 +1,7 @@
 #=========================================================
 # OpenShift template parameters for:
 # Component: .
-# Template File: ../openshift/templates/backup/backup-deploy.json
+# Template File: ../openshift/templates/backup/backup-deploy.yaml
 #=========================================================
 # NAME=backup
 # SUFFIX=
@@ -25,9 +25,9 @@ ENVIRONMENT_NAME=tamjni-prod
 # CONFIG_FILE_NAME=backup.conf
 # CONFIG_MAP_NAME=backup-conf
 # CONFIG_MOUNT_PATH=/
-BACKUP_VOLUME_NAME=bk-tamjni-prod-h9ehd2gv7ijw
-BACKUP_VOLUME_SIZE=5Gi
-BACKUP_VOLUME_CLASS=nfs-backup
+# BACKUP_VOLUME_NAME=backup
+# BACKUP_VOLUME_SIZE=5Gi
+# BACKUP_VOLUME_CLASS=netapp-file-backup
 # VERIFICATION_VOLUME_NAME=backup-verification
 # VERIFICATION_VOLUME_SIZE=5Gi
 # VERIFICATION_VOLUME_CLASS=netapp-file-standard

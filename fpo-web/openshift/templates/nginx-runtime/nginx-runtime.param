@@ -1,7 +1,7 @@
 #=========================================================
 # OpenShift template parameters for:
-# Component: fpo-web
-# Template File: templates/nginx-runtime/nginx-runtime.json
+# Component: .
+# Template File: ../fpo-web/openshift/templates/nginx-runtime/nginx-runtime.yaml
 #=========================================================
 NAME=nginx-runtime
 GIT_REPO_URL=https://github.com/bcgov/violation-dispute-form.git

@@ -1,7 +1,7 @@
 #=========================================================
 # OpenShift template parameters for:
-# Component: fpo-web
-# Template File: templates/angular-build.json
+# Component: .
+# Template File: ../fpo-web/openshift/templates/angular-build.yaml
 #=========================================================
 NAME=angular-app
 OUTPUT_IMAGE_TAG=latest

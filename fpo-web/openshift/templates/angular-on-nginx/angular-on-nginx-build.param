@@ -1,7 +1,7 @@
 #=========================================================
 # OpenShift template parameters for:
-# Component: fpo-web
-# Template File: templates/angular-on-nginx/angular-on-nginx-build.json
+# Component: .
+# Template File: ../fpo-web/openshift/templates/angular-on-nginx/angular-on-nginx-build.yaml
 #=========================================================
 NAME=angular-on-nginx
 SOURCE_IMAGE_NAMESPACE=tamjni-tools
