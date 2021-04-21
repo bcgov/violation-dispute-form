@@ -38,7 +38,7 @@ objects:
           from:
             kind: ${SOURCE_IMAGE_KIND}
             name: ${SOURCE_IMAGE_REGISTRY}${SOURCE_IMAGE_NAME}:${SOURCE_IMAGE_TAG}
-        output:
+      output:
         to:
           kind: ImageStreamTag
           name: ${NAME}:${OUTPUT_IMAGE_TAG}
