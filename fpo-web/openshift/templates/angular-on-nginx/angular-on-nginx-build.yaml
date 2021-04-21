@@ -23,7 +23,7 @@ objects:
         type: Dockerfile
         dockerfile: |-
           FROM ${SOURCE_IMAGE_NAME}:${SOURCE_IMAGE_TAG}
-          COPY * /tmp/app/dist/
+          COPY '*' /tmp/app/dist/
           CMD  /usr/libexec/s2i/run
         images:
           - from:
