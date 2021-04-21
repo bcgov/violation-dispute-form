@@ -13,9 +13,10 @@ objects:
           annotations: null
           from:
             kind: ${SOURCE_IMAGE_KIND}
+            namespace: ${SOURCE_IMAGE_NAMESPACE}
             name: ${SOURCE_IMAGE_NAME}:${SOURCE_IMAGE_TAG}
-          importPolicy:
-            scheduled: true
+          # importPolicy:
+          #   scheduled: true
 parameters:
   - name: NAME
     displayName: Name
@@ -31,14 +32,20 @@ parameters:
     displayName: Source Image Kind
     description: The 'kind' (type) of the  source image; typically ImageStreamTag, or DockerImage.
     required: true
-    value: DockerImage
+    value: ImageStreamTag
   - name: SOURCE_IMAGE_NAME
     displayName: Source Image Name
     description: The name of the source image.
     required: true
-    value: registry.access.redhat.com/rhscl/postgresql-10-rhel7
+    value: postgresql
   - name: SOURCE_IMAGE_TAG
     displayName: Source Image Tag
     description: The tag of the source image.
     required: true
-    value: latest
+    value: "12"
+  - name: SOURCE_IMAGE_NAMESPACE
+    displayName: Namespace
+    required: true
+    description: The Namespace where the ImageStream resides.
+    value: openshift
+
