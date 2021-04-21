@@ -8,7 +8,7 @@
 # APP_NAME=Backup
 # APP_GROUP=traffic-court
 # SOURCE_IMAGE_NAME=backup
-# IMAGE_NAMESPACE=tamjni-tools
+# IMAGE_NAMESPACE=069465-tools
 TAG_NAME=prod
 # DATABASE_DEPLOYMENT_NAME=postgresql
 # DATABASE_USER_KEY_NAME=database-user
@@ -16,7 +16,7 @@ TAG_NAME=prod
 # BACKUP_STRATEGY=rolling
 # WEBHOOK_URL=
 ENVIRONMENT_FRIENDLY_NAME=Choose How to Attend Your Traffic Hearing (Prod)
-ENVIRONMENT_NAME=tamjni-prod
+ENVIRONMENT_NAME=069465-prod
 # BACKUP_DIR=/backups/
 # DAILY_BACKUPS=
 # WEEKLY_BACKUPS=

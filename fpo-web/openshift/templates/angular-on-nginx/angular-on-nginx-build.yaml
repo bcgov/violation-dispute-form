@@ -73,7 +73,7 @@ parameters:
     displayName: Runtime Image Namespace
     description: The namespace containing the runtime image.
     required: false
-    value: tamjni-tools
+    value: 069465-tools
   - name: RUNTIME_IMAGE_NAME
     displayName: Runtime Image Name
     description: The name of the runtime image.

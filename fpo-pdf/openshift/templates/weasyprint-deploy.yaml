@@ -159,7 +159,7 @@ parameters:
     displayName: Namespace Name
     description: The base namespace name for the project.
     required: true
-    value: tamjni
+    value: 069465
 
   - name: SOURCE_IMAGE_NAME
     displayName: Source Image Name
@@ -172,7 +172,7 @@ parameters:
     description:
       The namespace of the OpenShift project containing the imagestream for
       the application.
-    value: tamjni-tools
+    value: 069465-tools
   - name: TAG_NAME
     displayName: Environment TAG name
     description: The TAG name for this environment, e.g., dev, test, prod

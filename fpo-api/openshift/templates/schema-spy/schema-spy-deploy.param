@@ -6,7 +6,7 @@
 NAME=schema-spy
 APP_NAME=virtual-hearing-form
 ROLE=schema-spy
-IMAGE_NAMESPACE=tamjni-tools
+IMAGE_NAMESPACE=069465-tools
 MEMORY_LIMIT=512Mi
 APPLICATION_DOMAIN=virtual-hearing-form-schema-dev.apps.silver.devops.gov.bc.ca
 DATABASE_SERVICE_NAME=postgresql

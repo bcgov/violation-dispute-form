@@ -3,5 +3,5 @@
 # Component: .
 # Template File: ../openshift/templates/nsp/build.yaml
 #=========================================================
-NAMESPACE_NAME=tamjni
+NAMESPACE_NAME=069465
 ENV_NAME=tools

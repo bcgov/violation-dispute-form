@@ -4,10 +4,10 @@
 # Template File: ../fpo-web/openshift/templates/angular-on-nginx/angular-on-nginx-build.yaml
 #=========================================================
 NAME=angular-on-nginx
-SOURCE_IMAGE_NAMESPACE=tamjni-tools
+SOURCE_IMAGE_NAMESPACE=069465-tools
 SOURCE_IMAGE_NAME=angular-app
 SOURCE_IMAGE_TAG=latest
-RUNTIME_IMAGE_NAMESPACE=tamjni-tools
+RUNTIME_IMAGE_NAMESPACE=069465-tools
 RUNTIME_IMAGE_NAME=nginx-runtime
 RUNTIME_IMAGE_TAG=latest
 OUTPUT_IMAGE_TAG=latest
