@@ -164,7 +164,7 @@ objects:
         role: ${ROLE}
         env: ${TAG_NAME}
       annotations:
-        haproxy.router.openshift.io/ip_whitelist: "${SITEMINDER_WHITE_LIST}"
+        haproxy.router.openshift.io/ip_whitelist: "${ALLOW_LIST}"
     spec:
       host: "${SITEMINDER_APPLICATION_DOMAIN}"
       port:
@@ -192,6 +192,19 @@ objects:
         name: ${NAME}
       minReplicas: ${{MIN_REPLICAS}}
       maxReplicas: ${{MAX_REPLICAS}}
+
+  - kind: Secret
+    apiVersion: v1
+    metadata:
+      name: ${NAME}
+      labels:
+        name: ${NAME}
+        app: ${APP_NAME}
+        role: ${ROLE}
+        env: ${TAG_NAME}
+    stringData:
+      allow-list: ${ALLOW_LIST}
+    type: Opaque
 
 parameters:
   - description: The name assigned to all of the openshift objects defined in this template. It is also the name of runtime image you want.
@@ -261,7 +274,7 @@ parameters:
     displayName: SiteMinder Application Domain
     name: SITEMINDER_APPLICATION_DOMAIN
     value: virtual-hearing-form-dev.pathfinder.bcgov
-  - name: SITEMINDER_WHITE_LIST
+  - name: ALLOW_LIST
     displayName: SiteMinder Whitelist
     description: The whitelist containing all of the trusted siteminder IPs.
     required: false

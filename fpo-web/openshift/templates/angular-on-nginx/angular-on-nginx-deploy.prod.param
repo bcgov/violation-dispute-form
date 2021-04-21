@@ -15,7 +15,7 @@
 # AdditionalRealIpFromRules=
 # IpFilterRules=
 SITEMINDER_APPLICATION_DOMAIN=virtual-hearing-form-prod.pathfinder.bcgov
-# SITEMINDER_WHITE_LIST=
+# ALLOW_LIST=
 TAG_NAME=prod
 # HTTP_BASIC=
 # HTTP_BASIC_USERNAME=
