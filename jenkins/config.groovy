@@ -26,7 +26,7 @@ class config {
   // Build configuration
   public static final String[] BUILDS = ['angular-on-nginx', 'django']
   
-  public static final String[]  WEB_BUILDS = ['nginx-runtime', 'angular-app-build', 'angular-on-nginx']
+  public static final String[]  WEB_BUILDS = ['nginx-runtime', 'angular-app-build', 'angular-on-nginx-build']
   public static final String  WEB_APP_NAME = "${this.BUILDS[0]}"
   
   public static final String[]  API_BUILDS = ["${this.BUILDS[1]}"]
