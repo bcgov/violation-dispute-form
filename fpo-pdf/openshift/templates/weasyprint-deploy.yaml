@@ -4,7 +4,6 @@ apiVersion: v1
 metadata:
   name: "${NAME}-deployment-template"
 objects:
-
   - kind: NetworkPolicy
     apiVersion: networking.k8s.io/v1
     metadata:
@@ -159,7 +158,7 @@ parameters:
     displayName: Namespace Name
     description: The base namespace name for the project.
     required: true
-    value: 069465
+    value: "069465"
 
   - name: SOURCE_IMAGE_NAME
     displayName: Source Image Name
@@ -184,12 +183,12 @@ parameters:
     displayName: Minimum Replicas
     description: The minimum number of pods to have running.
     required: true
-    value: '3'
+    value: "3"
   - name: MAX_REPLICAS
     displayName: Maximum Replicas
     description: The maximum number of pods to have running.
     required: true
-    value: '6'
+    value: "6"
   # ===============================================================================
 
   - name: CPU_REQUEST

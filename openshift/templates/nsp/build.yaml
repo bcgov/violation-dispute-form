@@ -4,7 +4,6 @@ apiVersion: v1
 metadata:
   name: global-nsp-build-template
 objects:
-
   - kind: NetworkPolicy
     apiVersion: networking.k8s.io/v1
     metadata:
@@ -39,7 +38,7 @@ parameters:
   - name: NAMESPACE_NAME
     displayName: The target namespace for the resources.
     required: true
-    value: 069465
+    value: "069465"
   - name: ENV_NAME
     displayName: Environment Name
     description: Environment name.  For the build environment this will typically be 'tools'

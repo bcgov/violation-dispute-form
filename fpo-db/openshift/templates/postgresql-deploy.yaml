@@ -7,7 +7,6 @@ metadata:
     tags: ${NAME}
   name: "${NAME}-persistent-template"
 objects:
-
   - kind: NetworkPolicy
     apiVersion: networking.k8s.io/v1
     metadata:
@@ -247,7 +246,7 @@ parameters:
     displayName: Namespace Name
     description: The base namespace name for the project.
     required: true
-    value: 069465
+    value: "069465"
 
   - name: IMAGE_NAMESPACE
     displayName: Image Namespace

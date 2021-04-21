@@ -10,7 +10,6 @@ metadata:
     tags: django
     iconClass: icon-python
 objects:
-
   - kind: NetworkPolicy
     apiVersion: networking.k8s.io/v1
     metadata:
@@ -256,7 +255,7 @@ objects:
         name: ${NAME}
       minReplicas: ${{MIN_REPLICAS}}
       maxReplicas: ${{MAX_REPLICAS}}
-      
+
 parameters:
   - name: NAME
     displayName: Name
@@ -279,7 +278,7 @@ parameters:
     displayName: Namespace Name
     description: The base namespace name for the project.
     required: true
-    value: 069465
+    value: "069465"
 
   - name: IMAGE_NAMESPACE
     displayName: Image Namespace
@@ -340,17 +339,17 @@ parameters:
     description: reCAPTCHA Secret Key.
     required: false
     value:
-      
+
   - name: CHES_AUTH_URL
     displayName: CHES authentication url
     description: CHES authentication url
     required: true
-    value:  
+    value:
   - name: CHES_EMAIL_URL
     displayName: CHES email url
     description: CHES email url
     required: true
-    value: 
+    value:
   - name: EMAIL_SERVICE_CLIENT_ID
     displayName: Email Service Client Id
     description: Email Service Client Id
@@ -381,7 +380,7 @@ parameters:
     displayName: Data Security (Encryption) Key
     description: The Encryption Key for the environment.
     generate: expression
-    from: '[a-zA-Z0-9]{32}'
+    from: "[a-zA-Z0-9]{32}"
 
   - name: OIDC_RP_PROVIDER_ENDPOINT
     displayName: OIDC RP Provider Endpoint
@@ -404,12 +403,12 @@ parameters:
     displayName: Minimum Replicas
     description: The minimum number of pods to have running.
     required: true
-    value: '3'
+    value: "3"
   - name: MAX_REPLICAS
     displayName: Maximum Replicas
     description: The maximum number of pods to have running.
     required: true
-    value: '6'
+    value: "6"
   # ===============================================================================
 
   - name: CPU_REQUEST
