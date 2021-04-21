@@ -247,6 +247,11 @@ parameters:
     description: The base namespace name for the project.
     required: true
     value: "069465"
+  - name: BACKUP_APP_NAME
+    displayName: Backup app name
+    description: The name of the Backup app.
+    required: true
+    value: Backup
 
   - name: IMAGE_NAMESPACE
     displayName: Image Namespace

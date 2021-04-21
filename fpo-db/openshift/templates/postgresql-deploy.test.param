@@ -7,6 +7,7 @@
 # APP_NAME=virtual-hearing-form
 # ROLE=db
 # NAMESPACE_NAME=069465
+# BACKUP_APP_NAME=Backup
 # IMAGE_NAMESPACE=069465-tools
 # SOURCE_IMAGE_NAME=postgresql
 TAG_NAME=test
