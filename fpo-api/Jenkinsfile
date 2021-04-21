@@ -34,7 +34,10 @@ boolean triggerBuild(String contextDirectory) {
       }
     }
   }
-  
+
+  // Testing pipeline
+  filesChangeCnt = 1
+
   if ( filesChangeCnt < 1 ) {
     echo('The changes do not require a build.')
     return false
