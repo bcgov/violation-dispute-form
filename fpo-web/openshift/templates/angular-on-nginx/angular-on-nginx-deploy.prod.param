@@ -14,7 +14,7 @@
 # WEB_BASE_HREF=/choose-how-to-attend-your-traffic-hearing/
 # AdditionalRealIpFromRules=
 # IpFilterRules=
-SITEMINDER_APPLICATION_DOMAIN=virtual-hearing-form-prod.pathfinder.bcgov
+SITEMINDER_APPLICATION_DOMAIN=virtual-hearing-form-prod.silver.devops.bcgov
 # ALLOW_LIST=
 TAG_NAME=prod
 # HTTP_BASIC=

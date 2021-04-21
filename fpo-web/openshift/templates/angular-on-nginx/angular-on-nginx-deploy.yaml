@@ -273,7 +273,7 @@ parameters:
   - description: The endpoint used for SiteMinder routed access to the application.
     displayName: SiteMinder Application Domain
     name: SITEMINDER_APPLICATION_DOMAIN
-    value: virtual-hearing-form-dev.pathfinder.bcgov
+    value: virtual-hearing-form-dev.silver.devops.bcgov
   - name: ALLOW_LIST
     displayName: SiteMinder Whitelist
     description: The whitelist containing all of the trusted siteminder IPs.
