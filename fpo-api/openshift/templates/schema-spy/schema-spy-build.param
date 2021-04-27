@@ -1,0 +1,13 @@
+#=========================================================
+# OpenShift template parameters for:
+# Component: .
+# Template File: ../fpo-api/openshift/templates/schema-spy/schema-spy-build.yaml
+#=========================================================
+NAME=schema-spy
+GIT_REPO_URL=https://github.com/bcgov/SchemaSpy.git
+GIT_REF=master
+SOURCE_CONTEXT_DIR=
+SOURCE_IMAGE_REGISTRY=docker-remote.artifacts.developer.gov.bc.ca/
+SOURCE_IMAGE_NAME=openjdk
+SOURCE_IMAGE_TAG=jre-alpine
+OUTPUT_IMAGE_TAG=latest

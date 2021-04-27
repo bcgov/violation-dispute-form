@@ -11,7 +11,7 @@ usage () {
 
   Allows you to manage certain aspects of the application environment.
 
-  Usage: 
+  Usage:
     $0 [options] [commands]
 
   Example:
@@ -34,6 +34,14 @@ usage () {
 
     resetDatabase
       - Drop and recreate the database.
+
+    listBuildRefs
+      - Lists build configurations and their git references in a convenient column format.
+      Example:
+        $0 -e tools listBuildRefs
+
+    migrateData
+      - For migrating data from one OCP environment to another.
 
     scaleUp
       - Scale up one or more pods.
@@ -149,6 +157,99 @@ cleanEnv() {
   oc -n $(getProjectName) delete all,pvc,secret,networksecuritypolicies -l app=fpo
 }
 
+function migrateData(){
+  (
+    backupPod=${1}
+    destApiPod=${2}
+    destDbPod=${3}
+    destBackupSpec=${4}
+    destDbAdminPasswordKey=${5}
+    sourceCluster=${6}
+    destCluster=${7}
+    sourceNamespace=${8}
+    destNamespace=${9}
+    fullBackupPathNameFilter=${10}
+    rootBackupDir=${11}
+
+    sourceContext=$(oc config get-contexts | sed 's/*/ /g' | grep ${sourceCluster} | awk '{print $1}' | head -n 1)
+    destContext=$(oc config get-contexts | sed 's/*/ /g' | grep ${destCluster} | awk '{print $1}' | head -n 1)
+
+    # Explain what is about to happen and wait for confirmation ...
+txtMsg=$(cat <<-EOF
+A copy of the data from the source environment will be migrated to the destination environment using the following settings:
+  - backupPod: ${backupPod}
+  - destApiPod: ${destApiPod}
+  - destDbPod: ${destDbPod}
+  - destBackupSpec: ${destBackupSpec}
+  - destDbAdminPasswordKey: ${destDbAdminPasswordKey}
+  - sourceCluster: ${sourceCluster}
+  - destCluster: ${destCluster}
+  - sourceNamespace: ${sourceNamespace}
+  - destNamespace: ${destNamespace}
+  - fullBackupPathNameFilter: ${fullBackupPathNameFilter}
+  - rootBackupDir: ${rootBackupDir}
+  - sourceContext: ${sourceContext}
+  - destContext: ${destContext}
+
+The following operations will be performed (ALL EXISTING DATA IN THE DESTINATION ENVIRONMENT WILL BE OVERWRITTEN):
+  - A new backup will be created in the source environment.
+  - The backup will be copied to the destination environment and restored.\n
+EOF
+)
+
+    printAndAskToContinue "${txtMsg}"
+
+    echoWarning "\nSwitching context to the source environemnt; ${sourceNamespace}/${sourceCluster} ..."
+    export FULLY_QUALIFIED_NAMESPACE=${sourceNamespace}
+    oc config use-context ${sourceContext} 2>&1 >/dev/null
+    exitOnError
+
+    # Create a new backup in the source environment ...
+    echoWarning "\nCreating a new backup on the ${backupPod} container in ${sourceNamespace} for the migration ...\n"
+    runInContainer \
+      ${backupPod} \
+      "./backup.sh -s"
+    exitOnError
+
+    # Determine the full path of the most recent backup ...
+    fullBackupPath=$(runInContainer \
+      ${backupPod} \
+      "find ${rootBackupDir}* -type f -printf '%T@ %p\n' | grep ${fullBackupPathNameFilter} | sort | tail -n 1 | sed 's~^.* \(.*$\)~\1~'")
+    exitOnError
+
+    # Copy backup locally ...
+    backupFolderName=$(dirname ${fullBackupPath})
+    backupFileName=$(basename ${fullBackupPath})
+    mkdir -p ./tmp
+    echoWarning "\nCopying ${fullBackupPath} locally to ./tmp/${backupFileName} ..."
+    oc -n ${sourceNamespace} rsync $(getPodByName ${backupPod}):${fullBackupPath} ./tmp
+
+    echoWarning "\nSwitching context to the destination environment ${destNamespace}/${destCluster} ..."
+    export FULLY_QUALIFIED_NAMESPACE=${destNamespace}
+    oc config use-context ${destContext} 2>&1 >/dev/null
+    exitOnError
+
+    # Copy backup to destination environment
+    echoWarning "\nCopying ${fullBackupPath} to the ${backupPod} container in ${destNamespace} ..."
+    runInContainer \
+      ${backupPod} \
+      "mkdir -p ${backupFolderName}"
+    exitOnError
+    oc -n ${destNamespace} cp ./tmp/${backupFileName} $(getPodByName ${backupPod}):${backupFolderName}
+
+    # Restore the backup in the destination environment ...
+    scaleDown -w "${destApiPod}"
+    runInContainer \
+      ${backupPod} \
+      "./backup.sh -s -a $(getSecret ${destDbPod} ${destDbAdminPasswordKey}) -r ${destBackupSpec} -f ${backupFileName}"
+    exitOnError
+    scaleUp -w "${destApiPod}"
+
+    # Clean up; delete the local copy of the backup ...
+    echoWarning "Clean up, deleting ./tmp/${backupFileName} ..."
+    rm -rf ./tmp
+  )
+}
 # =================================================================================================================
 
 pushd ${SCRIPT_HOME} >/dev/null
@@ -177,6 +278,36 @@ case "${_cmd}" in
     ;;
   clean)
     cleanEnv
+    ;;
+  listbuildrefs)
+    listBuildRefs
+    ;;
+
+  migratedata)
+    backupPod=${1:-backup}
+    destApiPod=${2:-django}
+    destDbPod=${3:-postgresql}
+    destBackupSpec=${4:-postgresql:5432/App_Database}
+    destDbAdminPasswordKey=${5:-admin-password}
+    sourceCluster=${6:-console-pathfinder-gov-bc-ca:8443}
+    destCluster=${7:-api-silver-devops-gov-bc-ca:6443}
+    sourceNamespace=${8:-tamjni-${DEPLOYMENT_ENV_NAME}}
+    destNamespace=${9:-069465-${DEPLOYMENT_ENV_NAME}}
+    fullBackupPathNameFilter=${10:-postgresql-App_Database}
+    rootBackupDir=${11:-/backups}
+
+    migrateData \
+      "${backupPod}" \
+      "${destApiPod}" \
+      "${destDbPod}" \
+      "${destBackupSpec}" \
+      "${destDbAdminPasswordKey}" \
+      "${sourceCluster}" \
+      "${destCluster}" \
+      "${sourceNamespace}" \
+      "${destNamespace}" \
+      "${fullBackupPathNameFilter}" \
+      "${rootBackupDir}"
     ;;
 
   scaleup)

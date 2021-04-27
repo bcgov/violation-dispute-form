@@ -1,0 +1,28 @@
+#=========================================================
+# OpenShift template parameters for:
+# Component: .
+# Template File: ../fpo-web/openshift/templates/angular-on-nginx/angular-on-nginx-deploy.yaml
+#=========================================================
+# NAME=angular-on-nginx
+# APP_NAME=virtual-hearing-form
+# ROLE=web
+# IMAGE_NAMESPACE=069465-tools
+# REAL_IP_FROM=172.51.0.0/16
+# API_URL=http://django:8080/api/v1
+# API_SERVICE_NAME=django
+# API_PATH=/api
+# WEB_BASE_HREF=/choose-how-to-attend-your-traffic-hearing/
+# AdditionalRealIpFromRules=
+# IpFilterRules=
+SITEMINDER_APPLICATION_DOMAIN=virtual-hearing-form-prod.silver.devops.bcgov
+# ALLOW_LIST=
+TAG_NAME=prod
+# HTTP_BASIC=
+# HTTP_BASIC_USERNAME=
+# HTTP_BASIC_PASSWORD=
+# MIN_REPLICAS=3
+# MAX_REPLICAS=6
+# CPU_REQUEST=10m
+# CPU_LIMIT=250m
+# MEMORY_REQUEST=10Mi
+# MEMORY_LIMIT=256Mi

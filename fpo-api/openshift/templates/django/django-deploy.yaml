@@ -10,26 +10,8 @@ metadata:
     tags: django
     iconClass: icon-python
 objects:
-
-  - kind: NetworkSecurityPolicy
-    apiVersion: secops.pathfinder.gov.bc.ca/v1alpha1
-    metadata:
-      name: pods-to-api
-      labels:
-        name: pods-to-api
-        app: ${APP_NAME}
-        env: ${TAG_NAME}
-    spec:
-      description: |
-        Allow pods to talk to the internal api so deployments work.
-        This only needs to be specified once per environment.
-      source:
-        - - $namespace=tamjni-${TAG_NAME}
-      destination:
-        - - int:network=internal-cluster-api-endpoint
-
-  - kind: NetworkSecurityPolicy
-    apiVersion: secops.pathfinder.gov.bc.ca/v1alpha1
+  - kind: NetworkPolicy
+    apiVersion: networking.k8s.io/v1
     metadata:
       name: ${NAME}
       labels:
@@ -38,22 +20,26 @@ objects:
         env: ${TAG_NAME}
     spec:
       description: |
-        Allow the application's API to talk to either the database or pdf microservice.
-      source:
-        - - role=${ROLE}
-          - app=${APP_NAME}
-          - env=${TAG_NAME}
-          - $namespace=tamjni-${TAG_NAME}
-
-      destination:
-        - - role=db
-          - app=${APP_NAME}
-          - env=${TAG_NAME}
-          - $namespace=tamjni-${TAG_NAME}
-        - - role=pdf
-          - app=${APP_NAME}
-          - env=${TAG_NAME}
-          - $namespace=tamjni-${TAG_NAME}
+        Allow the front-end application to access the API.
+      ingress:
+        - from:
+            - podSelector:
+                matchLabels:
+                  role: web
+                  app: ${APP_NAME}
+                  env: ${TAG_NAME}
+              namespaceSelector:
+                matchLabels:
+                  name: ${NAMESPACE_NAME}
+                  environment: ${TAG_NAME}
+          ports:
+            - protocol: TCP
+              port: 8080
+      podSelector:
+        matchLabels:
+          role: ${ROLE}
+          app: ${APP_NAME}
+          env: ${TAG_NAME}
 
   - kind: Service
     apiVersion: v1
@@ -269,7 +255,7 @@ objects:
         name: ${NAME}
       minReplicas: ${{MIN_REPLICAS}}
       maxReplicas: ${{MAX_REPLICAS}}
-      
+
 parameters:
   - name: NAME
     displayName: Name
@@ -288,11 +274,17 @@ parameters:
     required: true
     value: api
 
+  - name: NAMESPACE_NAME
+    displayName: Namespace Name
+    description: The base namespace name for the project.
+    required: true
+    value: "069465"
+
   - name: IMAGE_NAMESPACE
     displayName: Image Namespace
     required: true
     description: The namespace of the OpenShift project containing the imagestream for the application.
-    value: tamjni-tools
+    value: 069465-tools
   - name: DATABASE_SERVICE_NAME
     displayName: Database Service Name
     description: The name of the database server/service.
@@ -347,17 +339,17 @@ parameters:
     description: reCAPTCHA Secret Key.
     required: false
     value:
-      
+
   - name: CHES_AUTH_URL
     displayName: CHES authentication url
     description: CHES authentication url
     required: true
-    value:  
+    value:
   - name: CHES_EMAIL_URL
     displayName: CHES email url
     description: CHES email url
     required: true
-    value: 
+    value:
   - name: EMAIL_SERVICE_CLIENT_ID
     displayName: Email Service Client Id
     description: Email Service Client Id
@@ -388,7 +380,7 @@ parameters:
     displayName: Data Security (Encryption) Key
     description: The Encryption Key for the environment.
     generate: expression
-    from: '[a-zA-Z0-9]{32}'
+    from: "[a-zA-Z0-9]{32}"
 
   - name: OIDC_RP_PROVIDER_ENDPOINT
     displayName: OIDC RP Provider Endpoint
@@ -411,12 +403,12 @@ parameters:
     displayName: Minimum Replicas
     description: The minimum number of pods to have running.
     required: true
-    value: '3'
+    value: "3"
   - name: MAX_REPLICAS
     displayName: Maximum Replicas
     description: The maximum number of pods to have running.
     required: true
-    value: '6'
+    value: "6"
   # ===============================================================================
 
   - name: CPU_REQUEST
