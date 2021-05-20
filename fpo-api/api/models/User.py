@@ -8,6 +8,9 @@ class User(AbstractUser):
 
     accepted_terms_at = models.DateTimeField(blank=True, null=True)
 
+    universal_id = models.CharField(max_length=500, blank=True, null=True)
+    idir_userid = models.CharField(max_length=500, blank=True, null=True)
+    
     # Siteminder headers
     authorization_id = models.CharField(max_length=500, blank=True, null=True)
     authorization_guid = models.UUIDField(unique=True, default=None, null=True)
