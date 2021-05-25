@@ -1,4 +1,4 @@
-export PROJECT_NAMESPACE="tamjni"
+export PROJECT_NAMESPACE="069465"
 export GIT_URI="https://github.com/bcgov/violation-dispute-form.git"
 export GIT_REF="master"
 

@@ -1,14 +1,15 @@
 #=========================================================
 # OpenShift template parameters for:
 # Component: .
-# Template File: ../openshift/templates/backup/backup-deploy.json
+# Template File: ../openshift/templates/backup/backup-deploy.yaml
 #=========================================================
 # NAME=backup
 # SUFFIX=
 # APP_NAME=Backup
 # APP_GROUP=traffic-court
+# ROLE=backup
 # SOURCE_IMAGE_NAME=backup
-# IMAGE_NAMESPACE=tamjni-tools
+# IMAGE_NAMESPACE=069465-tools
 TAG_NAME=dev
 # DATABASE_DEPLOYMENT_NAME=postgresql
 # DATABASE_USER_KEY_NAME=database-user
@@ -16,7 +17,7 @@ TAG_NAME=dev
 # BACKUP_STRATEGY=rolling
 # WEBHOOK_URL=
 ENVIRONMENT_FRIENDLY_NAME=Choose How to Attend Your Traffic Hearing (Dev)
-ENVIRONMENT_NAME=tamjni-dev
+ENVIRONMENT_NAME=069465-dev
 # BACKUP_DIR=/backups/
 # DAILY_BACKUPS=
 # WEEKLY_BACKUPS=
@@ -27,7 +28,7 @@ ENVIRONMENT_NAME=tamjni-dev
 # CONFIG_MOUNT_PATH=/
 # BACKUP_VOLUME_NAME=backup
 # BACKUP_VOLUME_SIZE=5Gi
-# BACKUP_VOLUME_CLASS=netapp-file-standard
+# BACKUP_VOLUME_CLASS=netapp-file-backup
 # VERIFICATION_VOLUME_NAME=backup-verification
 # VERIFICATION_VOLUME_SIZE=5Gi
 # VERIFICATION_VOLUME_CLASS=netapp-file-standard

@@ -1,0 +1,15 @@
+#=========================================================
+# OpenShift template parameters for:
+# Component: .
+# Template File: ../fpo-web/openshift/templates/nginx-runtime/nginx-runtime.yaml
+#=========================================================
+NAME=nginx-runtime
+GIT_REPO_URL=https://github.com/bcgov/violation-dispute-form.git
+GIT_REF=master
+SOURCE_CONTEXT_DIR=fpo-web/openshift/templates/nginx-runtime/
+SOURCE_IMAGE_KIND=DockerImage
+SOURCE_IMAGE_REGISTRY=docker-remote.artifacts.developer.gov.bc.ca/
+SOURCE_IMAGE_NAME=nginx
+SOURCE_IMAGE_TAG=stable
+DOCKER_FILE_PATH=Dockerfile
+OUTPUT_IMAGE_TAG=latest

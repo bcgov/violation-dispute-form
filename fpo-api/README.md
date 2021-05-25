@@ -23,7 +23,7 @@ The database is bare after docker build. Run the following script within the con
 
 To deploy Family Protection Order on an instance of OpenShift, see [the instructions](../RunningLocal.md) in the file RunningLocal.md.
 
-- [Schema Spy](https://virtual-hearing-form-schema-dev.pathfinder.gov.bc.ca/)
+- [Schema Spy](https://virtual-hearing-form-schema-dev.apps.silver.devops.gov.bc.ca/)
 
 ## Database Migrations
 
