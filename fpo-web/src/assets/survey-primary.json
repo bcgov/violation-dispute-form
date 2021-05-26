@@ -1,25 +1,5 @@
 {
  "title": "Violation Ticket Centre",
- "triggers": [
-    {
-        "type": "setvalue",
-        "expression": "{hearingAttendance} = \"remote\" and {hearingAttendancePhone} = \"n\" and {hearingAttendanceVideo} = \"n\"",
-        "setToName": "hearingAttendance",
-        "setValue": "in-person"
-    },
-    {
-        "type": "setvalue",
-        "expression": "{hearingAttendance} = \"remote\" and {hearingAttendancePhone} = \"n\" and {hearingAttendanceVideo} = \"n\"",
-        "setToName": "hearingAttendancePhone",
-        "setValue": ""
-    },
-    {
-        "type": "setvalue",
-        "expression": "{hearingAttendance} = \"remote\" and {hearingAttendancePhone} = \"n\" and {hearingAttendanceVideo} = \"n\"",
-        "setToName": "hearingAttendanceVideo",
-        "setValue": ""
-    }
- ],
  "pages": [
   {
    "name": "Disputant Response",
