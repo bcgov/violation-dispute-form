@@ -587,7 +587,7 @@
         <div class="form-line" style="margin-left:1rem">
           <div class="form-line-child check">
             <span class="content">
-              {% if hearingAttendance == "remote" and (hearingAttendanceVideo == "y" or hearingAttendancePhone == "y") %}
+              {% if hearingAttendance == "remote" %}
                 &#10004;
               {% endif %}
             </span>
@@ -597,7 +597,7 @@
         <div class="form-line" style="margin-left:4rem">
           <div class="form-line-child check">
             <span class="content">
-              {% if hearingAttendance != "remote" or (hearingAttendance == "remote" and hearingAttendanceVideo == "n" and hearingAttendancePhone == "n") %}
+              {% if hearingAttendance != "remote" %}
                 &#10004;
               {% endif %}
             </span>
@@ -768,7 +768,7 @@
     </div>
     {% endif %}
 
-    {% if hearingAttendance != "remote" or (hearingAttendance == "remote" and hearingAttendanceVideo == "n" and hearingAttendancePhone == "n") %}
+    {% if hearingAttendance != "remote" %}
     <div class="bordered" style="padding:1em 1em 1.5em 1em; margin-top:1em;">
       <div>
         <b>For an in-person hearing, complete this section:</b>
