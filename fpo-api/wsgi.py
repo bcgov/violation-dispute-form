@@ -14,6 +14,7 @@ framework.
 
 """
 import os
+import logging
 
 class NoHealthFilter(logging.Filter):
     def filter(self, record):
