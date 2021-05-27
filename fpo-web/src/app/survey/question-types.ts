@@ -832,7 +832,7 @@ function initNameBlock(Survey) {
         let empty = true;
         curVal = {};
         for (const field of fields) {
-          curVal[field.name] = field.input.value.trim();
+          curVal[field.name] = field.input.value;
           if (curVal[field.name].length) empty = false;
         }
         if (empty) curVal = null;
