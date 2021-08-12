@@ -1,3 +1,5 @@
+[![Lifecycle:Stable](https://img.shields.io/badge/Lifecycle-Stable-97ca00)](<https://github.com/bcgov/violation-dispute-form>)
+
 # Violation Dispute Form
 Violation Dispute Form
 
