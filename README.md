@@ -23,11 +23,6 @@ An html to PDF microservice used to generate reports.
 ###	Database (fpo-db)
 A PostgreSQL database for storage, complete with a SchemaSpy instance for documentation.
 
-## Prototype Instances
-
-A prototype instance of the application can be found here;
-* Prototype - https://virtual-hearing-form-dev.apps.silver.devops.gov.bc.ca/choose-how-to-attend-your-traffic-hearing
-
 ## Running on OpenShift
 
 To deploy using a local instance of OpenShift, refer to [Running on OpenShift](./RunningOnOpenShift.md).  These instructions, apart from the steps that are specific to setting up your local environment, can be used to get the project deployed to a production OpenShift environment.
