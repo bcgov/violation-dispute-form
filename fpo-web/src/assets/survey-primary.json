@@ -335,7 +335,7 @@
      "elements": [
       {
        "type": "radiogroup",
-       "name": "hearingAttendance",
+       "name": "hearingAttendanceRequest",
        "title": "How do you want to attend your Traffic Hearing for Violation Ticket #{ticketNumber}?",
        "description": "In-Person Traffic Hearings may be scheduled on evenings or Saturdays in some locations. The Court will decide the date and time for your Traffic Hearing.",
        "isRequired": true,
@@ -354,7 +354,7 @@
        "type": "yesno",
        "name": "hearingAttendancePhone",
        "visible": false,
-       "visibleIf": "{hearingAttendance} = \"remote\"",
+       "visibleIf": "{hearingAttendanceRequest} = \"remote\"",
        "title": "Are you able to attend your Traffic Hearing by phone?",
        "isRequired": true
       },
@@ -362,7 +362,7 @@
        "type": "infotext",
        "name": "hearingAttendancePhoneExplanation",
        "visible": false,
-       "visibleIf": "{hearingAttendance} = \"remote\" and {hearingAttendancePhone} = \"y\"",
+       "visibleIf": "{hearingAttendanceRequest} = \"remote\" and {hearingAttendancePhone} = \"y\"",
        "title": "If the Court schedules your Traffic Hearing by phone, Officer {officerName} may call to discuss your ticket before the hearing. These are discussions that would normally happen before in-person hearings.",
        "titleLocation": "hidden"
       },
@@ -370,7 +370,7 @@
        "type": "yesno",
        "name": "hearingAttendanceVideo",
        "visible": false,
-       "visibleIf": "{hearingAttendance} = \"remote\"",
+       "visibleIf": "{hearingAttendanceRequest} = \"remote\"",
        "title": "Are you able to attend your Traffic Hearing by video?",
        "description": "The Court will use Microsoft Teams for video hearings. It is free to use. You do not need to download Microsoft Teams to use it. ",
        "isRequired": true
@@ -379,7 +379,7 @@
        "type": "infotext",
        "name": "hearingAttendanceVideoExplanation",
        "visible": false,
-       "visibleIf": "{hearingAttendance} = \"remote\" and {hearingAttendanceVideo} = \"y\"",
+       "visibleIf": "{hearingAttendanceRequest} = \"remote\" and {hearingAttendanceVideo} = \"y\"",
        "title": "If the Court schedules your Traffic Hearing by video, Officer {officerName} may call to discuss your ticket before the hearing. These are discussions that would normally happen before in-person hearings.",
        "titleLocation": "hidden"
       },
@@ -387,11 +387,29 @@
        "type": "infotext",
        "name": "hearingAttendanceRemotelyError",
        "visible": false,
-       "visibleIf": "{hearingAttendance} = \"remote\" and {hearingAttendancePhone} = \"n\" and {hearingAttendanceVideo} = \"n\"",
+       "visibleIf": "{hearingAttendanceRequest} = \"remote\" and {hearingAttendancePhone} = \"n\" and {hearingAttendanceVideo} = \"n\"",
        "title": "It appears that you are not able to attend your Traffic Hearing remotely. You will have to attend your Hearing In-Person. \n<br><br>",
        "isRequired": true,
        "titleLocation": "hidden",
        "messageStyle": "error"
+      },
+      {
+       "type": "radiogroup",
+       "name": "hearingAttendance",
+       "visible": false,
+       "title": "This is a read-only element for the triggers to setVariable in order for the PDF to generate the correct signature block.",
+       "description": "It was difficult to include multiple conditions for the PDF generation logic.",
+       "readOnly": true,
+       "choices": [
+        {
+         "value": "remote",
+         "text": "remote"
+        },
+        {
+         "value": "in-person",
+         "text": "in-person"
+        }
+       ]
       }
      ],
      "visible": false,
@@ -447,7 +465,7 @@
        "type": "helptext",
        "name": "witnessesFAQ",
        "visible": false,
-       "visibleIf": "{hearingAttendance} = \"remote\" and ({hearingAttendancePhone} = \"y\" or {hearingAttendanceVideo} = \"y\") and {schedulingInfoExplanation} > 0",
+       "visibleIf": "{hearingAttendanceRequest} = \"remote\" and ({hearingAttendancePhone} = \"y\" or {hearingAttendanceVideo} = \"y\") and {schedulingInfoExplanation} > 0",
        "title": "How do I prepare my witnesses for my Traffic Hearing?",
        "titleLocation": "hidden",
        "body": "You will need to provide your witnesses with documents related to your Traffic Hearing before it starts.\n<br><br>\nThe Court will administer <a href=\"https://www.provincialcourt.bc.ca/enews/enews-27-11-2018\" target=\"_blank\">the oath or affirmation</a> for each witness. If your witness wants to swear an oath on a religious text, you must make sure they have the religious text they want before your Traffic Hearing starts."
@@ -503,7 +521,7 @@
        "type": "helptext",
        "name": "exhibitsFAQ",
        "visible": false,
-       "visibleIf": "{hearingAttendance} = \"remote\" and {hearingAttendanceVideo} = \"y\" and {schedulingInfoExplanation} > 0",
+       "visibleIf": "{hearingAttendanceRequest} = \"remote\" and {hearingAttendanceVideo} = \"y\" and {schedulingInfoExplanation} > 0",
        "title": "Can I show Exhibits by video?",
        "titleLocation": "hidden",
        "body": "You can share your screen using Microsoft Teams to show documents during your Traffic Hearing. You may only share your screen if directed to do so by the Court.\n<br><br>\nYou will get instructions on how to share you screen.\n<br><br>\nIf you have a large number of documents to show during your Traffic Hearing, you may provide advance copies to the Court by email. \n<br><br>\nPlease contact the Violation Ticket Centre at 1-877-661-8026 for more information."
@@ -535,7 +553,7 @@
        "type": "checkbox",
        "name": "disputantRemoteAcknowledgement",
        "visible": false,
-       "visibleIf": "{hearingAttendance} = \"remote\" and ({hearingAttendancePhone} = \"y\" or {hearingAttendanceVideo} = \"y\") and {schedulingInfoExplanation} > 0",
+       "visibleIf": "{hearingAttendance} = \"remote\" and {schedulingInfoExplanation} > 0",
        "title": "I am preferring to attend my Traffic Hearing remotely.\n<br><br>\nI understand that the Court may not be able to schedule my hearing remotely, and that I will be informed if the hearing must proceed In-Person. \n<br>\n<br>\nI understand that if the hearing will be held by telephone or video, the hearing may be scheduled on a weekday during regular business hours.",
        "isRequired": true,
        "choices": [
@@ -549,7 +567,7 @@
        "type": "checkbox",
        "name": "disputantInPersonAcknowledgement",
        "visible": false,
-       "visibleIf": "({hearingAttendance} = \"in-person\" or ({hearingAttendance} = \"remote\" and {hearingAttendancePhone} = \"n\" and {hearingAttendanceVideo} = \"n\")) and {schedulingInfoExplanation} > 0",
+       "visibleIf": "{hearingAttendance} = \"in-person\" and {schedulingInfoExplanation} > 0",
        "title": "I am choosing to attend my Traffic Hearing In-Person.\n<br><br>\nI understand that the Court will schedule my hearing In-Person and that the hearing may be scheduled in the evening or on a Saturday in some locations.",
        "isRequired": true,
        "choices": [
@@ -561,12 +579,27 @@
       }
      ],
      "visible": false,
-     "visibleIf": "{continueDispute} = \"y\" and ({disputeType} = \"allegation\" or ({disputeType} = \"fineAmount\" and {disputeInWriting} = \"n\")) and ({hearingAttendance} = \"in-person\"\nor ({hearingAttendance} = \"remote\" and (({hearingAttendancePhone} = \"y\" or {hearingAttendanceVideo} = \"y\")\nor ({hearingAttendancePhone} = \"n\" and {hearingAttendanceVideo} = \"n\" and {hearingAttendanceRemotelyError} >0))))"
+     "visibleIf": "{continueDispute} = \"y\" and ({disputeType} = \"allegation\" or ({disputeType} = \"fineAmount\" and {disputeInWriting} = \"n\")) and ({hearingAttendanceRequest} = \"in-person\"\nor ({hearingAttendanceRequest} = \"remote\" and (({hearingAttendancePhone} = \"y\" or {hearingAttendanceVideo} = \"y\")\nor ({hearingAttendancePhone} = \"n\" and {hearingAttendanceVideo} = \"n\" and {hearingAttendanceRemotelyError} >0))))"
     }
    ],
    "title": "Choose How to Attend Your Traffic Hearing"
   }
  ],
+ "triggers": [
+  {
+   "type": "setvalue",
+   "expression": "{hearingAttendanceRequest} = \"in-person\" or ({hearingAttendanceRequest} = \"remote\" and {hearingAttendancePhone} = \"n\" and {hearingAttendanceVideo} = \"n\")",
+   "setToName": "hearingAttendance",
+   "setValue": "in-person"
+  },
+  {
+   "type": "setvalue",
+   "expression": "{hearingAttendanceRequest} = \"remote\" and ({hearingAttendancePhone} = \"y\" or {hearingAttendanceVideo} = \"y\")",
+   "setToName": "hearingAttendance",
+   "setValue": "remote"
+  }
+ ],
  "showQuestionNumbers": "off",
+ "textUpdateMode": "onTyping",
  "requiredText": ""
 }
