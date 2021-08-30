@@ -392,24 +392,6 @@
        "isRequired": true,
        "titleLocation": "hidden",
        "messageStyle": "error"
-      },
-      {
-       "type": "radiogroup",
-       "name": "hearingAttendance",
-       "visible": false,
-       "title": "This is a read-only element for the triggers to setVariable in order for the PDF to generate the correct signature block.",
-       "description": "It was difficult to include multiple conditions for the PDF generation logic.",
-       "readOnly": true,
-       "choices": [
-        {
-         "value": "remote",
-         "text": "remote"
-        },
-        {
-         "value": "in-person",
-         "text": "in-person"
-        }
-       ]
       }
      ],
      "visible": false,
