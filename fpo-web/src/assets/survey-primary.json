@@ -394,22 +394,6 @@
        "messageStyle": "error"
       },
       {
-       "type": "radiogroup",
-       "name": "hearingAttendance",
-       "visible": false,
-       "readOnly": true,
-       "choices": [
-        {
-         "value": "remote",
-         "text": "remote"
-        },
-        {
-         "value": "in-person",
-         "text": "in-person"
-        }
-       ]
-      },
-      {
        "type": "infotext",
        "name": "hearingAttendanceDocumentation",
        "visible": false,
