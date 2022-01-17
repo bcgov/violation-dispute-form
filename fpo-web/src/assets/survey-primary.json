@@ -12,8 +12,8 @@
        "type": "infotext",
        "name": "disclaimer",
        "title": "\"Choose How to Attend Your Traffic Hearing\" is a service provided by the Government of British Columbia. \n<br><br>\nThe Government of British Columbia has the right to change this service at any time. \n<ul>\n<li>\nLearn more about <a href=\"https://www2.gov.bc.ca/gov/content/home/disclaimer\" target=\"_blank\">the disclaimer and liability here.</a> (This link opens in a new tab)\n</li>\n<li>\nLearn more about <a href=\"https://www2.gov.bc.ca/gov/content/home/privacy\" target=\"_blank\">privacy and security  here.</a> (This link opens in a new tab)\n</li>\n</ul>\nThe Provincial Court of British Columbia will look at your choice. The Court will decide how you will attend your Traffic Hearing.\n<br><br>\nBy pressing \"Continue,\" you are agreeing to these terms. ",
-       "isRequired": true,
-       "titleLocation": "hidden"
+       "titleLocation": "hidden",
+       "isRequired": true
       }
      ]
     },
@@ -211,8 +211,8 @@
        "visible": false,
        "visibleIf": "{continueDispute} = \"y\" and {disputeType} = \"fineAmount\"",
        "title": "<b>Did you know?</b>\n<br>\nYou can ask to reduce the fine in writing instead of attending a Traffic hearing. \n<br>\nYou can also ask for more time to pay the fine in writing instead of attending a Traffic hearing.",
-       "isRequired": true,
-       "titleLocation": "hidden"
+       "titleLocation": "hidden",
+       "isRequired": true
       },
       {
        "type": "yesno",
@@ -389,9 +389,33 @@
        "visible": false,
        "visibleIf": "{hearingAttendanceRequest} = \"remote\" and {hearingAttendancePhone} = \"n\" and {hearingAttendanceVideo} = \"n\"",
        "title": "It appears that you are not able to attend your Traffic Hearing remotely. You will have to attend your Hearing In-Person. \n<br><br>",
-       "isRequired": true,
        "titleLocation": "hidden",
+       "isRequired": true,
        "messageStyle": "error"
+      },
+      {
+       "type": "radiogroup",
+       "name": "hearingAttendance",
+       "visible": false,
+       "readOnly": true,
+       "choices": [
+        {
+         "value": "remote",
+         "text": "remote"
+        },
+        {
+         "value": "in-person",
+         "text": "in-person"
+        }
+       ]
+      },
+      {
+       "type": "infotext",
+       "name": "hearingAttendanceDocumentation",
+       "visible": false,
+       "titleLocation": "hidden",
+       "readOnly": true,
+       "body": "This is documentation for 2 setVariable triggers that create a variable called {hearingAttendance}. These triggers can be accessed via: Survey Settings>Logic\n\nThese triggers were created in order for the PDF to generate the correct signature block. \n\nOriginally, we wanted to visually preserve the requests that the disputant made. If someone chose a remote hearing without having phone nor video capabilities, this service would show them an explanation that the signature block for in-person would appear at the end of this service. \n\nHowever, the PDF generation code did not recognize this scenario and rendered the wrong signature block (for a remote hearing) in the PDF. \n\nThe PDF generation code read from the variable {hearingAttendance}. Rather than change the selection of the old {hearingAttendance} element upon this rare condition, the element was renamed to {hearingAttendanceRequest} to visually preserve the original choices of the disputant and without the need to change the PDF generation code."
       }
      ],
      "visible": false,
@@ -405,8 +429,8 @@
        "type": "infotext",
        "name": "schedulingInfoExplanation",
        "title": "The next few questions are about extra needs for your Traffic Hearing.\n<br><br>\nEnglish and French are the official languages. English is the language that is spoken in Traffic Hearings. \n<br><br>\nYou can ask for your Traffic Hearing to be in French.\n<br><br>\nYou can ask for an interpreter to help you with English at your Traffic Hearing. The government will pay for the interpreter. You cannot bring your own interpreter. ",
-       "isRequired": true,
-       "titleLocation": "hidden"
+       "titleLocation": "hidden",
+       "isRequired": true
       },
       {
        "type": "yesno",
@@ -483,7 +507,6 @@
        "visible": false,
        "title": "List the Exhibits you plan to present/show/bring?",
        "description": "Lots to discuss here about what to show the disputant, what information they need, and what appears on the form for the VTC.",
-       "hasOther": true,
        "choices": [
         {
          "value": "item1",
@@ -497,7 +520,8 @@
          "value": "item3",
          "text": "Videos"
         }
-       ]
+       ],
+       "hasOther": true
       },
       {
        "type": "helptext",
@@ -528,8 +552,8 @@
        "visible": false,
        "visibleIf": "{charter} = \"y\"",
        "title": "You will need to file the documents required by law in addition to using this service.\n<br><br>\n[If successful?] Your Court hearing will be scheduled before a Provincial Court Judge. [instead of a JJ? - why is this important?]\n<br><br>\nhttps://www.courthouselibrary.ca/how-we-can-help/our-legal-knowledge-base/where-can-i-find-notice-constitutional-question\n<br><br>\nLaw here: http://www.bclaws.ca/civix/document/id/complete/statreg/96068_01\n",
-       "description": "Note to Jack - This is just an extra form; still generate the form from this service. The charter form takes them out of the stream to see a judge so the VTC will need to schedule that.",
-       "titleLocation": "hidden"
+       "titleLocation": "hidden",
+       "description": "Note to Jack - This is just an extra form; still generate the form from this service. The charter form takes them out of the stream to see a judge so the VTC will need to schedule that."
       },
       {
        "type": "checkbox",
