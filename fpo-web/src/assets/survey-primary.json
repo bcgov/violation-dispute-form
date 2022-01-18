@@ -474,7 +474,7 @@
        "name": "exhibits",
        "visible": false,
        "visibleIf": "{schedulingInfoExplanation} > 0",
-       "title": "Will you be showing Exhibits to your Traffic Hearing?",
+       "title": "Will you be showing Exhibits during your Traffic Hearing?",
        "description": "Examples of Exhibits are a doctor's note, police report, photograph, video (dash cam), or other documents.",
        "isRequired": true
       },
