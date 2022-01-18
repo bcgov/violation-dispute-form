@@ -52,7 +52,7 @@ exit 1
 # -----------------------------------------------------------------------------------------------------------------
 # Default Settings:
 # -----------------------------------------------------------------------------------------------------------------
-DEFAULT_CONTAINERS="fpo-db fpo-api schema-spy fpo-web fpo-pdf"
+DEFAULT_CONTAINERS="fpo-db fpo-api fpo-web fpo-pdf"
 # -----------------------------------------------------------------------------------------------------------------
 # Functions:
 # -----------------------------------------------------------------------------------------------------------------
@@ -118,16 +118,6 @@ build-db() {
   echo
 }
 
-build-schema-spy() {
-  #
-  # schema-spy
-  #
-  echo -e "\nBuilding schema-spy image ..."
-  docker build \
-    https://github.com/bcgov/SchemaSpy.git \
-    -t 'schema-spy'
-}
-
 build-api() {
   #
   # fpo-api
@@ -152,7 +142,6 @@ build-pdf() {
 buildImages() {
   build-web
   build-db
-  build-schema-spy
   build-api
   build-pdf
 }
@@ -177,12 +166,6 @@ configureEnvironment () {
   export POSTGRESQL_DATABASE="APP_DATABASE"
   export POSTGRESQL_USER="DB_USER"
   export POSTGRESQL_PASSWORD="DB_PASSWORD"
-
-  # schema-spy
-  export DATABASE_SERVICE_NAME="fpo-db"
-  export POSTGRESQL_DATABASE=${POSTGRESQL_DATABASE}
-  export POSTGRESQL_USER=${POSTGRESQL_USER}
-  export POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD}
 
   # fpo-api
   export API_HTTP_PORT=${API_HTTP_PORT-8081}
