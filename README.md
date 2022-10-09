@@ -1,9 +1,8 @@
-[![Lifecycle:Stable](https://img.shields.io/badge/Lifecycle-Stable-97ca00)](<https://github.com/bcgov/violation-dispute-form>)
+[![Lifecycle:Retired](https://img.shields.io/badge/Lifecycle-Retired-d45500)](https://github.com/bcgov/repomountie/blob/master/doc/lifecycle-badges.md)
 
 # Violation Dispute Form
-Violation Dispute Form
 
-This project is a work in progress based on [Family Protection Order](https://github.com/bcgov/Family-Protection-Order)
+This project has been retired and is no longer being maintained.
 
 ## Structure
 
